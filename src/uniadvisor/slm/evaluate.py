@@ -60,11 +60,12 @@ def evaluate(judge, split: str = "test", gold: Path | None = None, limit: int | 
 def compare_judges(limit: int | None = None) -> dict:
     out = {"heuristic": evaluate(HeuristicJudge(), limit=limit)}
     try:
-        from uniadvisor.slm.infer import get_judge
+        from uniadvisor.slm.infer import HybridJudge, load_slm
 
-        j = get_judge()
-        if j.name == "slm":
-            out["slm"] = evaluate(j, limit=limit)
+        slm = load_slm()
+        if slm is not None:
+            out["slm"] = evaluate(slm, limit=limit)
+            out["hybrid"] = evaluate(HybridJudge(slm), limit=limit)
     except Exception as e:  # noqa: BLE001
         out["slm_error"] = str(e)
     return out

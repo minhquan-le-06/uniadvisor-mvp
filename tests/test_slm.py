@@ -3,7 +3,7 @@ import random
 import pytest
 
 from uniadvisor.slm import teacher
-from uniadvisor.slm.infer import HeuristicJudge, _budget, _likes
+from uniadvisor.slm.infer import HeuristicJudge, HybridJudge, _budget, _likes
 from uniadvisor.slm.questions import INSUFFICIENT, QUESTIONS
 from uniadvisor.slm.state import StudentProfile, model_input
 from uniadvisor.slm.synth import Latent
@@ -67,3 +67,28 @@ def test_typed_heads_math():
         assert p.shape == (7, n_labels) and torch.allclose(p.sum(-1), torch.ones(7), atol=1e-5) and (p >= 0).all()
         target = torch.softmax(torch.randn(7, n_labels), -1)
         assert torch.isfinite(soft_loss(kind, logits, target))
+
+
+def test_hybrid_routes_each_question_to_its_judge():
+    class StubSLM:
+        name = "slm"
+        cfg: dict = {}
+        thresholds = {"location_ok": 0.5, "ability_fit": 0.9}
+
+        def __init__(self):
+            self.seen = []
+
+        def answer(self, items):
+            self.seen.extend(q for q, _, _ in items)
+            return HeuristicJudge().answer(items)
+
+    slm = StubSLM()
+    j = HybridJudge(slm, slm_questions=("location_ok",))
+    prof = StudentProfile(scores={"TO": 8, "VA": 7}, free_text="Em muốn học ở Hà Nội.")
+    qs = ["ability_fit", "location_ok", "interest_fit", "location_ok"]
+    ans = j.answer([(q, prof, PROGRAM) for q in qs])
+    assert slm.seen == ["location_ok", "location_ok"]
+    assert [a.question for a in ans] == qs
+    assert j.thresholds["location_ok"] == 0.5 and j.thresholds["ability_fit"] != 0.9
+    with pytest.raises(ValueError):
+        HybridJudge(slm, slm_questions=("nope",))

@@ -89,11 +89,21 @@ def slm_relabel(split: str = "train", limit: int = 2000, samples: int = 3) -> No
 
 @app.command("slm-eval")
 def slm_eval(judge: str = "auto", gold: Path | None = None, limit: int | None = None) -> None:
-    """Evaluate the SLM or the keyword baseline on the test split, or on a human gold file."""
+    """Evaluate a judge on the test split or a human gold file: auto (what the app uses), hybrid, slm or heuristic."""
     from uniadvisor.slm.evaluate import evaluate
-    from uniadvisor.slm.infer import HeuristicJudge, get_judge
+    from uniadvisor.slm.infer import HeuristicJudge, HybridJudge, get_judge, load_slm
 
-    j = HeuristicJudge() if judge == "heuristic" else get_judge()
+    if judge == "heuristic":
+        j = HeuristicJudge()
+    elif judge in ("slm", "hybrid"):
+        slm = load_slm()
+        if slm is None:
+            raise typer.BadParameter("no trained SLM in models/slm/ (or UNIADVISOR_SLM_DIR)")
+        j = slm if judge == "slm" else HybridJudge(slm)
+    elif judge == "auto":
+        j = get_judge()
+    else:
+        raise typer.BadParameter("--judge must be auto, hybrid, slm or heuristic")
     r = evaluate(j, gold=gold, limit=limit)
     out = ROOT / "reports" / f"slm_eval_{r['judge']}_{r['split']}.json"
     out.write_text(json.dumps(r, indent=2, ensure_ascii=False), encoding="utf-8")

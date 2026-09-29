@@ -76,7 +76,7 @@ with st.sidebar:
     prog, _ = catalog()
     st.markdown(f"**Phạm vi dữ liệu:** {prog.school_code.nunique()} trường, {len(prog)} ngành ở Hà Nội và TP.HCM · "
                 f"quy chế `{rules['ruleset']}` ({'dự thảo' if rules.get('status') == 'draft' else 'chính thức'})")
-    st.markdown(f"**Mô hình đánh giá mềm:** {'SLM đã tinh chỉnh' if judge_name == 'slm' else 'luật từ khóa (chưa có SLM)'}")
+    st.markdown(f"**Mô hình đánh giá mềm:** {'SLM đã tinh chỉnh + luật' if judge_name == 'hybrid' else 'luật từ khóa (chưa có SLM)'}")
     if ss.stage == "results":
         st.divider()
         st.subheader("Tùy chỉnh")

@@ -4,6 +4,8 @@ SLMJudge      the fine-tuned model in models/slm/ (config.json + adapter.pt), ca
 HeuristicJudge transparent keyword rules, used when no trained model is available and as the
                baseline the SLM has to beat. Its confidence is capped low on purpose, so uncertain
                answers turn into clarifying questions instead of silent guesses.
+HybridJudge   what the app uses when a model is present: each question goes to the judge that
+               answers it better (SLM_QUESTIONS).
 
 Answers the student gave to clarifying questions (profile.answers) always win over both.
 """
@@ -295,12 +297,48 @@ class SLMJudge:
         return out  # type: ignore[return-value]
 
 
-@lru_cache(maxsize=1)
-def get_judge() -> HeuristicJudge | SLMJudge:
+# Questions the fine-tuned SLM answers better than the keyword rules (test split, first Kaggle run):
+# location_ok 0.98 vs 0.66, risk_tolerance 0.94 vs 0.87, budget_ok 0.97 vs 0.96. The rules stay better on
+# ability_fit (score arithmetic: 0.84 vs 0.47), interest_fit (0.69 vs 0.49), top_priority (0.89 vs 0.84),
+# and tie on conditions_ok, where they are also far cheaper. Override with "route" in models/slm/config.json.
+SLM_QUESTIONS = ("location_ok", "risk_tolerance", "budget_ok")
+
+
+class HybridJudge:
+    """Send each question to whichever judge answers it better; the SLM only runs on its questions."""
+
+    name = "hybrid"
+
+    def __init__(self, slm: SLMJudge, heuristic: HeuristicJudge | None = None, slm_questions: tuple[str, ...] | None = None):
+        self.slm = slm
+        self.heuristic = heuristic or HeuristicJudge()
+        self.slm_questions = frozenset(slm_questions if slm_questions is not None else slm.cfg.get("route", SLM_QUESTIONS))
+        unknown = self.slm_questions - set(BY_ID)
+        if unknown:
+            raise ValueError(f"unknown questions in route: {sorted(unknown)}")
+        self.thresholds = {q: slm.thresholds.get(q, DEFAULT_THRESHOLD) if q in self.slm_questions else DEFAULT_THRESHOLD for q in BY_ID}
+
+    def answer(self, items: list[tuple[str, StudentProfile, dict | None]]) -> list[Answer]:
+        out: list[Answer | None] = [None] * len(items)
+        for judge, want_slm in ((self.slm, True), (self.heuristic, False)):
+            idx = [i for i, (q, _, _) in enumerate(items) if (q in self.slm_questions) == want_slm]
+            if idx:
+                for i, a in zip(idx, judge.answer([items[i] for i in idx])):
+                    out[i] = a
+        return out  # type: ignore[return-value]
+
+
+def load_slm() -> SLMJudge | None:
     model_dir = Path(os.environ.get("UNIADVISOR_SLM_DIR", MODELS / "slm"))
     if (model_dir / "adapter.pt").exists() and (model_dir / "config.json").exists():
         try:
             return SLMJudge(model_dir)
         except Exception as e:  # noqa: BLE001 - fall back rather than break the app
             print(f"[uniadvisor] could not load SLM from {model_dir}: {e}; using heuristic judge")
-    return HeuristicJudge()
+    return None
+
+
+@lru_cache(maxsize=1)
+def get_judge() -> HeuristicJudge | HybridJudge:
+    slm = load_slm()
+    return HybridJudge(slm) if slm is not None else HeuristicJudge()

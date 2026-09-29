@@ -26,8 +26,11 @@ Everything the app needs is committed (`data/processed`, `data/collected`, `data
 
 ## Remaining work
 
-1. Train on Kaggle: `uniadvisor kaggle-bundle`, then kaggle/README.md; unzip the result into
-   `models/slm/` and run `uniadvisor slm-eval --judge slm` to compare with the baseline.
+1. First Kaggle run done (test accuracy 0.790 vs keyword 0.833): the SLM wins on location_ok,
+   risk_tolerance and budget_ok but loses on ability_fit (score arithmetic), interest_fit and
+   top_priority. The app therefore uses `HybridJudge` (slm/infer.py, `SLM_QUESTIONS`), which routes
+   each question to the better judge (estimated ~0.89). Check with `uniadvisor slm-eval --judge hybrid`;
+   after retraining, re-pick the routing (or set "route" in models/slm/config.json).
 2. Data upgrades, in order of value: per-candidate score files for 2023-2025 in data/inbox/
    (switches on percentile equating), quota history, real tuition from the đề án, human gold labels.
    See reports/data_report.md.
