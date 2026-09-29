@@ -74,8 +74,11 @@ stored; no per-candidate records are kept.
   free text incl. teen-code, no diacritics, parent voice, typos, contradictions) paired with real
   programs; rubric teacher with 5 simulated annotators → soft labels; split by university; deduped.
   Optional LLM teacher (`uniadvisor slm-relabel`, Gemini via `GEMINI_API_KEYS`, as in UniPilotData).
-- Human gold set: label `data/slm/gold_to_label.csv` (never used for training), save as
-  `gold_labeled.csv`, then `uniadvisor slm-eval --gold data/slm/gold_labeled.csv`.
+- Human gold set: `uniadvisor label` opens a labelling tool (http://localhost:8502) over
+  `data/slm/gold_to_label.csv` (294 test rows, 42 per question, never used for training). It shows the
+  rubric, never a model answer, and saves every click to `data/slm/gold_labeled.csv` (commit it). Then
+  `uniadvisor slm-eval --judge hybrid --gold data/slm/gold_labeled.csv`. Run `uniadvisor slm-data` first:
+  gold ids must match your local test split (the tool warns when they do not).
 - Training: see [kaggle/README.md](kaggle/README.md) (`uniadvisor kaggle-bundle` → Kaggle GPU →
   unzip into `models/slm/`). `uniadvisor slm-train --limit 300 --eval-limit 200 --epochs 1 --bs 16
   --out models/slm_smoke` is a local smoke test.

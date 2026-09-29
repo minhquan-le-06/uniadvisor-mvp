@@ -6,7 +6,7 @@ Setup on a fresh machine (Python 3.11+, run from the project root; `.venv/Script
 python -m venv .venv && . .venv/bin/activate
 pip install -e ".[dev]"            # add ".[slm]" only if you will run the SLM (pulls torch)
 uniadvisor slm-data                # regenerates data/slm/*.jsonl (not in git, ~40 s)
-python -m pytest -q                # 45 tests pass (1 skips without torch)
+python -m pytest -q                # 49 tests pass (1 skips without torch)
 ```
 
 Everything the app needs is committed (`data/processed`, `data/collected`, `data/unipilot`,
@@ -24,12 +24,16 @@ Everything the app needs is committed (`data/processed`, `data/collected`, `data
   the keyword rules; it is what the app and API use whenever `models/slm/` loads.
   `uniadvisor slm-eval --judge hybrid|slm|heuristic|auto`.
 
+- 2026 rules verified by the owner (`verified: true`). Fixed: 'unlikely' programs were recommended;
+  API accepted scores outside 0-10; SLM training texts said 'Nơi học: nan' for ~90% of rows (the app
+  showed the city), so the next retrain trains on the same text the app sends.
+
 ## Next, in order of value
 
 1. **Human gold labels** (the real test; every number so far is agreement with synthetic labels).
-   Fill `human_label` in `data/slm/gold_to_label.csv` (294 rows, 42 per question), save as
-   `data/slm/gold_labeled.csv`, then run `uniadvisor slm-eval --judge hybrid --gold data/slm/gold_labeled.csv`
-   and the same with `--judge heuristic`. Re-pick the routing if a question flips.
+   `uniadvisor slm-data`, then `uniadvisor label` (294 rows, 42 per question; saves to
+   `data/slm/gold_labeled.csv` after every click). Then `uniadvisor slm-eval --judge hybrid --gold
+   data/slm/gold_labeled.csv` and the same with `--judge heuristic`. Re-pick the routing if a question flips.
 2. **Per-candidate score files for 2023-2025** in `data/inbox/`, then `uniadvisor build` and
    `uniadvisor backtest`. Switches on percentile equating; biggest forecast upgrade.
 3. **interest_fit** is the weakest question (0.65 with the rules, 0.46 with the SLM; the SLM is right

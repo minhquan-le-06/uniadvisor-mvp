@@ -160,5 +160,11 @@ def run_app(port: int = 8501) -> None:
     subprocess.run([sys.executable, "-m", "streamlit", "run", str(ROOT / "app" / "streamlit_app.py"), "--server.port", str(port)], check=False)
 
 
+@app.command()
+def label(port: int = 8502) -> None:
+    """Label the SLM gold set by hand (writes data/slm/gold_labeled.csv after every answer)."""
+    subprocess.run([sys.executable, "-m", "streamlit", "run", str(ROOT / "app" / "label_gold.py"), "--server.port", str(port)], check=False)
+
+
 if __name__ == "__main__":
     app()
