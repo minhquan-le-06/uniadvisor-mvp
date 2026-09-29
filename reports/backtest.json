@@ -1,0 +1,188 @@
+{
+  "recency_grid_mae": {
+    "0.0": 1.3689833641404805,
+    "0.2": 1.3725092421441776,
+    "0.35": 1.3904390018484287,
+    "0.5": 1.415318853974122,
+    "0.7": 1.451746765249538,
+    "1.0": 1.5066404805914972
+  },
+  "chosen": {
+    "recency": 0.2,
+    "kappa_quota": 0.0,
+    "sigma_by_history": {
+      "1": 1.4834960937500012,
+      "2": 1.5866210937500016,
+      "3": 1.0703125
+    },
+    "df": 3.8165895638424017,
+    "bias": 0.0,
+    "sigma_floor": 0.5,
+    "equate": "trusted"
+  },
+  "engine_pre_results": {
+    "all": {
+      "n": 2164,
+      "mae": 1.373,
+      "bias": -0.469,
+      "within_1pt": 0.528,
+      "naive_mae": 1.369,
+      "naive_within_1pt": 0.547
+    },
+    "target_2025": {
+      "n": 945,
+      "mae": 1.654,
+      "bias": -0.972,
+      "within_1pt": 0.435,
+      "naive_mae": 1.656,
+      "naive_within_1pt": 0.465
+    },
+    "target_2026": {
+      "n": 1219,
+      "mae": 1.154,
+      "bias": -0.08,
+      "within_1pt": 0.6,
+      "naive_mae": 1.147,
+      "naive_within_1pt": 0.61
+    },
+    "history_1y": {
+      "n": 440,
+      "mae": 1.5,
+      "bias": -0.486,
+      "within_1pt": 0.52,
+      "naive_mae": 1.5,
+      "naive_within_1pt": 0.52
+    },
+    "history_2y": {
+      "n": 947,
+      "mae": 1.545,
+      "bias": -0.823,
+      "within_1pt": 0.455,
+      "naive_mae": 1.554,
+      "naive_within_1pt": 0.486
+    },
+    "history_3y": {
+      "n": 777,
+      "mae": 1.089,
+      "bias": -0.029,
+      "within_1pt": 0.622,
+      "naive_mae": 1.069,
+      "naive_within_1pt": 0.636
+    },
+    "rows_with_percentile_equating": 0
+  },
+  "ablation_equate_through_approximated_distributions": {
+    "all": {
+      "n": 2164,
+      "mae": 1.458,
+      "bias": -0.249,
+      "within_1pt": 0.471,
+      "naive_mae": 1.369,
+      "naive_within_1pt": 0.547
+    },
+    "target_2025": {
+      "n": 945,
+      "mae": 1.644,
+      "bias": -0.954,
+      "within_1pt": 0.397,
+      "naive_mae": 1.656,
+      "naive_within_1pt": 0.465
+    },
+    "target_2026": {
+      "n": 1219,
+      "mae": 1.314,
+      "bias": 0.297,
+      "within_1pt": 0.528,
+      "naive_mae": 1.147,
+      "naive_within_1pt": 0.61
+    }
+  },
+  "calibration_cross_fitted": {
+    "n": 35929,
+    "brier": 0.119,
+    "ece": 0.0562,
+    "reliability": [
+      {
+        "bin": "0.0-0.1",
+        "n": 9040,
+        "mean_pred": 0.047,
+        "admit_rate": 0.074
+      },
+      {
+        "bin": "0.1-0.2",
+        "n": 3843,
+        "mean_pred": 0.146,
+        "admit_rate": 0.224
+      },
+      {
+        "bin": "0.2-0.3",
+        "n": 2265,
+        "mean_pred": 0.255,
+        "admit_rate": 0.364
+      },
+      {
+        "bin": "0.3-0.4",
+        "n": 2164,
+        "mean_pred": 0.366,
+        "admit_rate": 0.439
+      },
+      {
+        "bin": "0.5-0.6",
+        "n": 2164,
+        "mean_pred": 0.5,
+        "admit_rate": 0.622
+      },
+      {
+        "bin": "0.6-0.7",
+        "n": 2160,
+        "mean_pred": 0.634,
+        "admit_rate": 0.74
+      },
+      {
+        "bin": "0.7-0.8",
+        "n": 2255,
+        "mean_pred": 0.745,
+        "admit_rate": 0.868
+      },
+      {
+        "bin": "0.8-0.9",
+        "n": 3774,
+        "mean_pred": 0.854,
+        "admit_rate": 0.905
+      },
+      {
+        "bin": "0.9-1.0",
+        "n": 8264,
+        "mean_pred": 0.953,
+        "admit_rate": 0.965
+      }
+    ],
+    "buckets": [
+      {
+        "bucket": "safe",
+        "n": 12038,
+        "mean_pred": 0.922,
+        "admit_rate": 0.946
+      },
+      {
+        "bucket": "match",
+        "n": 6579,
+        "mean_pred": 0.628,
+        "admit_rate": 0.745
+      },
+      {
+        "bucket": "reach",
+        "n": 6108,
+        "mean_pred": 0.272,
+        "admit_rate": 0.366
+      },
+      {
+        "bucket": "unlikely",
+        "n": 11204,
+        "mean_pred": 0.061,
+        "admit_rate": 0.096
+      }
+    ]
+  },
+  "note": "Only 2026 has observed score distributions, so no past year can be percentile-equated in a trusted way and the engine falls back to comparing scores directly. The ablation shows that equating through the approximated 2023-2025 distributions hurts. Add per-candidate score files for 2023-2025 to data/inbox/ and rebuild to switch equating on."
+}

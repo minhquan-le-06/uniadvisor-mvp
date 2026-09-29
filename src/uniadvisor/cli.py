@@ -1,0 +1,154 @@
+"""Command line.  `uniadvisor --help`
+
+Yearly refresh:  collect -> build -> backtest -> slm-data -> (train on Kaggle) -> app
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import subprocess
+import sys
+from pathlib import Path
+
+import typer
+
+from uniadvisor.paths import ROOT
+
+app = typer.Typer(add_completion=False, help="UniAdvisor: university application advisor (THPT exam-score method).")
+
+
+def _log() -> None:
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+
+
+@app.command()
+def collect(refresh: bool = False, only: str = typer.Option("", help="comma list: vietnamnet,vnexpress,distributions")) -> None:
+    """Fetch cutoffs, tuition and score distributions (polite, cached)."""
+    _log()
+    from uniadvisor.collect.run import collect_all
+
+    print(json.dumps(collect_all(refresh=refresh, only=[x for x in only.split(",") if x] or None), indent=1))
+
+
+@app.command()
+def build() -> None:
+    """Rebuild distributions, cutoffs and the program catalog from collected data."""
+    _log()
+    from uniadvisor.build import catalog, cutoffs, distributions
+
+    d = distributions.build()
+    print("distributions:", d["counts"])
+    print("cutoffs:", json.dumps({k: v for k, v in cutoffs.build().items() if k != "by_year_status"}, default=str))
+    print("catalog:", json.dumps(catalog.build(), default=str))
+
+
+@app.command()
+def backtest() -> None:
+    """Backtest the cutoff forecast, fit its parameters, write reports/backtest.json."""
+    from uniadvisor.engine.backtest import run
+
+    r = run()
+    print(json.dumps({"chosen": r["chosen"], "engine": r["engine_pre_results"]["all"],
+                      "calibration": {k: r["calibration_cross_fitted"][k] for k in ("brier", "ece", "buckets")}}, indent=1, default=float))
+
+
+@app.command()
+def report() -> None:
+    """Write reports/data_report.md (coverage, quality, gaps)."""
+    from uniadvisor.build.report import build as build_report
+
+    print(build_report())
+
+
+@app.command("slm-data")
+def slm_data(students: int = 4000, programs_per_student: int = 4, seed: int = 13) -> None:
+    """Build the synthetic SLM dataset (data/slm/)."""
+    from uniadvisor.slm.dataset import build as build_ds
+
+    s = build_ds(students, programs_per_student, seed)
+    print(json.dumps({k: (v["examples"] if isinstance(v, dict) and "examples" in v else v) for k, v in s.items()}, indent=1, ensure_ascii=False))
+
+
+@app.command("slm-train", context_settings={"allow_extra_args": True, "ignore_unknown_options": True})
+def slm_train(ctx: typer.Context) -> None:
+    """Fine-tune the SLM (all options are passed to uniadvisor.slm.train)."""
+    from uniadvisor.slm.train import main
+
+    main(ctx.args)
+
+
+@app.command("slm-relabel")
+def slm_relabel(split: str = "train", limit: int = 2000, samples: int = 3) -> None:
+    """Relabel SLM examples with an LLM teacher (Gemini; needs GEMINI_API_KEYS)."""
+    from uniadvisor.slm.llm_teacher import relabel
+
+    print(json.dumps(relabel(split, limit, samples), indent=1))
+
+
+@app.command("slm-eval")
+def slm_eval(judge: str = "auto", gold: Path | None = None, limit: int | None = None) -> None:
+    """Evaluate the SLM or the keyword baseline on the test split, or on a human gold file."""
+    from uniadvisor.slm.evaluate import evaluate
+    from uniadvisor.slm.infer import HeuristicJudge, get_judge
+
+    j = HeuristicJudge() if judge == "heuristic" else get_judge()
+    r = evaluate(j, gold=gold, limit=limit)
+    out = ROOT / "reports" / f"slm_eval_{r['judge']}_{r['split']}.json"
+    out.write_text(json.dumps(r, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(json.dumps({"judge": r["judge"], "n": r["n"], "overall_accuracy": r["overall_accuracy"], "per_question": r["per_question"]}, indent=1, ensure_ascii=False))
+
+
+@app.command()
+def advise(scores: str = typer.Option(..., help="e.g. TO=8.4,VA=7,LI=8,N1=8.2"), text: str = "", province: str = "",
+           area: str = "KV3", category: str = "none", gender: str = "", mock: bool = False, k: int = 10) -> None:
+    """Print an application list for one student."""
+    from uniadvisor.advisor import advise as run_advise
+    from uniadvisor.explain import DISCLAIMER
+    from uniadvisor.slm.state import StudentProfile
+
+    sc = {kv.split("=")[0].strip().upper(): float(kv.split("=")[1]) for kv in scores.split(",") if "=" in kv}
+    p = StudentProfile(scores=sc, province=province or None, area=area, category=category, gender=gender or None,
+                       score_kind="mock" if mock else "actual", free_text=text)
+    a = run_advise(p, k_max=k)
+    import pandas as pd
+
+    pd.set_option("display.width", 220)
+    pd.set_option("display.max_colwidth", 40)
+    print(a.table()[["NV", "Mã", "Ngành", "Điểm xét", "Dự báo điểm chuẩn", "P(đỗ)", "Nhóm", "Độ phù hợp (u)", "Độ tin cậy"]].to_string(index=False))
+    print("\n" + a.summary)
+    for q in a.clarify:
+        print("? " + q["ask"])
+    print("\n" + DISCLAIMER)
+
+
+@app.command("kaggle-bundle")
+def kaggle_bundle(out: Path = ROOT / "dist" / "uniadvisor_kaggle_bundle.zip") -> None:
+    """Zip the code + SLM dataset for upload as a Kaggle Dataset (see kaggle/README.md)."""
+    import zipfile
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        z.write(ROOT / "pyproject.toml", "uniadvisor/pyproject.toml")
+        for base in (ROOT / "src", ROOT / "config", ROOT / "data" / "slm", ROOT / "kaggle"):
+            for f in base.rglob("*"):
+                if f.is_file() and "__pycache__" not in f.parts and "llm_cache" not in f.parts:
+                    z.write(f, "uniadvisor/" + f.relative_to(ROOT).as_posix())
+    print(f"wrote {out} ({out.stat().st_size / 1e6:.1f} MB)")
+
+
+@app.command()
+def serve(port: int = 8000) -> None:
+    """Run the HTTP API."""
+    subprocess.run([sys.executable, "-m", "uvicorn", "uniadvisor.api:app", "--port", str(port)], check=False)
+
+
+@app.command("app")
+def run_app(port: int = 8501) -> None:
+    """Run the Vietnamese chat UI (Streamlit)."""
+    subprocess.run([sys.executable, "-m", "streamlit", "run", str(ROOT / "app" / "streamlit_app.py"), "--server.port", str(port)], check=False)
+
+
+if __name__ == "__main__":
+    app()

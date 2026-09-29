@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/raw/
+data/inbox/*
+!data/inbox/.gitkeep
+data/slm/llm_cache/
+dist/
+models/slm*/adapter.pt
+.streamlit/secrets.toml
+.env
+data/slm/*.jsonl
+data/slm/programs_snapshot.csv
+models/slm_smoke/
+reports/*.log
+*.egg-info/

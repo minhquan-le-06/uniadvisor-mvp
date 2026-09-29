@@ -1,0 +1,358 @@
+﻿id,name_vi,name_en,short_name,school_type,ownership,managed_by,parent_school_id,parent_school_name,is_military_or_police,province,region,address,website,status,chosen_fact_id
+ANH,Học viện An ninh Nhân dân,,PSA,academy,,,,,True,Hà Nội,north,"125 Trần Phú, Văn Quán, Hà Đông, Hà Nội",https://hvannd.edu.vn,unconfirmed,6364
+HTN,Học viện Thanh thiếu niên Việt Nam,Vietnam Youth Academy,VYA,academy,,,,,False,Hà Nội,north,"Số 58 Nguyễn Chí Thanh, Số 3 phố Chùa Láng - Phường Láng - TP. Hà Nội",https://vya.edu.vn/,unconfirmed,6739
+ANS,Trường Đại học An ninh Nhân dân,,VPSU,university,,,,,True,TP. Hồ Chí Minh,south,"Km18 Xa Lộ Hà Nội, Phường Linh Xuân, Thành phố Hồ Chí Minh.",https://dhannd.edu.vn,unconfirmed,7145
+HVA,Học viện Âm nhạc Huế,Hue Academy of Music,,academy,,,,,False,Huế,central,"01 Lê Lợi, Thành phố Huế",https://hocvienamnhachue.edu.vn/vi/,unconfirmed,7950
+BKA,Trường Đại học Bách Khoa Hà Nội,Hanoi University of Science and Technology,HUST,university,,,,,False,Hà Nội,north,"Số 1 Đại Cồ Việt, phường Bạch Mai, Hà Nội",https://hust.edu.vn/,unconfirmed,6372
+HVC,Học viện Cán bộ thành phố HCM,Ho Chi Minh Cadre Academy,,academy,,,,,False,TP. Hồ Chí Minh,south,324 Chu Văn An - Phường Bình Thạnh - TPHCM,http://tuyensinh.hcmca.edu.vn/,unconfirmed,7349
+BMU,Trường Đại học Y dược Buôn Ma Thuột,Buon Ma Thuot Medical University,BMU,university,,,,,False,Đồng Nai,central,"298 Hà Huy Tập, Phường Tân An, Tỉnh Đắk Lắk",https://bmtu.edu.vn/,unconfirmed,8850
+HVN,Học viện Nông nghiệp Việt Nam,Vietnam National University of Agriculture,VNUA,academy,,,,,False,Hà Nội,north,236 phố,https://vnua.edu.vn/,unconfirmed,6747
+BPH,Học viện Biên phòng,Border Guard Academy,HVBP,academy,,,,,True,Hà Nội,north,Phường Tùng Thiện - Tp Hà Nội,http://www.hvbp.edu.vn/,unconfirmed,6380
+HVQ,Học viện Quản lý Giáo dục,National Academy of Aducational Management,NAEM,academy,,,,,False,Hà Nội,north,31 Phan Đinh Giót - Phương Liệt - Hà Nội,https://naem.edu.vn/,unconfirmed,6755
+BUV,Đại Học Anh Quốc Việt Nam,British University Vietnam,BUV,university,,,,,False,Hưng Yên,north,"Lô GĐ-01, Khu đô thị Ecopark, Phụng Công, Hưng Yên",https://www.buv.edu.vn/,unconfirmed,5094
+HYD,Học viện Y dược học Cổ truyền Việt Nam,Viet Nam University of traditional medicine,VUTM,academy,,,,,False,Hà Nội,north,Số 2 - Trần Phú - Đại Mỗ - Hà Nội,www.vutm.edu.vn,unconfirmed,6763
+BVH,Học viện Công nghệ Bưu chính Viễn thông,Institute of Posts and Telecommunication Technology,PTIT,academy,,,,,False,Hà Nội,north,"Số 96A Trần Phú, phường Hà Đông, thành phố Hà Nội.",https://ptit.edu.vn/,disputed,6388
+IUH,Trường Đại học Công nghiệp tp. Hồ Chí Minh,University of Commerce,IUH,university,,,,,False,TP. Hồ Chí Minh,south,"Số 12 Nguyễn Văn Bảo, P. Hạnh Thông, Thành phố Hồ Chí Minh",https://www.iuh.edu.vn/,unconfirmed,7341
+BVS,Học viện Công nghệ Bưu chính Viễn thông - Cơ sở 2,Institute of Posts and Telecommunication Technology,PTITHCM,branch,,,,,False,TP. Hồ Chí Minh,south,"Số 97 Man Thiện, phường Tăng Nhơn Phú, thành phố Hồ Chí Minh.",https://ptithcm.edu.vn/,disputed,7153
+KCC,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ,Can Tho University of Technology,CTUT,university,,,,,False,Cần Thơ,south,"256 Nguyễn Văn Cừ, Phường Cái Khế, Thành phố Cần Thơ",https://ctuet.edu.vn/index.php,unconfirmed,8093
+BVU,Trường Đại học Bà Rịa - Vũng Tàu,Baria-Vungtau University,BVU,university,,,,,False,Đồng Nai,south,"Số 80 Trương Công Định, P. Vũng Tàu, TP. Hồ Chí Minh",https://bvu.edu.vn/,unconfirmed,8954
+KCN,Đại Học Khoa Học Và Công Nghệ Hà Nội,University of Science and Technology of Hanoi,USTH,university,,,,,False,Hà Nội,north,"Tòa nhà A21, Viện Hàn Lâm Khoa học và Công nghệ Việt Nam, 18 Hoàng Quốc Việt, phường Nghĩa Đô, Hà Nội",www.usth.edu.vn,unconfirmed,5124
+CCM,Trường Đại học Công nghiệp Dệt may Hà Nội,Hanoi Industrial Textile Garment University,HTU,university,,,,,False,Hà Nội,north,xã Thuận An - thành phố Hà Nội,http://www.hict.edu.vn/,unconfirmed,6404
+KGC,Trường Sĩ Quan Không Quân - Hệ Cao đẳng,,,college,,,,,True,,,,,unconfirmed,5132
+CEA,Trường Đại học Kinh tế Nghệ An,Nghe An University of Economics,NAUE,university,,,,,False,Đồng Nai,central,"số 51, đường Lý Tự Trọng, khối 12, Phường Vinh Phú, tỉnh Nghệ An",https://naue.edu.vn/,unconfirmed,8577
+KGH,Trường Sĩ quan Không quân,Air Force Officer School,,university,,,,,True,Đồng Nai,central,"Cổng số 3, đường Biệt Thự, phường Nha Trang, tỉnh Khánh Hòa",http://tsqkq.edu.vn,disputed,8770
+CMC,Đại Học CMC,CMC University,,university,,,,,False,Hà Nội,north,"Số 11, Đường Duy Tân, Cầu Giấy, TP. Hà Nội",https://cmcu.edu.vn/,unconfirmed,5146
+KHA,Trường Đại học Kinh tế Quốc dân,National Economics University,NEU,university,,,,,False,Hà Nội,north,"207 đường Giải Phóng, phường Bạch Mai, Hà Nội",http://www.neu.edu.vn,unconfirmed,6771
+CSH,Học viện Cảnh sát Nhân dân,The People’s Police Academy,PPA,academy,,,,,True,Hà Nội,north,"Phố Phạm Văn Nghị, phường Đông Ngạc, thành phố Hà Nội.",http://www.hvcsnd.edu.vn,unconfirmed,6420
+KMA,Học viện Kỹ thuật Mật mã,The Academy of Cryptogaphy Techniques,KMA,academy,,,,,False,Hà Nội,north,141 Đường Chiến Thắng - Phường Thanh Liệt - TP. Hà Nội,https://actvn.edu.vn/,unconfirmed,6779
+CSS,Trường Đại học Cảnh sát Nhân dân,People’s Police University,PPU,university,,,,,True,TP. Hồ Chí Minh,south,"36 Nguyễn Hữu Thọ, phường Tân Hưng, TP.HCM",https://dhcsnd.edu.vn,unconfirmed,7170
+KQH,Học viện Kỹ thuật Quân sự (hệ Quân sự),Military Technical Academy,MTA,academy,,,,,True,Hà Nội,north,"Số 236, đường Hoàng Quốc Việt, Quận Bắc Từ Liêm, Thành phố Hà Nội",http://www.mta.edu.vn,unconfirmed,6787
+DAD,Trường Đại học Đông Á,Dong A University,UDA,university,,,,,False,Đà Nẵng,central,33 Xô Viết Nghệ Tĩnh - P. Hòa Cường - TP. Đà Nẵng,https://donga.edu.vn/,unconfirmed,7958
+KSA,Trường Đại học Kinh tế tp. Hồ Chí Minh,University of Economics Ho Chi Minh City,UEH,university,,,,,False,TP. Hồ Chí Minh,south,"59C Nguyễn Ðình Chiểu, Phường Xuân Hòa, TP.HCM",https://ueh.edu.vn/,unconfirmed,7357
+DBD,Trường Đại học Bình Dương,Binh Duong University,BDU,university,,,,,False,Đồng Nai,south,"Số 504 Đại lộ Bình Dương, P. Phú Lợi, TP Hồ Chí Minh",https://www.bdu.edu.vn/,unconfirmed,8176
+KSV,Đại học Kinh Tế TPHCM - Phân hiệu Vĩnh Long,University of Economics Ho Chi Minh City - Vinh Long Campus,UEH,branch,,,,,False,Vĩnh Long,south,"01B Nguyễn Trung Trực, phường Tân Hạnh, tỉnh Vĩnh Long",https://www.ueh.edu.vn/vinh-long/,unconfirmed,5183
+DBG,Trường Đại học Nông lâm Bắc Giang,Bac Giang Agriculture and Forestry University,BAFU,university,,,,,False,Đồng Nai,north,Phường Việt Yên - Tỉnh Bắc Ninh,http://bafu.edu.vn/tuyensinh/,unconfirmed,8401
+KTA,Đại học Kiến trúc Hà Nội,Hanoi Architectural University (HAU),HAU,university,,,,,False,Hà Nội,north,"Số 129, đường Trần Phú, phường Hà Đông, thành phố Hà Nội",http://www.hau.edu.vn/,unconfirmed,6796
+DBH,Trường Đại học Quốc tế Bắc Hà,Bac Ha International University,IUBH,university,,,,,False,Bắc Ninh,north,"Đường Hồng Ân, Thị trấn Lim, Huyện Tiên Du, Tỉnh Bắc Ninh",www.bhiu.edu.vn,unconfirmed,7767
+KTD,Trường Đại học Kiến trúc Đà Nẵng,Danang Architecture University,DAU,university,,,,,False,Đà Nẵng,central,"566 Núi Thành, P. Hòa Cường, TP. Đà Nẵng",https://dau.edu.vn/,unconfirmed,8045
+DBL,Trường Đại học Bạc Liêu,Bac Lieu University,BLU,university,,,,,False,Đồng Nai,south,"Số 178 đường Võ Thị Sáu, P.Bạc Liêu, Tỉnh Cà Mau",https://blu.edu.vn/,unconfirmed,9106
+KTS,Trường Đại học Kiến trúc Thành phố Hồ Chí Minh,,UAH,university,,,,,False,TP. Hồ Chí Minh,south,"Số 196 Pasteur, phường Xuân Hòa, Thành phố Hồ Chí Minh",http://www.uah.edu.vn,unconfirmed,7373
+DCA,Trường Đại học Chu Văn An,Chu Van An University,ECOUNI,university,,,,,False,Đồng Nai,north,"Cơ sở Khu đô thị Ecopark, Văn Giang, Hưng Yên",https://www.ecouni.vn/,unconfirmed,8457
+LAH,Trường Đại học Trần Quốc Tuấn,Tran Quoc Tuan University - First Army Academy,TQT Uni,university,,,,,True,Hà Nội,north,"Xã Đoài Phương, Thành phố Hà Nội",http://www.sqlq1.edu.vn/Portal/TrangChu.html,disputed,6804
+DCD,Trường Đại học Công nghệ Đồng Nai,Dong Nai Technology University,DNTU,university,,,,,False,Đồng Nai,south,"Đường Nguyễn Khuyến, Khu phố 5, Phường Trảng Dài, Tỉnh Đồng Nai",https://dntu.edu.vn/,unconfirmed,8117
+LBH,Trường Đại học Nguyễn Huệ (hệ quân sự),Nguyen Hue University,,university,,,,,True,Đồng Nai,south,"Đường số 2, khu phố Long Đức 1, Tam Phước, Đồng Nai",,disputed,8149
+DCH,Trường Sĩ quan Đặc công,,,university,,,,,True,Hà Nội,north,,,unconfirmed,6428
+LBS,Trường Đại học Nguyễn Huệ (hệ dân sự),,,university,,,,,False,Đồng Nai,south,,,disputed,8158
+DCL,Trường Đại học Cửu Long,Mekong University,MKU,university,,,,,False,Đồng Nai,south,"Quốc lộ 1A, Phú Quới, Vĩnh Long",https://mku.edu.vn/,unconfirmed,9002
+LCDF,Học viện Thiết kế và Thời trang London Hà Nội,,,academy,,,,,False,,,,,unconfirmed,5242
+DCN,Trường Đại học Công nghiệp Hà Nội,Hanoi University of Industry,HAUI,university,,,,,False,Hà Nội,north,"Số 298 Đường Cầu Diễn, Phường Tây Tựu, Thành phố Hà Nội",https://www.haui.edu.vn/,unconfirmed,6436
+LCH,Trường Sĩ quan Chính trị (hệ quân sự),Political university,POC,university,,,,,True,Bắc Ninh,north,,http://daihocchinhtri.edu.vn/,disputed,7801
+DCQ,Trường Đại học Công nghệ và Quản lý Hữu nghị,University of Technology and Management,UTM,university,,,,,False,Hà Nội,north,"Lô 1 - 04, số 431 Tam Trinh, P. Hoàng Mai, Hà Nội",https://www.utm.edu.vn/,unconfirmed,6444
+LCS,Trường Sĩ quan Chính trị (hệ dân sự),,,university,,,,,False,Bắc Ninh,north,,,unconfirmed,7810
+DCT,Trường Đại học Công Thương Tp.HCM,Ho chi minh city university of food industry,HUIT,university,,,,,False,TP. Hồ Chí Minh,south,"140 Lê Trọng Tấn, P.Tây Thạnh, TP.HCM",https://ts.huit.edu.vn,unconfirmed,7194
+LDA,Trường Đại học Công Đoàn,University of Trade Unions,TUU,university,,,,,False,Hà Nội,north,169 Tây Sơn - Phường Kim Liên - TP.Hà Nội,http://dhcd.edu.vn/,unconfirmed,6812
+DCV,Trường Đại học Công nghiệp Vinh,Industrial University of Vinh,IUV,university,,,,,False,Đồng Nai,central,"Số 26 Nguyễn Thái Học, phường Thành Vinh, Nghệ An",http://www.iuv.edu.vn/home,unconfirmed,8593
+LNH,Trường Đại học Lâm nghiệp (Phía Bắc),Vietnam Forstry Univerty,VNUF,university,,,,,False,Hà Nội,north,"Xuân Mai, thành phố Hà Nội",http://www.vnuf.edu.vn/,disputed,6820
+DDA,Trường Đại học Công nghệ Đông Á,East Asia University of Techonology,EAUT,university,,,,,False,Bắc Ninh,north,"Khu Xuân Ổ A, Phường Võ Cường, Bắc Ninh",https://eaut.edu.vn/,unconfirmed,7775
+LNS,Trường Đại học Lâm nghiệp - Cơ sở 2,Vietnam Forestry University,VNUF2,branch,,,,,False,Đồng Nai,south,"KP.5, Phường Trảng Bom, TP. Đồng Nai",www.vnuf2.edu.vn,disputed,8167
+DDB,Trường Đại học Thành Đông,Thanh Dong University,TDU,university,,,,,False,Đồng Nai,north,"Số 3 Vũ Công Đán, phường Tứ Minh, TP Hải Dương",https://thanhdong.edu.vn/,unconfirmed,8417
+LPH,Trường Đại học Luật Hà Nội,Hanoi Law University,,university,,,,,False,Hà Nội,north,"87 Nguyễn Chí Thanh, P. Giảng Võ, HN",https://hlu.edu.vn/,unconfirmed,6829
+DDF,Trường Đại họ̣c Ngoại ngữ - Đại học Đà Nẵng,"University of Foreign Language Studies, the University of Da Nang",UFL,university,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,"131 Lương Nhữ Hộc, Phường Cẩm Lệ, Thành phố Đà Nẵng",https://ufl.udn.vn/vie/,unconfirmed,7975
+LPS,Trường Đại học Luật tp. Hồ Chí Minh,Ho Chi Minh City University of Law,ULAW,university,,,,,False,TP. Hồ Chí Minh,south,"Số 02, Nguyễn Tất Thành, phường Xóm Chiếu, Tp. Hồ Chí Minh.",https://www.hcmulaw.edu.vn/,unconfirmed,7381
+DDG,Khoa Giáo dục thể chất - Đại học Đà Nẵng,"The Faculty of Physical Education, Danang University",FPE,branch,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,"62 Ngô Sĩ Liên, Q.Liên Chiểu, Đà Nẵng",,unconfirmed,5305
+MBS,Trường Đại học Mở tp. Hồ Chí Minh,Ho CHi Minh City Open University,HCMCOU,university,,,,,False,TP. Hồ Chí Minh,south,"35-37 đường Hồ Hảo Hớn, phường Cầu Ông Lãnh, Thành phố Hồ Chí Minh",https://ou.edu.vn/,unconfirmed,7389
+DDK,Trường Đại họ̣c Bách khoa - Đại học Đà Nẵng,Da Nang Polytechnic,DUT,university,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,"54 Nguyễn Lương Bằng, phường Liên Chiểu, thành phố Đà Nẵng",https://dut.udn.vn/,unconfirmed,7993
+MDA,Trường Đại học Mỏ - Địa chất,Hanoi University of Mining and Geology,HUMG,university,,,,,False,Hà Nội,north,"Số 18, Phố Viên - Phường Đông Ngạc - TP Hà Nội",http://www.humg.edu.vn,unconfirmed,6845
+DDL,Trường Đại học Điện lực,Electric Power University,EPU,university,,,,,False,Hà Nội,north,"số 235 đường Hoàng Quốc Việt, phường Nghĩa Đô, TP. Hà Nội",https://epu.edu.vn/,unconfirmed,6460
+MHN,Trường Đại học Mở Hà Nội,Hanoi Open University,HOU,university,,,,,False,Hà Nội,north,"Nhà B101, phố Nguyễn Hiền, phường Bạch Mai, TP Hà Nội",https://hou.edu.vn/,unconfirmed,6853
+DDM,Trường Đại học Công nghiệp Quảng Ninh,Quang Ninh University of Industry,QUI,university,,,,,False,Đồng Nai,north,"Phường Mạo Khê, Tỉnh Quảng Ninh",www.qui.edu.vn,unconfirmed,8377
+MIT,Trường Đại học Công nghệ miền Đông,MIT University Vietnam,MITUni,university,,,,,False,Đồng Nai,south,"QL1A, khu phố Trần Hưng Đạo, phường Dầu Giây, TP Đồng Nai",www.mit.vn,unconfirmed,8133
+DDN,Trường Đại học Đại Nam,Đại Nam University,DNU,university,,,,,False,Hà Nội,north,"Số 1 Phố Xốm, phường Phú Lương, TP Hà Nội",https://www.dainam.edu.vn/vi,unconfirmed,6468
+MTC,Trường Đại học Mỹ thuật Công nghiệp,University of Industrial Fine Arts,MTUD,university,,,,,False,Hà Nội,north,"360 đường La Thành, phường Ô chợ Dừa, Hà Nội",www.mythuatcongnghiep.edu.vn,unconfirmed,6861
+DDP,Phân hiệu Đại học Đà Nẵng tại KonTum,"The University of Danang, Campus in Kontum",UDCK,branch,,,,Đại học Đà Nẵng,False,Đồng Nai,central,"704 Phan Đình Phùng, Phường Kon Tum, tỉnh Quảng Ngãi",https://kontum.udn.vn/,disputed,8898
+MTH,Trường Đại học Mỹ thuật Việt Nam,Viet Nam university of Fine Arts,VNUFA,university,,,,,False,Hà Nội,north,"42 Yết Kiêu, Hoàn Kiếm, Hà Nội",http://mythuatvietnam.edu.vn/,unconfirmed,6869
+DDQ,Trường Đại học Kinh tế - Đại học Đà Nẵng,Da Nang University of Economics,DUE,university,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,"71 Ngũ Hành Sơn, Bắc Mỹ An, Ngũ Hành Sơn, Đà Nẵng.",https://due.udn.vn/,unconfirmed,8002
+MTS,Trường Đại học Mỹ thuật tp. Hồ Chí Minh,Ho Chi Minh City University of Fine Arts,HCMUFA,university,,,,,False,TP. Hồ Chí Minh,south,"05 Phan Đăng Lưu, P. Gia Định, TP Hồ Chí Minh",https://www.hcmufa.edu.vn/,unconfirmed,7397
+DDS,Trường Đại họ̣c Sư phạm - Đại học Đà Nẵng,"Da Nang University, College of Education",UED,university,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,"459 Tôn Đức Thắng, phường Hòa Khánh, thành phố Đà Nẵng.",https://ued.udn.vn/,unconfirmed,8011
+MTU,Trường Đại học Xây dựng miền Tây,MienTay Construction University,MTU,university,,,,,False,Đồng Nai,south,"Số 20B đường Phó Cơ Điều, phường Phước Hậu, tỉnh Vĩnh Long",https://mtu.edu.vn/,unconfirmed,9010
+DDT,Trường Đại học Duy Tân,Duy Tan University,DTU,university,,,,,False,Đà Nẵng,central,"254 Nguyễn Văn Linh, P. Thanh Khê - Tp. Đà Nẵng",https://duytan.edu.vn/,unconfirmed,8020
+NHB,Học viện Ngân hàng (Cơ sở Bắc Ninh),Banking Academy,BAV,branch,,,,,False,Bắc Ninh,north,"Số 331 đường Ngô Gia Tự, phường Suối Hoa, TP Bắc Ninh, tỉnh Bắc Ninh.",https://bacninh.hvnh.edu.vn/,disputed,7819
+DDU,Trường Đại học Dân lập Đông Đô,Dong Do University,HDIU,university,,,,,False,Hà Nội,north,"Số 8, đường Phú Nghĩa, xã Phú Nghĩa, TP. Hà Nội",https://hdiu.edu.vn/,unconfirmed,6452
+NHF,Trường Đại học Hà Nội,Hanoi University,HANU,university,,,,,False,Hà Nội,north,"Km9, đường Nguyễn Trãi, phường Đại Mỗ, Hà Nội",https://www.hanu.vn/,unconfirmed,6877
+DDV,Viện Nghiên cứu và Đào tạo Việt Anh,VN-UK Institute For Research and Executive Education – The University of Danang,VNUK,university,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,"158A Lê Lợi, P. Hải Châu, TP. Đà Nẵng",,disputed,8028
+NHH,Học viện Ngân hàng (Cơ sở Hà Nội),Banking Academy,BAV,branch,,,,,False,Hà Nội,north,"12 P. Chùa Bộc, Kim Liên, Hà Nội",https://www.hvnh.edu.vn/,disputed,6885
+DDY,Khoa Y dược - Đại học Đà Nẵng,The University Of DaNang - School of Medicine and Pharmacy,SMP,branch,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,,https://smp.udn.vn/,unconfirmed,8036
+NHP,Học viện Ngân hàng (Cơ sở Phú Yên),Banking Academy,BAV,branch,,,,,False,Đồng Nai,central,"Số 441 đường Nguyễn Huệ, TP Tuy Hòa, tỉnh Phú Yên.",,disputed,8737
+DFA,Trường Đại học Tài chính - Quản trị Kinh doanh,University of Finance and Business Administration,UFBA,university,,,,,False,Đồng Nai,north,Xã Như Quỳnh - Tỉnh Hưng Yên,https://ufba.edu.vn/,unconfirmed,8465
+NHS,Trường Đại học Ngân hàng tp. Hồ Chí Minh,Ho Chi Minh University of Banking,HUB,university,,,,,False,TP. Hồ Chí Minh,south,"36 Tôn Thất Đạm, Phường Sài Gòn, TP.Hồ Chí Minh.",https://hub.edu.vn/,unconfirmed,7405
+DHA,Trường Đại học Luật - Đại học Huế,"Univeristy of Law, Hue University",HUL,university,,,,Đại học Huế,False,Huế,central,"20 Võ Văn Kiệt, phường An Cựu, thành phố Huế",https://www.hul.edu.vn/,unconfirmed,7852
+NLG,Phân hiệu Trường Đại học Nông lâm Tp. Hồ Chí Minh tại Gia Lai,Nong Lam University Ho Chi Minh City - Campus in Gia Lai,,branch,,,,,False,Đồng Nai,central,"Đường Trần Nhật Duật, Thôn 1, Xã Diên Phú, TP. Pleiku, Tỉnh Gia Lai",https://phgl.hcmuaf.edu.vn/,disputed,8882
+DHC,Khoa Giáo dục Thể chất - Đại học Huế,,,branch,,,,Đại học Huế,False,Huế,central,52 Hồ Đắc Di - TP Huế,https://fpe.hueuni.edu.vn/index.php/vi/welcome/index,unconfirmed,7861
+NLN,Phân hiệu Trường Đại học nông lâm tp. Hồ Chí Minh tại Ninh Thuận,Nong Lam University Ho Chi Minh City - Campus in Ninh Thuan,,branch,,,,,False,Đồng Nai,central,"Số 08 đường Yên Ninh, Phường Ninh Chử, Tỉnh Khánh Hoà",https://phnt.hcmuaf.edu.vn/,disputed,8826
+DHD,Khoa Du lịch - Đại học Huế,School of Hospitality and Tourism – Hue University,HUHT,branch,,,,Đại học Huế,False,Huế,central,"Số 22 Lâm Hoằng, Phường Vỹ Dạ, Thành phố Huế",http://hat.hueuni.edu.vn/,disputed,7870
+NLS,Trường Đại học Nông lâm Tp. Hồ Chí Minh,Nong Lam University,NLU,university,,,,,False,TP. Hồ Chí Minh,south,,www.hcmuaf.edu.vn,unconfirmed,7413
+DHE,Khoa Kỹ thuật và Công nghệ - Đại học Huế,,HUET,branch,,,,Đại học Huế,False,Điện Biên,north,"CS1: 01 Điện Biên Phủ, phường Vĩnh Ninh, Thành phố Huế",http://huet.hueuni.edu.vn/,unconfirmed,5444
+NQH,Học viện Khoa học Quân sự (quân sự),Military Science Academy,MSA,academy,,,,,True,Hà Nội,north,"Hoài Đức, Hà Nội",http://www.hocvienkhqs.edu.vn,disputed,6894
+DHF,Trường Đại học Ngoại ngữ - Đại học Huế,"University of Foreign Languages and International Studies, Hue University.",HUFLIS,university,,,,Đại học Huế,False,Huế,central,"57 Nguyễn Khoa Chiêm, Phường An Cựu, TP Huế",https://huflis.edu.vn/vi/,unconfirmed,7879
+NTH,Trường Đại học Ngoại thương,Foreign Trade University,FTU,branch,,,,,False,Hà Nội,north,"Số 91 Phố Chùa Láng, Phường Láng, Hà Nội",http://www.ftu.edu.vn,disputed,6903
+DHH,Đại Học Hà Hoa Tiên,,,university,,,,,False,,,,,unconfirmed,5464
+NTS,Trường Đại học Ngoại thương - Cơ sở phía Nam,,FTU2,branch,,,,,False,TP. Hồ Chí Minh,south,"Số 15, đường D5, P. 25, Q. Bình Thạnh, TP Hồ Chí Minh",https://cs2.ftu.edu.vn,unconfirmed,7421
+DHI,Khoa Quốc tế - Đại học Huế,International School of Hue University,HUIS,branch,,,,Đại học Huế,False,Điện Biên,north,"01 Điện Biên Phủ, Vĩnh Ninh, Tp. Huế",https://huis.edu.vn/,unconfirmed,5473
+NTT,Trường Đại học Nguyễn Tất Thành,Nguyen Tat Thanh University,NTTU,university,,,,,False,TP. Hồ Chí Minh,south,"300A Nguyễn Tất Thành, Phường Xóm Chiếu, TP. Hồ Chí Minh",ww.ntt.edu.vn,unconfirmed,7430
+DHK,Trường Đại học Kinh tế - Đại học Huế,"Hue University, College of Economics",HCE,university,,,,Đại học Huế,False,Huế,central,"99 Hồ Đắc Di, Phường An Cựu, TP Huế",https://hce.edu.vn,unconfirmed,7888
+NTU,Trường Đại học Nguyễn Trãi,Nguyen Trai University,NTU,university,,,,,False,Hà Nội,north,"Tòa nhà số 28A, Lê Trọng Tấn, Hà Đông, Hà Nội",www.daihocnguyentrai.edu.vn,unconfirmed,6911
+DHL,Trường Đại học Nông lâm - Đại học Huế,University of Agriculture and Forestry - Hue University,HUAF,university,,,,Đại học Huế,False,Huế,central,"102 Phùng Hưng, Phường Phú Xuân, Thành phố Huế",https://huaf.edu.vn/,unconfirmed,7897
+NVH,Học viện Âm nhạc Quốc gia Việt Nam,Viet Nam National Academy of Music,VNAM,academy,,,,,False,Hà Nội,north,"77 Hào Nam, Ô Chợ Dừa, Hà Nội",www.vnam.edu.vn,unconfirmed,6919
+DHN,Trường Đại học Nghệ thuật - Đại học Huế,"University of Arts, Hue University",,university,,,,Đại học Huế,False,Huế,central,"Số 10 Tô Ngọc Vân, Phường Đông Ba, TP. Huế",https://nghethuathue.edu.vn/,unconfirmed,7906
+NVS,Nhạc viện Tp. Hồ Chí Minh,HCMC Conservation of Music,HCMCONS,academy,,,,,False,TP. Hồ Chí Minh,south,"112 Nguyễn Du, phường Bến Thành, TP. Hồ Chí Minh",https://hcmcons.vn/,unconfirmed,7438
+DHP,Trường Đại học Quản lý và Công nghệ Hải Phòng,,,university,,,,,False,Hải Phòng,north,,,unconfirmed,7606
+PBH,Trường Sĩ quan Pháo binh,The College of Artillery Officer’s Training,,university,,,,,True,Hà Nội,north,Thanh Vị - Tùng Thiện - Hà Nội,http://tsqpb.edu.vn/,unconfirmed,6927
+DHQ,Phân hiệu Đại học Huế tại Quảng Trị,,QTB,branch,,,,Đại học Huế,False,Đồng Nai,north,Đường Điện Biên Phủ - P Đông Lương – TP Đông Hà – Tỉnh Quảng Trị,https://qtb.hueuni.edu.vn/,unconfirmed,8657
+PCH,Trường Đại học Phòng cháy Chữa cháy,University of Fire Prevention and Fighting,UFPF,university,,,,,True,Hà Nội,north,243 Khuất Duy Tiến - phường Đại Mỗ - TP Hà Nội,http://daihocpccc.edu.vn/,disputed,6935
+DHS,Trường Đại học Sư phạm - Đại học Huế,Hue University of Education,HUE,university,,,,Đại học Huế,False,Huế,central,Số 34 Lê Lợi - Tp Huế,https://www.dhsphue.edu.vn/,unconfirmed,7915
+PCH1,Đại Học Phòng Cháy Chữa Cháy ( Hệ Dân sự Phía Bắc ),University of Fire Prevention and Fighting,UFPF,university,,,,,False,Hà Nội,north,"Số 243, đường Khuất duy Tiến, quận Thanh Xuân, Hà Nội",http://daihocpccc.edu.vn/,unconfirmed,5531
+DHT,Trường Đại học Khoa học - Đại học Huế,"University of sciences, Hue university",HUSC,university,,,,Đại học Huế,False,Huế,central,"77 Nguyễn Huệ, phường Thuận Hóa, thành phố Huế",https://husc.edu.vn/,unconfirmed,7924
+PCS,Đại học Phòng cháy Chữa cháy phía Nam,University of Fire Prevention and Fighting,UFPF,university,,,,,True,Hà Nội,north,"Số 243, đường Khuất duy Tiến, quận Thanh Xuân, Hà Nội",http://daihocpccc.edu.vn/,unconfirmed,6943
+DHV,Trường Đại học Hùng Vương - tp. Hồ Chí Minh,Hung Vuong University of Ho Chi Minh City,DHV,university,,,,,False,TP. Hồ Chí Minh,south,"37 Kinh Dương Vương, phường Phú Lâm, TP HCM (CS1: 194 Lê Đức Thọ, P. An Nhơn, TP HCM; CS2: 736 Nguyễn Trãi, P. Chợ Lớn, TP.HCM; CS3: 37 Kinh Dương Vương, P. Phú Lâm, TP.HCM)",www.hvuh.edu.vn,unconfirmed,7202
+PCS1,Đại Học Phòng Cháy Chữa Cháy (Hệ Dân sự Phía Nam),University of Fire Prevention and Fighting,UFPF,university,,,,,False,Đồng Nai,south,"Cơ sở 3: Ấp 7, xã An Phước, huyện Long Thành, tỉnh Đồng Nai.",http://daihocpccc.edu.vn/,unconfirmed,5550
+DHY,Trường Đại học Y dược - Đại học Huế,Hue university medicine and pharmacy,Hue-UMP,university,,,,Đại học Huế,False,Huế,central,"Số 06 Ngô Quyền, phường Vĩnh Ninh, Thành phố Huế",www.huemed-univ.edu.vn,unconfirmed,7933
+PKA,Trường Đại Học Phenikaa,Phenikaa University,PhenikaaUni,university,,,,,False,Hà Nội,north,Đường Nguyễn Trác - Phường Dương Nội - Hà Nội,https://phenikaa-uni.edu.vn/vi,unconfirmed,6568
+DKB,Trường Đại học Kinh tế - Kỹ thuật Bình Dương,Binh Duong Economics and Technology University,BETU,university,,,,,False,Đồng Nai,south,"Số 292 Đường Nam Kỳ Khởi Nghĩa, Phường Xuân Hòa, TP Hồ Chí Minh",https://www.ktkt.edu.vn/,unconfirmed,8184
+PKH,Học viện Phòng không - Không quân,Air Defense-Air Force Academy,,academy,,,,,True,Hà Nội,north,Đoài Phương - Hà Nội,http://www.hocvienpkkq.com,unconfirmed,6951
+DKC,Trường Đại học Công nghệ Tp. Hồ Chí Minh,Ho Chi Minh City University of Technology.,HUTECH,university,,,,,False,TP. Hồ Chí Minh,north,144/24 Điện Biên Phủ - P.25 – Q.Bình Thạnh – TP.HCM.,www.hutech.edu.vn,unconfirmed,7210
+PVU,Trường Đại học Dầu khí Việt Nam,PetroVietnam University,PVU,university,,,,,False,Đồng Nai,south,"762 Cách Mạng Tháng Tám, Phường Bà Rịa, TP. Hồ Chí Minh",www.pvu.edu.vn,unconfirmed,8970
+DKH,Trường Đại học Dược Hà Nội,Hanoi University of Pharmacy,HUP,university,,,,,False,Hà Nội,north,"Số 13 - 15 Lê Thánh Tông, Hoàn Kiếm, TP Hà Nội.",https://hup.edu.vn/,unconfirmed,6476
+QHD,Trường Quản Trị và Kinh Doanh - ĐH Quốc gia Hà Nội,Hanoi School of Business and Management,HSB,university,,,,,False,Hà Nội,north,"Nhà B1, 144 Xuân Thủy, Cầu Giấy, Hà Nội",https://hsb.edu.vn,unconfirmed,5584
+DKK,Trường Đại học Kinh tế Kỹ thuật Công nghiệp,University of Economics - Technology for Industries,UNETI,university,,,,,False,Hà Nội,north,,http://www.uneti.edu.vn,unconfirmed,6484
+QHE,Trường Đại học Kinh tế - Đại học Quốc gia Hà Nội,VNU University of Economics and Business,UEB,university,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,"144 đường Xuân Thủy, Cầu Giấy, Hà Nội",http://ueb.vnu.edu.vn,unconfirmed,6959
+DKS,Trường Đại học Kiểm sát Hà Nội,Hanoi Procuratorate University.,HPU,university,,,,,False,Hà Nội,north,"Số 59, ngõ 230, đường Ỷ La, phường Dương Nội, quận Hà Đông, TP. Hà Nội",https://www.facebook.com/daihockiemsathanoi/,unconfirmed,6492
+QHF,Trường Đại học Ngoại ngữ - Đại học Quốc gia Hà Nội,"University of Languages and International Studies – Vietnam National University,Hanoi",,university,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,"Số 2 đường Phạm Văn Đồng, Phường Cầu Giấy, Hà Nội",https://ulis.vnu.edu.vn/,unconfirmed,6968
+DKT,Trường Đại học Hải Dương,University of Hai Duong,UHD,university,,,,,False,Đồng Nai,south,,http://uhd.edu.vn/,unconfirmed,8425
+QHI,Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội,VNU University of Engineering and Technology,UET,university,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,"144 Xuân Thủy, Cầu Giấy, Hà Nội",https://uet.vnu.edu.vn/,unconfirmed,6977
+DKY,Trường Đại học Kỹ thuật Y tế Hải Dương,Hai Duong Medical Technical University,HMTU,university,,,,,False,Đồng Nai,north,"Số 1, Đường Vũ Hựu, Phường Lê Thanh Nghị, Thành phố Hải Phòng",http://www.hmtu.edu.vn,unconfirmed,8433
+QHL,Khoa luật - Đại học Quốc gia Hà Nội,"VNU, University of Law",VNU-UL,branch,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,"Toà nhà E1, 144 Xuân Thuỷ, Cầu Giấy, Hà Nội",https://law.vnu.edu.vn,disputed,6986
+DLA,Trường Đại học Kinh tế Công nghiệp Long An,Long An University of Economics and Industry,,university,,,,,False,Đồng Nai,south,"Số 938 Quốc lộ 1, Phường Khánh Hậu, tỉnh Tây Ninh",https://www.daihoclongan.edu.vn/,unconfirmed,8938
+QHQ,Khoa Quốc tế - Đại học Quốc gia Hà Nội,VNU International School,VNU-IS,branch,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,"144, Đường Xuân Thủy, Cầu Giấy, Hà Nội",http://www.vnu.edu.vn,disputed,6995
+DLH,Trường Đại học Lạc Hồng,Lac Hong University,LHU,university,,,,,False,Đồng Nai,south,"Số 10, Huỳnh Văn Nghệ, phường Trấn Biên, TP Đồng Nai",https://lhu.edu.vn/,unconfirmed,8125
+QHS,Trường Đại học Giáo dục - Đại học Quốc gia Hà Nội,VNU University of Education – VNU-UEd,UED,university,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,,https://education.vnu.edu.vn/,unconfirmed,7004
+DLS,Trường Đại học Lao động - Xã hội (Cơ sở II TP. HCM),University of Labour and Social affairs,,branch,,,,,False,TP. Hồ Chí Minh,south,"1018 Tô Ký, Phường Trung Mỹ Tây, Tp. Hồ Chí Minh.",www.ldxh.edu.vn,disputed,7218
+QHT,Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội,VNU University of Science,HUS,university,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,334 Nguyễn Trãi - Thanh Xuân - Hà Nội,https://hust.edu.vn/,unconfirmed,7013
+DLT,Trường Đại học Lao động - Xã hội (Cơ sở Sơn Tây),,,branch,,,,,False,Hà Nội,north,,,unconfirmed,6500
+QHX,Trường Đại học Khoa học Xã hội và Nhân văn - Đại học Quốc gia Hà Nội,VNU University of Social Sciences and Humanities,USSH,university,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,,http://ussh.vnu.edu.vn,unconfirmed,7022
+DLX,Trường Đại học Lao động - Xã hội (Trụ sở chính),University of Labour and Social Affair,ULSA,branch,,,,,False,Hà Nội,north,"43 Trần Duy Hưng, Phường Yên Hoà, Tp. Hà Nội",http://ulsa.edu.vn/,disputed,6509
+QHY,Khoa Y - Dược - Đại học Quốc gia Hà Nội,University of Medicine and Pharmacy,UMP,branch,,,,Đại học Quốc gia Hà Nội,False,Hà Nội,north,"144 Đường Xuân Thuỷ, Cầu Giấy, Hà Nội.",http://ump.vnu.edu.vn,disputed,7031
+DMS,Trường Đại học Tài chính - Marketing,University of Finance – Marketing,UFM,university,,,,,False,TP. Hồ Chí Minh,south,"Số 778 Nguyễn Kiệm, phường Đức Nhuận, TP. Hồ Chí Minh",https://dms.ufm.edu.vn/,unconfirmed,7227
+QSB,Trường Đại học Bách Khoa - Đại học Quốc gia TP.HCM,Ho Chi Minh City University of Technology,HCMUT,university,,,,Đại học Quốc gia TP. Hồ Chí Minh,False,TP. Hồ Chí Minh,south,,www.aao.hcmut.edu.vn/tuyen_sinh/index.html,unconfirmed,7446
+DMT,Trường Đại học Tài nguyên và Môi Trường Hà Nội,Hanoi University of Natural Resources and Environment,HUNRE,university,,,,,False,Hà Nội,north,"Số 41A đường Phú Diễn, Phường Phú Diễn, Hà Nội.",https://hunre.edu.vn,unconfirmed,6518
+QSC,Trường Đại học Công nghệ Thông tin - Đại học Quốc gia TP.HCM,University of Information Technology,UIT,university,,,,Đại học Quốc gia TP. Hồ Chí Minh,False,TP. Hồ Chí Minh,south,"Khu phố 34, Phường Linh Xuân, Thành phố Hồ Chí Minh.",http://www.uit.edu.vn,unconfirmed,7455
+DNB,Trường Đại học Hoa Lư,Hoa Lu University,HLUV,university,,,,,False,Đồng Nai,north,"Đường Xuân Thành, phường Hoa Lư, tỉnh Ninh Bình.",hluv.edu.vn,unconfirmed,8537
+QSK,Trường Đại học Kinh tế - Luật - Đại học Quốc gia TP.HCM,University of Economics and Law,UEL,university,,,,Đại học Quốc gia TP. Hồ Chí Minh,False,TP. Hồ Chí Minh,south,"Số 669 Quốc lộ 1, Khu phố 3, Phường Linh Xuân, Thành Phố Thủ Đức, Thành Phố Hồ Chí Minh.",https://www.uel.edu.vn,unconfirmed,7464
+DNC,Trường Đại học nam Cần Thơ,Nam Can Tho University,NCTU,university,,,,,False,Cần Thơ,south,"Số 168, Nguyễn Văn Cừ (nối dài), Phường An Bình, TP. Cần Thơ",https://nctu.edu.vn/,unconfirmed,8077
+QSQ,Trường Đại học Quốc tế - Đại học Quốc gia TP.HCM,International University (IU) - VNUHCM,HCMIU,university,,,,Đại học Quốc gia TP. Hồ Chí Minh,False,TP. Hồ Chí Minh,south,"Khu phố 33, phường Linh Xuân, Thành phố Hồ Chí Minh",https://hcmiu.edu.vn/,unconfirmed,7473
+DNH,Học viện Khoa học Quân sự (dân sự),Military Science Academy,MSA,academy,,,,,True,Hà Nội,north,"322 Lê Trọng Tấn, Q. Thanh Xuân, Tp. Hà Nội",http://www.hocvienkhqs.edu.vn,disputed,6526
+QST,Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM,VNUHCM - University Of Science,HCMUS,university,,,,Đại học Quốc gia TP. Hồ Chí Minh,False,TP. Hồ Chí Minh,south,,http://www.hcmus.edu.vn,unconfirmed,7482
+DNT,Trường Đại học Ngoại ngữ - Tin học TP.HCM,Ho Chi Minh City University of Foreign Languages and Information Technology,HUFLIT,university,,,,,False,TP. Hồ Chí Minh,south,"828 Sư Vạn Hạnh, Phường Hòa Hưng, TP. HCM",https://huflit.edu.vn/,unconfirmed,7235
+QSX,Trường Đại học Khoa học Xã hội và Nhân văn - Đại học Quốc gia TP.HCM,"University of Social Sciences and Humanities, Vietnam National University Ho Chi Minh City.",VNUHCM-USSH,university,,,,Đại học Quốc gia TP. Hồ Chí Minh,False,TP. Hồ Chí Minh,south,,https://hcmussh.edu.vn,unconfirmed,7491
+DNU,Trường Đại học Đồng Nai,Dong Nai University,DNU,university,,,,,False,Đồng Nai,south,"Số 9, Lê Quý Đôn, P. Tam Hiệp, TP. Đồng Nai",https://dnpu.edu.vn/,unconfirmed,8141
+QSY,Trường Đại học Khoa học Sức khỏe - ĐHQG Tp.HCM,"University of Health Sciences, Vietnam National University, Ho Chi Minh City",UHS,university,,,,,False,TP. Hồ Chí Minh,south,"Tòa nhà hành chính YA1, Đường Hải Thượng Lãn Ông, Khu Đô thị ĐHQG-HCM, Phường Đông Hòa, Thành phố Hồ Chí Minh",https://www.uhsvnu.edu.vn/,disputed,7500
+DNV,Trường Đại học Nội vụ Hà Nội,,,university,,,,,False,Hà Nội,north,,,unconfirmed,6535
+RHM,Đại Học Răng – Hàm – Mặt,,,university,,,,,False,,,,,unconfirmed,5740
+DPC,Trường Đại học Phan Châu Trinh,Phan Châu Trinh University,PCTU,university,,,,,False,Đồng Nai,central,"Số 09 Nguyễn Gia Thiều, phường Điện Bàn Đông, Thành phố Đà Nẵng",http://pctu.edu.vn/,unconfirmed,8665
+RMU,Đại Học Quốc Tế RMIT Việt Nam,,,university,,,,,False,,,,,unconfirmed,5748
+DPD,Trường Đại học Dân lập Phương Đông,Phuong Dong University,PDU,university,,,,,False,Hà Nội,north,"Số 171 phố Trung Kính, phường Yên Hòa, TP Hà Nội - CS2: Số 4/228 phố Minh Khai, phường Tương Mai, TP Hà Nội",http://phuongdong.edu.vn/,unconfirmed,6543
+SDU,Trường Đại học Sao Đỏ,Sao Do University,SDU,university,,,,,False,Đồng Nai,north,"Số 76 Nguyễn Thị Duệ, Thái Học 2, P. Chu Văn An, TP. Hải Phòng.",saodo.edu.vn,unconfirmed,8441
+DPQ,Trường Đại học Phạm Văn Đồng,Pham Van Dong University,PDU,university,,,,,False,Đồng Nai,central,"509 Phan Đình Phùng, TP. Quảng Ngãi",http://pdu.edu.vn/,unconfirmed,8689
+SGD,Trường Đại học Sài Gòn,Saigon University,SGU,university,,,,,False,TP. Hồ Chí Minh,south,"273 An Dương Vương, Phường 3, Quận 5, TP. HCM.",https://www.sgu.edu.vn/,unconfirmed,7508
+DPT,Trường Đại học Phan Thiết,University of Phan Thiet,UPT,university,,,,,False,Đồng Nai,central,"225 Nguyễn Thông, Phường Phú Thủy, Tỉnh Lâm Đồng",upt.edu.vn hoặc ts.upt.edu.vn,unconfirmed,8842
+SIU,Trường Đại học Quốc tế Sài Gòn,Saigon International University,SIU,university,,,,,False,TP. Hồ Chí Minh,south,"8C Tống Hữu Định, Phường An Khánh, TPHCM",www.siu.edu.vn,unconfirmed,7557
+DPX,Trường Đại học Dân lập Phú Xuân,Phu Xuan University,PXU,university,,,,,False,Huế,central,"176 Trần Phú, phường Thuận Hóa, TP. Huế",https://phuxuan.edu.vn/,unconfirmed,7942
+SKD,Trường Đại học Sân khấu Điện ảnh Hà Nội,Hanoi Academy of Theatre and Cinema,SKDA,university,,,,,False,Hà Nội,north,"Khu Văn hóa nghệ thuật, Phường Phú Diễn, Thành phố Hà Nội",https://skda.edu.vn/,unconfirmed,7040
+DPY,Trường Đại học Phú Yên,Phu Yen University,PYU,university,,,,,False,Đồng Nai,central,"01 đường Nguyễn Văn Huyên, Phường Tuy Hoà, tỉnh Đắk Lắk",https://pyu.edu.vn/,unconfirmed,8729
+SKH,Trường Đại học Sư phạm Kỹ thuật Hưng Yên,Hung Yen University of Technology and Education,UTEHY,university,,,,,False,Đồng Nai,north,"xã Việt Tiến, tỉnh Hưng Yên",http://utehy.edu.vn,unconfirmed,8473
+DQB,Trường Đại học Quảng Bình,Quang Binh University,QBU,university,,,,,False,Đồng Nai,central,"312 Lý Thường Kiệt, Đồng Thuận, Quảng Trị",https://qbu.edu.vn/,unconfirmed,8641
+SKN,Trường Đại học Sư phạm Kỹ thuật Nam Định,Namdinh University of Technology Education,NUTE,university,,,,,False,Đồng Nai,north,Đường Phù Nghĩa - Phường Thiên Trường - Tỉnh Ninh Bình,http://www.nute.edu.vn,unconfirmed,8505
+DQH,Học viện Kỹ thuật Quân sự (hệ Dân sự),Military Technical Academy,,academy,,,,,False,Hà Nội,north,"236 Hoàng Quốc Việt, Bắc Từ Liêm, Hà Nội",http://www.mta.edu.vn,unconfirmed,6551
+SKV,Trường Đại học Sư phạm Kỹ thuật Vinh,Vinh University of Technology Education,VUTED,university,,,,,False,Đồng Nai,central,117 - Nguyễn Viết Xuân - Phường Trường Vinh – Tỉnh Nghệ An,https://vuted.edu.vn/,unconfirmed,8609
+DQK,Trường Đại học Kinh doanh và Công nghệ Hà Nội,Hanoi University Of Business and Management,HUBT,university,,,,,False,Hà Nội,north,"29A ngõ 124, Vĩnh Tuy, Hai Bà Trưng, Hà Nội",http://www.hubt.edu.vn,unconfirmed,6560
+SNH,Trường Sĩ quan Công binh,Ngo Quyen University,NQU,university,,,,,True,Đồng Nai,south,"229B, Đường Bạch Đằng, Phú Cường, TP.Thủ Dầu Một, Bình Dương",http://wwwtsqcb.edu.vn,disputed,8200
+DQN,Trường Đại học Quy Nhơn,Quy Nhon University,QNU,university,,,,,False,Đồng Nai,south,"170 An Dương Vương, Phường Quy Nhơn Nam",http://www.qnu.edu.vn,unconfirmed,8713
+SP2,Trường Đại học Sư phạm Hà Nội 2,Hanoi Pedagogical University 2,HPU2,university,,,,,False,Đồng Nai,north,"32 Nguyễn Văn Linh, phường Xuân Hòa, tỉnh Phú Thọ",http://www.hpu2.edu.vn,unconfirmed,8361
+DQT,Trường Đại học Quang Trung,Quang Trung University,QTU,university,,,,,False,Đồng Nai,central,"327 Đào Tấn, Quy Nhơn Bắc, Gia Lai",https://qtu.edu.vn/,unconfirmed,8721
+SPD,Trường Đại học Đồng Tháp,Dong Thap University,DThU,university,,,,,False,Đồng Nai,south,"783 Phạm Hữu Lầu, Phường Cao Lãnh, tỉnh Đồng Tháp",https://www.dthu.edu.vn/,unconfirmed,9058
+DQU,Trường Đại học Quảng Nam,Quangnam University,QNU,university,,,,,False,Đồng Nai,central,"102 Hùng Vương, phường Tam Kỳ, Thành phố Đà Nẵng",http://qnamuni.edu.vn/,unconfirmed,8673
+SPH,Trường Đại học Sư phạm Hà Nội,Hanoi National University of Education,HNUE,university,,,,,False,Hà Nội,north,"Số 136 Xuân Thuỷ, Phường Cầu Giấy, Hà Nội",www.hnue.edu.vn,unconfirmed,7048
+DSD,"Trường Đại học Sân khấu, Điện ảnh tp. Hồ Chí Minh",,SKDA,university,,,,,False,TP. Hồ Chí Minh,south,"Số 125 Cống Quỳnh, Phường Cầu Ông Lãnh, TP Hồ Chí Minh",https://skdahcm.edu.vn/,unconfirmed,7243
+SPK,Trường Đại học Sư phạm Kỹ thuật tp. Hồ Chí Minh,HCMC University of Technology and Education,HCMUTE,university,,,,,False,TP. Hồ Chí Minh,south,"1-3 Võ Văn Ngân, Q.Thủ Đức, TP Hồ Chí Minh",,unconfirmed,7516
+DSG,Trường Đại học Công nghệ Sài Gòn,Saigon Technology University,STU,university,,,,,False,TP. Hồ Chí Minh,south,"180 Cao Lỗ, Phường Chánh Hưng, Tp. Hồ Chí Minh",http://www.stu.edu.vn,unconfirmed,7251
+SPS,Trường Đại học Sư phạm tp. Hồ Chí Minh,Ho Chi Minh University of Education,HCMUE,university,,,,,False,TP. Hồ Chí Minh,south,"280 An Dương Vương, Phường 4, Quận 5, TP. Hồ Chí Minh",http://hcmup.edu.vn,unconfirmed,7524
+DSK,Đại học Sư phạm Kỹ thuật - Đại học Đà Nẵng,"University of Technology and Education, the University of Da Nang",UTE,university,,,,Đại học Đà Nẵng,False,,,,https://ute.udn.vn/,unconfirmed,5859
+STS,Trường Đại học Sư phạm Thể dục Thể thao TP.HCM,Ho Chi Minh city University of Physical Education and Sport,UPES,university,,,,,False,TP. Hồ Chí Minh,south,"639 Nguyễn Trãi, phường Chợ Lớn, TP. Hồ Chí Minh",https://upes.edu.vn/,unconfirmed,7532
+DTB,Trường Đại học Thái Bình,,TBU,university,,,,,False,Thái Bình,north,"Số 373, Lý Bôn, phường Trần Lãm, tỉnh Hưng Yên",https://tbu.edu.vn/,unconfirmed,7646
+TAG,Đại Học An Giang,,,university,,,,,False,,,,,unconfirmed,5872
+DTC,Trường Đại học Công nghệ Thông tin và Truyền thông - Đại học Thái Nguyên,"Thai Nguyen University, Faculty of Information Technology",ICTU,university,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,"Đường Z115, Phường Quyết Thắng, Tỉnh Thái Nguyên.",http://tuyensinh.ictu.edu.vn,unconfirmed,7670
+TBD,Trường Đại học Thái Bình Dương,Thai Binh Duong University,TBD,university,,,,,False,Đồng Nai,central,"Số 79, đường Mai Thị Dõng, Hòn Nghê 1, phường Tây Nha Trang, tỉnh Khánh Hòa",https://tbd.edu.vn/,unconfirmed,8778
+DTD,Trường Đại học Tây Đô,Tay Do University,TDU,university,,,,,False,Cần Thơ,south,"Số 68, đường Trần Chiên, KV Thạnh Mỹ, Phường Cái Răng, Thành phố Cần Thơ",https://tdu.edu.vn/,unconfirmed,8085
+TCT,Trường Đại học Cần Thơ,Can Tho University,CTU,university,,,,,False,Cần Thơ,south,"Khu 2, Đường 3/2, Phường Ninh Kiều, TP. Cần Thơ",https://www.ctu.edu.vn,unconfirmed,8101
+DTE,Trường Đại học Kinh tế Quản trị Kinh doanh - Đại học Thái Nguyên,Thai Nguyen University of Economics and Business Administration,TUEBA,university,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,Phường Phan Đình Phùng - Tỉnh Thái Nguyên,http://tueba.edu.vn,unconfirmed,7679
+TCU,Trường Đại học Thông tin liên lạc,Telecommunications University,,university,,,,,False,Đồng Nai,central,"Số 101 Mai Xuân Thưởng, Phường Vĩnh Hòa, Tp Nha Trang, Khánh Hòa",http://www.tcu.edu.vn,disputed,8786
+DTF,Khoa Ngoại ngữ - Đại học Thái Nguyên,School of Foreign languages - Thai Nguyen University,SFL,branch,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,"Phường Quyết Thắng, tỉnh Thái Nguyên",https://sfl.tnu.edu.vn/,disputed,7688
+TDB,Trường Đại học Thể dục Thể thao Bắc Ninh,Bac Ninh Sport University of Vietnam,UPES1,university,,,,,False,Bắc Ninh,north,"đường Nguyễn Văn Cừ, phường Đồng Nguyên, tỉnh Bắc Ninh",www.upes1.edu.vn,unconfirmed,7828
+DTK,Trường Đại học Kỹ thuật Công nghiệp - Đại học Thái Nguyên,"Thai nguyen University, College of Engineering",TNUT,university,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,"Số 666 Đường 3-2, P.Tích Lương, Tỉnh Thái Nguyên",http://www.tnut.edu.vn,unconfirmed,7697
+TDD,Trường Đại học Thành Đô,Thanh Do University,TDU,university,,,,,False,Hà Nội,north,"Km 15, Quốc lộ 32, Hoài Đức, Hà Nội",https://thanhdo.edu.vn/,unconfirmed,7056
+DTL,Trường Đại học Thăng Long,Thang Long University,TLU,university,,,,,False,Hà Nội,north,"Đường Nghiêm Xuân Yêm, phường Đại Kim, quận Hoàng Mai, Hà Nội",https://thanglong.edu.vn/,unconfirmed,6576
+TDH,Trường Đại học Sư phạm Thể dục Thể thao Hà Nội,Hanoi University Physical Education and Sports,,university,,,,,False,Hà Nội,north,"Phường Chương Mỹ, thành phố Hà Nội",https://hupes.edu.vn/,unconfirmed,7064
+DTM,Trường Đại học Tài nguyên và Môi Trường tp. Hồ Chí Minh,Ho Chi Minh university for natural resouces and environment,HCMUNRE,university,,,,,False,TP. Hồ Chí Minh,south,"236B Lê Văn Sỹ, P. 1, Q. Tân Bình, TP. Hồ Chí Minh",www.hcmunre.edu.vn,unconfirmed,7267
+TDL,Trường Đại học Đà Lạt,Da Lat University,DLU,university,,,,,False,Đồng Nai,central,"Số 01, đường Phù Đổng Thiên Vương, P. Lâm Viên, tỉnh Lâm Đồng",https://dlu.edu.vn/,unconfirmed,8922
+DTN,Trường Đại học Nông lâm - Đại học Thái Nguyên,"Thai Nguyen University, College of Agriculture and Forestry",TUAF,university,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,"Phường Quyết Thắng, Tỉnh Thái Nguyên",https://tuaf.edu.vn/,unconfirmed,7706
+TDM,Trường Đại học Thủ Dầu Một,Thu Dau Mot University,TDMU,university,,,,,False,Đồng Nai,south,"Số 06, Trần Văn Ơn, Phường Phú Lợi, TP Hồ Chí Minh",https://tdmu.edu.vn/,unconfirmed,8208
+DTP,Phân hiệu Đại học Thái Nguyên tại Lào Cai,Thai Nguye University - Lao Cai Campus,,branch,,,,Đại học Thái Nguyên,False,Đồng Nai,north,Tổ 13 Bình Minh - Phường Cam Đường - Tỉnh Lào Cai,https://laocai.tnu.edu.vn/,unconfirmed,8273
+TDS,Trường Đại học Thể dục Thể thao Thành phố Hồ Chí Minh,UNIVERSITY OF SPORT HO CHI MINH CITY,USH,university,,,,,False,TP. Hồ Chí Minh,south,"Khu phố 33, Phường Linh Xuân, Thành phố Hồ Chí Minh",https://ush.edu.vn/,unconfirmed,7540
+DTQ,Khoa quốc tế - Đại học Thái Nguyên,International School,ISTNU,branch,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,Phường Phan Đình Phùng – TP. Thái Nguyên,https://is.tnu.edu.vn,unconfirmed,7715
+TDV,Trường Đại học Vinh,Vinh University,,university,,,,,False,Đồng Nai,central,"182 Lê Duẩn, Phường Trường Vinh, Tỉnh Nghệ An",https://vinhuni.edu.vn/trang-chu.html,unconfirmed,8617
+DTS,Trường Đại học Sư phạm - Đại học Thái Nguyên,"Thai Nguyen University, College of Education",TNUE,university,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,"Số 20, đường Lương Ngọc Quyến, Phường Phan Đình Phùng - Tỉnh Thái Nguyên",http://www.tnu.edu.vn/,unconfirmed,7724
+TGH,Trường Sĩ quan Tăng - Thiết giáp,Military College of Tank Armour Officer,MCTAO,university,,,,,True,Đồng Nai,north,"Xã Tam Dương, tỉnh Phú Thọ",http://siquantangthietgiap.vn,unconfirmed,8369
+DTT,Trường Đại học Tôn Đức Thắng,Ton Duc Thang University,TDTU,university,,,,,False,TP. Hồ Chí Minh,south,"Số 19 Nguyễn Hữu Thọ, phường Tân Hưng, TP. Hồ Chí Minh",https://www.tdtu.edu.vn/,unconfirmed,7275
+THP,Trường Đại học Hải Phòng,Haiphong University,HPUni,university,,,,,False,Hải Phòng,north,"171 Phan Đăng Lưu, Hải Phòng",dhhp.edu.vn,unconfirmed,7622
+DTV,Trường Đại học Lương Thế Vinh,Luong The Vinh University,LTVU,university,,,,,False,Đồng Nai,north,"Số 9, đường Cầu Đông, Phường Nam Định, tỉnh Ninh Bình",https://ltvu.edu.vn/,unconfirmed,8497
+THU,Trường Đại học Y khoa Tokyo Việt Nam,Tokyo Human Health Sciences University Vietnam,THUV,university,,,,,False,Đồng Nai,north,"SST-01, KĐT Ecopark, xã Phụng Công, tỉnh Hưng Yên, Việt Nam",http://tokyo-human.edu.vn/,unconfirmed,8481
+DTY,Trường Đại học Y dược - Đại học Thái Nguyên,"Thai Nguyen University, College of Medicine",TUMP,university,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,"284 Đường Lương Ngọc Quyến, Phường Phan Đình Phùng, Tỉnh Thái Nguyên",https://tump.edu.vn/,unconfirmed,7733
+THV,Trường Đại học Hùng Vương,Hung Vuong University,HVU,university,,,,,False,Đồng Nai,north,Phường Nông Trang - tỉnh Phú Thọ,www.hvu.edu.vn,unconfirmed,8329
+DTZ,Trường Đại học Khoa học - Đại học Thái Nguyên,Thai Nguyen University Of Science,TNUS,university,,,,Đại học Thái Nguyên,False,Thái Nguyên,north,Phường Tân Thịnh - Thành phố Thái Nguyên,https://tnus.edu.vn/,unconfirmed,7742
+TKG,Trường Đại học Kiên Giang,KGU University,KGU,university,,,,,False,Đồng Nai,south,"Số 320 A - Quốc lộ 61 - TT. Minh Lương, Châu Thành - Kiên Giang",https://www.vnkgu.edu.vn/trang-chu.html,unconfirmed,8986
+DVB,Trường Đại học Việt Bắc,Thai Nguyen University of Economics and Technology,TUETECH,university,,,,,False,Thái Nguyên,north,Đường 1B- Phường Đồng Bẩm- Thành phố Thái Nguyên,http://tuetech.edu.vn/,disputed,7751
+TLA,Trường Đại học Thuỷ lợi,Water Resources University,TLU,branch,,,,,False,Hà Nội,north,"Số 175 Tây Sơn, P. Kim Liên, Hà Nội",https://www.tlu.edu.vn/,disputed,7072
+DVD,"Trường Đại học Văn hoá, Thể thao và Du lịch Thanh Hoá","Thanh Hoa University of Culture, Sport and Tourism",TUCST,university,,,,,False,Đồng Nai,central,"Số 561, đường Quang Trung, phường Hạc Thành, tỉnh Thanh Hóa",https://tucst.edu.vn/,unconfirmed,8553
+TLS,Trường Đại học Thuỷ lợi - Cơ sở 2 ở phía Nam,Water Resources University,TLUS,branch,,,,,False,TP. Hồ Chí Minh,south,"Số 2 Trường Sa, Phường Gia Định, TP. Hồ Chí Minh",https://tlus.edu.vn,disputed,7548
+DVH,Trường Đại học Văn Hiến,Van Hien University,VHU,university,,,,,False,TP. Hồ Chí Minh,south,"613 Âu Cơ, Phường Phú Trung, phường Tân Phú, TP.HCM",https://vhu.edu.vn/,unconfirmed,7283
+TMU,Trường Đại học Thương mại,University of Commerce,TMU,university,,,,,False,Hà Nội,north,"Số 79 Hồ Tùng Mậu, Từ Liêm, Hà Nội",https://tmu.edu.vn/,unconfirmed,7080
+DVL,Trường Đại học Văn Lang,Van Lang University,VLU,university,,,,,False,TP. Hồ Chí Minh,south,"69/89 Đặng Thùy Trâm, Phường Bình Lợi Trung, TP. HCM",https://vlu.edu.vn/,unconfirmed,7291
+TQU,Trường Đại học Tân Trào,Tan Trao University,TTrU,university,,,,,False,Đồng Nai,north,"Tổ dân phố Trung Môn 16, phường Minh Xuân, tỉnh Tuyên Quang",https://daihoctantrao.edu.vn/,unconfirmed,8281
+DVP,Trường Đại học Trưng vương,Trung Vương University,TVUni,university,,,,,False,Đồng Nai,north,"Số 102 Trần Phú, Phường Hà Đông, Hà Nội - CS1: Xã Tam Dương, Tỉnh Phú Thọ",https://tv-uni.edu.vn/,unconfirmed,8353
+TSN,Trường Đại học Nha Trang,Nha Trang University,NTU,university,,,,,False,Đồng Nai,central,"S02 Nguyễn Đình Chiểu, phường Bắc Nha Trang, Khánh Hòa",http://www.ntu.edu.vn,unconfirmed,8794
+DVT,Trường Đại học Trà Vinh,Tra Vinh University,TVU,university,,,,,False,Đồng Nai,south,"126 Nguyễn Thiện Thành, Phường Hòa Thuận, tỉnh Vĩnh Long",https://www.tvu.edu.vn/,unconfirmed,9090
+TTB,Trường Đại học Tây Bắc,Tay Bac University,UTB,university,,,,,False,Đồng Nai,north,"Đường Đặng Thai Mai, phường Tô Hiệu, tỉnh Sơn La.",http://www.taybacuniversity.edu.vn,unconfirmed,8321
+DVX,Trường Đại học Công nghệ Vạn Xuân,Van Xuan University of Technology,VXUT,university,,,,,False,Đồng Nai,central,"Số 103, Nguyễn Sinh Cung, thị xã Cửa Lò, Nghệ An",https://www.vxut.edu.vn/,unconfirmed,8601
+TTD,Trường Đại học Thể dục Thể thao Đà Nẵng,Danang Sport University,DSU,university,,,,,False,Đà Nẵng,central,"Số 44 Dũng Sĩ Thanh Khê, Phường Thanh Khê, Thành phố Đà Nẵng",https://dsu.edu.vn/,unconfirmed,8053
+DYD,Trường Đại học Yersin Đà Lạt,Yersin University,YersinUni,university,,,,,False,Đồng Nai,south,"27 Tôn Thất Tùng, Phường Lâm Viên - Đà Lạt",http://yersin.edu.vn,unconfirmed,8914
+TTG,Trường Đại học Tiền Giang,Tien Giang University,TGU,university,,,,,False,Đồng Nai,south,,https://tgu.edu.vn/,unconfirmed,9074
+DYH,Học viện Quân Y (Dân sự),Vietnam Military Medical Academy,VMMU,academy,,,,,True,Hà Nội,north,"Phường Phúc La, Hà Đông, Hà Nội",http://www.hocvienquany.vn,disputed,6584
+TTH,Trường Sĩ quan Thông tin,Telecommunications University,,university,,,,,True,Đồng Nai,central,"Số 101 Mai Xuân Thưởng, Phường Bắc Nha Trang, Tỉnh Khánh Hòa",https://tcu.edu.vn/,disputed,8802
+EIU,Trường Đại học Quốc tế miền Đông,Eastern International University,EIU,university,,,,,False,Đồng Nai,south,"81 Nam Kỳ Khởi Nghĩa, phường Bình Dương, TP Hồ Chí Minh",www.eiu.edu.vn,unconfirmed,8192
+TTN,Trường Đại học Tây Nguyên,Tay Nguyen University,TNU,university,,,,,False,Đồng Nai,central,567 Lê Duẩn - Phường Ea Kao - Tỉnh Đăk Lăk,,unconfirmed,8866
+ETU,Trường Đại học Hòa Bình,Hoa Binh University,ETU,university,,,,,False,Hà Nội,north,"Số 8, CC2 - Phố Bùi Xuân Phái, Phường Từ Liêm, TP Hà Nội",https://daihochoabinh.edu.vn/,unconfirmed,6593
+TTU,Trường Đại học Tân Tạo,Tan Tao University,TTU,university,,,,,False,Đồng Nai,south,"Tòa nhà Gillis Hall, Đại lộ Đại học Tân Tạo, Tân Đức E.City, Xã Đức Hòa, Tỉnh Tây Ninh",https://ttu.edu.vn/,unconfirmed,8946
+FBU,Trường Đại học Tài chính - Ngân hàng Hà Nội,Hanoi Financial and Banking University,FBU,university,,,,,False,Hà Nội,north,"Xã Mê Linh - TP Hà Nội, CS2: 31 Dịch Vọng Hậu, phường Cầu Giấy, TP Hà Nội",https://fbu.edu.vn/,unconfirmed,6601
+TYS,Trường Đại học Y khoa Phạm Ngọc Thạch,,PNUT,university,,,,,False,TP. Hồ Chí Minh,south,"Số 02 Dương Quang Trung, Phường 12, Quận 10, Thành phố Hồ Chí Minh.",http://www.pnt.edu.vn,unconfirmed,7565
+FPT,Trường Đại học Fpt,,FPT,university,,,,,False,Hà Nội,north,"Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, xã Hòa Lạc, TP. Hà Nội",http://www.fpt.edu.vn,unconfirmed,6609
+UEF,Trường Đại học Kinh tế - Tài chính tp. Hồ Chí Minh,University of Economics & Finance,UEF,university,,,,,False,TP. Hồ Chí Minh,south,"Trụ sở 141 - 145 Điện Biên Phủ, Phường Gia Định, Thành phố Hồ Chí Minh",www.uef.edu.vn,unconfirmed,7365
+GDU,Trường Đại học Gia Định,Gia Dinh University,GDU,university,,,,,False,TP. Hồ Chí Minh,south,"371 Nguyễn Kiệm, Phường Hạnh Thông, TP.HCM",https://giadinh.edu.vn/,unconfirmed,7186
+UFA,Đại học Tài Chính Kế Toán,University of Finance and Accountancy,UFA,university,,,,,False,Quảng Ngãi,central,"02 Lê Quý Đôn, Tư Nghĩa, Quảng Ngãi",https://www.tckt.edu.vn/,unconfirmed,6120
+GHA,Trường Đại học Giao thông Vận tải,University of Transport and Communications,UTC,branch,,,,,False,Hà Nội,north,"Số 3 phố Cầu Giấy, Phường Láng, TP. Hà Nội.",tuyensinh.utc.edu.vn,disputed,6617
+UKB,Trường Đại học Kinh Bắc,Kinh Bac University,UKB,university,,,,,False,Bắc Ninh,north,"Phố Phúc Sơn, phường Vũ Ninh, TP Bắc Ninh, tỉnh Bắc Ninh.",https://daihockinhbac.edu.vn/,unconfirmed,7836
+GNT,Trường Đại học Sư phạm Nghệ thuật Trung ương,National University of Art Education,NUAE,university,,,,,False,Hà Nội,north,,http://www.spnttw.edu.vn,unconfirmed,6625
+UKH,Trường Đại học Khánh Hoà,Khanh Hoa University,UKH,university,,,,,False,Đồng Nai,south,,http://ukh.edu.vn/vi-vn/,unconfirmed,8810
+GSA,Trường Đại học Giao thông Vận tải - Cơ sở 2 ở phía Nam,University of Transport and Communications,UTC2,branch,,,,,False,TP. Hồ Chí Minh,south,"Số 450-451 Lê Văn Việt, phường Tăng Nhơn Phú A, Tp. Thủ Đức, Tp. Hồ Chí Minh",tuyensinh.utc2.edu.vn,disputed,7299
+UMT,Đại học Quản lý và công nghệ TPHCM,"University of Management and Technology, Ho Chi Minh City",UMT,university,,,,,False,,,,https://www.umt.edu.vn/vi-vn/,unconfirmed,6146
+GTA,Trường Đại học Công nghệ Giao thông Vận tải,University Of Transport Technology,UTT,university,,,,,False,Hà Nội,north,"Số 54 Triều Khúc, phường Thanh Liệt, Hà Nội",http://tuyensinh.utt.edu.vn,unconfirmed,6633
+VGU,Trường Đại học Việt Đức,Vietnamese–German University,VGU,university,,,,,False,Đồng Nai,south,"Đường Vành đai 4, khu phố 4, phường Thới Hòa, TP Hồ Chí Minh",https://vgu.edu.vn/vi/home,unconfirmed,8216
+UTH,Đại Học Giao Thông Vận Tải TPHCM,University of Transport Ho Chi Minh City,UTH,university,,,,,False,,,,https://uth.edu.vn/,unconfirmed,6158
+VHD,Trường Đại học Công nghiệp Việt - Hung,Viet - Hung Industrial University,VIU,university,,,,,False,Hà Nội,north,"Số 16, phố Hữu Nghị, phường Tùng Thiện, TP. Hà Nội",http://www.viu.edu.vn,unconfirmed,7088
+HBT,Học viện Báo chí và Tuyên truyền,The Academy of Journalism and Communication,AJC,academy,,,,,False,Hà Nội,north,"Số 36 Đường Xuân Thuỷ, Phường Cầu Giấy, TP. Hà Nội",http://www.ajc.hcma.vn,unconfirmed,6641
+VHH,Trường Đại học Văn hoá Hà Nội,Hanoi University of Pharmacy,HUC,university,,,,,False,Hà Nội,north,418 Đường La Thành - Phường Ô Chợ Dừa - Hà Nội - Việt Nam,https://huc.edu.vn/,unconfirmed,7096
+HCA,Học viện Chính trị Công an Nhân dân,People’s Police Political Academy,PPPA,academy,,,,,True,Hà Nội,north,"Xã Sóc Sơn, TP Hà Nội",https://hvctcand.bocongan.gov.vn/,unconfirmed,6649
+VHS,Trường Đại học Văn hoá Tp. Hồ Chí Minh,Ho Chi Minh city University of Culture,HCMUC,university,,,,,False,TP. Hồ Chí Minh,south,"Số 51 đường Quốc Hương, phường An Khánh, TP. Hồ Chí Minh.",www.hcmuc.edu.vn;,unconfirmed,7573
+HCB,Trường Đại học Kỹ thuật - Hậu cần Công an Nhân dân (Phía Bắc),People's Police University of Technology and Logistics,T36,university,,,,,True,Bắc Ninh,north,"Phường Thuận Thành, tỉnh Bắc Ninh",http://dhkthc.edu.vn,unconfirmed,7783
+VJU,Đại học Việt Nhật - Đại học Quốc gia Hà Nội,"Vietnam Japan university, Vietnam National University, Hanoi",VNU - VJU,university,,,,Đại học Quốc gia Hà Nội,False,,,,https://vju.ac.vn/,unconfirmed,6187
+HCH,Học viện Hành chính Quốc gia,Academy Of Public Administration And Governance,APAG,academy,,,,,False,Hà Nội,north,"số 77 đường Nguyễn Chí Thanh, phường Giảng Võ, Hà Nội",https://www1.napa.vn/,disputed,6657
+VLU,Trường Đại học Sư phạm Kỹ thuật Vĩnh Long,Vinh Long University of Technology and Education,VLUTE,university,,,,,False,Đồng Nai,south,"Số 73 Nguyễn Huệ, Phường Long Châu, Tỉnh Vĩnh Long",www.vlute.edu.vn,unconfirmed,9018
+HCN,Trường Đại học Kỹ thuật - Hậu cần Công an Nhân dân (Phía Nam),People's Police University of Technology and Logistics,T36,university,,,,,True,Bắc Ninh,north,"Thị trấn Hồ, huyện Thuận Thành, tỉnh Bắc Ninh",http://dhkthc.edu.vn,unconfirmed,7792
+VPH,Trường Sĩ quan Kỹ thuật quân sự,Tran Dai Nghia University.,,university,,,,,True,TP. Hồ Chí Minh,south,,,disputed,7581
+HCP,Học viện Chính sách và Phát triển,Academy of Policy and Development,APD,academy,,,,,False,Hà Nội,north,Học viện Chính sách và Phát triển – Bộ Kế hoạch và Đầu tư. Khu đô thị Nam An Khánh - Xã An Thượng – Huyện Hoài Đức – Thành phố Hà Nội.,https://apd.edu.vn/,unconfirmed,6665
+VTT,Trường Đại học Võ Trường Toản,Vo Truong Toan University,VTTU,university,,,,,False,Đồng Nai,south,"Quốc lộ 1A, Thạnh Xuân, Thành phố Cần Thơ",https://vttu.edu.vn/,unconfirmed,9034
+HCS,Học viện Hành chính Quốc gia - Cơ sở phía Nam,,,branch,,,,,False,TP. Hồ Chí Minh,south,"số 10 đường 3 Tháng 2, phường Hòa Hưng, HCM",https://www1.napa.vn/,disputed,7324
+VUI,Trường Đại học Công nghiệp Việt Trì,Viet Tri University of Industry,,university,,,,,False,Đồng Nai,north,"Số 9, đường Tiên Sơn, phường Thanh Miếu, Tỉnh Phú Thọ",http://www.vui.edu.vn,unconfirmed,8337
+HDT,Trường Đại học Hồng Đức,Hong Duc University,HDU,university,,,,,False,Đồng Nai,central,"Số 565 Quang Trung, Phường Hạc Thành, Thanh Hóa",https://hdu.edu.vn/,unconfirmed,8561
+XDA,Trường Đại học Xây dựng,Hanoi University of Civil engineering,HUCE,university,,,,,False,Hà Nội,north,"55 Đ. Giải Phóng, Bạch Mai, Hà Nội, Việt Nam",https://huce.edu.vn/,disputed,7104
+HEH,Học viện Hậu cần (hệ Quân sự),Military Academy of Logistics,MAL,academy,,,,,True,Hà Nội,north,"Phường Bồ Đề, Thành phố Hà Nội",http://hocvienhaucan.edu.vn/,unconfirmed,6673
+XDT,Trường Đại học Xây dựng miền Trung,Mientrung University of Civil Engineering,MUCE,university,,,,,False,Đồng Nai,central,"195 Hà Huy Tập, phường Bình Kiến , tỉnh Đắk Lắk",https://muce.edu.vn/,unconfirmed,8746
+HFH,Học viện Hậu cần (hệ Dân sự),Border Guard Academy,,academy,,,,,False,Hà Nội,north,"P. Ngọc Thụy, Q. Long Biên, Tp. Hà Nội",hocvienhaucan.edu.vn,unconfirmed,6682
+YCT,Trường Đại học Y dược Cần Thơ,Can Tho University of Medicine and Pharmacy,CTUMP,university,,,,,False,Cần Thơ,south,"Số 179, đường Nguyễn Văn Cừ, P. Tân An, TP. Cần Thơ",https://www.ctump.edu.vn/,unconfirmed,8109
+HGH,Trường sĩ quan Phòng hoá,Commander Chemical of Engineering,CCE,university,,,,,True,Hà Nội,north,"Sơn Đông, Sơn Tây, Hà Nội",https://www.siquanphonghoa.edu.vn,unconfirmed,6691
+YDD,Trường Đại học Điều dưỡng Nam Định,Nam Dinh University of Nursing,NDUN,university,,,,,False,Đồng Nai,north,"Số 257 Hàn Thuyên, phường Nam Định, tỉnh Ninh Bình",http://www.ndun.edu.vn,unconfirmed,8513
+HHA,Trường Đại học Hàng hải Việt Nam,Miritime Unversity,VMU,university,,,,,False,Hải Phòng,north,"484 Lạch Tray, P. Lê Chân, TP. Hải Phòng",http://www.vimaru.edu.vn,unconfirmed,7614
+YDN,Trường Đại học Kỹ thuật Y - Dược Đà Nẵng,Da Nang University Of Medical Technology and Pharmacy,DUMTP,university,,,,,False,Đà Nẵng,central,"Số 99 Hùng Vương, Hải Châu, Đà Nẵng.",https://dhktyduocdn.edu.vn/,unconfirmed,8061
+HHK,Học viện Hàng không Việt Nam,Vietnam Aviation Academy,VAA,academy,,,,,False,TP. Hồ Chí Minh,south,"104 Nguyễn Văn Trỗi, Phường Phú Nhuận, Thành phố Hồ Chí Minh",http://www.hvcsnd.edu.vn,unconfirmed,7333
+YDS,Trường Đại học Y dược TP.HCM,University of Medicine and Pharmacy at Ho Chi Minh City,UMP,university,,,,,False,TP. Hồ Chí Minh,south,"217 Hồng Bàng, Phường Chợ Lớn, TP. Hồ Chí Minh",https://ump.edu.vn.,unconfirmed,7589
+HHT,Trường Đại học Hà Tĩnh,HaTinh University,HTU,university,,,,,False,Đồng Nai,central,"Xã Cẩm Bình, tỉnh Hà Tĩnh.",https://htu.edu.vn/,unconfirmed,8633
+YHB,Trường Đại học Y Hà Nội,Hanoi Medical University,HMU,university,,,,,False,Hà Nội,north,"01 Tôn Thất Tùng, P. Kim Liên, Hà Nội",https://hmu.edu.vn/,unconfirmed,7112
+HIU,Đại học Quốc tế Hồng Bàng,Hong Bang University International,HIU,university,,,,,False,TP. Hồ Chí Minh,north,"215 Điện Biên Phủ, P. Gia Định, TP.HCM",http://hiu.vn/,unconfirmed,7316
+YHT,Phân hiệu Đại học Y Hà Nội tại Thanh Hóa,,,branch,,,,,False,,,,,unconfirmed,6291
+HLU,Trường Đại học Hạ Long,Ha Long University,UHL,university,,,,,False,Đồng Nai,north,"Số 258 Bạch Đằng, phường Vàng Danh, tỉnh Quảng Ninh",https://uhl.edu.vn/,unconfirmed,8385
+YKV,Trường Đại học Y khoa Vinh,Vinh Medical University,YKV,university,,,,,False,Đồng Nai,central,161 Nguyễn Phong Sắc - Phường Trường Vinh - Tỉnh Nghệ An,http://www.vmu.edu.vn/,unconfirmed,8625
+HNM,Trường Đại học Thủ đô Hà Nội,Ha Noi Teacher Training College,HNMU,university,,,,,False,Hà Nội,north,"Số 98 Phố Dương Quảng Hàm, Phường Nghĩa Đô, TP. Hà Nội",https://hnmu.edu.vn/,unconfirmed,6699
+YPB,Trường Đại học Y dược Hải Phòng,Hai Phong Medical University,HPMU,university,,,,,False,Hải Phòng,north,"Số 72A Nguyễn Bỉnh Khiêm, Phường Gia Viên, Hải Phòng",http://hpmu.edu.vn,unconfirmed,7630
+HPN,Học viện Phụ nữ Việt Nam,Vietnam Women's Academy,VWA,academy,,,,,False,Hà Nội,north,"68 Nguyễn Chí Thanh, Phường Láng, Hà Nội",www.hvpnvn.edu.vn,unconfirmed,6707
+YQH,Học viện Quân y (Hệ quân sự),Vietnam Military Medical Academy,VMMU,academy,,,,,True,Hà Nội,north,Số 160 - Đường Phùng Hưng - Phường Hà Đông - Thành phố Hà Nội,http://www.hocvienquany.vn,unconfirmed,7120
+HQH,Học viện Hải quân,Vietnam Naval Academy,,academy,,,,,True,Đồng Nai,central,"Số 30 Trần Phú, Phường Nha Trang, Tỉnh Khánh Hòa",https://www.hocvienhaiquan.edu.vn/,unconfirmed,8762
+YTB,Trường Đại học Y dược Thái Bình,Thai Binh University of Medicine and Pharmacy,TBUMP,university,,,,,False,Thái Bình,north,"Số 373, Lý Bôn, phường Trần Lãm, tỉnh Hưng Yên",https://tbump.edu.vn/,unconfirmed,7654
+HQT,Học viện Ngoại giao,Institute for International Relations,DAV,academy,,,,,False,Hà Nội,north,"Số 69 Phố Chùa Láng, Đống Đa, Hà Nội",https://dav.edu.vn/,unconfirmed,6715
+YTC,Trường Đại học Y tế Công cộng,Hanoi school of public health,HUPH,university,,,,,False,Hà Nội,north,"Số 1A, đường Đức Thắng, phường Đông Ngạc, Thành phố Hà Nội",http://www.hsph.edu.vn,unconfirmed,7129
+HSU,Trường Đại học Hoa Sen,Hoa Sen University,HSU,university,,,,,False,TP. Hồ Chí Minh,south,"08 Nguyễn Văn Tráng, Phường Bến Thành, TP.HCM",https://www.hoasen.edu.vn/,unconfirmed,7259
+ZCH,Trường Đại học Ngô Quyền (hệ Dân sự),,,university,,,,,False,Đồng Nai,south,,,disputed,8224
+HTA,Học viện Toà án,VCA,Vietnam Court Academy,academy,,,,,False,Hà Nội,north,"Đường 282 Kim Sơn, Gia Lâm, Hà Nội.",http://hvta.toaan.gov.vn/,unconfirmed,6723
+ZNH,Trường Đại học Văn hoá - Nghệ thuật Quân đội,MILITARY COLLEGE OF ARTS & CULTURE,,university,,,,,True,Hà Nội,north,"101 Nguyễn Chí Thanh, Q. Đống Đa, Hà Nội",http://vnq.edu.vn,unconfirmed,7137
+HTC,Học viện Tài chính,Academy of Finance,AOF,academy,,,,,False,Hà Nội,north,"Số 58, Phố Lê Văn Hiến, Phường Đông Ngạc, Thành phố Hà Nội",https://hvtc.edu.vn,unconfirmed,6731
+ZPH,Trường Đại học Trần Đại Nghĩa (hệ dân sự),,,university,,,,,False,TP. Hồ Chí Minh,south,,,disputed,7597
+C20,Trường Cao đẳng Sư phạm Hà Tây,,,college,,,,,False,Hà Nội,north,,,unconfirmed,6396
+CM1,Trường Cao đẳng Sư phạm Trung ương,,,college,,,,,False,Hà Nội,north,,,unconfirmed,6412
+MCA,Trường Đại học Mỹ thuật Công nghiệp Á Châu,,,university,,,,,False,Hà Nội,north,,,unconfirmed,6837
+CM3,Trường Cao đẳng Sư phạm trung ương TP.Hồ Chí Minh,,,college,,,,,False,TP. Hồ Chí Minh,south,,,unconfirmed,7162
+CVN,Trường Cao đẳng Văn hoá Nghệ thuật TP.HCM,,,college,,,,,False,TP. Hồ Chí Minh,south,,,unconfirmed,7178
+GTS,Trường Đại học Giao thông Vận tải tp. Hồ Chí Minh,,,university,,,,,False,TP. Hồ Chí Minh,south,,,unconfirmed,7308
+C26,Trường Cao đẳng Sư phạm Thái Bình,,,college,,,,,False,Thái Bình,north,,,unconfirmed,7638
+C12,Trường Cao đẳng Sư phạm Thái Nguyên,,,college,,,,,False,Thái Nguyên,north,,,unconfirmed,7662
+C19,Trường Cao đẳng Sư phạm Bắc Ninh,,,college,,,,,False,Bắc Ninh,north,,,unconfirmed,7759
+C33,Trường Cao đẳng Sư phạm Thừa Thiên Huế,,,college,,,,,False,Huế,central,,,unconfirmed,7844
+DDC,Khoa Công nghệ - Đại học Đà Nẵng,,,branch,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,,,unconfirmed,7966
+VKU,Khoa Công nghệ thông tin và truyền thông - Đại học Đà Nẵng,,,branch,,,,Đại học Đà Nẵng,False,Đà Nẵng,central,,,unconfirmed,7984
+C55,Trường Cao đẳng Cần Thơ,,,college,,,,,False,Cần Thơ,south,,,unconfirmed,8069
+C05,Trường Cao đẳng Sư phạm Hà Giang,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8233
+C06,Trường Cao đẳng Sư phạm Cao Bằng,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8241
+CLC,Trường Cao đẳng Cộng Đồng Lai Châu,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8249
+C62,Trường Cao đẳng Sư phạm Điện Biên,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8257
+C08,Trường Cao đẳng Sư phạm Lào Cai,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8265
+C10,Trường Cao đẳng Sư phạm Lạng Sơn,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8289
+C11,Trường Cao đẳng Cộng đồng Bắc Kạn,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8297
+C13,Trường Cao đẳng Sư phạm Yên Bái,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8305
+C14,Trường Cao đẳng Sơn La,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8313
+C16,Trường Cao đẳng Vĩnh Phúc,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8345
+C18,Trường Cao đẳng Ngô Gia Tự - Bắc Giang,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8393
+C21,Trường Cao đẳng Hải Dương,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8409
+C22,Trường Cao đẳng Sư phạm Hưng Yên,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8449
+C25,Trường Cao đẳng Sư phạm Nam Định,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8489
+C23,Trường Cao đẳng Sư phạm Hòa Bình,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8521
+C24,Trường Cao đẳng Sư phạm Hà Nam,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8529
+CTO,Trường Cao đẳng Thể dục Thể thao Thanh Hoá,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8545
+C29,Trường Cao đẳng Sư phạm Nghệ An,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8569
+CVV,Trường Cao đẳng Văn hoá Nghệ thuật Nghệ An,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8585
+C32,Trường Cao đẳng Sư phạm Quảng Trị,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8649
+DKQ,Trường Đại học Tài chính - Kế toán,,,university,,,,,False,Đồng Nai,south,,,unconfirmed,8681
+IUQ,Phân hiệu ĐH Công nghiệp Tp. HCM tại Quảng Ngãi,,,branch,,,,,False,Đồng Nai,south,,,unconfirmed,8697
+C37,Trường Cao đẳng Bình Định,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8705
+CM2,Trường Cao đẳng Sư phạm Trung ương Nha Trang,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8754
+C45,Trường Cao đẳng Sư phạm Ninh Thuận,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8818
+C47,Trường Cao đẳng Cộng đồng Bình Thuận,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8834
+C40,Trường Cao đẳng Sư phạm Đắk Lắk,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8858
+C38,Trường Cao đẳng Sư phạm Gia Lai,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8874
+C36,Trường Cao đẳng Sư phạm Kon Tum,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8890
+C42,Trường Cao đẳng Sư phạm Đà Lạt,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8906
+C49,Trường Cao đẳng Sư phạm Long An,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8930
+C52,Trường Cao đẳng Sư phạm Bà Rịa-Vũng Tàu,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8962
+C54,Trường Cao đẳng Sư phạm Kiên Giang,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8978
+C57,Trường Cao đẳng Sư phạm Vĩnh Long,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,8994
+D64,Trường Cao đẳng Cộng đồng Hậu Giang,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,9026
+C43,Trường Cao đẳng Sư phạm Bình Phước,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,9042
+C46,Trường Cao đẳng Sư phạm Tây Ninh,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,9050
+QSA,Trường Đại học An Giang,,,university,,,,,False,Đồng Nai,south,,,unconfirmed,9066
+C56,Trường Cao đẳng Bến Tre,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,9082
+C59,Trường Cao đẳng Sư phạm Sóc Trăng,,,college,,,,,False,Đồng Nai,south,,,unconfirmed,9098

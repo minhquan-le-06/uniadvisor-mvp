@@ -1,0 +1,36 @@
+# Every collected row carries its source id. Trust: 1 ministry, 2 university, 3 major news,
+# 4 aggregator, 5 typed in by hand (with a cited link). Same scale as UniPilotData.
+
+sources:
+  unipilot_step1:
+    name: "UniPilotData step-1 export (schools, 2026 programs, combos, quotas)"
+    trust_level: 4
+    note: "Mostly tuyensinh247 (aggregator) facts, status 'unconfirmed' there. Used for school details, quota, combo parts."
+
+  vietnamnet_cutoffs:
+    name: "VietNamNet - Tra cứu điểm chuẩn CĐ-ĐH (API UniversityDetail/GetDetail)"
+    base_url: "https://vietnamnet.vn/giao-duc/diem-thi/tra-cuu-diem-chuan-cd-dh"
+    trust_level: 3
+    note: "Cutoffs 2016-2026, all methods mixed in one list. Method is only in a free-text note, so THPT rows are picked by rules (see build/cutoffs.py)."
+
+  vnexpress_cutoffs:
+    name: "VnExpress - Tra cứu đại học (loadbenchmark)"
+    base_url: "https://diemthi.vnexpress.net/tra-cuu-dai-hoc"
+    trust_level: 3
+    note: "Cutoffs 2025-2026 with a separate 'Điểm chuẩn THPT' column, plus tuition per program."
+
+  vnexpress_distributions:
+    name: "VnExpress - Phổ điểm thi tốt nghiệp THPT 2026 (per subject 0.25 bins, per combination 1-point bins)"
+    base_url: "https://diemthi.vnexpress.net/index/pho-diem-mon"
+    trust_level: 3
+    note: "Aggregate counts computed by VnExpress from the ministry's published scores."
+
+  manual_anchors:
+    name: "Hand-entered distribution anchors (data/manual/distribution_anchors.csv)"
+    trust_level: 5
+    note: "Percentiles / means the ministry published as text for years we have no histogram for. Each row quotes its source."
+
+  inbox_candidate_scores:
+    name: "Per-candidate score files dropped into data/inbox/ (e.g. Kaggle 'Dữ liệu điểm thi THPT quốc gia 2020-2024')"
+    trust_level: 3
+    note: "Optional. When present, exact per-combination histograms replace the approximations for that year. Only aggregates are kept."

@@ -1,0 +1,8 @@
+# Rules for the 2027 season. The ministry has not issued the final 2027 regulation yet
+# (news in 2026 mentions changes to bonus points and to the list of methods), so this ruleset
+# inherits 2026 unchanged and is marked draft. Replace fields here when the official text is out.
+
+ruleset: "2027-draft"
+inherits: "2026"
+status: draft
+note: "Same as 2026 until the 2027 regulation is published. Bonus points / certificates are out of MVP scope either way."

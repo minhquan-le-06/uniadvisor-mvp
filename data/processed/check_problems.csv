@@ -1,0 +1,1335 @@
+rule,severity,school_code,year,program,message
+sources_disagree,warning,BVS,2026,7340115CL,"sources disagree (vne=16.6, ts=17.25)"
+sources_disagree,warning,BVS,2026,7480102,"sources disagree (vne=16.6, ts=17.5)"
+sources_disagree,warning,BVS,2026,7520208,"sources disagree (vne=16.6, ts=17)"
+sources_disagree,warning,DTL,2026,7220204,"sources disagree (vne=22.35, ts=21.85)"
+sources_disagree,warning,DTL,2026,7220209,"sources disagree (vne=17.75, ts=17.25)"
+sources_disagree,warning,DTL,2026,7220210,"sources disagree (vne=19.75, ts=19.25)"
+sources_disagree,warning,DTL,2026,7310106,"sources disagree (vne=19, ts=18.5)"
+sources_disagree,warning,DTL,2026,7310630,"sources disagree (vne=20.45, ts=19.95)"
+sources_disagree,warning,DTL,2026,7320104,"sources disagree (vne=23.31, ts=22.81)"
+sources_disagree,warning,DTL,2026,7340101,"sources disagree (vne=18.75, ts=18.25)"
+sources_disagree,warning,DTL,2026,7340101A,"sources disagree (vne=16.25, ts=15.75)"
+sources_disagree,warning,DTL,2026,7340115,"sources disagree (vne=20.1, ts=19.6)"
+sources_disagree,warning,DTL,2026,7340122,"sources disagree (vne=22, ts=19.5)"
+sources_disagree,warning,DTL,2026,7340201,"sources disagree (vne=19, ts=18.5)"
+sources_disagree,warning,DTL,2026,7340301,"sources disagree (vne=18.35, ts=17.85)"
+sources_disagree,warning,DTL,2026,7340301A,"sources disagree (vne=16.25, ts=15.75)"
+sources_disagree,warning,DTL,2026,7380107,"sources disagree (vne=20.1, ts=19.6)"
+sources_disagree,warning,DTL,2026,7510605,"sources disagree (vne=21.13, ts=20.63)"
+sources_disagree,warning,DTL,2026,7720301,"sources disagree (vne=20.75, ts=20.25)"
+sources_disagree,warning,DTL,2026,7810103,"sources disagree (vne=22.3, ts=21.8)"
+sources_disagree,warning,DTL,2026,7810201,"sources disagree (vne=22, ts=21.5)"
+sources_disagree,warning,DVL,2025,7720601,"sources disagree (vne=17, ts=15)"
+sources_disagree,warning,GHA,2026,GHA32,"sources disagree (vnn=20, ts=21.31)"
+sources_disagree,warning,HBT,2025,533,"sources disagree (vne=23.17, vnn=22.98)"
+sources_disagree,warning,HBT,2025,605,"sources disagree (vne=34.96, vnn=33.64)"
+sources_disagree,warning,HBT,2025,606,"sources disagree (vne=33.64, vnn=34.14)"
+sources_disagree,warning,HBT,2025,607,"sources disagree (vne=34.57, vnn=35)"
+sources_disagree,warning,HBT,2025,611,"sources disagree (vne=35, vnn=35.5)"
+sources_disagree,warning,HBT,2025,614,"sources disagree (vne=35.73, vnn=35.25)"
+sources_disagree,warning,HBT,2025,615,"sources disagree (vne=36.2, vnn=23.11)"
+sources_disagree,warning,HBT,2025,616,"sources disagree (vne=36.5, vnn=22.96)"
+sources_disagree,warning,HBT,2025,7229010,"sources disagree (vne=34.76, vnn=24.32)"
+sources_disagree,warning,HBT,2025,7310102,"sources disagree (vne=24.32, vnn=23.18)"
+sources_disagree,warning,HBT,2025,7320104,"sources disagree (vne=36.5, vnn=35.74)"
+sources_disagree,warning,HBT,2025,7320105,"sources disagree (vne=35.74, vnn=36)"
+sources_disagree,warning,HBT,2025,7320107,"sources disagree (vne=36, vnn=35.5)"
+sources_disagree,warning,HBT,2025,7320110,"sources disagree (vne=35.5, vnn=23.5)"
+sources_disagree,warning,HBT,2025,801,"sources disagree (vne=33.83, vnn=34.33)"
+sources_disagree,warning,HBT,2026,TT538,"sources disagree (vne=24.2, ts=23.7)"
+sources_disagree,warning,HCP,2026,7340115,"sources disagree (vne=21.94, ts=19)"
+sources_disagree,info,HIU,2025,7720115,"majority kept, one source differs (vne=19, vnn=17, ts=19)"
+sources_disagree,info,HIU,2025,7720201,"majority kept, one source differs (vne=19, vnn=17, ts=19)"
+sources_disagree,warning,KHA,2025,7340405,"sources disagree (vne=26.38, vnn=27.5)"
+sources_disagree,warning,KHA,2025,7380101,"sources disagree (vne=26.41, vnn=25.96)"
+sources_disagree,warning,KHA,2025,POHE6,"sources disagree (vne=25.44, vnn=24.66)"
+sources_disagree,warning,KMA,2026,7480202KP,"sources disagree (vne=24.63, ts=23.96)"
+sources_disagree,warning,KMA,2026,7520207KA,"sources disagree (vne=23.96, ts=24.63)"
+sources_disagree,warning,KTS,2026,7580201QT,"sources disagree (vne=17.1, ts=20.5)"
+sources_disagree,info,MDA,2026,7220204,"majority kept, one source differs (vne=24.5, vnn=24.6, ts=24.6)"
+sources_disagree,info,MDA,2026,7520216TL,"majority kept, one source differs (vne=21.75, vnn=21.75, ts=21)"
+sources_disagree,info,MDA,2026,7580201TL,"majority kept, one source differs (vne=21, vnn=21, ts=21.75)"
+sources_disagree,warning,MHN,2026,7380107,"sources disagree (vne=20, ts=22)"
+sources_disagree,warning,MHN,2026,7380108,"sources disagree (vne=22, ts=20)"
+sources_disagree,warning,NHF,2026,7220201 TT,"sources disagree (vne=31.15, ts=32.84)"
+sources_disagree,warning,NHF,2026,7340101,"sources disagree (vne=22.4, ts=24.13)"
+sources_disagree,info,NHH,2026,LAW01,"majority kept, one source differs (vne=25.75, vnn=25.75, ts=25.25)"
+sources_disagree,info,NHH,2026,LAW03,"majority kept, one source differs (vne=24.3, vnn=24.3, ts=23.8)"
+sources_disagree,info,NHH,2026,LAW04,"majority kept, one source differs (vne=24.75, vnn=24.75, ts=24.25)"
+sources_disagree,info,NHS,2026,7380101,"majority kept, one source differs (vne=20, vnn=18.44, ts=20)"
+sources_disagree,info,NHS,2026,7380107TA,"majority kept, one source differs (vne=20, vnn=18, ts=20)"
+sources_disagree,warning,NTH,2026,NTHKD06,"sources disagree (vnn=28.75, ts=27.75)"
+sources_disagree,warning,NTH,2026,NTHKD07,"sources disagree (vnn=27.9, ts=26.9)"
+sources_disagree,warning,NTH,2026,NTHKD08,"sources disagree (vnn=25, ts=24)"
+sources_disagree,warning,NTH,2026,NTHKE16,"sources disagree (vnn=27.1, ts=26.1)"
+sources_disagree,warning,NTH,2026,NTHKT02,"sources disagree (vnn=28.75, ts=27.75)"
+sources_disagree,warning,NTH,2026,NTHKT03,"sources disagree (vnn=28.7, ts=27.7)"
+sources_disagree,warning,NTH,2026,NTHKT04,"sources disagree (vnn=28, ts=27)"
+sources_disagree,warning,NTH,2026,NTHLS17,"sources disagree (vnn=25, ts=24)"
+sources_disagree,warning,NTH,2026,NTHQK12,"sources disagree (vnn=25, ts=24)"
+sources_disagree,warning,NTH,2026,NTHQT10,"sources disagree (vnn=26.6, ts=25.6)"
+sources_disagree,warning,NTH,2026,NTHTC15,"sources disagree (vnn=27, ts=26)"
+sources_disagree,warning,NTH,2026,NTHTM11,"sources disagree (vnn=27.2, ts=26.2)"
+sources_disagree,warning,NTH,2026,NTSKE06,"sources disagree (vnn=26.85, ts=25.85)"
+sources_disagree,warning,NTH,2026,NTSKT01,"sources disagree (vnn=27.9, ts=26.9)"
+sources_disagree,warning,NTH,2026,NTSKT02,"sources disagree (vnn=28.5, ts=27.5)"
+sources_disagree,warning,NTH,2026,NTSMT04,"sources disagree (vnn=27.65, ts=26.65)"
+sources_disagree,warning,NTH,2026,NTSQT03,"sources disagree (vnn=26.8, ts=25.8)"
+sources_disagree,warning,NTH,2026,NTSTC05,"sources disagree (vnn=27.45, ts=26.45)"
+sources_disagree,warning,QHI,2026,CN3,"sources disagree (vne=25.41, ts=26.85)"
+sources_disagree,warning,QHI,2026,CN4,"sources disagree (vne=26.13, ts=25.41)"
+sources_disagree,warning,QHI,2026,CN9,"sources disagree (vne=25.67, ts=26.29)"
+sources_disagree,warning,QHS,2025,QHS09,"sources disagree (vne=28.6, vnn=27.8)"
+sources_disagree,warning,QHS,2025,QHS10,"sources disagree (vne=27.8, vnn=28.6)"
+sources_disagree,warning,QHS,2026,QHS11,"sources disagree (vne=18.5, ts=19.5)"
+sources_disagree,warning,QHX,2025,QHX02,"sources disagree (vne=25.86, vnn=25.36)"
+sources_disagree,warning,QHX,2025,QHX03,"sources disagree (vne=24.99, vnn=24.49)"
+sources_disagree,warning,QHX,2025,QHX04,"sources disagree (vne=21.75, vnn=24.8)"
+sources_disagree,warning,QHX,2025,QHX05,"sources disagree (vne=24.5, vnn=21.75)"
+sources_disagree,warning,QHX,2025,QHX06,"sources disagree (vne=24.76, vnn=24.5)"
+sources_disagree,warning,QHX,2025,QHX07,"sources disagree (vne=24.18, vnn=24.26)"
+sources_disagree,warning,QHX,2025,QHX08,"sources disagree (vne=25.8, vnn=24.33)"
+sources_disagree,warning,QHX,2025,QHX09,"sources disagree (vne=24.54, vnn=24.18)"
+sources_disagree,warning,QHX,2025,QHX10,"sources disagree (vne=25.25, vnn=25.8)"
+sources_disagree,warning,QHX,2025,QHX11,"sources disagree (vne=24.3, vnn=24.54)"
+sources_disagree,warning,QHX,2025,QHX12,"sources disagree (vne=21.75, vnn=25.25)"
+sources_disagree,warning,QHX,2025,QHX13,"sources disagree (vne=25.45, vnn=24.3)"
+sources_disagree,warning,QHX,2025,QHX14,"sources disagree (vne=24.49, vnn=21.75)"
+sources_disagree,warning,QHX,2025,QHX15,"sources disagree (vne=24.37, vnn=25.45)"
+sources_disagree,warning,QHX,2025,QHX16,"sources disagree (vne=23.99, vnn=24.49)"
+sources_disagree,warning,QHX,2025,QHX17,"sources disagree (vne=24.93, vnn=24.37)"
+sources_disagree,warning,QHX,2025,QHX18,"sources disagree (vne=23, vnn=23.99)"
+sources_disagree,warning,QHX,2025,QHX19,"sources disagree (vne=25.5, vnn=24.93)"
+sources_disagree,warning,QHX,2025,QHX20,"sources disagree (vne=23.91, vnn=23)"
+sources_disagree,warning,QHX,2025,QHX21,"sources disagree (vne=23.5, vnn=25.5)"
+sources_disagree,warning,QHX,2025,QHX22,"sources disagree (vne=24.39, vnn=23.91)"
+sources_disagree,warning,QHX,2025,QHX23,"sources disagree (vne=25, vnn=23.5)"
+sources_disagree,warning,QHX,2025,QHX24,"sources disagree (vne=24.12, vnn=24.39)"
+sources_disagree,warning,QHX,2025,QHX25,"sources disagree (vne=24.5, vnn=24.72)"
+sources_disagree,warning,QHX,2025,QHX26,"sources disagree (vne=24.33, vnn=25)"
+sources_disagree,warning,QHX,2025,QHX27,"sources disagree (vne=24.72, vnn=24.12)"
+sources_disagree,warning,QHX,2025,QHX28,"sources disagree (vne=24.8, vnn=24.5)"
+sources_disagree,info,QHX,2026,QHX29,"majority kept, one source differs (vne=25.5, vnn=25.5, ts=22.5)"
+sources_disagree,warning,SGD,2025,7340201,"sources disagree (vne=20.01, vnn=20.1)"
+sources_disagree,warning,SGD,2025,7480201CLC,"sources disagree (vne=21.01, vnn=21.61)"
+sources_disagree,warning,SGD,2025,7510301,"sources disagree (vne=21.54, vnn=21.69)"
+sources_disagree,warning,SGD,2025,7510302,"sources disagree (vne=20.24, vnn=20.43)"
+sources_disagree,warning,SGD,2026,7140202,"sources disagree (vne=25.97, ts=25.75)"
+sources_disagree,warning,SGD,2026,7140205,"sources disagree (vne=25.25, ts=25.03)"
+sources_disagree,warning,SGD,2026,7140209,"sources disagree (vne=28.89, ts=27.9)"
+sources_disagree,warning,SGD,2026,7140211,"sources disagree (vne=27.54, ts=26.55)"
+sources_disagree,warning,SGD,2026,7140212,"sources disagree (vne=27.43, ts=26.81)"
+sources_disagree,warning,SGD,2026,7140217,"sources disagree (vne=28.07, ts=26.31)"
+sources_disagree,warning,SGD,2026,7140247,"sources disagree (vne=26.71, ts=25.72)"
+sources_disagree,warning,SGD,2026,7310601,"sources disagree (vne=23.06, ts=21.3)"
+sources_disagree,warning,SGD,2026,7310630,"sources disagree (vne=23.39, ts=21.63)"
+sources_disagree,warning,SGD,2026,7340101,"sources disagree (vne=22.06, ts=21.48)"
+sources_disagree,warning,SGD,2026,7340120,"sources disagree (vne=23.14, ts=22.56)"
+sources_disagree,warning,SGD,2026,7340201,"sources disagree (vne=22.13, ts=21.55)"
+sources_disagree,warning,SGD,2026,7340301,"sources disagree (vne=22.69, ts=22.11)"
+sources_disagree,warning,SGD,2026,7340302,"sources disagree (vne=23.7, ts=23.12)"
+sources_disagree,warning,SGD,2026,7380101,"sources disagree (vne=23.84, ts=22.08)"
+sources_disagree,warning,SGD,2026,7440301,"sources disagree (vne=22.44, ts=21.16)"
+sources_disagree,warning,SGD,2026,7460108,"sources disagree (vne=23.44, ts=22.45)"
+sources_disagree,warning,SGD,2026,7460112,"sources disagree (vne=25.89, ts=24.9)"
+sources_disagree,warning,SGD,2026,7480103,"sources disagree (vne=22.06, ts=21.48)"
+sources_disagree,warning,SGD,2026,7480107,"sources disagree (vne=23.11, ts=22.53)"
+sources_disagree,warning,SGD,2026,7480201,"sources disagree (vne=20.69, ts=20.11)"
+sources_disagree,warning,SGD,2026,7510301,"sources disagree (vne=23.48, ts=23.12)"
+sources_disagree,warning,SGD,2026,7510406,"sources disagree (vne=22.09, ts=20.81)"
+sources_disagree,warning,SGD,2026,7810101,"sources disagree (vne=24.58, ts=22.82)"
+sources_disagree,warning,SGD,2026,7810202,"sources disagree (vne=22.69, ts=22.11)"
+sources_disagree,warning,SIU,2025,7310608,"sources disagree (vne=16, ts=15)"
+sources_disagree,warning,SIU,2026,7380107,"sources disagree (vne=15, vnn=20)"
+sources_disagree,warning,SPH,2026,7140201,"sources disagree (vne=22.25, ts=23.93)"
+sources_disagree,warning,SPK,2026,7510203A,"sources disagree (vne=24.9, ts=24.09)"
+sources_disagree,warning,XDA,2025,7480201,"sources disagree (vne=25.6, vnn=25.1)"
+sources_disagree,warning,XDA,2025,7520201,"sources disagree (vne=25.75, vnn=25.5)"
+sources_disagree,warning,XDA,2026,XDA08,"sources disagree (vne=18.75, ts=25.15)"
+sources_disagree,warning,XDA,2026,XDA13,"sources disagree (vne=16, ts=24)"
+sources_disagree,warning,XDA,2026,XDA15,"sources disagree (vne=16, ts=22.74)"
+sources_disagree,warning,XDA,2026,XDA16,"sources disagree (vne=17, ts=24.92)"
+sources_disagree,warning,XDA,2026,XDA23,"sources disagree (vne=17, ts=25.45)"
+sources_disagree,warning,YDS,2025,7720302,"sources disagree (vne=18, vnn=18.3)"
+sources_disagree,warning,YDS,2025,7720701,"sources disagree (vne=17, vnn=19)"
+sources_disagree,info,YDS,2026,7720115,"majority kept, one source differs (vne=22.45, vnn=22.25, ts=22.25)"
+not_30_point_scale,info,DTT,2023,1-A7220201,score 32.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7210403,score 31.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7210404,score 30.6 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7220201,score 36.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7220201,score 33.8 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2025,7220201,score 30.84 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7220204,score 36.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7220204,score 32.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7310301,score 33.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7310301,score 32.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7310630,score 34.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7310630,score 34.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7310630Q,score 34.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7310630Q,score 33.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7340101,score 36.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7340101,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7340101N,score 35.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7340101N,score 32.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7340115,score 37.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7340115,score 34.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2025,7340115,score 31.24 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7340120,score 37.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7340120,score 33.8 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2025,7340120,score 31.01 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7340201,score 36.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7340201,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7340301,score 36.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7340301,score 32.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7340301,score 70.05 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,7340302,score 72.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,7380101,score 35.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7380101,score 33.45 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2025,7380101,score 31.05 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7420201,score 34.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7420201,score 55.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,7440301,score 50.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2024,7460112,score 31.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7460112,score 70.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,7480101,score 37.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7480101,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2025,7480101,score 30.27 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7480101,score 69.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,7480102,score 36.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7480102,score 31.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7480102,score 62.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,7480103,score 37.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7480103,score 33.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7480103,score 67.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,7520114,score 33.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7520114,score 31.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7520114,score 75.75 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,7520201,score 74.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2024,7520207,score 31.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7520207T,score 77.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,7520216,score 34.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7520216,score 31.85 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,7520301,score 33.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7520301,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,7580101,score 75.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,7580201,score 60.6 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,7580205,score 50.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,7720201,score 36.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7720201,score 31.45 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7720201,score 65.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,7760101,score 66.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2025,7810101,score 32.05 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7810101,score 71.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2025,7810101H,score 31.09 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7810101H,score 70.92 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,7810301,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,7810301,score 31.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,7850201,score 55.95 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,D7340120,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,D7340301,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,D7420201,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,D7480101,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,D7520216,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,E7340101,score 34.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,F7210403,score 31.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,F7220201,score 34.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,F7220201,score 30.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,F734010IN,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,F7340115,score 35.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,F7340115,score 31.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,F7340120,score 35.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,F7340120,score 30.8 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7340120,score 67.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,F7340201,score 33.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,F7340301,score 31.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7340301,score 58.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,F7380101,score 32.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,F7380101,score 31.1 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7380101,score 60.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7380101T,score 60.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7420201,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2024,F7480101,score 30.8 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7480101,score 58.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,F7480103,score 34.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,F7480103,score 30.9 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7480103,score 58.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,F748010l,score 34.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2024,F748010l,score 30.8 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7520201,score 61.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7520207,score 59.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7520216,score 66.25 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7520301,score 66.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7580101,score 60.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,F7580201,score 50.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,FA7340115,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2023,FA7340120,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,DTT,2026,FA7340120,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,FA7340301,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,FA7420201,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,FA7480101,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,FA7480103,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,FA7520216,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2026,FA7580201,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,DTT,2023,K7340120L,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,602,score 34.98 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,602,score 33.82 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,602,score 30.35 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"602, 602M",score 34.47 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,603,score 35.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,603,score 34.08 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"603, 603M",score 34.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,604,score 35.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,604,score 34.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,604,score 30.9 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,604.604M,score 34.72 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,605,score 35.46 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,605,score 34.96 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,605,score 31.83 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"605, 605M",score 35.23 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,606,score 35.48 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,606,score 33.64 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,606,score 30.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"606, 606M",score 34.49 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,607,score 35.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,607,score 34.57 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,607,score 31.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"607, 607M",score 34.98 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"608, 608M",score 34.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"609, 609M",score 33.92 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,610,score 34.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,610,score 35.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"610, 610M",score 35.6 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,611,score 34.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,611,score 35.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"611, 61 IM",score 35.02 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,612,score 36.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,613,score 36.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,614,score 35.07 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,614,score 35.73 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"614, 614M",score 34.67 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,615,score 35.95 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,615,score 36.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"615, 615M",score 36.02 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,616,score 35.63 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,616,score 36.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"616, 616M",score 34.97 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,7220201,score 34.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,7220201,score 35.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"7220201, 722020 IM",score 34.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,7229010,score 36.12 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,7229010,score 34.76 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,7320104,score 36.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,7320105,score 35.74 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,7320107,score 35.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,7320107,score 36.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"7320107, 7320107M",score 35.56 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2024,7320110,score 35.08 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,7320110,score 35.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2023,"7320110, 732011 OM",score 35.52 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,801,score 33.83 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2025,802,score 33.69 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,BC602,score 30.35 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,BC604,score 30.9 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,BC605,score 31.83 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,BC606,score 30.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,HBT,2026,BC607,score 31.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,HCP,2023,7220201,score 32.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,HCP,2024,7220201,score 33.05 looks like a 40-point scale; no probability
+not_30_point_scale,info,HCP,2025,7220201,score 30.02 looks like a 40-point scale; no probability
+not_30_point_scale,info,HCP,2024,7310106_1,score 32.85 looks like a 40-point scale; no probability
+not_30_point_scale,info,HCP,2024,7340101_1,score 33.33 looks like a 40-point scale; no probability
+not_30_point_scale,info,HCP,2024,7340201_1,score 33.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,HQT,2023,HQT02,score 35.99 looks like a 40-point scale; no probability
+not_30_point_scale,info,HQT,2024,HQT02,score 35.38 looks like a 40-point scale; no probability
+not_30_point_scale,info,HTC,2024,7220201,score 34.73 looks like a 40-point scale; no probability
+not_30_point_scale,info,HTC,2024,7340201C06,score 36.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,HTC,2024,7340201C09,score 35.36 looks like a 40-point scale; no probability
+not_30_point_scale,info,HTC,2024,7340201C11,score 35.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,HTC,2024,7340301C21,score 34.35 looks like a 40-point scale; no probability
+not_30_point_scale,info,HTC,2024,7340301C22,score 35.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,HTC,2024,7340401C35,score 35.31 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,7220201,score 36.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,7220201,score 35.6 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,7310107,score 36.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,7310107,score 36.23 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,7310108,score 35.95 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,7310108,score 36.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,7340405,score 36.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,7340405,score 36.36 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,7480101,score 35.35 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,7480101,score 35.55 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,7480104,score 35.94 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,7480201,score 35.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,7480201,score 35.17 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,7480202,score 35.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,EP01,score 36.1 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,EP01,score 36.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,EP10,score 36.36 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,EP11,score 35.65 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,EP14,score 36.42 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,EP15,score 35.46 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,EP16,score 34.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,EP17,score 34.06 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,EP18,score 36.55 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,EPI0,score 36.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,EPI1,score 35.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,EPI4,score 36.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,POHE1,score 35.8 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,POHE2,score 35.65 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,POHE2,score 35.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,POHE3,score 37.1 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,POHE3,score 37.49 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,POHE4,score 36.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,POHE4,score 35.26 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,POHE5,score 36.85 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,POHE5,score 36.59 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,POHE6,score 35.65 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,POHE6,score 35.88 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,POHE7,score 35.85 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2024,POHE7,score 36.05 looks like a 40-point scale; no probability
+not_30_point_scale,info,KHA,2023,POHEI,score 35.65 looks like a 40-point scale; no probability
+not_30_point_scale,info,KSA,2026,7220201,score 83.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7310101,score 85.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7310102_01,score 77.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7310102_02,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7310104_01,score 80.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7310104_02,score 76.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7310107,score 83.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7310108_01,score 82.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7310108_02,score 79.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7320106_01,score 90.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7320106_1D,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340101_01,score 79.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340101_02,score 87.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340101_03,score 71.9 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340101_04,score 80.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340101_1F,score 71.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340101_4D,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340115_01,score 90.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340115_02,score 90.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340115_1F,score 86.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340116,score 72.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340120_01,score 92.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340120_1F,score 89.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340121_01,score 88.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340121_1F,score 86.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340122,score 89.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_01,score 79.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_02,score 78.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_03,score 80.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_04,score 77.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_05,score 85.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_06,score 83.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_07,score 86.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_0D,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_3F,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_5F,score 82.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340201_6F,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340204,score 75.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340205,score 88.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340206_01,score 92.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340206_1F,score 88.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340301_01,score 79.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340301_02,score 81.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340301_03,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340301_04,score 80.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340301_1F,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340302_01,score 91.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340302_1F,score 85.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340403,score 76.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340404,score 83.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7340405,score 86.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7380101_01,score 82.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7380101_02,score 76.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7380107,score 82.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7380109,score 80.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7460108_01,score 88.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7460108_02,score 91.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480101,score 79.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480103,score 76.6 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480107_01,score 75.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480107_02,score 77.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480107_1D,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480107_2D,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480201_01,score 78.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480201_02,score 84.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480201_03,score 78.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7480202,score 77.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7510201,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7510605_01,score 97.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7510605_02,score 87.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7510605_1F,score 94.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7510605_2F,score 88.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7580104_02,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7580104_SD,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7620114,score 78.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7810103,score 75.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7810201_01,score 78.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7810201_02,score 85.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,7840104,score 76.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,ASACoop_01,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,ISBCNTN_01,score 84.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,KSA,2026,ISBCNTN_02,score 79.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,MHN,2023,7220201,score 31.51 looks like a 40-point scale; no probability
+not_30_point_scale,info,MHN,2024,7220201,score 32.03 looks like a 40-point scale; no probability
+not_30_point_scale,info,MHN,2023,7220204,score 32.82 looks like a 40-point scale; no probability
+not_30_point_scale,info,MHN,2024,7220204,score 33.19 looks like a 40-point scale; no probability
+not_30_point_scale,info,MHN,2023,7810103,score 30.53 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220201,score 35.38 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220201,score 35.43 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2025,7220201,score 33.89 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2026,7220201,score 34.45 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2026,7220201 TM,score 31.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2026,7220201 TT,score 31.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220201TT,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2025,7220201TT,score 32.48 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220202,score 31.93 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220202,score 32.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220203,score 33.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220203,score 32.99 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220204,score 35.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220204,score 35.8 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2025,7220204,score 34.35 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2026,7220204,score 34.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220204 CLC,score 34.82 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2025,7220204 TT,score 33.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2026,7220204 TT,score 33.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220204TT,score 34.95 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220205,score 33.96 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220205,score 34.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220206,score 33.38 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220206,score 33.14 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220207,score 31.35 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220207,score 31.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220208,score 32.63 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220208,score 32.41 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220208 CLC,score 30.95 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220208TT,score 30.48 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220209,score 34.59 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220209,score 34.45 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220210,score 36.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7220210,score 34.59 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2025,7220210,score 32.07 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2026,7220210,score 32.14 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7220210 CLC,score 34.73 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7310111,score 32.55 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2026,7310206,score 30.33 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7310601,score 33.48 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2025,7320104,score 30.82 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7320109,score 34.1 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7320109,score 31.05 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7340101,score 33.93 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7340101,score 30.72 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7340115,score 35.05 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7340115,score 33.93 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2025,7340115,score 30.17 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7340201,score 33.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7340201,score 32.53 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7340301,score 33.52 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7810103,score 33.9 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7810103,score 33.04 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2023,7810103CLC,score 32.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHF,2024,7810103TT,score 32.11 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2023,ACT01,score 32.75 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2024,ACT01,score 34.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2023,BANK01,score 32.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2024,BANK01,score 34.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2024,BANK06,score 33.8 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2023,BUS01,score 32.65 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2024,BUS01,score 33.9 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2024,BUS06,score 34.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2024,ECON02,score 34.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2023,FIN01,score 32.6 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2024,FIN01,score 34.2 looks like a 40-point scale; no probability
+not_30_point_scale,info,NHH,2024,IB04,score 33.9 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2025,KHMH2_1,score 36.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2025,NNAH1_1,score 32.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2025,NNTH1_1,score 35.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTCNH18,score 33.66 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTHCN18,score 34.66 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTHNN19,score 33.88 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTHNN20,score 36.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTHNN21,score 32.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTHNN22,score 32.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTNNH19,score 32.88 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTNNH20,score 35.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTNNH21,score 31.15 looks like a 40-point scale; no probability
+not_30_point_scale,info,NTH,2026,NTNNH22,score 31.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2023,7310101,score 34.83 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2024,7310101,score 33.23 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2023,7310105,score 34.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2024,7310105,score 33.35 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2023,7310106,score 35.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2024,7310106,score 33.34 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2023,7340101,score 34.54 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2024,7340101,score 33.33 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2023,7340201,score 34.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2024,7340201,score 33.62 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2023,7340301,score 34.1 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHE,2024,7340301,score 33.1 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7140231,score 37.21 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7140231,score 38.45 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7140234,score 35.9 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7140234,score 37.85 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7140235,score 36.94 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7140236,score 35.61 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7140236,score 37.21 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7140237,score 36.23 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7140237,score 37.31 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220201,score 35.55 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220201,score 36.99 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220202,score 33.3 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220202,score 34.24 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220203,score 34.12 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220203,score 34.53 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220204,score 35.55 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220204,score 37.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220205,score 34.35 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220205,score 35.82 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220209,score 34.65 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220209,score 35.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220210,score 35.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220210,score 36.38 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220211,score 33.04 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220211,score 33.42 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2023,7220212QTD,score 34.49 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHF,2024,7220212QTD,score 36.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHT,2023,QHT01,score 33.4 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHT,2024,QHT01,score 34.45 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHT,2023,QHT02,score 34.25 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHT,2024,QHT02,score 34.45 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHT,2023,QHT93,score 34.85 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHT,2024,QHT93,score 35.0 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHT,2023,QHT98,score 34.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,QHT,2024,QHT98,score 34.7 looks like a 40-point scale; no probability
+not_30_point_scale,info,QSB,2023,106,score 79.84 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,106,score 84.16 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,106,score 85.41 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,106,score 85.45 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,107,score 78.26 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,107,score 82.87 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,107,score 82.91 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,107,score 84.98 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,108,score 66.59 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,108,score 80.03 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,108,score 80.77 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,108,score 84.29 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,109,score 58.49 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,109,score 73.89 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,109,score 75.43 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,109,score 80.75 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,110,score 71.81 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,110,score 81.33 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,110,score 81.82 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,110,score 84.36 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,111,score 55.51 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,112,score 57.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,112,score 80.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,112,score 60.75 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,112,score 69.92 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,114,score 70.83 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,114,score 62.01 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,114,score 75.43 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,114,score 79.08 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,115,score 55.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,115,score 70.85 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,115,score 55.05 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,115,score 68.69 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,117,score 59.36 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,117,score 58.59 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,117,score 67.42 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,117,score 71.57 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,120,score 58.02 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,120,score 55.38 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,120,score 60.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,123,score 65.17 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,123,score 77.28 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,123,score 75.98 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,123,score 80.17 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,125,score 54.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,125,score 61.98 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,125,score 60.93 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,125,score 69.38 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,128,score 73.51 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,128,score 72.01 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,128,score 80.52 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,128,score 82.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,129,score 55.36 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,129,score 68.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,129,score 71.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,129,score 78.88 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,137,score 60.81 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,137,score 73.86 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,137,score 76.61 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,137,score 82.01 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,138,score 60.65 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,138,score 74.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,138,score 75.98 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,138,score 79.62 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,140,score 60.46 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,140,score 77.36 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,140,score 73.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,140,score 79.91 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,141,score 57.33 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,141,score 65.44 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,141,score 65.59 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,141,score 75.31 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,142,score 68.73 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,142,score 78.22 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,142,score 76.34 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,142,score 79.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,145,score 59.94 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,145,score 75.38 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,145,score 76.63 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,145,score 80.37 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,146,score 82.14 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,146,score 83.85 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,146,score 84.97 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,147,score 68.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,147,score 55.06 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,147,score 64.37 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,148,score 66.11 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,148,score 55.72 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,148,score 69.35 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,150,score 73.82 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,151,score 65.6 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,152,score 76.06 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,153,score 71.24 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,153,score 73.59 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,155,score 61.43 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,156,score 80.61 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,159,score 85.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,206,score 75.63 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,206,score 83.63 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,206,score 83.74 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,206,score 84.23 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,207,score 61.39 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,207,score 80.41 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,207,score 78.66 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,207,score 81.54 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,208,score 61.66 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,208,score 76.71 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,208,score 79.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,208,score 83.27 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,209,score 58.49 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,209,score 65.77 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,209,score 74.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,209,score 79.07 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,210,score 62.28 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,210,score 78.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,210,score 78.44 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,210,score 82.14 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,211,score 62.28 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,211,score 71.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,211,score 73.89 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,211,score 78.53 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,214,score 60.93 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,214,score 64.68 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,214,score 63.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,214,score 69.22 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,215,score 55.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,215,score 58.59 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,215,score 56.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,215,score 56.65 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,217,score 59.36 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,217,score 61.08 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,217,score 55.45 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,217,score 55.82 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,218,score 63.05 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,218,score 70.91 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,218,score 66.13 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,218,score 59.96 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,219,score 61.12 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,219,score 60.11 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,219,score 59.21 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,219,score 58.77 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,220,score 58.02 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,220,score 57.88 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,220,score 60.25 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,220,score 55.76 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,223,score 61.41 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,223,score 65.03 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,223,score 61.08 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,223,score 65.81 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,225,score 54.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,225,score 61.59 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,225,score 55.46 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,225,score 57.04 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,228,score 60.78 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,228,score 74.47 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,228,score 73.05 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,228,score 78.04 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,229,score 55.36 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,229,score 57.96 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,229,score 55.23 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,229,score 67.15 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,237,score 60.81 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,237,score 57.23 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,237,score 64.74 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,237,score 65.9 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,242,score 60.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,242,score 65.87 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,242,score 69.49 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,242,score 71.22 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,245,score 59.94 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,245,score 73.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,245,score 78.79 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,245,score 79.87 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,251,score 80.68 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,252,score 58.67 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,253,score 59.06 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,253,score 61.58 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,254,score 56.42 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,254,score 56.77 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,255,score 64.38 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,255,score 56.36 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,256,score 56.91 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,257,score 58.07 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,257,score 61.71 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,258,score 83.09 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,258,score 85.51 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,259,score 82.66 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,266,score 66.76 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,266,score 79.63 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,266,score 77.05 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,266,score 78.69 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2023,268,score 59.77 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2024,268,score 68.75 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,268,score 69.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,268,score 73.96 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,306,score 72.9 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,306,score 70.84 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,307,score 67.68 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,307,score 62.37 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,308,score 65.52 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,308,score 68.85 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,309,score 74.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,309,score 82.42 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,310,score 78.44 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,310,score 61.51 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,314,score 63.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,314,score 75.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,315,score 56.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,315,score 67.58 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,319,score 56.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,319,score 61.51 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,323,score 61.08 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,323,score 61.51 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,325,score 54.46 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,325,score 61.51 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,342,score 69.49 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,342,score 61.51 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,345,score 78.79 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,345,score 78.91 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,406,score 65.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,406,score 73.21 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2025,416,score 57.38 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSB,2026,416,score 70.18 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7310101_401,score 74.78 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7310101_403,score 74.49 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7310106_402,score 84.76 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7310108_413,score 79.65 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7310108_413E,score 67.22 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7310108_419,score 82.61 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340101_407,score 80.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340101_407E,score 70.28 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340101_415,score 69.55 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340101_421,score 80.84 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340115_410,score 84.63 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340115_410E,score 70.09 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340115_417,score 82.48 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340120_408,score 87.94 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340120_408E,score 82.66 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340120_420,score 90.01 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340122_411,score 86.73 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340122_411E,score 78.36 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340201_404,score 81.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340201_404E,score 72.68 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340205_414,score 82.54 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340205_414H,score 73.15 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340301_405,score 80.49 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340301_405E,score 70.42 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340301_422,score 79.91 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340302_409,score 85.29 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340403_418,score 71.81 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340405_406,score 86.46 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340405_406H,score 86.22 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7340405_416,score 84.44 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7380101_503,score 76.01 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7380101_503E,score 69.42 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7380101_504,score 65.01 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7380101_505,score 65.54 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7380101_506,score 71.65 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7380107_501,score 80.65 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7380107_502,score 83.24 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSK,2026,7380107_502E,score 76.72 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2024,7220201,score 34.5 looks like a 40-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7220201,score 73.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7220201W3,score 65.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7220201W4,score 65.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7310101,score 62.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340101,score 53.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340101AD,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340101MQ,score 54.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340101SY,score 65.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340101W2,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340101W4,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340115,score 53.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340122,score 53.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340201,score 53.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340201MQ,score 53.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340301,score 53.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7340301MQ,score 53.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7420201,score 55.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7420201W2,score 62.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7420201W4,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7440112,score 58.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7460108,score 62.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7460112,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7460201,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7480101,score 65.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7480201,score 62.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7480201DK,score 60.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7480201MQ,score 60.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7480201W4,score 60.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7510605,score 72.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7520118,score 63.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7520121,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7520207,score 55.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7520212,score 68.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7520216,score 65.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7520301,score 58.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7540101,score 52.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7580201,score 50.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2026,7580302,score 50.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSQ,2025,IU01,score 34.03 looks like a 40-point scale; no probability
+not_30_point_scale,info,QSX,2026,7140101,score 76.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7140107,score 78.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7140114,score 79.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7210213,score 83.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220104,score 73.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220201,score 83.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220201LK,score 71.4 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220201QT,score 80.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220202,score 77.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220203,score 73.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220204,score 81.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220204LK,score 75.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220204QT,score 78.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220205,score 78.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220205QT,score 72.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220206,score 75.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7220208,score 71.6 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7229001,score 76.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7229009,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7229010,score 80.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7229020,score 74.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7229030,score 81.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7229040,score 80.9 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310206,score 82.6 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310206LK,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310206QT,score 80.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310301,score 77.9 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310302,score 75.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310401,score 87.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310401QT,score 84.6 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310403,score 79.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310501,score 78.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310601,score 79.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310608,score 74.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310613,score 76.3 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310613QT,score 73.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310614,score 77.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7310630,score 76.6 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,73106a1,score 76.9 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7320101,score 84.9 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7320101LK,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7320101QT,score 80.7 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7320104,score 88.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7320108,score 85.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7320201,score 74.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7320205,score 79.5 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7320303,score 75.2 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7340404,score 80.35 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7340406,score 78.8 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7580109,score 70.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7580112,score 74.1 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7760101,score 77.65 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7810103,score 82.0 looks like a 100-point scale; no probability
+not_30_point_scale,info,QSX,2026,7810103QT,score 76.9 looks like a 100-point scale; no probability
+jump_over_3,warning,BKA,2026,FL2,year-on-year change 3.55 points
+jump_over_3,warning,BKA,2024,TROY-IT,year-on-year change 3.96 points
+jump_over_3,warning,BKA,2026,TROY-IT,year-on-year change 3.14 points
+jump_over_3,warning,BVS,2024,7340101,year-on-year change 4.40 points
+jump_over_3,warning,BVS,2026,7340115,year-on-year change 4.50 points
+jump_over_3,warning,BVS,2025,7340301,year-on-year change 4.70 points
+jump_over_3,warning,BVS,2026,7480201,year-on-year change 6.47 points
+jump_over_3,warning,BVS,2026,7520207,year-on-year change 4.40 points
+jump_over_3,warning,BVS,2025,7520208,year-on-year change 4.45 points
+jump_over_3,warning,DCN,2025,7220201,year-on-year change 3.33 points
+jump_over_3,warning,DCN,2025,7220209,year-on-year change 4.00 points
+jump_over_3,warning,DCN,2025,7220210,year-on-year change 3.36 points
+jump_over_3,warning,DCN,2025,7229020,year-on-year change 5.25 points
+jump_over_3,warning,DCN,2025,7310104,year-on-year change 3.39 points
+jump_over_3,warning,DCN,2025,7340101,year-on-year change 4.06 points
+jump_over_3,warning,DCN,2025,7340125,year-on-year change 4.25 points
+jump_over_3,warning,DCN,2025,7340201,year-on-year change 3.99 points
+jump_over_3,warning,DCN,2025,7340301,year-on-year change 4.01 points
+jump_over_3,warning,DCN,2025,7340302,year-on-year change 4.45 points
+jump_over_3,warning,DCN,2025,7340404,year-on-year change 3.55 points
+jump_over_3,warning,DCN,2025,7340406,year-on-year change 4.01 points
+jump_over_3,warning,DCN,2025,7480104,year-on-year change 3.34 points
+jump_over_3,warning,DCN,2025,7510605,year-on-year change 3.13 points
+jump_over_3,warning,DCN,2025,7540204,year-on-year change 3.90 points
+jump_over_3,warning,DCN,2026,7810101,year-on-year change 4.85 points
+jump_over_3,warning,DCN,2026,7810103,year-on-year change 4.40 points
+jump_over_3,warning,DCN,2026,7810201,year-on-year change 4.75 points
+jump_over_3,warning,DCN,2026,7810202,year-on-year change 3.85 points
+jump_over_3,warning,DCT,2024,7340205,year-on-year change 4.25 points
+jump_over_3,warning,DCT,2025,7380107,year-on-year change 7.00 points
+jump_over_3,warning,DCT,2024,7420201,year-on-year change 7.00 points
+jump_over_3,warning,DCT,2025,7420201,year-on-year change 4.50 points
+jump_over_3,warning,DCT,2025,7460108,year-on-year change 4.00 points
+jump_over_3,warning,DCT,2025,7480201,year-on-year change 3.25 points
+jump_over_3,warning,DCT,2026,7480201,year-on-year change 3.25 points
+jump_over_3,warning,DCT,2024,7480202,year-on-year change 3.50 points
+jump_over_3,warning,DCT,2025,7510203,year-on-year change 4.50 points
+jump_over_3,warning,DCT,2025,7510303,year-on-year change 5.25 points
+jump_over_3,warning,DCT,2024,7810201,year-on-year change 5.00 points
+jump_over_3,warning,DCT,2024,7819010,year-on-year change 5.00 points
+jump_over_3,warning,DCT,2026,LK7220204,year-on-year change 4.00 points
+jump_over_3,warning,DDL,2026,7340205,year-on-year change 3.75 points
+jump_over_3,warning,DDL,2026,7460108,year-on-year change 3.75 points
+jump_over_3,warning,DDL,2026,7510407,year-on-year change 5.25 points
+jump_over_3,warning,DDL,2025,7510601,year-on-year change 4.33 points
+jump_over_3,warning,DDL,2025,7510602,year-on-year change 3.83 points
+jump_over_3,warning,DDL,2026,7520107,year-on-year change 3.33 points
+jump_over_3,warning,DKC,2025,7210403,year-on-year change 4.00 points
+jump_over_3,warning,DKC,2025,7320104,year-on-year change 5.00 points
+jump_over_3,warning,DKC,2025,7340101,year-on-year change 5.00 points
+jump_over_3,warning,DKC,2025,7340114,year-on-year change 4.00 points
+jump_over_3,warning,DKC,2025,7340115,year-on-year change 5.00 points
+jump_over_3,warning,DKC,2026,7380101,year-on-year change 5.00 points
+jump_over_3,warning,DKC,2026,7380107,year-on-year change 5.00 points
+jump_over_3,warning,DKC,2025,7480201,year-on-year change 6.00 points
+jump_over_3,warning,DKC,2025,7510205,year-on-year change 5.00 points
+jump_over_3,warning,DKC,2025,7510605,year-on-year change 4.00 points
+jump_over_3,warning,DKC,2025,7520141,year-on-year change 4.00 points
+jump_over_3,warning,DMS,2026,7310101,year-on-year change 4.38 points
+jump_over_3,warning,DMS,2025,7340115_TATP,year-on-year change 5.71 points
+jump_over_3,warning,DMS,2025,7340120_TATP,year-on-year change 5.79 points
+jump_over_3,warning,DTL,2026,7210205,year-on-year change 3.50 points
+jump_over_3,warning,DTL,2025,7220201,year-on-year change 4.80 points
+jump_over_3,warning,DTL,2025,7220204,year-on-year change 3.98 points
+jump_over_3,warning,DTL,2025,7220209,year-on-year change 7.63 points
+jump_over_3,warning,DTL,2025,7220210,year-on-year change 5.61 points
+jump_over_3,warning,DTL,2025,7340101,year-on-year change 4.34 points
+jump_over_3,warning,DTL,2025,7340115,year-on-year change 3.21 points
+jump_over_3,warning,DTL,2025,7340201,year-on-year change 4.99 points
+jump_over_3,warning,DTL,2025,7340301,year-on-year change 4.57 points
+jump_over_3,warning,DTL,2025,7480101,year-on-year change 7.66 points
+jump_over_3,warning,DTL,2025,7480102,year-on-year change 7.46 points
+jump_over_3,warning,DTL,2025,7480104,year-on-year change 7.29 points
+jump_over_3,warning,DTL,2025,7480201,year-on-year change 7.02 points
+jump_over_3,warning,DTL,2025,7480207,year-on-year change 5.93 points
+jump_over_3,warning,DTL,2025,7510605,year-on-year change 3.37 points
+jump_over_3,warning,DTL,2025,7810103,year-on-year change 3.69 points
+jump_over_3,warning,DTL,2025,7810201,year-on-year change 3.95 points
+jump_over_3,warning,DTT,2024,7440301,year-on-year change 5.00 points
+jump_over_3,warning,DTT,2025,7460112,year-on-year change 3.86 points
+jump_over_3,warning,DTT,2024,7510406,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,7580201,year-on-year change 6.00 points
+jump_over_3,warning,DTT,2024,7580205,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,7810301G,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,7850201,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,D7340101N,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,D7340115,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,D7340120,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,D7480101,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,D7480103,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,F7340101,year-on-year change 4.49 points
+jump_over_3,warning,DTT,2025,F7340301,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,F7420201,year-on-year change 5.00 points
+jump_over_3,warning,DTT,2024,F752O3O1,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,F7580201,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,FA7310630Q,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,FA7340101N,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,FA7340115,year-on-year change 4.50 points
+jump_over_3,warning,DTT,2025,FA7340120,year-on-year change 4.50 points
+jump_over_3,warning,DTT,2024,FA7340301,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,FA7420201,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,FA7480101,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,FA7480103,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,FA7520216,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,FA7580201,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2025,FA7580201,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,K7340301,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,K7520201,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,K7580201,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,N7220201,year-on-year change 4.00 points
+jump_over_3,warning,DTT,2024,N7310630,year-on-year change 5.00 points
+jump_over_3,warning,DTT,2024,N7340101N,year-on-year change 6.00 points
+jump_over_3,warning,DTT,2024,N7340301,year-on-year change 5.00 points
+jump_over_3,warning,DTT,2024,N7380101,year-on-year change 5.00 points
+jump_over_3,warning,DTT,2024,N7480103,year-on-year change 5.00 points
+jump_over_3,warning,DVL,2025,7320104,year-on-year change 4.00 points
+jump_over_3,warning,DVL,2025,7320108,year-on-year change 4.00 points
+jump_over_3,warning,DVL,2026,7380101,year-on-year change 5.00 points
+jump_over_3,warning,DVL,2026,7380107,year-on-year change 5.00 points
+jump_over_3,warning,GHA,2025,7580205,year-on-year change 3.21 points
+jump_over_3,warning,GHA,2025,7580302QT,year-on-year change 4.99 points
+jump_over_3,warning,HCP,2025,7310105,year-on-year change 3.07 points
+jump_over_3,warning,HCP,2025,7310106,year-on-year change 3.01 points
+jump_over_3,warning,HCP,2026,7310106_1,year-on-year change 6.84 points
+jump_over_3,warning,HCP,2026,7310205,year-on-year change 5.14 points
+jump_over_3,warning,HCP,2026,7340101_1,year-on-year change 8.99 points
+jump_over_3,warning,HCP,2026,7340201,year-on-year change 4.28 points
+jump_over_3,warning,HCP,2026,7340201_1,year-on-year change 9.00 points
+jump_over_3,warning,HCP,2026,7380107,year-on-year change 3.50 points
+jump_over_3,warning,HIU,2026,7380101,year-on-year change 5.00 points
+jump_over_3,warning,HIU,2026,7380107,year-on-year change 5.00 points
+jump_over_3,warning,HSU,2026,7380101,year-on-year change 5.00 points
+jump_over_3,warning,HSU,2026,7380107,year-on-year change 5.00 points
+jump_over_3,warning,HTC,2025,7220201,year-on-year change 4.40 points
+jump_over_3,warning,HVN,2024,HVN04,year-on-year change 6.00 points
+jump_over_3,warning,HVN,2024,HVN05,year-on-year change 4.00 points
+jump_over_3,warning,HVN,2025,HVN05,year-on-year change 3.50 points
+jump_over_3,warning,HVN,2025,HVN07,year-on-year change 4.25 points
+jump_over_3,warning,HVN,2024,HVN08,year-on-year change 4.50 points
+jump_over_3,warning,HVN,2025,HVN12,year-on-year change 4.00 points
+jump_over_3,warning,HVN,2026,HVN12,year-on-year change 6.00 points
+jump_over_3,warning,HVN,2024,HVN13,year-on-year change 3.25 points
+jump_over_3,warning,HVN,2026,HVN13,year-on-year change 3.30 points
+jump_over_3,warning,HVN,2025,HVN16,year-on-year change 4.00 points
+jump_over_3,warning,HVN,2026,HVN16,year-on-year change 5.00 points
+jump_over_3,warning,HVN,2025,HVN17,year-on-year change 3.20 points
+jump_over_3,warning,HVN,2026,HVN17,year-on-year change 4.20 points
+jump_over_3,warning,HVN,2024,HVN18,year-on-year change 3.25 points
+jump_over_3,warning,KHA,2025,7620114,year-on-year change 3.06 points
+jump_over_3,warning,KHA,2025,7850102,year-on-year change 3.37 points
+jump_over_3,warning,KHA,2025,EPMP,year-on-year change 3.70 points
+jump_over_3,warning,KSA,2025,7220201,year-on-year change 7.50 points
+jump_over_3,warning,KSA,2024,7340120,year-on-year change 9.72 points
+jump_over_3,warning,KSA,2025,7340120,year-on-year change 7.22 points
+jump_over_3,warning,KSA,2024,7340122,year-on-year change 9.50 points
+jump_over_3,warning,KSA,2025,7340201_02,year-on-year change 6.50 points
+jump_over_3,warning,KSA,2024,7620114,year-on-year change 8.35 points
+jump_over_3,warning,KTS,2024,7580108CT,year-on-year change 3.08 points
+jump_over_3,warning,KTS,2024,7580210,year-on-year change 3.80 points
+jump_over_3,warning,LPS,2025,7220201,year-on-year change 4.11 points
+jump_over_3,warning,LPS,2025,7340101,year-on-year change 4.44 points
+jump_over_3,warning,LPS,2025,7340102,year-on-year change 4.27 points
+jump_over_3,warning,LPS,2025,7380101,year-on-year change 3.73 points
+jump_over_3,warning,LPS,2025,7380109,year-on-year change 4.35 points
+jump_over_3,warning,MBS,2026,7220201,year-on-year change 3.25 points
+jump_over_3,warning,MBS,2024,7220201C,year-on-year change 3.60 points
+jump_over_3,warning,MBS,2026,7220201C,year-on-year change 3.15 points
+jump_over_3,warning,MBS,2025,7220204C,year-on-year change 5.50 points
+jump_over_3,warning,MBS,2024,7220209,year-on-year change 3.30 points
+jump_over_3,warning,MBS,2026,7220209,year-on-year change 3.10 points
+jump_over_3,warning,MBS,2025,7220209C,year-on-year change 4.00 points
+jump_over_3,warning,MBS,2026,7220209C,year-on-year change 4.00 points
+jump_over_3,warning,MBS,2025,7220210,year-on-year change 3.85 points
+jump_over_3,warning,MBS,2026,7220210,year-on-year change 3.25 points
+jump_over_3,warning,MBS,2024,7310101,year-on-year change 4.00 points
+jump_over_3,warning,MBS,2024,7310101CL,year-on-year change 5.00 points
+jump_over_3,warning,MBS,2024,7310301,year-on-year change 6.10 points
+jump_over_3,warning,MBS,2025,7310301,year-on-year change 5.00 points
+jump_over_3,warning,MBS,2024,7310620,year-on-year change 4.60 points
+jump_over_3,warning,MBS,2024,7340101,year-on-year change 3.25 points
+jump_over_3,warning,MBS,2025,7340101C,year-on-year change 4.00 points
+jump_over_3,warning,MBS,2025,7340201,year-on-year change 4.00 points
+jump_over_3,warning,MBS,2026,7340201,year-on-year change 4.55 points
+jump_over_3,warning,MBS,2024,7340201C,year-on-year change 4.00 points
+jump_over_3,warning,MBS,2026,7340204,year-on-year change 5.50 points
+jump_over_3,warning,MBS,2026,7340301,year-on-year change 3.95 points
+jump_over_3,warning,MBS,2024,7340301C,year-on-year change 3.25 points
+jump_over_3,warning,MBS,2024,7340302,year-on-year change 4.10 points
+jump_over_3,warning,MBS,2026,7340302,year-on-year change 3.40 points
+jump_over_3,warning,MBS,2026,7340403,year-on-year change 3.10 points
+jump_over_3,warning,MBS,2024,7340405,year-on-year change 3.70 points
+jump_over_3,warning,MBS,2024,7420201,year-on-year change 3.30 points
+jump_over_3,warning,MBS,2026,7420201,year-on-year change 5.35 points
+jump_over_3,warning,MBS,2024,7460108,year-on-year change 3.90 points
+jump_over_3,warning,MBS,2024,7480101,year-on-year change 4.00 points
+jump_over_3,warning,MBS,2024,7480201,year-on-year change 3.50 points
+jump_over_3,warning,MBS,2026,7540101,year-on-year change 4.50 points
+jump_over_3,warning,MDA,2024,7520116,year-on-year change 3.85 points
+jump_over_3,warning,MDA,2025,7520116,year-on-year change 5.00 points
+jump_over_3,warning,MDA,2026,7520116,year-on-year change 3.50 points
+jump_over_3,warning,MDA,2026,7520121,year-on-year change 5.00 points
+jump_over_3,warning,MDA,2026,7520309,year-on-year change 5.00 points
+jump_over_3,warning,MDA,2026,7520604,year-on-year change 3.50 points
+jump_over_3,warning,MDA,2026,7580106,year-on-year change 4.00 points
+jump_over_3,warning,MDA,2025,7580109,year-on-year change 4.10 points
+jump_over_3,warning,MDA,2026,7580302,year-on-year change 4.50 points
+jump_over_3,warning,MDA,2024,7850101,year-on-year change 3.50 points
+jump_over_3,warning,MDA,2024,7850103,year-on-year change 3.60 points
+jump_over_3,warning,MDA,2025,7850103,year-on-year change 4.60 points
+jump_over_3,warning,MHN,2026,7210404,year-on-year change 3.66 points
+jump_over_3,warning,MHN,2025,7340101,year-on-year change 3.39 points
+jump_over_3,warning,MHN,2025,7340201,year-on-year change 3.92 points
+jump_over_3,warning,MHN,2026,7380107,year-on-year change 3.17 points
+jump_over_3,warning,MHN,2025,7480201,year-on-year change 3.45 points
+jump_over_3,warning,MHN,2025,7510302,year-on-year change 3.99 points
+jump_over_3,warning,MHN,2025,7510303,year-on-year change 3.74 points
+jump_over_3,warning,MHN,2025,7580101,year-on-year change 4.25 points
+jump_over_3,warning,MHN,2025,7810103,year-on-year change 10.13 points
+jump_over_3,warning,MHN,2025,7810201,year-on-year change 10.08 points
+jump_over_3,warning,NHF,2026,7320104,year-on-year change 3.95 points
+jump_over_3,warning,NHF,2026,7320109,year-on-year change 3.95 points
+jump_over_3,warning,NHF,2026,7340101,year-on-year change 5.85 points
+jump_over_3,warning,NHF,2025,7340205,year-on-year change 8.40 points
+jump_over_3,warning,NHF,2026,7340301,year-on-year change 3.14 points
+jump_over_3,warning,NHF,2026,7480201,year-on-year change 4.02 points
+jump_over_3,warning,NHH,2025,BANK04,year-on-year change 3.50 points
+jump_over_3,warning,NHH,2025,BUS05,year-on-year change 3.36 points
+jump_over_3,warning,NHH,2025,IB03,year-on-year change 3.20 points
+jump_over_3,warning,NHS,2025,7220201,year-on-year change 3.23 points
+jump_over_3,warning,NHS,2025,7220201_DB,year-on-year change 3.34 points
+jump_over_3,warning,NHS,2025,7310106,year-on-year change 4.31 points
+jump_over_3,warning,NHS,2025,7340201_TABP,year-on-year change 5.37 points
+jump_over_3,warning,NHS,2025,7340301_TABP,year-on-year change 5.30 points
+jump_over_3,warning,NHS,2025,7340405,year-on-year change 3.74 points
+jump_over_3,warning,NHS,2025,7340405_TABP,year-on-year change 4.20 points
+jump_over_3,warning,NHS,2025,7460108,year-on-year change 4.25 points
+jump_over_3,warning,NLS,2024,7140215,year-on-year change 3.50 points
+jump_over_3,warning,NLS,2025,7440301,year-on-year change 4.65 points
+jump_over_3,warning,NLS,2024,7510206,year-on-year change 3.25 points
+jump_over_3,warning,NLS,2024,7519007,year-on-year change 3.50 points
+jump_over_3,warning,NLS,2025,7520320,year-on-year change 5.10 points
+jump_over_3,warning,NLS,2025,7540105,year-on-year change 5.00 points
+jump_over_3,warning,NLS,2026,7549001,year-on-year change 3.20 points
+jump_over_3,warning,NLS,2025,7620105,year-on-year change 4.26 points
+jump_over_3,warning,NLS,2025,7620105C,year-on-year change 4.26 points
+jump_over_3,warning,NLS,2025,7620109,year-on-year change 4.50 points
+jump_over_3,warning,NLS,2025,7620112,year-on-year change 4.50 points
+jump_over_3,warning,NLS,2025,7620114,year-on-year change 4.50 points
+jump_over_3,warning,NLS,2024,7850101,year-on-year change 3.50 points
+jump_over_3,warning,QHI,2026,CN1,year-on-year change 3.19 points
+jump_over_3,warning,QHS,2024,GD3,year-on-year change 4.42 points
+jump_over_3,warning,QHS,2026,QHS08,year-on-year change 4.56 points
+jump_over_3,warning,QHS,2026,QHS11,year-on-year change 7.25 points
+jump_over_3,warning,QHT,2025,QHT08,year-on-year change 3.30 points
+jump_over_3,warning,QHT,2025,QHT81,year-on-year change 4.15 points
+jump_over_3,warning,QHX,2026,QHX02,year-on-year change 3.16 points
+jump_over_3,warning,QHX,2026,QHX08,year-on-year change 3.07 points
+jump_over_3,warning,QHX,2026,QHX09,year-on-year change 5.54 points
+jump_over_3,warning,QHX,2025,QHX12,year-on-year change 3.27 points
+jump_over_3,warning,QHX,2026,QHX13,year-on-year change 4.87 points
+jump_over_3,warning,QHX,2026,QHX16,year-on-year change 4.72 points
+jump_over_3,warning,QHX,2026,QHX19,year-on-year change 6.00 points
+jump_over_3,warning,QHX,2026,QHX23,year-on-year change 6.00 points
+jump_over_3,warning,QHX,2026,QHX27,year-on-year change 3.22 points
+jump_over_3,warning,QSQ,2024,7220201_WE2,year-on-year change 12.00 points
+jump_over_3,warning,QSQ,2024,7220201_WE3,year-on-year change 12.00 points
+jump_over_3,warning,QSQ,2024,7220201_WE4,year-on-year change 12.00 points
+jump_over_3,warning,QST,2025,7420101_DKD,year-on-year change 3.44 points
+jump_over_3,warning,QST,2024,7440102_NN,year-on-year change 3.10 points
+jump_over_3,warning,QST,2024,7440122,year-on-year change 5.30 points
+jump_over_3,warning,QST,2026,7440301,year-on-year change 3.71 points
+jump_over_3,warning,QST,2026,7510406,year-on-year change 3.54 points
+jump_over_3,warning,QST,2024,7520402,year-on-year change 6.60 points
+jump_over_3,warning,QSX,2025,7310613,year-on-year change 3.10 points
+jump_over_3,warning,QSX,2025,7310614,year-on-year change 3.10 points
+jump_over_3,warning,QSX,2025,73106a1,year-on-year change 4.16 points
+jump_over_3,warning,QSX,2025,7320101_CLC,year-on-year change 3.45 points
+jump_over_3,warning,SGD,2024,7140219,year-on-year change 4.46 points
+jump_over_3,warning,SGD,2024,7140249,year-on-year change 3.14 points
+jump_over_3,warning,SGD,2025,7310630,year-on-year change 4.00 points
+jump_over_3,warning,SGD,2026,7320201,year-on-year change 4.42 points
+jump_over_3,warning,SGD,2025,7340101CLC,year-on-year change 3.65 points
+jump_over_3,warning,SGD,2025,7340201,year-on-year change 3.25 points
+jump_over_3,warning,SGD,2025,7340301,year-on-year change 3.23 points
+jump_over_3,warning,SGD,2025,7340301CLC,year-on-year change 3.55 points
+jump_over_3,warning,SGD,2026,7440301,year-on-year change 3.72 points
+jump_over_3,warning,SGD,2025,7480103,year-on-year change 3.34 points
+jump_over_3,warning,SGD,2026,7480201CLC,year-on-year change 3.95 points
+jump_over_3,warning,SGD,2024,7510406,year-on-year change 3.11 points
+jump_over_3,warning,SGD,2026,7510406,year-on-year change 3.66 points
+jump_over_3,warning,SGD,2026,7520201,year-on-year change 3.13 points
+jump_over_3,warning,SGD,2025,7520207,year-on-year change 3.12 points
+jump_over_3,warning,SGD,2025,7810101,year-on-year change 3.86 points
+jump_over_3,warning,SPH,2026,7140202K,year-on-year change 3.43 points
+jump_over_3,warning,SPH,2025,7140206,year-on-year change 3.04 points
+jump_over_3,warning,SPH,2026,7140233,year-on-year change 6.55 points
+jump_over_3,warning,SPH,2026,7760101,year-on-year change 3.18 points
+jump_over_3,warning,SPH,2026,7810103,year-on-year change 3.52 points
+jump_over_3,warning,SPK,2026,7140231V,year-on-year change 3.15 points
+jump_over_3,warning,SPK,2026,7140246V,year-on-year change 3.20 points
+jump_over_3,warning,SPK,2026,7220201V,year-on-year change 5.55 points
+jump_over_3,warning,SPK,2026,7310403V,year-on-year change 5.78 points
+jump_over_3,warning,SPK,2026,7340101V,year-on-year change 4.84 points
+jump_over_3,warning,SPK,2026,7340301V,year-on-year change 3.15 points
+jump_over_3,warning,SPK,2026,7380101V,year-on-year change 4.23 points
+jump_over_3,warning,SPK,2026,7480201A,year-on-year change 5.10 points
+jump_over_3,warning,SPK,2026,7480201V,year-on-year change 3.44 points
+jump_over_3,warning,SPK,2025,7510401V,year-on-year change 3.45 points
+jump_over_3,warning,SPK,2026,7510401V,year-on-year change 3.10 points
+jump_over_3,warning,SPK,2026,7510402A,year-on-year change 3.25 points
+jump_over_3,warning,SPK,2026,7510605V,year-on-year change 3.75 points
+jump_over_3,warning,SPK,2026,7520401V,year-on-year change 4.95 points
+jump_over_3,warning,SPK,2026,7540101A,year-on-year change 3.80 points
+jump_over_3,warning,SPK,2026,7810202V,year-on-year change 5.35 points
+jump_over_3,warning,SPK,2026,7850101V,year-on-year change 3.25 points
+jump_over_3,warning,SPS,2025,7140208,year-on-year change 4.28 points
+jump_over_3,warning,SPS,2024,7140232,year-on-year change 4.29 points
+jump_over_3,warning,SPS,2025,7140233,year-on-year change 3.18 points
+jump_over_3,warning,SPS,2025,7220201,year-on-year change 3.85 points
+jump_over_3,warning,SPS,2025,7220202,year-on-year change 3.75 points
+jump_over_3,warning,SPS,2025,7220203,year-on-year change 3.70 points
+jump_over_3,warning,SPS,2024,7310501,year-on-year change 5.42 points
+jump_over_3,warning,SPS,2025,7310601,year-on-year change 3.17 points
+jump_over_3,warning,SPS,2025,7480201,year-on-year change 4.05 points
+jump_over_3,warning,SPS,2024,7810101,year-on-year change 3.25 points
+jump_over_3,warning,TLA,2025,TLA104,year-on-year change 3.74 points
+jump_over_3,warning,TLA,2025,TLA109,year-on-year change 3.95 points
+jump_over_3,warning,TLA,2025,TLA110,year-on-year change 3.35 points
+jump_over_3,warning,TLA,2025,TLA111,year-on-year change 3.52 points
+jump_over_3,warning,TLA,2025,TLA117,year-on-year change 3.32 points
+jump_over_3,warning,TLA,2025,TLA119,year-on-year change 4.38 points
+jump_over_3,warning,TLA,2025,TLA128,year-on-year change 3.11 points
+jump_over_3,warning,TLA,2025,TLA201,year-on-year change 3.15 points
+jump_over_3,warning,TLA,2025,TLA202,year-on-year change 3.50 points
+jump_over_3,warning,TLA,2024,TLA302,year-on-year change 3.15 points
+jump_over_3,warning,TLA,2025,TLA404,year-on-year change 3.02 points
+jump_over_3,warning,TLA,2025,TLA409,year-on-year change 3.24 points
+jump_over_3,warning,UEF,2025,7310106,year-on-year change 5.00 points
+jump_over_3,warning,UEF,2025,7310206,year-on-year change 6.00 points
+jump_over_3,warning,UEF,2025,7340120,year-on-year change 4.00 points
+jump_over_3,warning,UEF,2025,7340206,year-on-year change 5.00 points
+jump_over_3,warning,UEF,2026,7380101,year-on-year change 5.00 points
+jump_over_3,warning,UEF,2026,7380107,year-on-year change 5.00 points
+jump_over_3,warning,UEF,2025,7380108,year-on-year change 4.00 points
+jump_over_3,warning,UEF,2026,7380108,year-on-year change 5.00 points
+jump_over_3,warning,UEF,2026,7380109,year-on-year change 5.00 points
+jump_over_3,warning,UEF,2025,7510605,year-on-year change 4.00 points
+jump_over_3,warning,XDA,2025,7210110,year-on-year change 4.29 points
+jump_over_3,warning,XDA,2025,7340409,year-on-year change 3.55 points
+jump_over_3,warning,XDA,2025,7510105,year-on-year change 3.55 points
+jump_over_3,warning,XDA,2024,7520201,year-on-year change 4.60 points
+jump_over_3,warning,XDA,2024,7520309,year-on-year change 4.20 points
+jump_over_3,warning,XDA,2025,7520309,year-on-year change 3.10 points
+jump_over_3,warning,XDA,2025,7520320,year-on-year change 6.00 points
+jump_over_3,warning,XDA,2024,7580105,year-on-year change 4.10 points
+jump_over_3,warning,XDA,2024,7580201,year-on-year change 4.90 points
+jump_over_3,warning,XDA,2025,7580201QT,year-on-year change 4.70 points
+jump_over_3,warning,XDA,2025,7580201_04,year-on-year change 5.50 points
+jump_over_3,warning,XDA,2025,7580201_05,year-on-year change 5.40 points
+jump_over_3,warning,XDA,2025,7580213_01,year-on-year change 4.65 points
+jump_over_3,warning,YDS,2025,7720110,year-on-year change 4.25 points
+jump_over_3,warning,YDS,2025,7720115,year-on-year change 3.30 points
+jump_over_3,warning,YDS,2025,7720301,year-on-year change 3.88 points
+jump_over_3,warning,YDS,2025,7720301_03,year-on-year change 3.40 points
+jump_over_3,warning,YDS,2025,7720302,year-on-year change 4.80 points
+jump_over_3,warning,YDS,2025,7720401,year-on-year change 4.85 points
+jump_over_3,warning,YDS,2025,7720502,year-on-year change 3.30 points
+jump_over_3,warning,YDS,2025,7720602,year-on-year change 3.35 points
+jump_over_3,warning,YDS,2025,7720603,year-on-year change 3.04 points
+jump_over_3,warning,YDS,2025,7720701,year-on-year change 4.45 points
+jump_over_3,warning,YHB,2025,7720110,year-on-year change 5.94 points
+jump_over_3,warning,YHB,2026,7720110,year-on-year change 3.25 points
+jump_over_3,warning,YHB,2025,7720301YHT,year-on-year change 3.25 points
+jump_over_3,warning,YHB,2025,7720401,year-on-year change 4.58 points
+jump_over_3,warning,YHB,2025,7720701,year-on-year change 4.15 points

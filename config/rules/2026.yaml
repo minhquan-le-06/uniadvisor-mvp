@@ -1,0 +1,53 @@
+# Admission rules used for the 2026 season (THPT exam-score method only).
+# Every rule cites where it comes from. `verified: false` = taken from news coverage of the
+# regulation, not yet checked line by line against the official text. Check before a pilot.
+
+ruleset: "2026"
+status: official
+regulation: "Quy chế tuyển sinh đại học (Thông tư 08/2022/TT-BGDĐT, sửa đổi bởi Thông tư 06/2025/TT-BGDĐT) + hướng dẫn tuyển sinh năm 2026 (Công văn 2304/BGDĐT-GDĐH)"
+
+score_scale: 30                # 3 subjects x 10, all weights 1 (programs with a doubled subject are out of scope)
+
+priority:
+  # Điểm ưu tiên khu vực / đối tượng, on the 30-point scale
+  area:           # khu vực tuyển sinh
+    KV1: 0.75
+    KV2-NT: 0.5
+    KV2: 0.25
+    KV3: 0.0
+  category:       # đối tượng ưu tiên
+    none: 0.0
+    UT1: 2.0      # nhóm đối tượng 01-04
+    UT2: 1.0      # nhóm đối tượng 05-07
+  # From 2025: a candidate with total >= 22.5 (before priority) gets
+  # priority = (30 - total) / 7.5 * base_priority
+  taper_from: 22.5
+  taper_denominator: 7.5
+  area_valid_years_after_graduation: 1   # area priority counts in the graduation year and the next year only
+  verified: false
+
+floors:
+  # "Ngưỡng đảm bảo chất lượng đầu vào" set by the ministry for some groups (total incl. priority).
+  # Major-code prefixes -> minimum. Schools usually set higher cutoffs anyway.
+  health_medicine: {major_prefixes: ["772010", "772020", "772050"], min_total: 20.5, note: "Y khoa, Dược học, Răng-Hàm-Mặt"}
+  health_other:    {major_prefixes: ["7720"], min_total: 17.0, note: "Other health programs (nursing, lab tech, ...)"}
+  teacher_training: {major_prefixes: ["71402"], min_total: 19.0, note: "Đào tạo giáo viên (sư phạm)"}
+  verified: false
+
+application:
+  max_choices: 15              # số nguyện vọng tối đa
+  order_matters: true          # admitted to the highest-ranked wish whose cutoff you pass
+  verified: false
+
+risk_buckets:                  # from P(admit)
+  safe: 0.80
+  match: 0.45
+  reach: 0.15                  # below this: "unlikely", never recommended automatically
+
+list_policy:
+  target_size: 10
+  min_safe:                    # by the student's risk tolerance (SLM question risk_tolerance)
+    an_toan: 3
+    can_bang: 2
+    mao_hiem: 1
+  default_min_safe: 2
