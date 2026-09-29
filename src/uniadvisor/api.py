@@ -10,6 +10,8 @@ without explicit consent).
 
 from __future__ import annotations
 
+from typing import Annotated
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
@@ -24,7 +26,8 @@ app = FastAPI(title="UniAdvisor", version=__version__, description="Tư vấn đ
 
 
 class ProfileIn(BaseModel):
-    scores: dict[str, float] = Field(..., examples=[{"TO": 8.4, "VA": 7.0, "LI": 8.0, "N1": 8.2}], description="subject code -> score 0..10")
+    scores: dict[str, Annotated[float, Field(ge=0, le=10)]] = Field(..., min_length=1, examples=[{"TO": 8.4, "VA": 7.0, "LI": 8.0, "N1": 8.2}],
+                                                                    description="subject code -> score 0..10")
     province: str | None = None
     area: str = Field("KV3", pattern="^(KV1|KV2-NT|KV2|KV3)$")
     category: str = Field("none", pattern="^(none|UT1|UT2)$")

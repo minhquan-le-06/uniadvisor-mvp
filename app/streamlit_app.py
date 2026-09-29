@@ -76,7 +76,7 @@ with st.sidebar:
     prog, _ = catalog()
     st.markdown(f"**Phạm vi dữ liệu:** {prog.school_code.nunique()} trường, {len(prog)} ngành ở Hà Nội và TP.HCM · "
                 f"quy chế `{rules['ruleset']}` ({'dự thảo' if rules.get('status') == 'draft' else 'chính thức'})")
-    st.markdown(f"**Mô hình đánh giá mềm:** {'SLM đã tinh chỉnh' if judge_name == 'slm' else 'luật từ khóa (chưa có SLM)'}")
+    st.markdown(f"**Mô hình đánh giá mềm:** {'SLM đã tinh chỉnh + luật' if judge_name == 'hybrid' else 'luật từ khóa (chưa có SLM)'}")
     if ss.stage == "results":
         st.divider()
         st.subheader("Tùy chỉnh")
@@ -185,8 +185,9 @@ elif ss.stage == "results":
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("Số nguyện vọng", len(a.chosen))
             m2.metric("Đỗ ít nhất 1 NV", f"{100 * a.p_any:.0f}%")
-            m3.metric("An toàn / Vừa sức / Thử thách",
-                      " / ".join(str(sum(c["bucket"] == b for c in a.chosen)) for b in ("safe", "match", "reach")))
+            buckets = [b for b in ("safe", "match", "reach", "unlikely") if b != "unlikely" or any(c["bucket"] == b for c in a.chosen)]
+            m3.metric(" / ".join(BUCKET_VI[b] for b in buckets),
+                      " / ".join(str(sum(c["bucket"] == b for c in a.chosen)) for b in buckets))
             m4.metric("Ngành đủ điều kiện xét", a.n_eligible)
             st.markdown(a.summary)
             for n in a.notes:

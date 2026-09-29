@@ -62,7 +62,7 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 
 ## SLM training data
 
-- 61248 / 12958 / 13794 examples (train/val/test), split by university ({'val': 7, 'test': 7, 'train': 34}), synthetic students × real programs × 7 typed questions.
+- 61336 / 12953 / 13706 examples (train/val/test), split by university ({'val': 7, 'test': 7, 'train': 34}), synthetic students × real programs × 7 typed questions.
 - Labels come from the rubric teacher (5 simulated annotators → soft labels). They are only as good as the generator's phrase banks: a model trained on them must be checked on the **human gold set** (data/slm/gold_to_label.csv → gold_labeled.csv) before being trusted, and ideally retrained on LLM-teacher labels (`uniadvisor slm-relabel`).
 
 ## Known gaps (priority order)
@@ -73,4 +73,3 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 4. **Combination-specific cutoffs.** When a program sets different cutoffs per combination, the lowest is kept.
 5. **Employment outcomes** are not collected; the 'job/income' priority falls back to selectivity.
 6. **Human gold labels** for the SLM do not exist yet (template exported).
-7. **Official regulation check:** rule values marked `verified: false` in config/rules/2026.yaml.

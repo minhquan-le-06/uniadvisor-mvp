@@ -7,11 +7,11 @@ MBS,Trường Đại học Mở tp. Hồ Chí Minh,TP. Hồ Chí Minh,HCMCOU,htt
 DKC,Trường Đại học Công nghệ Tp. Hồ Chí Minh,TP. Hồ Chí Minh,HUTECH,www.hutech.edu.vn,144/24 Điện Biên Phủ - P.25 – Q.Bình Thạnh – TP.HCM.,64,
 NLS,Trường Đại học Nông lâm Tp. Hồ Chí Minh,TP. Hồ Chí Minh,NLU,www.hcmuaf.edu.vn,,50,
 SPH,Trường Đại học Sư phạm Hà Nội,Hà Nội,HNUE,www.hnue.edu.vn,"Số 136 Xuân Thuỷ, Phường Cầu Giấy, Hà Nội",51,
-DVL,Trường Đại học Văn Lang,TP. Hồ Chí Minh,VLU,https://vlu.edu.vn/,"69/89 Đặng Thùy Trâm, Phường Bình Lợi Trung, TP. HCM",54,
 BVH,Học viện Công nghệ Bưu chính Viễn thông,Hà Nội,PTIT,https://ptit.edu.vn/,"Số 96A Trần Phú, phường Hà Đông, thành phố Hà Nội.",45,29600000.0
-MDA,Trường Đại học Mỏ - Địa chất,Hà Nội,HUMG,http://www.humg.edu.vn,"Số 18, Phố Viên - Phường Đông Ngạc - TP Hà Nội",53,
+DVL,Trường Đại học Văn Lang,TP. Hồ Chí Minh,VLU,https://vlu.edu.vn/,"69/89 Đặng Thùy Trâm, Phường Bình Lợi Trung, TP. HCM",54,
 GHA,Trường Đại học Giao thông Vận tải,Hà Nội,UTC,tuyensinh.utc.edu.vn,"Số 3 phố Cầu Giấy, Phường Láng, TP. Hà Nội.",53,24000000.0
 HBT,Học viện Báo chí và Tuyên truyền,Hà Nội,AJC,http://www.ajc.hcma.vn,"Số 36 Đường Xuân Thuỷ, Phường Cầu Giấy, TP. Hà Nội",53,
+MDA,Trường Đại học Mỏ - Địa chất,Hà Nội,HUMG,http://www.humg.edu.vn,"Số 18, Phố Viên - Phường Đông Ngạc - TP Hà Nội",53,
 SGD,Trường Đại học Sài Gòn,TP. Hồ Chí Minh,SGU,https://www.sgu.edu.vn/,"273 An Dương Vương, Phường 3, Quận 5, TP. HCM.",44,30166000.0
 TLA,Trường Đại học Thuỷ lợi,Hà Nội,TLU,https://www.tlu.edu.vn/,"Số 175 Tây Sơn, P. Kim Liên, Hà Nội",46,
 NHH,Học viện Ngân hàng (Cơ sở Hà Nội),Hà Nội,BAV,https://www.hvnh.edu.vn/,"12 P. Chùa Bộc, Kim Liên, Hà Nội",45,45000000.0
@@ -20,10 +20,10 @@ XDA,Trường Đại học Xây dựng,Hà Nội,HUCE,https://huce.edu.vn/,"55 �
 HIU,Đại học Quốc tế Hồng Bàng,TP. Hồ Chí Minh,HIU,http://hiu.vn/,"215 Điện Biên Phủ, P. Gia Định, TP.HCM",43,
 UEF,Trường Đại học Kinh tế - Tài chính tp. Hồ Chí Minh,TP. Hồ Chí Minh,UEF,www.uef.edu.vn,"Trụ sở 141 - 145 Điện Biên Phủ, Phường Gia Định, Thành phố Hồ Chí Minh",42,80000000.0
 QST,Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM,TP. Hồ Chí Minh,HCMUS,http://www.hcmus.edu.vn,,39,33200000.0
-NTH,Trường Đại học Ngoại thương,Hà Nội,FTU,http://www.ftu.edu.vn,"Số 91 Phố Chùa Láng, Phường Láng, Hà Nội",38,50000000.0
 DDL,Trường Đại học Điện lực,Hà Nội,EPU,https://epu.edu.vn/,"số 235 đường Hoàng Quốc Việt, phường Nghĩa Đô, TP. Hà Nội",38,
-NHS,Trường Đại học Ngân hàng tp. Hồ Chí Minh,TP. Hồ Chí Minh,HUB,https://hub.edu.vn/,"36 Tôn Thất Đạm, Phường Sài Gòn, TP.Hồ Chí Minh.",34,23210000.0
+NTH,Trường Đại học Ngoại thương,Hà Nội,FTU,http://www.ftu.edu.vn,"Số 91 Phố Chùa Láng, Phường Láng, Hà Nội",38,50000000.0
 HTC,Học viện Tài chính,Hà Nội,AOF,https://hvtc.edu.vn,"Số 58, Phố Lê Văn Hiến, Phường Đông Ngạc, Thành phố Hà Nội",34,
+NHS,Trường Đại học Ngân hàng tp. Hồ Chí Minh,TP. Hồ Chí Minh,HUB,https://hub.edu.vn/,"36 Tôn Thất Đạm, Phường Sài Gòn, TP.Hồ Chí Minh.",34,23210000.0
 HSU,Trường Đại học Hoa Sen,TP. Hồ Chí Minh,HSU,https://www.hoasen.edu.vn/,"08 Nguyễn Văn Tráng, Phường Bến Thành, TP.HCM",33,
 QHX,Trường Đại học Khoa học Xã hội và Nhân văn - Đại học Quốc gia Hà Nội,Hà Nội,USSH,http://ussh.vnu.edu.vn,,29,29500000.0
 QHT,Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia Hà Nội,Hà Nội,HUS,https://hust.edu.vn/,334 Nguyễn Trãi - Thanh Xuân - Hà Nội,28,30000000.0
@@ -33,16 +33,16 @@ HVN,Học viện Nông nghiệp Việt Nam,Hà Nội,VNUA,https://vnua.edu.vn/,2
 NHF,Trường Đại học Hà Nội,Hà Nội,HANU,https://www.hanu.vn/,"Km9, đường Nguyễn Trãi, phường Đại Mỗ, Hà Nội",22,30810000.0
 MHN,Trường Đại học Mở Hà Nội,Hà Nội,HOU,https://hou.edu.vn/,"Nhà B101, phố Nguyễn Hiền, phường Bạch Mai, TP Hà Nội",17,22433000.0
 QSC,Trường Đại học Công nghệ Thông tin - Đại học Quốc gia TP.HCM,TP. Hồ Chí Minh,UIT,http://www.uit.edu.vn,"Khu phố 34, Phường Linh Xuân, Thành phố Hồ Chí Minh.",19,41800000.0
-YHB,Trường Đại học Y Hà Nội,Hà Nội,HMU,https://hmu.edu.vn/,"01 Tôn Thất Tùng, P. Kim Liên, Hà Nội",20,53200000.0
 QHI,Trường Đại học Công nghệ - Đại học Quốc gia Hà Nội,Hà Nội,UET,https://uet.vnu.edu.vn/,"144 Xuân Thủy, Cầu Giấy, Hà Nội",20,44000000.0
+YHB,Trường Đại học Y Hà Nội,Hà Nội,HMU,https://hmu.edu.vn/,"01 Tôn Thất Tùng, P. Kim Liên, Hà Nội",20,53200000.0
 BVS,Học viện Công nghệ Bưu chính Viễn thông - Cơ sở 2,TP. Hồ Chí Minh,PTITHCM,https://ptithcm.edu.vn/,"Số 97 Man Thiện, phường Tăng Nhơn Phú, thành phố Hồ Chí Minh.",19,29600000.0
 HCP,Học viện Chính sách và Phát triển,Hà Nội,APD,https://apd.edu.vn/,Học viện Chính sách và Phát triển – Bộ Kế hoạch và Đầu tư. Khu đô thị Nam An Khánh - Xã An Thượng – Huyện Hoài Đức – Thành phố Hà Nội.,19,28000000.0
 YDS,Trường Đại học Y dược TP.HCM,TP. Hồ Chí Minh,UMP,https://ump.edu.vn.,"217 Hồng Bàng, Phường Chợ Lớn, TP. Hồ Chí Minh",18,48000000.0
 KTS,Trường Đại học Kiến trúc Thành phố Hồ Chí Minh,TP. Hồ Chí Minh,UAH,http://www.uah.edu.vn,"Số 196 Pasteur, phường Xuân Hòa, Thành phố Hồ Chí Minh",5,
 QHF,Trường Đại học Ngoại ngữ - Đại học Quốc gia Hà Nội,Hà Nội,,https://ulis.vnu.edu.vn/,"Số 2 đường Phạm Văn Đồng, Phường Cầu Giấy, Hà Nội",16,38000000.0
 SIU,Trường Đại học Quốc tế Sài Gòn,TP. Hồ Chí Minh,SIU,www.siu.edu.vn,"8C Tống Hữu Định, Phường An Khánh, TPHCM",14,
-QHS,Trường Đại học Giáo dục - Đại học Quốc gia Hà Nội,Hà Nội,UED,https://education.vnu.edu.vn/,,12,14100000.0
 LPS,Trường Đại học Luật tp. Hồ Chí Minh,TP. Hồ Chí Minh,ULAW,https://www.hcmulaw.edu.vn/,"Số 02, Nguyễn Tất Thành, phường Xóm Chiếu, Tp. Hồ Chí Minh.",11,41000000.0
+QHS,Trường Đại học Giáo dục - Đại học Quốc gia Hà Nội,Hà Nội,UED,https://education.vnu.edu.vn/,,12,14100000.0
 HQT,Học viện Ngoại giao,Hà Nội,DAV,https://dav.edu.vn/,"Số 69 Phố Chùa Láng, Đống Đa, Hà Nội",11,45000000.0
 NTS,Trường Đại học Ngoại thương - Cơ sở phía Nam,TP. Hồ Chí Minh,FTU2,https://cs2.ftu.edu.vn,"Số 15, đường D5, P. 25, Q. Bình Thạnh, TP Hồ Chí Minh",6,50000000.0
 QHE,Trường Đại học Kinh tế - Đại học Quốc gia Hà Nội,Hà Nội,UEB,http://ueb.vnu.edu.vn,"144 đường Xuân Thủy, Cầu Giấy, Hà Nội",6,48000000.0

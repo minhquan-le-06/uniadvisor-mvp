@@ -7,7 +7,7 @@ Decision support for Vietnamese grade-12 students building an ordered university
 |---|---|---|
 | Knowledge base (rules, versioned per year) | eligibility, priority points (with the 2025 taper), ministry floors, risk buckets, list constraints | `config/rules/`, `src/uniadvisor/kb/` |
 | Statistical engine | next cutoff forecast, uncertainty, `P(admit)`, backtest | `src/uniadvisor/engine/` |
-| Small language model (self-built) | soft judgments only: risk tolerance, top priority, interest fit, ability fit, budget / location / special-condition fit read from free text | `src/uniadvisor/slm/` |
+| Small language model (self-built) + keyword rules | soft judgments only: risk tolerance, top priority, interest fit, ability fit, budget / location / special-condition fit read from free text; each question is routed to whichever judge answers it better | `src/uniadvisor/slm/` |
 | Optimizer | which programs to list and in what order: max `E = Σ pᵢ·Π(1−pⱼ)·uᵢ` s.t. KB constraints | `src/uniadvisor/optimizer.py` |
 | Comparison + explanations | criteria, goal-based weights, wins/losses, Vietnamese explanations from engine numbers only | `compare.py`, `explain.py` |
 | UI / API | Vietnamese chat (Streamlit), REST (FastAPI) | `app/`, `src/uniadvisor/api.py` |
@@ -17,9 +17,13 @@ questions (profile level) or "cần xác nhận" flags (program level).
 
 ## Quick start
 
+Python 3.11+. Commands below are for Windows; on Linux/macOS use `.venv/bin/` instead of `.venv/Scripts/`.
+Run everything from the project root (the folder with `pyproject.toml`).
+
 ```bash
 py -3.14 -m venv .venv --system-site-packages     # reuses torch/streamlit/fastapi if installed globally
 .venv/Scripts/python -m pip install -e ".[slm,dev]"
+.venv/Scripts/uniadvisor slm-data                   # regenerates data/slm/*.jsonl (not in git, ~40 s)
 .venv/Scripts/uniadvisor app                        # chat UI on http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # API on http://localhost:8000/docs
 .venv/Scripts/uniadvisor advise --scores "TO=8.4,VA=7,LI=8,N1=8.2" --province "Nghệ An" --area KV2-NT --text "Em muốn học CNTT, học phí tối đa 30 triệu/năm, muốn học ở Hà Nội"
@@ -27,7 +31,8 @@ py -3.14 -m venv .venv --system-site-packages     # reuses torch/streamlit/fasta
 ```
 
 The processed data (`data/processed/`) is included, so the app runs without re-collecting. Without a
-trained SLM in `models/slm/`, a transparent keyword judge is used (and says so in the sidebar).
+trained SLM in `models/slm/`, a transparent keyword judge is used; with one, the hybrid judge is used.
+The sidebar says which.
 
 ## Data pipeline (yearly refresh)
 
@@ -72,7 +77,31 @@ stored; no per-candidate records are kept.
 - Human gold set: label `data/slm/gold_to_label.csv` (never used for training), save as
   `gold_labeled.csv`, then `uniadvisor slm-eval --gold data/slm/gold_labeled.csv`.
 - Training: see [kaggle/README.md](kaggle/README.md) (`uniadvisor kaggle-bundle` → Kaggle GPU →
-  unzip into `models/slm/`). `uniadvisor slm-train --limit 2000 --epochs 1` is a local smoke test.
+  unzip into `models/slm/`). `uniadvisor slm-train --limit 300 --eval-limit 200 --epochs 1 --bs 16
+  --out models/slm_smoke` is a local smoke test.
+- Hybrid judge (`HybridJudge` in `slm/infer.py`): the SLM answers `SLM_QUESTIONS`, the keyword rules
+  answer the rest, and the SLM runs only on its questions. Change the split with a `"route"` list in
+  `models/slm/config.json`. Evaluate with `uniadvisor slm-eval --judge hybrid|slm|heuristic [--limit N]`
+  (`auto` = what the app uses). On CPU the full test split takes 5–20 min; `--limit 3000` is enough to
+  compare judges (use the same limit for each).
+
+First Kaggle run (3 epochs), test split, first 3,000 rows. Labels are the synthetic rubric labels, not
+human labels:
+
+| Question | Keywords | SLM | Routed to |
+|---|---|---|---|
+| location_ok | 0.602 | **0.984** | SLM |
+| budget_ok | 0.952 | **0.962** | SLM |
+| risk_tolerance (n=137) | 0.832 | **0.905** | SLM |
+| ability_fit | **0.851** | 0.477 | keywords (score arithmetic; the SLM is never confident) |
+| conditions_ok | **0.996** | 0.991 | keywords (tie, and far cheaper) |
+| interest_fit | **0.650** | 0.463 | keywords (weakest question for both) |
+| top_priority (n=137) | **0.891** | 0.803 | keywords |
+| **Overall** | 0.815 | 0.782 | **hybrid 0.889** |
+
+The SLM's confidences are better calibrated on 5 of 7 questions (ECE ≤ 0.10 everywhere; the keyword
+judge reaches 0.34 on budget_ok), so its escalations to clarifying questions are more meaningful.
+Re-pick the routing after every retrain.
 
 ## Privacy, reproducibility, disclaimer
 
@@ -80,8 +109,8 @@ stored; no per-candidate records are kept.
   for consent before processing (Decree 13/2023/NĐ-CP). The SLM runs locally.
 - Rules and statistics are deterministic: same input → same output (tested).
 - Every result carries the disclaimer that it is advisory and must be checked against the official
-  regulation and each school's đề án. Rule values not yet checked line by line against the official
-  text are marked `verified: false` in `config/rules/2026.yaml`; 2027 is a draft ruleset inheriting 2026.
+  regulation and each school's đề án. The 2026 rules in `config/rules/2026.yaml` were checked against the
+  official text (`verified: true`); 2027 is a draft ruleset inheriting 2026.
 
 ## Layout
 
@@ -89,7 +118,7 @@ stored; no per-candidate records are kept.
 config/            scope.yaml (schools/regions), sources.yaml, rules/<year>.yaml
 data/manual/       hand-entered anchors with quotes          data/inbox/  drop-in files (not in git)
 data/collected/    raw parsed rows per source                data/processed/  clean tables the app reads
-data/slm/          SLM dataset, rubrics, gold template       models/  forecast params, SLM adapter
+data/slm/          SLM dataset, rubrics, gold template       models/  forecast params, SLM adapter (models/slm/)
 reports/           data_report.md, backtest.json, distributions.json, SLM metrics
 src/uniadvisor/    collect/ build/ kb/ engine/ slm/ optimizer.py compare.py explain.py advisor.py api.py cli.py
 app/               streamlit_app.py                           kaggle/  training notebook + guide

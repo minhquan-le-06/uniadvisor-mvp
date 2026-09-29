@@ -145,7 +145,9 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
         ev["utility"] = compare.utility(ev["criteria"], weights, ev["answers"]["conditions_ok"])
 
     # 5. choose and order
-    cand = [Item(ev["program"]["program_id"], ev["p_admit"], ev["utility"], ev["bucket"] == "safe", ev["program"]["school_code"]) for ev in evals]
+    # "unlikely" programs are never recommended automatically (rules: risk_buckets); they stay in alternatives
+    cand = [Item(ev["program"]["program_id"], ev["p_admit"], ev["utility"], ev["bucket"] == "safe", ev["program"]["school_code"])
+            for ev in evals if ev["bucket"] != "unlikely"]
     picked = optimise(cand, k_max=k, min_safe=cons["min_safe"], max_per_school=4)
     by_key = {ev["program"]["program_id"]: ev for ev in evals}
     chosen = [by_key[it.key] for it in picked]

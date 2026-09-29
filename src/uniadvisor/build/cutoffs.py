@@ -92,7 +92,7 @@ def _dedupe(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     df["key_code"] = df.program_code.where(df.program_code != "", df.program_name.map(fold))
     df["n_rows"] = df.groupby(["source", "school_code", "year", "key_code"]).score.transform("size")
-    df = df.sort_values("score").drop_duplicates(["source", "school_code", "year", "key_code"], keep="first")
+    df = df.sort_values(["score", "program_code", "program_name", "url"], kind="stable").drop_duplicates(["source", "school_code", "year", "key_code"], keep="first")
     return df
 
 
