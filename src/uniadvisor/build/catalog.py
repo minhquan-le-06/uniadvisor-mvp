@@ -90,7 +90,7 @@ def _pick_unipilot(up: pd.DataFrame, school: str, code: str, name: str) -> pd.Se
         return None
     if len(cand) > 1:
         fn = set(fold(name).split())
-        cand = cand.assign(sim=cand.name_vi.map(lambda n: len(fn & set(fold(n).split())))).sort_values("sim", ascending=False)
+        cand = cand.assign(sim=cand.name_vi.map(lambda n: len(fn & set(fold(n).split())))).sort_values("sim", ascending=False, kind="stable")
     return cand.iloc[0]
 
 
@@ -110,7 +110,7 @@ def build() -> dict:
 
     latest30 = cut[(cut.year == LATEST) & (cut.scale == 30) & cut.school_code.isin(city_of)]
     per_school = latest30.groupby("school_code").size()
-    keep_schools = per_school[per_school >= scope["min_programs_2026"]].sort_values(ascending=False).index[: scope["max_schools"]]
+    keep_schools = per_school[per_school >= scope["min_programs_2026"]].sort_values(ascending=False, kind="stable").index[: scope["max_schools"]]
     dropped = sorted(set(city_of) - set(keep_schools))
 
     programs, reasons = [], []
@@ -162,9 +162,12 @@ def build() -> dict:
         ))
     prog = pd.DataFrame(programs)
     # the same program sometimes appears under two codes (e.g. '7520207AT' and '7520207_AT'):
-    # same school + same name + same latest cutoff -> keep the one with the longest history
+    # same school + same name + same latest cutoff -> keep the one with the longest history,
+    # then the best-confirmed one; program_id breaks remaining ties so the build is reproducible
     prog["_name"] = prog.program_name.map(fold)
-    prog = prog.sort_values("years_with_cutoff", ascending=False).drop_duplicates(["school_code", "_name", "cutoff_2026"]).drop(columns="_name")
+    prog["_status"] = prog.status_2026.map({"confirmed_2_sources": 0, "single_source": 1}).fillna(2)
+    prog = (prog.sort_values(["years_with_cutoff", "_status", "program_id"], ascending=[False, True, True], kind="stable")
+            .drop_duplicates(["school_code", "_name", "cutoff_2026"]).drop(columns=["_name", "_status"]))
     prog = prog.sort_values(["school_code", "program_id"]).reset_index(drop=True)
     # tuition fallback: school median of per-year prices, marked as imputed
     per_year = prog[prog.tuition_unit == "per_year"]
