@@ -1,0 +1,226 @@
+{
+  "judge": "heuristic",
+  "split": "test",
+  "n": 13706,
+  "per_question": {
+    "ability_fit": {
+      "n": 2492,
+      "accuracy": 0.8371,
+      "macro_f1": 0.8637,
+      "ece": 0.1395,
+      "level_mae": 0.1677,
+      "escalation_rate": 0.012,
+      "accuracy_when_not_escalated": 0.8351
+    },
+    "budget_ok": {
+      "n": 2492,
+      "accuracy": 0.9591,
+      "macro_f1": 0.8996,
+      "ece": 0.3473,
+      "escalation_rate": 0.8443,
+      "accuracy_when_not_escalated": 0.982
+    },
+    "conditions_ok": {
+      "n": 2492,
+      "accuracy": 0.9944,
+      "macro_f1": 0.9288,
+      "ece": 0.234,
+      "escalation_rate": 0.0209,
+      "accuracy_when_not_escalated": 0.9992
+    },
+    "interest_fit": {
+      "n": 2492,
+      "accuracy": 0.6926,
+      "macro_f1": 0.5781,
+      "ece": 0.1334,
+      "level_mae": 0.3848,
+      "escalation_rate": 0.5417,
+      "accuracy_when_not_escalated": 0.6646
+    },
+    "location_ok": {
+      "n": 2492,
+      "accuracy": 0.6561,
+      "macro_f1": 0.6515,
+      "ece": 0.0481,
+      "escalation_rate": 0.3868,
+      "accuracy_when_not_escalated": 0.5903
+    },
+    "risk_tolerance": {
+      "n": 623,
+      "accuracy": 0.8668,
+      "macro_f1": 0.8693,
+      "ece": 0.2368,
+      "escalation_rate": 0.4671,
+      "accuracy_when_not_escalated": 0.9277
+    },
+    "top_priority": {
+      "n": 623,
+      "accuracy": 0.8941,
+      "macro_f1": 0.8936,
+      "ece": 0.2432,
+      "escalation_rate": 0.3274,
+      "accuracy_when_not_escalated": 0.8687
+    }
+  },
+  "by_group": {
+    "region": {
+      "central": {
+        "n": 1958,
+        "accuracy": 0.8514
+      },
+      "north": {
+        "n": 8228,
+        "accuracy": 0.8178
+      },
+      "south": {
+        "n": 3520,
+        "accuracy": 0.8568
+      }
+    },
+    "track": {
+      "CNNN+DI": {
+        "n": 44,
+        "accuracy": 0.9091
+      },
+      "CNNN+GDKTPL": {
+        "n": 44,
+        "accuracy": 0.8182
+      },
+      "CNNN+LI": {
+        "n": 110,
+        "accuracy": 0.8455
+      },
+      "CNNN+N1": {
+        "n": 154,
+        "accuracy": 0.8312
+      },
+      "CNNN+SU": {
+        "n": 66,
+        "accuracy": 0.9091
+      },
+      "DI+GDKTPL": {
+        "n": 374,
+        "accuracy": 0.8422
+      },
+      "DI+HO": {
+        "n": 638,
+        "accuracy": 0.8574
+      },
+      "DI+LI": {
+        "n": 1078,
+        "accuracy": 0.8386
+      },
+      "DI+N1": {
+        "n": 1056,
+        "accuracy": 0.8343
+      },
+      "DI+SI": {
+        "n": 264,
+        "accuracy": 0.822
+      },
+      "DI+SU": {
+        "n": 1012,
+        "accuracy": 0.8478
+      },
+      "DI+TI": {
+        "n": 88,
+        "accuracy": 0.8409
+      },
+      "GDKTPL+HO": {
+        "n": 330,
+        "accuracy": 0.8333
+      },
+      "GDKTPL+LI": {
+        "n": 572,
+        "accuracy": 0.8094
+      },
+      "GDKTPL+N1": {
+        "n": 198,
+        "accuracy": 0.803
+      },
+      "GDKTPL+SI": {
+        "n": 110,
+        "accuracy": 0.8182
+      },
+      "GDKTPL+SU": {
+        "n": 660,
+        "accuracy": 0.8106
+      },
+      "HO+LI": {
+        "n": 836,
+        "accuracy": 0.817
+      },
+      "HO+N1": {
+        "n": 748,
+        "accuracy": 0.8449
+      },
+      "HO+SI": {
+        "n": 352,
+        "accuracy": 0.8239
+      },
+      "HO+SU": {
+        "n": 660,
+        "accuracy": 0.8576
+      },
+      "HO+TI": {
+        "n": 44,
+        "accuracy": 0.7727
+      },
+      "LI+N1": {
+        "n": 1012,
+        "accuracy": 0.8113
+      },
+      "LI+SI": {
+        "n": 286,
+        "accuracy": 0.8252
+      },
+      "LI+SU": {
+        "n": 1232,
+        "accuracy": 0.8149
+      },
+      "LI+TI": {
+        "n": 110,
+        "accuracy": 0.9
+      },
+      "N1+SI": {
+        "n": 352,
+        "accuracy": 0.8693
+      },
+      "N1+SU": {
+        "n": 902,
+        "accuracy": 0.8404
+      },
+      "N1+TI": {
+        "n": 66,
+        "accuracy": 0.803
+      },
+      "SI+SU": {
+        "n": 132,
+        "accuracy": 0.8258
+      },
+      "SU+TI": {
+        "n": 110,
+        "accuracy": 0.8091
+      }
+    },
+    "score_band": {
+      "6-7.5": {
+        "n": 4950,
+        "accuracy": 0.8289
+      },
+      "7.5-8.5": {
+        "n": 1342,
+        "accuracy": 0.8294
+      },
+      "<6": {
+        "n": 7172,
+        "accuracy": 0.8364
+      },
+      ">=8.5": {
+        "n": 242,
+        "accuracy": 0.814
+      }
+    }
+  },
+  "overall_accuracy": 0.8326
+}

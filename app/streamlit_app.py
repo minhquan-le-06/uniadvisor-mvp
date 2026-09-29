@@ -185,8 +185,9 @@ elif ss.stage == "results":
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("Số nguyện vọng", len(a.chosen))
             m2.metric("Đỗ ít nhất 1 NV", f"{100 * a.p_any:.0f}%")
-            m3.metric("An toàn / Vừa sức / Thử thách",
-                      " / ".join(str(sum(c["bucket"] == b for c in a.chosen)) for b in ("safe", "match", "reach")))
+            buckets = [b for b in ("safe", "match", "reach", "unlikely") if b != "unlikely" or any(c["bucket"] == b for c in a.chosen)]
+            m3.metric(" / ".join(BUCKET_VI[b] for b in buckets),
+                      " / ".join(str(sum(c["bucket"] == b for c in a.chosen)) for b in buckets))
             m4.metric("Ngành đủ điều kiện xét", a.n_eligible)
             st.markdown(a.summary)
             for n in a.notes:
