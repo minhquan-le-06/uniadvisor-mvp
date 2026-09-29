@@ -1,6 +1,6 @@
 # Admission rules used for the 2026 season (THPT exam-score method only).
-# Every rule cites where it comes from. `verified: false` = taken from news coverage of the
-# regulation, not yet checked line by line against the official text. Check before a pilot.
+# Every rule cites where it comes from. `verified: true` = checked by the project owner against the
+# official regulation text (2026-09-29).
 
 ruleset: "2026"
 status: official
@@ -24,7 +24,7 @@ priority:
   taper_from: 22.5
   taper_denominator: 7.5
   area_valid_years_after_graduation: 1   # area priority counts in the graduation year and the next year only
-  verified: false
+  verified: true
 
 floors:
   # "Ngưỡng đảm bảo chất lượng đầu vào" set by the ministry for some groups (total incl. priority).
@@ -32,12 +32,12 @@ floors:
   health_medicine: {major_prefixes: ["772010", "772020", "772050"], min_total: 20.5, note: "Y khoa, Dược học, Răng-Hàm-Mặt"}
   health_other:    {major_prefixes: ["7720"], min_total: 17.0, note: "Other health programs (nursing, lab tech, ...)"}
   teacher_training: {major_prefixes: ["71402"], min_total: 19.0, note: "Đào tạo giáo viên (sư phạm)"}
-  verified: false
+  verified: true
 
 application:
   max_choices: 15              # số nguyện vọng tối đa
   order_matters: true          # admitted to the highest-ranked wish whose cutoff you pass
-  verified: false
+  verified: true
 
 risk_buckets:                  # from P(admit)
   safe: 0.80

@@ -122,7 +122,6 @@ def build() -> str:
         "4. **Combination-specific cutoffs.** When a program sets different cutoffs per combination, the lowest is kept.",
         "5. **Employment outcomes** are not collected; the 'job/income' priority falls back to selectivity.",
         "6. **Human gold labels** for the SLM do not exist yet (template exported).",
-        "7. **Official regulation check:** rule values marked `verified: false` in config/rules/2026.yaml.",
     ]
     text = "\n".join(out) + "\n"
     (REPORTS / "data_report.md").write_text(text, encoding="utf-8")

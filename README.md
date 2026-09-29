@@ -109,8 +109,8 @@ Re-pick the routing after every retrain.
   for consent before processing (Decree 13/2023/NĐ-CP). The SLM runs locally.
 - Rules and statistics are deterministic: same input → same output (tested).
 - Every result carries the disclaimer that it is advisory and must be checked against the official
-  regulation and each school's đề án. Rule values not yet checked line by line against the official
-  text are marked `verified: false` in `config/rules/2026.yaml`; 2027 is a draft ruleset inheriting 2026.
+  regulation and each school's đề án. The 2026 rules in `config/rules/2026.yaml` were checked against the
+  official text (`verified: true`); 2027 is a draft ruleset inheriting 2026.
 
 ## Layout
 
