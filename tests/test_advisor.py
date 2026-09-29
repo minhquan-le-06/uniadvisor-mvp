@@ -23,5 +23,6 @@ def test_advise_end_to_end_is_deterministic_and_valid():
     assert utils == sorted(utils, reverse=True)                      # ordered by utility
     assert sum(c["bucket"] == "safe" for c in a1.chosen) >= min(a1.constraints["min_safe"], len(a1.chosen))
     assert all(0 <= c["p_admit"] <= 1 for c in a1.chosen)
+    assert all(c["bucket"] != "unlikely" for c in a1.chosen)          # never recommended automatically
     assert a1.clarify == []                                          # both profile questions answered by the student
     assert all(c["explanation"] for c in a1.chosen)
