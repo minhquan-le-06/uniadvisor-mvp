@@ -6,7 +6,7 @@ Setup on a fresh machine (Python 3.11+, run from the project root; `.venv/Script
 python -m venv .venv && . .venv/bin/activate
 pip install -e ".[dev]"            # add ".[slm]" only if you will run the SLM (pulls torch)
 uniadvisor slm-data                # regenerates data/slm/*.jsonl (not in git, ~40 s)
-python -m pytest -q                # 40 tests pass (1 skips without torch)
+python -m pytest -q                # 45 tests pass (1 skips without torch)
 ```
 
 Everything the app needs is committed (`data/processed`, `data/collected`, `data/unipilot`,
