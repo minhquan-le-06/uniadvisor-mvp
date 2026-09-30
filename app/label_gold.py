@@ -57,7 +57,8 @@ with st.sidebar:
     done, total = int(prog.done.sum()), int(prog.total.sum())
     st.progress(done / total if total else 0.0, text=f"Đã gán {done}/{total}")
     st.dataframe(prog.rename(columns={"done": "Đã gán", "total": "Tổng"}), use_container_width=True)
-    st.caption(f"Lưu tự động vào `{gold.LABELED.relative_to(gold.SLM_DATA.parent.parent)}`")
+    st.caption(f"Lưu tự động vào `{gold.LABELED.relative_to(gold.SLM_DATA.parent.parent)}` · "
+               "Hướng dẫn: `data/slm/LABELLING.md` (mỗi câu hỏi chỉ xét bằng chứng của riêng nó)")
     st.download_button("Tải file đã gán nhãn", gold.LABELED.read_bytes() if gold.LABELED.exists() else b"",
                        "gold_labeled.csv", "text/csv", disabled=not gold.LABELED.exists(), icon=":material/download:")
 

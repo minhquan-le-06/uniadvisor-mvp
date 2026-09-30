@@ -80,7 +80,7 @@ distributions built from them are committed. Without them, `build` falls back to
   Optional LLM teacher (`uniadvisor slm-relabel`, Gemini via `GEMINI_API_KEYS`, as in UniPilotData).
 - Human gold set: `uniadvisor label` opens a labelling tool (http://localhost:8502) over
   `data/slm/gold_to_label.csv` (294 test rows, 42 per question, never used for training). It shows the
-  rubric, never a model answer, and saves every click to `data/slm/gold_labeled.csv` (commit it). Then
+  rubric, never a model answer (guide: [data/slm/LABELLING.md](data/slm/LABELLING.md)), and saves every click to `data/slm/gold_labeled.csv` (commit it). Then
   `uniadvisor slm-eval --judge hybrid --gold data/slm/gold_labeled.csv`. Run `uniadvisor slm-data` first:
   gold ids must match your local test split (the tool warns when they do not).
 - Training: see [kaggle/README.md](kaggle/README.md) (`uniadvisor kaggle-bundle` → Kaggle GPU →
