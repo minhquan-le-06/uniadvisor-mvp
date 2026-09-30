@@ -79,3 +79,43 @@ def test_scale_and_fields():
     assert field_of("Điện ảnh và Nghệ thuật đại chúng") == "thiet_ke"
     assert field_of("Kỹ thuật điện") == "ky_thuat"
     assert field_of("Chăn nuôi", "7620105") == "nong_lam_mt"
+
+
+def test_ads_final_rows_keep_thpt_and_mark_40_point_scale(tmp_path, monkeypatch):
+    import pandas as pd
+
+    import uniadvisor.build.cutoffs as cutoffs
+
+    rows = [
+        # source, school, year, code, name, combos, score, type, note
+        ("ads_final_cutoffs", "MHN", 2019, "7220201", "Ngôn ngữ Anh", "D01", "28.47", "THPTQG - Thang 40", ""),
+        ("ads_final_cutoffs", "BKA", 2019, "IT1", "Khoa học máy tính", "A00;A01", "27.42", "THPTQG", "TTNV <= 2"),
+        ("ads_final_cutoffs", "BKA", 2019, "IT2", "Kỹ thuật máy tính", "A00", "26,85", "THPTQG", "(CT tiên tiến)"),
+        ("ads_final_cutoffs", "BKA", 2019, "IT3", "Tin học", "A00", "24", "THPTQG", "kết hợp chứng chỉ IELTS"),
+    ]
+    cols = ["source", "school_code", "year", "program_code", "program_name", "combos", "score_raw", "score_type", "note"]
+    pd.DataFrame(rows, columns=cols).assign(url="u", fetched_at="t").to_csv(tmp_path / "ads_final_cutoffs.csv", index=False)
+    monkeypatch.setattr(cutoffs, "COLLECTED", tmp_path)
+    df = cutoffs.ads_final_rows().set_index("program_code")
+    assert list(df.index) == ["7220201", "IT1", "IT2"]  # a programme label is fine; a named other method is dropped
+    assert df.loc["IT2", "score"] == 26.85
+    assert df.loc["7220201", "scale_hint"] == 40 and df.loc["IT1", "scale_hint"] == 0
+
+
+def test_reused_program_codes_are_cut_from_history():
+    import pandas as pd
+
+    from uniadvisor.build.catalog import _drop_reused_codes, same_name
+
+    assert same_name("Kế toán (Chương trình chất lượng cao)", "Kế toán CLC")
+    assert not same_name("Ngôn ngữ Trung Quốc", "Ngôn ngữ Anh")
+    assert not same_name("Quản lý xây dựng", "Khoa học máy tính")
+    h = pd.DataFrame([
+        # XDA29 became a different program: the 2021 row and anything older must go
+        ("XDA:XDA29", 2020, "Quản lý xây dựng", 16.0), ("XDA:XDA29", 2021, "Quản lý xây dựng", 16.0),
+        ("XDA:XDA29", 2026, "Khoa học máy tính", 24.63),
+        # a wrong name with a plausible score is kept (one aggregate mislabels names)
+        ("BKA:IT1", 2019, "Kỹ thuật xây dựng", 27.42), ("BKA:IT1", 2026, "Khoa học Máy tính", 28.5),
+    ], columns=["program_id", "year", "program_name", "score"])
+    out = _drop_reused_codes(h, {"XDA:XDA29": "Khoa học máy tính", "BKA:IT1": "Khoa học Máy tính"})
+    assert sorted(zip(out.program_id, out.year)) == [("BKA:IT1", 2019), ("BKA:IT1", 2026), ("XDA:XDA29", 2026)]

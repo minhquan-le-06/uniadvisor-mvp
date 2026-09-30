@@ -94,6 +94,39 @@ def _pick_unipilot(up: pd.DataFrame, school: str, code: str, name: str) -> pd.Se
     return cand.iloc[0]
 
 
+# words shared by many unrelated program names; ignored when comparing two names
+_GENERIC = set("nganh chuong trinh ky thuat cong nghe khoa hoc quan tri va cua clc chat luong cao tien tien dai tra "
+               "chuan tieng ngon ngu lien ket quoc te dac biet tai ha noi tp hcm co so phan hieu".split())
+REUSE_JUMP = 2.5  # points
+
+
+def _name_tokens(name: str) -> set[str]:
+    toks = set(re.sub(r"[^a-z0-9 ]", " ", fold(name)).split())
+    return (toks - _GENERIC) or toks
+
+
+def same_name(a: str, b: str) -> bool:
+    """Loose match: at least half of the shorter name's distinctive words appear in the other one."""
+    ta, tb = _name_tokens(a), _name_tokens(b)
+    return not ta or not tb or len(ta & tb) >= 0.5 * min(len(ta), len(tb))
+
+
+def _drop_reused_codes(history: pd.DataFrame, current_name: dict[str, str]) -> pd.DataFrame:
+    """Schools reuse program codes (XDA29: 'Quản lý xây dựng' in 2021, 'Khoa học máy tính' in 2026).
+    Walking back from the latest year, the first year whose name differs from the current one AND whose
+    cutoff jumps > REUSE_JUMP from the next kept year ends the history: that year and all older ones go.
+    A name difference alone is not enough (one aggregate mislabels names while its scores are right)."""
+    keep = []
+    for pid, g in history.sort_values("year", ascending=False).groupby("program_id", sort=False):
+        last = None
+        for r in g.itertuples():
+            if last is not None and not same_name(r.program_name, current_name[pid]) and abs(r.score - last) > REUSE_JUMP:
+                break
+            keep.append(r.Index)
+            last = r.score
+    return history.loc[sorted(keep)]
+
+
 def build() -> dict:
     ensure_dirs()
     scope = yaml.safe_load((CONFIG / "scope.yaml").read_text(encoding="utf-8"))
@@ -117,7 +150,8 @@ def build() -> dict:
     for r in latest30[latest30.school_code.isin(keep_schools)].itertuples(index=False):
         u = _pick_unipilot(up, r.school_code, r.program_code, r.program_name)
         combos = split_combos(u.combos_thpt) if u is not None and u.combos_thpt else []
-        hist_combos = cut[(cut.school_code == r.school_code) & (cut.key_code == r.key_code)].combos
+        # combinations offered in recent years only (2018-2022 rows list combinations since dropped)
+        hist_combos = cut[(cut.school_code == r.school_code) & (cut.key_code == r.key_code) & (cut.year >= min(scope["history_years"]))].combos
         for c in hist_combos:
             combos += [x for x in split_combos(c) if x not in combos]
         exam_ok = [c for c in combos if c in exam]
@@ -179,7 +213,9 @@ def build() -> dict:
 
     history = cut[cut.scale == 30].merge(prog[["program_id", "school_code", "program_code"]].assign(key_code=prog.program_id.str.split(":", n=1).str[1]),
                                           on=["school_code", "key_code"], how="inner", suffixes=("", "_p"))
-    history = history[["program_id", "year", "score", "status", "chosen_source", "score_vnexpress", "score_vietnamnet", "score_tuyensinh247", "n_sources", "method_evidence", "several_rows", "url"]]
+    history = _drop_reused_codes(history, dict(zip(prog.program_id, prog.program_name)))
+    prog["years_with_cutoff"] = prog.program_id.map(history.groupby("program_id").year.nunique()).fillna(0).astype(int)
+    history = history[["program_id", "year", "score", "status", "chosen_source", "score_vnexpress", "score_vietnamnet", "score_tuyensinh247", "score_ads_final", "n_sources", "method_evidence", "several_rows", "url"]]
 
     schools = []
     for code in keep_schools:

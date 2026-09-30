@@ -6,7 +6,7 @@
 # / music schools (need an aptitude test, i.e. another admission method).
 
 admission_year: 2027          # the season we advise for
-history_years: [2023, 2024, 2025, 2026]
+history_years: [2023, 2024, 2025, 2026]   # years the news collectors fetch; ADS_Final adds 2018-2024
 regions: ["Hà Nội", "TP. Hồ Chí Minh"]
 
 min_programs_2026: 5          # usable THPT cutoffs (30-point scale) in the latest year

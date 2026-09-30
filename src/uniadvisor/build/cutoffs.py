@@ -1,4 +1,4 @@
-"""Clean THPT-exam cutoffs from both news sources, cross-check them, and flag problems.
+"""Clean THPT-exam cutoffs from every source, cross-check them, and flag problems.
 
 Output: data/processed/cutoffs.csv (one row per school x program code x year) and
 data/processed/check_problems.csv.
@@ -109,8 +109,33 @@ def tuyensinh247_rows() -> pd.DataFrame:
     return df[cols]
 
 
+def ads_final_rows() -> pd.DataFrame:
+    """2018-2024 from the ADS_Final aggregate. Every row is labelled THPT; a note naming another method
+    (e.g. 'kết hợp chứng chỉ') still drops it."""
+    path = COLLECTED / "ads_final_cutoffs.csv"
+    cols = ["source", "school_code", "year", "program_code", "program_name", "combos", "score", "evidence", "url", "fetched_at"]
+    if not path.exists():
+        return pd.DataFrame(columns=cols)
+    df = pd.read_csv(path, dtype=str, keep_default_na=False)
+    df["year"] = df.year.astype(int)
+    df["score"] = df.score_raw.map(parse_score)
+    df = df[df.score.notna() & (df.score > 0) & df.note.map(_names_thpt_only)].copy()
+    df["evidence"] = "labelled_thptqg"
+    # 'Thang 40' is the 40-point scale even when the number is <= 30 (e.g. 28.47 with English x2)
+    df["scale_hint"] = np.where(df.score_type.str.contains("40"), 40, 0)
+    return df[cols + ["scale_hint"]]
+
+
+def _names_thpt_only(note: str) -> bool:
+    """ADS notes are often programme labels ('CT tiên tiến', 'TTNV <= 3'), which _method reads as 'other':
+    only a named other method counts against a row here."""
+    f = f" {fold(note)} "
+    return not (any(p in f for p in OTHER_PHRASES) or set(re.findall(r"[a-z0-9-]+", f)) & OTHER_TOKENS)
+
+
 # (short name, frame suffix, trust); earlier = preferred when sources disagree without a majority
-SOURCES = (("vne", "vnexpress_cutoffs", 3), ("vnn", "vietnamnet_cutoffs", 3), ("ts", "tuyensinh247_cutoffs", 4))
+SOURCES = (("vne", "vnexpress_cutoffs", 3), ("vnn", "vietnamnet_cutoffs", 3), ("ads", "ads_final_cutoffs", 4),
+           ("ts", "tuyensinh247_cutoffs", 4))
 
 
 def _consensus(values: dict[str, float]) -> tuple[float, str, str, str | None]:
@@ -133,14 +158,16 @@ def _consensus(values: dict[str, float]) -> tuple[float, str, str, str | None]:
 
 def build() -> dict:
     ensure_dirs()
-    frames = {"vne": _dedupe(vnexpress_rows()), "vnn": _dedupe(vietnamnet_rows()), "ts": _dedupe(tuyensinh247_rows())}
+    frames = {"vne": _dedupe(vnexpress_rows()), "vnn": _dedupe(vietnamnet_rows()), "ads": _dedupe(ads_final_rows()),
+              "ts": _dedupe(tuyensinh247_rows())}
     keys = ["school_code", "year", "key_code"]
     merged = None
     for short, df in frames.items():
         df = df.rename(columns={c: f"{c}_{short}" for c in df.columns if c not in keys})
         merged = df if merged is None else merged.merge(df, on=keys, how="outer")
-    # rows only tuyensinh247 has are used for cross-checking only: they never add a program-year on their own
-    merged = merged[merged.score_vne.notna() | merged.score_vnn.notna()]
+    # rows only tuyensinh247 has are used for cross-checking only: they never add a program-year on their own.
+    # ADS_Final may: it is the only source for 2018-2022
+    merged = merged[merged.score_vne.notna() | merged.score_vnn.notna() | merged.score_ads.notna()]
 
     rows, problems = [], []
     for r in merged.to_dict("records"):
@@ -159,9 +186,10 @@ def build() -> dict:
 
         rows.append(dict(
             school_code=r["school_code"], year=int(r["year"]), program_code=clean(pick("program_code")), program_name=clean(pick("program_name")),
-            key_code=r["key_code"], score=float(score), scale=scale_of(float(score)), combos=pick("combos"), status=status,
+            key_code=r["key_code"], score=float(score), scale=40 if r.get("scale_hint_ads") == 40 and score <= 40 else scale_of(float(score)), combos=pick("combos"), status=status,
             chosen_source=dict((s, full) for s, full, _ in SOURCES)[chosen], n_sources=len(values),
             score_vnexpress=values.get("vne", np.nan), score_vietnamnet=values.get("vnn", np.nan), score_tuyensinh247=values.get("ts", np.nan),
+            score_ads_final=values.get("ads", np.nan),
             method_evidence=r.get(f"evidence_{chosen}"),
             several_rows=any(r.get(f"n_rows_{s}", 1) not in (1, None) and pd.notna(r.get(f"n_rows_{s}")) and r.get(f"n_rows_{s}") > 1 for s, _, _ in SOURCES),
             tuition_raw=r.get("tuition_raw_vne") if isinstance(r.get("tuition_raw_vne"), str) else "",

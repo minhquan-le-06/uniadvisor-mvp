@@ -7,7 +7,7 @@ import logging
 import pandas as pd
 import yaml
 
-from uniadvisor.collect import tuyensinh247, vietnamnet, vnexpress
+from uniadvisor.collect import ads_final, tuyensinh247, vietnamnet, vnexpress
 from uniadvisor.fetch import BlockedByRobots, PoliteClient
 from uniadvisor.paths import COLLECTED, CONFIG, ensure_dirs
 
@@ -28,7 +28,7 @@ def collect_all(refresh: bool = False, only: list[str] | None = None, codes: lis
     codes = codes or candidate_codes(scope)
     years = scope["history_years"]
     client = PoliteClient(refresh=refresh)
-    todo = set(only or ["vietnamnet", "vnexpress", "distributions", "tuyensinh247"])
+    todo = set(only or ["vietnamnet", "vnexpress", "distributions", "tuyensinh247", "ads_final"])
     counts: dict[str, int] = {}
 
     if "distributions" in todo:
@@ -82,6 +82,11 @@ def collect_all(refresh: bool = False, only: list[str] | None = None, codes: lis
             log.info("tuyensinh247 %d/%d %s rows=%d", i, len(codes), code, len(rows))
         pd.DataFrame(rows).to_csv(COLLECTED / "tuyensinh247_cutoffs.csv", index=False, encoding="utf-8")
         counts["tuyensinh247_rows"] = len(rows)
+
+    if "ads_final" in todo:
+        rows = list(ads_final.rows(client, codes))
+        pd.DataFrame(rows).to_csv(COLLECTED / "ads_final_cutoffs.csv", index=False, encoding="utf-8")
+        counts["ads_final_rows"] = len(rows)
 
     counts["http_requests"] = client.requests_made
     return counts

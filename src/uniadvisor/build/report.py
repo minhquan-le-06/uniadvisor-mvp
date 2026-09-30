@@ -27,6 +27,8 @@ def build() -> str:
     dmeta = pd.read_csv(PROCESSED / "distributions_meta.csv")
     vne = pd.read_csv(COLLECTED / "vnexpress_cutoffs.csv", dtype=str)
     vnn = pd.read_csv(COLLECTED / "vietnamnet_cutoffs.csv", dtype=str)
+    ads_path = COLLECTED / "ads_final_cutoffs.csv"
+    ads = pd.read_csv(ads_path, dtype=str) if ads_path.exists() else pd.DataFrame()
     bt = json.loads((REPORTS / "backtest.json").read_text(encoding="utf-8")) if (REPORTS / "backtest.json").exists() else None
     dist_rep = json.loads((REPORTS / "distributions.json").read_text(encoding="utf-8")) if (REPORTS / "distributions.json").exists() else {}
     slm = json.loads((SLM_DATA / "stats.json").read_text(encoding="utf-8")) if (SLM_DATA / "stats.json").exists() else None
@@ -39,13 +41,16 @@ def build() -> str:
     out = [
         f"# Data report (generated {date.today().isoformat()})",
         "",
-        "MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff history 2023-2026, advice for 2027.",
+        "MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff history 2018-2026 (2023-2026 from news sources), advice for 2027.",
         "",
         "## Sources",
         "",
         "| Source | Trust | What | Rows collected |",
         "|---|---|---|---|",
         f"| VietNamNet cutoff API | 3 (major news) | cutoffs 2023-2026, all methods mixed, method in a free-text note | {len(vnn)} |",
+        *([f"| ADS_Final student project (github.com/HTNam1710/ADS_Final, also in mduchd/DSS_Dataset) | 4 (scraped aggregate) | "
+           f"THPT cutoffs 2018-2024 per combination; the only source for 2018-2022; names unreliable in some years, scores match "
+           f"VietNamNet in ~90% of 2023-2024 rows | {len(ads)} |"] if len(ads) else []),
         f"| VnExpress tra cứu đại học | 3 (major news) | cutoffs 2025-2026 with a THPT column, tuition | {len(vne)} |",
         "| VnExpress phổ điểm 2026 | 3 | per-subject (0.25 bins) and 13 per-combination (1-point bins) score histograms | 2026 only |",
         "| Ministry figures quoted in news (data/manual/distribution_anchors.csv) | 5 (hand-entered, quoted) | 2025 p50/p75/p90 for 7 combinations; 2023-2024 means | 28 |",
@@ -58,8 +63,10 @@ def build() -> str:
         "",
         _md(by_year),
         "",
-        "`confirmed_2_sources` = both news sources agree within 0.05; `disputed` = they differ (VnExpress kept, flagged in the app); "
-        "`single_source` = only one source has it (2023-2024 always, VnExpress has no older years).",
+        "`confirmed_2_sources` = at least two sources agree within 0.05; `disputed` = they differ (preference VnExpress > VietNamNet > "
+        "ADS_Final, flagged in the app); `single_source` = only one source has it (2018-2022 always: ADS_Final only). "
+        "A history year is dropped, with everything older, when the program name differs from the current one and the cutoff "
+        "jumps > 2.5 points (schools reuse program codes).",
         "",
         f"Excluded as not comparable: {int((cut.scale == 40).sum())} rows on a 40-point scale (doubled subject) and "
         f"{int((cut.scale == 100).sum())} rows on 100/150-point combined scales.",
