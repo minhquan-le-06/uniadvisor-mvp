@@ -1,4 +1,4 @@
-# Data report (generated 2026-09-29)
+# Data report (generated 2026-09-30)
 
 MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff history 2023-2026, advice for 2027.
 
@@ -11,6 +11,7 @@ MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff 
 | VnExpress phổ điểm 2026 | 3 | per-subject (0.25 bins) and 13 per-combination (1-point bins) score histograms | 2026 only |
 | Ministry figures quoted in news (data/manual/distribution_anchors.csv) | 5 (hand-entered, quoted) | 2025 p50/p75/p90 for 7 combinations; 2023-2024 means | 28 |
 | UniPilotData step-1 export | 4 (aggregator) | school details, 2026 programs, quotas, THPT combinations | 1666 programs matched |
+| Per-candidate score files in data/inbox/ (not in git; e.g. github.com/sdgedfegw/du-lieu-diem-thi) | 4 (public Ministry results, compiled) | exact score distributions per combination | 2023, 2024, 2025, 2026 (up to 908,866 candidates per combination) |
 
 ## Cutoffs (30-point THPT method)
 
@@ -41,22 +42,20 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 
 | year | provenance | combinations |
 |---|---|---|
-| 2023 | anchored | 2 |
-| 2023 | year_shift | 184 |
-| 2024 | anchored | 5 |
-| 2024 | year_shift | 181 |
-| 2025 | anchored | 7 |
-| 2025 | year_shift | 179 |
-| 2026 | observed | 13 |
-| 2026 | synthesized | 173 |
+| 2023 | exact | 79 |
+| 2024 | exact | 79 |
+| 2025 | exact | 133 |
+| 2026 | exact | 139 |
+| 2026 | synthesized | 47 |
 
 - `observed`: real 2026 histograms. `synthesized`: 2026 combinations without a published histogram, built from the real per-subject histograms (Gaussian copula + selection correction; leave-one-out KS vs observed ≈ 0.162). `anchored`/`year_shift`: the 2026 shape moved to match published percentiles/means (weak).
-- The engine only percentile-equates between *trusted* distributions (observed/exact); with today's data that means no equating across years (see backtest).
+- `exact`: built from per-candidate score files (data/inbox/). The 2026 file matches VnExpress's per-subject candidate counts exactly.
 
 ## Backtest (forecast 2025 and 2026 from earlier years)
 
 - Cutoff MAE 1.373 points (naive 'same as last year': 1.369); within ±1 point: 53%.
-- An earlier variant that percentile-equated through the approximated 2023-2025 distributions did worse (MAE ≈ 1.51 vs naive 1.37), which is why equating is gated on distribution quality.
+- Chosen: equate=never, recency=0.2. Exact per-candidate distributions for [2023, 2024, 2025] are loaded. Same-percentile equating was still worse than comparing raw cutoffs, even onto the target year's own distribution, so the engine does not equate (chosen by the grid above).
+- Same-percentile equating onto the target year's own distribution: MAE 1.55 (vs raw 1.369). It helps mid-range programs but fails at both ends: selective programs stay sticky in points and low ones sit on the ministry floors.
 - P(admit) calibration (cross-fitted): Brier 0.119, ECE 0.0562. By bucket (predicted → actual): safe 92% → 95%; match 63% → 74%; reach 27% → 37%; unlikely 6% → 10%.
 - Predictions are slightly conservative because cutoffs dropped in the 2025 reform year.
 
@@ -67,7 +66,7 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 
 ## Known gaps (priority order)
 
-1. **Exact score distributions for 2023-2025.** Per-candidate score files (e.g. Kaggle 'Dữ liệu điểm thi THPT quốc gia 2020-2024') dropped into data/inbox/ replace the approximations and switch on percentile equating. 2025 is the most valuable year (first year of the new exam).
+1. **A better cutoff model.** Exact distributions did not beat 'same as last year'; the next gains need other signals (quota history, applicant counts per program, per-combination cutoffs), not better distributions.
 2. **Quota history.** Only 2026 quotas are known, so the quota adjustment in the forecast is off (kappa = 0).
 3. **Tuition** for ~half the programs is a school-level estimate; the đề án (UniPilotData step 6) has the real figures.
 4. **Combination-specific cutoffs.** When a program sets different cutoffs per combination, the lowest is kept.

@@ -23,6 +23,38 @@ def _log() -> None:
     logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
+SCORE_FILES_URL = "https://media.githubusercontent.com/media/sdgedfegw/du-lieu-diem-thi/main/{name}"
+SCORE_FILES = {2023: "du_lieu_diem_thi_2023.csv", 2024: "du_lieu_diem_thi_2024.csv",
+               2025: "du-lieu-diem-thi-2025-ct2018.csv", 2026: "du_lieu_diem_thi_2026.csv"}
+
+
+@app.command("fetch-scores")
+def fetch_scores(years: str = typer.Option("2023,2024,2025,2026", help="comma list"), force: bool = False) -> None:
+    """Download public per-candidate exam scores (github.com/sdgedfegw/du-lieu-diem-thi) into data/inbox/.
+    ~80-100 MB per year; kept out of git. Then run `uniadvisor build` and `uniadvisor backtest`."""
+    import httpx
+
+    from uniadvisor.paths import INBOX
+
+    INBOX.mkdir(parents=True, exist_ok=True)
+    for year in (int(y) for y in years.split(",") if y.strip()):
+        name = SCORE_FILES.get(year)
+        if name is None:
+            raise typer.BadParameter(f"no known score file for {year}; known: {sorted(SCORE_FILES)}")
+        dest = INBOX / name
+        if dest.exists() and not force:
+            print(f"{dest.name}: already there (use --force to download again)")
+            continue
+        tmp = dest.with_suffix(".part")
+        with httpx.stream("GET", SCORE_FILES_URL.format(name=name), follow_redirects=True, timeout=120) as r:
+            r.raise_for_status()
+            with open(tmp, "wb") as f:
+                for chunk in r.iter_bytes(1 << 20):
+                    f.write(chunk)
+        tmp.replace(dest)
+        print(f"{dest.name}: {dest.stat().st_size / 1e6:.0f} MB")
+
+
 @app.command()
 def collect(refresh: bool = False, only: str = typer.Option("", help="comma list: vietnamnet,vnexpress,distributions")) -> None:
     """Fetch cutoffs, tuition and score distributions (polite, cached)."""
@@ -158,6 +190,12 @@ def serve(port: int = 8000) -> None:
 def run_app(port: int = 8501) -> None:
     """Run the Vietnamese chat UI (Streamlit)."""
     subprocess.run([sys.executable, "-m", "streamlit", "run", str(ROOT / "app" / "streamlit_app.py"), "--server.port", str(port)], check=False)
+
+
+@app.command()
+def label(port: int = 8502) -> None:
+    """Label the SLM gold set by hand (writes data/slm/gold_labeled.csv after every answer)."""
+    subprocess.run([sys.executable, "-m", "streamlit", "run", str(ROOT / "app" / "label_gold.py"), "--server.port", str(port)], check=False)
 
 
 if __name__ == "__main__":

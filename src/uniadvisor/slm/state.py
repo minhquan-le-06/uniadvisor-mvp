@@ -50,7 +50,14 @@ def _money(v: float | None) -> str:
     return f"{v / 1e6:.0f}" if v else "?"
 
 
+def _val(r: dict, key: str):  # noqa: ANN202
+    """r[key], with pandas NaN treated as missing (NaN is truthy and would render as 'nan')."""
+    v = r.get(key)
+    return None if isinstance(v, float) and v != v else v
+
+
 def program_text(r: dict) -> str:
+    r = {k: _val(r, k) for k in r}
     tmin, tmax = r.get("tuition_min"), r.get("tuition_max")
     if tmin and tmin == tmin:  # not NaN
         fee = f"{_money(tmin)}-{_money(tmax)} triệu/năm" if tmax and tmax != tmin else f"{_money(tmin)} triệu/năm"

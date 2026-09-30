@@ -105,3 +105,19 @@ def test_max_per_school():
     items = [Item(f"a{i}", 0.9, 0.9 - i * 0.01, True, "A") for i in range(6)] + [Item("b", 0.5, 0.3, False, "B")]
     got = optimise(items, k_max=6, min_safe=1, max_per_school=3)
     assert sum(i.school == "A" for i in got) <= 3
+
+
+def test_inbox_loader_reads_camelcase_merges_years_and_skips_ct2006(tmp_path, monkeypatch):
+    from uniadvisor.build import distributions
+
+    head = "SBD,Nam,Tinh,Toan,NguVan,VatLy,HoaHoc,NgoaiNgu,MaMonNgoaiNgu,KhoiA\n"
+    (tmp_path / "du_lieu_diem_thi_2024.csv").write_text("﻿" + head + "01,24,1,8.4,7.0,6.0,5.25,8.0,N1,19.65\n", encoding="utf-8")
+    (tmp_path / "du_lieu_diem_thi_2024_dot_2.csv").write_text(head + "02,24,2,6.0,6.5,,,7.0,N1,\n", encoding="utf-8")
+    (tmp_path / "du-lieu-diem-thi-2025-ct2006.csv").write_text(head + "03,25,1,5,5,5,5,5,N1,15\n", encoding="utf-8")
+    (tmp_path / "notes_2023.csv").write_text("a,b\n1,2\n", encoding="utf-8")
+    monkeypatch.setattr(distributions, "INBOX", tmp_path)
+    out = distributions.load_inbox_scores()
+    assert sorted(out) == [2024]                                   # ct2006 skipped, unknown columns skipped
+    df = out[2024]
+    assert sorted(df.columns) == ["HO", "LI", "N1", "TO", "VA"]    # 'Tinh' (province) is not 'Tin' (informatics)
+    assert len(df) == 2 and df.TO.tolist() == [8.4, 6.0]

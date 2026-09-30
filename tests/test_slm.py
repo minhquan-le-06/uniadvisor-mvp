@@ -92,3 +92,10 @@ def test_hybrid_routes_each_question_to_its_judge():
     assert j.thresholds["location_ok"] == 0.5 and j.thresholds["ability_fit"] != 0.9
     with pytest.raises(ValueError):
         HybridJudge(slm, slm_questions=("nope",))
+
+
+def test_program_text_treats_nan_as_missing():
+    from uniadvisor.slm.state import program_text
+
+    t = program_text(dict(PROGRAM, campus=float("nan"), tuition_min=float("nan"), conditions=float("nan")))
+    assert "nan" not in t and "Nơi học: Hà Nội" in t and "Học phí: không rõ" in t

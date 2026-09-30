@@ -57,25 +57,35 @@ def _subject_for(subject: str) -> str:
     return "N1" if subject in FOREIGN_LANGS else subject
 
 
+def _inbox_key(column: str) -> str:
+    """'NguVan', 'ngu_van', 'Ngữ văn' -> 'nguvan' (headers differ in case, spacing and diacritics)."""
+    return re.sub(r"[^a-z0-9]", "", fold(str(column)))
+
+
+_INBOX_KEYS = {_inbox_key(k): v for k, v in INBOX_COLUMNS.items()}
+
+
 def load_inbox_scores() -> dict[int, pd.DataFrame]:
-    """data/inbox/*<year>*.csv with one row per candidate -> {year: frame of subject columns}."""
-    out: dict[int, pd.DataFrame] = {}
+    """data/inbox/*<year>*.csv with one row per candidate -> {year: frame of subject columns}.
+    Several files for one year are concatenated. Files named '*ct2006*' are skipped: in 2025 they hold the
+    candidates who re-sat the old-curriculum exam, a different test that would distort that year."""
+    frames: dict[int, list[pd.DataFrame]] = {}
     for path in sorted(Path(INBOX).glob("*.csv")):
         m = re.search(r"(20\d\d)", path.name)
         if not m:
             continue
-        df = pd.read_csv(path, low_memory=False)
-        rename = {}
-        for c in df.columns:
-            key = fold(str(c).replace("_", " "))
-            if key in INBOX_COLUMNS:
-                rename[c] = INBOX_COLUMNS[key]
-        df = df.rename(columns=rename)
-        keep = [c for c in set(rename.values()) if c in df.columns]
-        if len(keep) >= 3:
-            out[int(m.group(1))] = df[keep].apply(pd.to_numeric, errors="coerce")
-            log.info("inbox scores %s: %d candidates, subjects %s", path.name, len(df), sorted(keep))
-    return out
+        if "ct2006" in path.name.lower():
+            log.info("inbox scores %s: skipped (old-curriculum exam)", path.name)
+            continue
+        df = pd.read_csv(path, low_memory=False, encoding="utf-8-sig")
+        rename = {c: _INBOX_KEYS[_inbox_key(c)] for c in df.columns if _inbox_key(c) in _INBOX_KEYS}
+        if len(set(rename.values())) < 3:
+            log.warning("inbox scores %s: fewer than 3 known subject columns, skipped (columns: %s)", path.name, list(df.columns)[:12])
+            continue
+        df = df[list(rename)].rename(columns=rename).apply(pd.to_numeric, errors="coerce")
+        frames.setdefault(int(m.group(1)), []).append(df)
+        log.info("inbox scores %s: %d candidates, subjects %s", path.name, len(df), sorted(df.columns))
+    return {year: pd.concat(fs, ignore_index=True) for year, fs in frames.items()}
 
 
 def build(rho_grid: np.ndarray | None = None) -> dict:
