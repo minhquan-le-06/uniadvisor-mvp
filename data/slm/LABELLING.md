@@ -36,12 +36,13 @@ The app combines the 7 answers itself. Each question looks only at its own evide
 Admission chance is never part of ability_fit: the statistical engine handles it.
 
 ### ability_fit
-1. Field ("Lĩnh vực") → core subjects: IT/engineering/science/finance → Toán (+Lý); health/biology →
-   Sinh, Hóa; languages/international → Ngoại ngữ, Văn; journalism/social/law → Văn, Sử/Địa, writing and
-   speaking; economics → Toán, Ngoại ngữ.
-2. 5: core ≥ 8.5 or "very strong" · 4: 7.5–8.5 · 3: 6.5–7.5 or mixed · 2: 5–6.5 or "weak" · 1: < 5 or "very bad".
-3. Self-assessment counts ("em học Toán rất kém" works without a score).
-4. "Không đủ thông tin" only when there is neither a score nor a self-assessment for the core subjects.
+1. Find the program's field ("Lĩnh vực") in the table the tool shows under the rubric; it lists that field's core
+   subjects (the first counts double). Fields not in the table use Toán, Văn.
+2. Average the core subjects the student HAS scores for (weighted), then 5: >= 8.5 · 4: 7.5–8.5 · 3: 6.5–7.5 ·
+   2: 5–6.5 · 1: < 5.
+3. Says they are good at a core subject: one level up; weak/bad at one: one level down (stay within 1–5). No core
+   score at all but a self-assessment: good → 4, weak → 2.
+4. "Không đủ thông tin" only when there is neither a score nor a self-assessment for any core subject.
 
 ## Rules of thumb
 
@@ -68,6 +69,9 @@ uniadvisor slm-eval --judge hybrid --gold data/slm/gold_llm.csv
   or invents a label is retried (3 tries).
 - Quota: models are tried in order (`--models gemini-3.5-flash,gemini-3.5-flash-lite`), each with every key.
   A key out of its daily quota is skipped for that model; when all are out, the run stops and saves. Re-run
-  the next day to finish. 8 keys x 20 requests/day = 160 Flash requests: enough for all 147 in one day.
+  the next day to finish. The free quota is per Google Cloud project, not per key: keys in the same project share it.
+- Each label records the rubric version it was made under (`labeller` = `model#version`). When a rubric changes,
+  re-running relabels only the rows of that question. Rows labelled before versions existed are redone only
+  when you ask: `uniadvisor gold-llm --redo ability_fit`.
 - The printout shows how often Gemini agrees with the synthetic teacher label (and with you, once
   `gold_labeled.csv` has labels). Low agreement on a question points at an unclear rubric.

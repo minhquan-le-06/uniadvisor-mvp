@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import random
 
-from uniadvisor.slm.questions import BY_ID, INSUFFICIENT
+from uniadvisor.slm.questions import BY_ID, DEFAULT_CORE, INSUFFICIENT
 from uniadvisor.slm.synth import CORE_SUBJECTS, HUB_OF_REGION, RELATED, Latent
 
 N_ANNOTATORS = 5
@@ -85,7 +85,7 @@ def _level(x: float) -> str:
 
 def ability_fit(z: Latent, p: dict, rng: random.Random) -> dict[str, float]:
     labels = BY_ID["ability_fit"].all_labels
-    core = CORE_SUBJECTS.get(p.get("field") or "", ["TO", "VA"])
+    core = CORE_SUBJECTS.get(p.get("field") or "", DEFAULT_CORE)
     have = [z.scores[s] for s in core if s in z.scores]
     said_strong = [s for s in core if s in z.strong]
     said_weak = [s for s in core if s in z.weak]

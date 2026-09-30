@@ -11,7 +11,36 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from uniadvisor.build.fields import FIELDS
+
 INSUFFICIENT = "insufficient"
+
+# core subjects per field (first one weighs double). The rubric text below is generated from this table,
+# and the rubric teacher (slm/teacher.py) uses the same table, so the two can never disagree.
+CORE_SUBJECTS = {
+    "cntt": ["TO", "LI", "TI"], "ky_thuat": ["TO", "LI"], "khoa_hoc_tn": ["TO", "LI"], "tai_chinh": ["TO", "N1"],
+    "kinh_te": ["TO", "N1", "VA"], "y_duoc": ["SI", "HO", "TO"], "sinh_hoa": ["HO", "SI", "TO"], "xay_dung": ["TO", "LI"],
+    "nong_lam_mt": ["SI", "HO", "DI"], "ngon_ngu": ["N1", "VA"], "du_lich": ["N1", "VA", "DI"], "bao_chi": ["VA", "SU"],
+    "xa_hoi": ["VA", "SU", "DI"], "luat": ["VA", "SU", "GDKTPL"], "su_pham": ["VA", "TO"], "thiet_ke": ["VA", "TO"],
+}
+DEFAULT_CORE = ["TO", "VA"]  # a field not in the table
+_SUBJECT_VI = {"TO": "Toán", "VA": "Văn", "LI": "Lý", "HO": "Hóa", "SI": "Sinh", "SU": "Sử", "DI": "Địa", "N1": "Anh",
+               "TI": "Tin", "GDKTPL": "KTPL"}
+
+
+def _core_table() -> str:
+    rows = [f"- {FIELDS[f]}: {', '.join(_SUBJECT_VI[s] for s in subs)}" for f, subs in CORE_SUBJECTS.items() if f in FIELDS]
+    return "\n".join(rows + [f"- Lĩnh vực khác / không rõ: {', '.join(_SUBJECT_VI[s] for s in DEFAULT_CORE)}"])
+
+
+ABILITY_RUBRIC = (
+    "Môn cốt lõi theo 'Lĩnh vực' của ngành (môn đầu tiên tính hệ số 2):\n" + _core_table() + "\n"
+    "Cách chấm: lấy trung bình có trọng số của các môn cốt lõi mà học sinh CÓ điểm (bỏ qua môn không có điểm), rồi "
+    "5: >= 8.5, 4: 7.5-8.5, 3: 6.5-7.5, 2: 5-6.5, 1: < 5. Học sinh tự nhận giỏi một môn cốt lõi -> cộng 1 mức; tự nhận "
+    "yếu/kém một môn cốt lõi -> trừ 1 mức (trong khoảng 1-5). Không có điểm môn cốt lõi nào nhưng có tự nhận xét: tự nhận "
+    "giỏi -> 4, tự nhận yếu -> 2.\n"
+    "insufficient: không có điểm và không có tự nhận xét nào về các môn cốt lõi."
+)
 
 
 @dataclass(frozen=True)
@@ -78,12 +107,7 @@ QUESTIONS: list[Question] = [
         text_vi="Điểm mạnh học tập của học sinh (điểm các môn, tự nhận xét) phù hợp với yêu cầu của ngành này đến mức nào (1-5)?",
         labels=("1", "2", "3", "4", "5"),
         labels_vi=("Rất không phù hợp", "Ít phù hợp", "Trung bình", "Khá phù hợp", "Rất phù hợp"),
-        rubric=(
-            "Xét môn cốt lõi của lĩnh vực: CNTT/kỹ thuật/khoa học tự nhiên/tài chính -> Toán (và Lý); y dược/sinh -> Sinh, Hóa; "
-            "ngôn ngữ/quốc tế -> Ngoại ngữ, Văn; báo chí/xã hội/luật -> Văn, Sử/Địa và khả năng viết, nói; kinh tế -> Toán, "
-            "Ngoại ngữ.\n5: các môn cốt lõi >= 8.5 hoặc tự nhận rất giỏi. 4: 7.5-8.5. 3: 6.5-7.5 hoặc lẫn lộn. 2: 5-6.5 hoặc tự "
-            "nhận yếu. 1: < 5 hoặc nói rõ rất kém môn cốt lõi.\ninsufficient: không có điểm và không có tự nhận xét nào về môn cốt lõi."
-        ),
+        rubric=ABILITY_RUBRIC,
         clarify_vi="Em thấy mình mạnh và yếu ở môn nào nhất?",
     ),
     Question(

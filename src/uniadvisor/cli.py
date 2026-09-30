@@ -208,13 +208,15 @@ def label(port: int = 8502) -> None:
 @app.command("gold-llm")
 def gold_llm(models: str = typer.Option("gemini-3.5-flash,gemini-3.5-flash-lite", help="tried in order, each with every key"),
              delay: float = typer.Option(4.0, help="seconds between requests"),
-             limit: int | None = typer.Option(None, help="at most this many requests (2 rows each)")) -> None:
+             limit: int | None = typer.Option(None, help="at most this many requests (2 rows each)"),
+             redo: str = typer.Option("", help="comma list of questions to relabel if labelled before rubric versions "
+                                               "were recorded (e.g. ability_fit); rows with an old version tag are redone anyway")) -> None:
     """Label the gold set with Gemini -> data/slm/gold_llm.csv (keys: GEMINI_API_KEYS=k1,k2 or data/slm/gemini_keys.txt)."""
     _log()
     from uniadvisor.slm import llm_label
 
     stats = llm_label.run(llm_label.load_keys(), models=tuple(m.strip() for m in models.split(",") if m.strip()),
-                          delay=delay, limit=limit)
+                          delay=delay, limit=limit, redo=tuple(q.strip() for q in redo.split(",") if q.strip()))
     print(json.dumps(stats, indent=1))
     table = llm_label.agreement() if llm_label.OUT.exists() else None
     if table is not None and len(table):

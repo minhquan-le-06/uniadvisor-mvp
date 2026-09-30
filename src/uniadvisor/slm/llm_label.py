@@ -14,6 +14,7 @@ is used up for a model is skipped for that model; a per-minute limit waits and r
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
@@ -165,8 +166,23 @@ def _daily(err: dict) -> bool:
     return "perday" in json.dumps(err).lower().replace("_", "").replace(" ", "")
 
 
+def rubric_version(qid: str) -> str:
+    """Short hash of the instructions a question is labelled with; stored as 'model#version' in `labeller`."""
+    return hashlib.sha1(instructions(qid).encode()).hexdigest()[:6]
+
+
+def needs_label(row: pd.Series, redo: tuple[str, ...] = ()) -> bool:
+    """Unlabelled; or labelled under older instructions (tag differs); or untagged (labelled before tags existed)
+    for a question listed in `redo`."""
+    if not row.human_label.strip():
+        return True
+    _, _, tag = row.labeller.partition("#")
+    return tag != rubric_version(row.question) if tag else row.question in redo
+
+
 def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, delay: float = 4.0,
-        limit: int | None = None, post: Post = _post, sleep: Callable[[float], None] = time.sleep) -> dict:
+        limit: int | None = None, post: Post = _post, sleep: Callable[[float], None] = time.sleep,
+        redo: tuple[str, ...] = ()) -> dict:
     """Label every unlabelled gold row; returns counts. Stops early when every key/model is out of quota."""
     if not keys:
         from uniadvisor.env import describe
@@ -174,7 +190,7 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
         raise ValueError("no Gemini API key found. Put a line GEMINI_API_KEYS=key1,key2,... in a file named exactly "
                          f".env in the project root (see .env.example). Checked:\n{describe()}")
     df = gold.load(labeled=out)
-    open_rows = df[df.human_label.str.strip() == ""]
+    open_rows = df[df.apply(needs_label, axis=1, redo=redo)]
     batches = [list(g.index[i:i + ROWS_PER_REQUEST]) for _, g in open_rows.groupby("question", sort=True)
                for i in range(0, len(g), ROWS_PER_REQUEST)]
     if limit is not None:
@@ -228,7 +244,7 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
         if answers is None:
             continue
         for i, (label, reason) in zip(idx, answers):
-            df.at[i, "human_label"], df.at[i, "labeller"], df.at[i, "note"] = label, model, reason
+            df.at[i, "human_label"], df.at[i, "labeller"], df.at[i, "note"] = label, f"{model}#{rubric_version(qid)}", reason
         stats["labelled"] += len(idx)
         stats["by_model"][model] = stats["by_model"].get(model, 0) + len(idx)
         gold.save(df, out)
