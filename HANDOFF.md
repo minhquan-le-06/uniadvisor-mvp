@@ -42,7 +42,8 @@ on the owner's Windows machine, in `models/slm/`).
    2023-2025 (turns on `kappa_quota`), applicant counts per program, per-combination cutoffs.
 4. **Retrain the SLM on Kaggle** (kaggle/README.md). Training texts no longer say "Nơi học: nan" (fixed after
    the first run), so a retrain is worth it; try `--epochs 5` for interest_fit (weakest: 0.65 rules / 0.46 SLM).
-5. Real tuition from each school's đề án (910 programs use a school-level estimate).
+5. Out of MVP scope (owner decision, 2026-09-30): real tuition from each school's đề án. 910 programs keep a
+   school-level estimate; budget_ok judges against it or says insufficient when tuition is unknown.
 6. Deployment if wanted: needs `models/slm/` (~7 MB) and Hugging Face access, else keyword fallback.
 
 ## Cloud-environment notes (for the next Claude session)

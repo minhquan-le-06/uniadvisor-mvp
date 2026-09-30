@@ -195,6 +195,9 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
                for i in range(0, len(g), ROWS_PER_REQUEST)]
     if limit is not None:
         batches = batches[:limit]
+    done = int((df.human_label.str.strip() != "").sum())
+    log.info("%s: %s, %d/%d labelled; this run: %d requests (%d rows)", out.name,
+             "found" if out.exists() else "NOT FOUND, starting from scratch", done, len(df), len(batches), len(open_rows))
     dead: set[tuple[str, str]] = set()   # (model, key) out of daily quota
     bad_models: set[str] = set()
     stats = {"requests": 0, "labelled": 0, "invalid_replies": 0, "left": 0, "by_model": {}}
