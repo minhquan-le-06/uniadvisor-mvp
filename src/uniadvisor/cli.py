@@ -198,5 +198,20 @@ def label(port: int = 8502) -> None:
     subprocess.run([sys.executable, "-m", "streamlit", "run", str(ROOT / "app" / "label_gold.py"), "--server.port", str(port)], check=False)
 
 
+@app.command("gold-llm")
+def gold_llm(models: str = typer.Option("gemini-3.5-flash,gemini-3.5-flash-lite", help="tried in order, each with every key"),
+             delay: float = typer.Option(4.0, help="seconds between requests"),
+             limit: int | None = typer.Option(None, help="at most this many requests (2 rows each)")) -> None:
+    """Label the gold set with Gemini -> data/slm/gold_llm.csv (keys: GEMINI_API_KEYS=k1,k2 or data/slm/gemini_keys.txt)."""
+    _log()
+    from uniadvisor.slm import llm_label
+
+    stats = llm_label.run(llm_label.load_keys(), models=tuple(m.strip() for m in models.split(",") if m.strip()),
+                          delay=delay, limit=limit)
+    print(json.dumps(stats, indent=1))
+    if llm_label.OUT.exists():
+        print(llm_label.agreement().to_string(index=False))
+
+
 if __name__ == "__main__":
     app()

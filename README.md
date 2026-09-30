@@ -82,6 +82,8 @@ distributions built from them are committed. Without them, `build` falls back to
   free text incl. teen-code, no diacritics, parent voice, typos, contradictions) paired with real
   programs; rubric teacher with 5 simulated annotators → soft labels; split by university; deduped.
   Optional LLM teacher (`uniadvisor slm-relabel`, Gemini via `GEMINI_API_KEYS`, as in UniPilotData).
+- Gemini as a second gold labeller: `uniadvisor gold-llm` (2 rows per request, Flash then Flash-Lite across all
+  keys, resumable) writes `data/slm/gold_llm.csv`; compare it with your labels before trusting either.
 - Human gold set: `uniadvisor label` opens a labelling tool (http://localhost:8502) over
   `data/slm/gold_to_label.csv` (294 test rows, 42 per question, never used for training). It shows the
   rubric, never a model answer (guide: [data/slm/LABELLING.md](data/slm/LABELLING.md)), and saves every click to `data/slm/gold_labeled.csv` (commit it). Then

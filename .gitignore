@@ -15,3 +15,4 @@ data/slm/programs_snapshot.csv
 models/slm_smoke/
 reports/*.log
 *.egg-info/
+data/slm/gemini_keys.txt

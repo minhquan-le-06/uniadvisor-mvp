@@ -29,11 +29,11 @@ on the owner's Windows machine, in `models/slm/`).
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
 | SLM | first Kaggle run: test (3,000 rows, synthetic labels) SLM 0.782, keywords 0.815, **hybrid 0.889**. `HybridJudge` routes location_ok / risk_tolerance / budget_ok to the SLM, the rest to keyword rules |
 | App / API | Streamlit chat + FastAPI both tested (headless Chromium, TestClient); not deployed |
-| Labelling | `uniadvisor label` tool built and tested; guide in `data/slm/LABELLING.md`; 0/294 labelled |
+| Labelling | `uniadvisor label` (human) and `uniadvisor gold-llm` (Gemini, 2 rows/request, key + model fallback) built and tested; guide in `data/slm/LABELLING.md`; 0/294 labelled |
 
 ## Next, in order of value
 
-1. **Owner: label the gold set** (`uniadvisor slm-data`, then `uniadvisor label`; guide in
+1. **Owner: label the gold set** (`uniadvisor slm-data`, then `uniadvisor gold-llm` with Gemini keys and/or `uniadvisor label`; guide in
    data/slm/LABELLING.md), commit `data/slm/gold_labeled.csv`, then run
    `uniadvisor slm-eval --judge hybrid|heuristic|slm --gold data/slm/gold_labeled.csv`. Re-pick `SLM_QUESTIONS`
    in slm/infer.py (or `"route"` in models/slm/config.json) if a question flips. Fix rubrics from the notes.

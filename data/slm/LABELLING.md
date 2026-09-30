@@ -49,3 +49,25 @@ Admission chance is never part of ability_fit: the statistical engine handles it
 - Follow the rubric shown in the tool. If you think the rubric is wrong for a case (e.g. psychology counted as
   health), still follow it and say so in the note, so the rubric can be fixed without muddying the test.
 - Filter to one question in the sidebar; consistency matters more than speed. ~1 hour for 294 rows.
+
+## Second labeller: Gemini (`uniadvisor gold-llm`)
+
+Gemini labels the same 294 rows into `data/slm/gold_llm.csv` (same format; `labeller` = the model that
+answered, `note` = its one-line reason). It is a second independent labeller, not a replacement for yours:
+compare the two before trusting either.
+
+```bash
+# keys: comma list in an env var, or one per line in data/slm/gemini_keys.txt (git-ignored)
+set GEMINI_API_KEYS=key1,key2,key3          # PowerShell: $env:GEMINI_API_KEYS="key1,key2,key3"
+uniadvisor gold-llm                         # 2 rows per request -> 147 requests; resumable
+uniadvisor slm-eval --judge hybrid --gold data/slm/gold_llm.csv
+```
+
+- Each request holds 2 rows of one question, that question's rubric, and a plain "look only at / ignore" guide
+  (~3,000 characters). The answer is forced into JSON with the allowed labels only; a reply that skips a case
+  or invents a label is retried (3 tries).
+- Quota: models are tried in order (`--models gemini-3.5-flash,gemini-3.5-flash-lite`), each with every key.
+  A key out of its daily quota is skipped for that model; when all are out, the run stops and saves. Re-run
+  the next day to finish. 6 keys x 20 requests/day covers 120 Flash + 120 Flash-Lite requests.
+- The printout shows how often Gemini agrees with the synthetic teacher label (and with you, once
+  `gold_labeled.csv` has labels). Low agreement on a question points at an unclear rubric.
