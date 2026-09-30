@@ -1,12 +1,13 @@
 # Data report (generated 2026-09-30)
 
-MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff history 2023-2026, advice for 2027.
+MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff history 2018-2026 (2023-2026 from news sources), advice for 2027.
 
 ## Sources
 
 | Source | Trust | What | Rows collected |
 |---|---|---|---|
 | VietNamNet cutoff API | 3 (major news) | cutoffs 2023-2026, all methods mixed, method in a free-text note | 9555 |
+| ADS_Final student project (github.com/HTNam1710/ADS_Final, also in mduchd/DSS_Dataset) | 4 (scraped aggregate) | THPT cutoffs 2018-2024 per combination; the only source for 2018-2022; names unreliable in some years, scores match VietNamNet in ~90% of 2023-2024 rows | 11584 |
 | VnExpress tra cứu đại học | 3 (major news) | cutoffs 2025-2026 with a THPT column, tuition | 4438 |
 | VnExpress phổ điểm 2026 | 3 | per-subject (0.25 bins) and 13 per-combination (1-point bins) score histograms | 2026 only |
 | Ministry figures quoted in news (data/manual/distribution_anchors.csv) | 5 (hand-entered, quoted) | 2025 p50/p75/p90 for 7 combinations; 2023-2024 means | 28 |
@@ -17,22 +18,27 @@ MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff 
 
 | year | confirmed_2_sources | disputed | single_source |
 |---|---|---|---|
-| 2023 | 0 | 0 | 1506 |
-| 2024 | 0 | 0 | 1553 |
+| 2018 | 0 | 0 | 1077 |
+| 2019 | 0 | 0 | 1108 |
+| 2020 | 0 | 0 | 1117 |
+| 2021 | 0 | 0 | 1159 |
+| 2022 | 0 | 0 | 1206 |
+| 2023 | 930 | 97 | 665 |
+| 2024 | 1189 | 86 | 555 |
 | 2025 | 619 | 44 | 1132 |
 | 2026 | 1425 | 85 | 233 |
 
-`confirmed_2_sources` = both news sources agree within 0.05; `disputed` = they differ (VnExpress kept, flagged in the app); `single_source` = only one source has it (2023-2024 always, VnExpress has no older years).
+`confirmed_2_sources` = at least two sources agree within 0.05; `disputed` = they differ (preference VnExpress > VietNamNet > ADS_Final, flagged in the app); `single_source` = only one source has it (2018-2022 always: ADS_Final only). A history year is dropped, with everything older, when the program name differs from the current one and the cutoff jumps > 2.5 points (schools reuse program codes).
 
-Excluded as not comparable: 324 rows on a 40-point scale (doubled subject) and 480 rows on 100/150-point combined scales.
+Excluded as not comparable: 958 rows on a 40-point scale (doubled subject) and 480 rows on 100/150-point combined scales.
 
-Validation problems: jump_over_3: 375, not_30_point_scale: 804, sources_disagree: 155 (see data/processed/check_problems.csv).
+Validation problems: below_15: 176, jump_over_3: 1248, not_30_point_scale: 1438, sources_disagree: 422 (see data/processed/check_problems.csv).
 
 ## Scope
 
 48 schools (Hà Nội: 28, TP. Hồ Chí Minh: 20), 1666 programs.
 
-Programs by years of cutoff history: 1 năm: 447, 2 năm: 272, 3 năm: 170, 4 năm: 777.
+Programs by years of cutoff history: 1 năm: 436, 2 năm: 241, 3 năm: 120, 4 năm: 205, 5 năm: 87, 6 năm: 72, 7 năm: 103, 8 năm: 206, 9 năm: 196.
 
 Tuition known from a source for 756 programs (45%); 182 use their school's median (marked 'ước tính' in the app); 728 unknown.
 
@@ -53,10 +59,10 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 
 ## Backtest (forecast 2025 and 2026 from earlier years)
 
-- Cutoff MAE 1.373 points (naive 'same as last year': 1.369); within ±1 point: 53%.
+- Cutoff MAE 1.373 points (naive 'same as last year': 1.369); within ±1 point: 52%.
 - Chosen: equate=never, recency=0.2. Exact per-candidate distributions for [2023, 2024, 2025] are loaded. Same-percentile equating was still worse than comparing raw cutoffs, even onto the target year's own distribution, so the engine does not equate (chosen by the grid above).
-- Same-percentile equating onto the target year's own distribution: MAE 1.55 (vs raw 1.369). It helps mid-range programs but fails at both ends: selective programs stay sticky in points and low ones sit on the ministry floors.
-- P(admit) calibration (cross-fitted): Brier 0.119, ECE 0.0562. By bucket (predicted → actual): safe 92% → 95%; match 63% → 74%; reach 27% → 37%; unlikely 6% → 10%.
+- Same-percentile equating onto the target year's own distribution: MAE 1.538 (vs raw 1.369). It helps mid-range programs but fails at both ends: selective programs stay sticky in points and low ones sit on the ministry floors.
+- P(admit) calibration (cross-fitted): Brier 0.1184, ECE 0.0559. By bucket (predicted → actual): safe 92% → 95%; match 63% → 73%; reach 26% → 34%; unlikely 6% → 10%.
 - Predictions are slightly conservative because cutoffs dropped in the 2025 reform year.
 
 ## SLM training data

@@ -46,7 +46,9 @@ uniadvisor slm-data     # synthetic students x real programs -> data/slm/
 ```
 
 Sources (trust levels as in UniPilotData): VietNamNet cutoff API (3, 2023–2026), VnExpress (3,
-2025–2026 + tuition + 2026 score histograms), tuyensinh247 (4, 2026 cross-check), UniPilotData
+2025–2026 + tuition + 2026 score histograms), tuyensinh247 (4, 2026 cross-check), the ADS_Final
+student project's scraped cutoffs ([HTNam1710/ADS_Final](https://github.com/HTNam1710/ADS_Final), 4, 2018–2024:
+the only source for 2018–2022 and a second opinion on 2023–2024), UniPilotData
 step-1 export (schools, 2026 programs, quotas, combos), and ministry percentiles/means quoted in news
 (`data/manual/distribution_anchors.csv`, each row with its quote), and per-candidate exam scores
 compiled from the Ministry's public results ([sdgedfegw/du-lieu-diem-thi](https://github.com/sdgedfegw/du-lieu-diem-thi),
@@ -55,13 +57,15 @@ distributions built from them are committed. Without them, `build` falls back to
 
 **Read [reports/data_report.md](reports/data_report.md) before trusting any number.** The short version:
 
-- 48 schools (28 Hà Nội, 20 TP.HCM), ~1,670 programs; 2026 cutoffs cross-checked across up to 3 sources.
+- 48 schools (28 Hà Nội, 20 TP.HCM), ~1,670 programs; cutoffs 2018–2026, cross-checked across up to 3 sources per year
+  (2023–2024 now confirmed by 2 sources for 55–65% of rows, up from none).
 - Score distributions are exact for 2023–2026 (1.0–1.2 M candidates per year; the 2026 file matches
   VnExpress's per-subject counts exactly). Even so, same-percentile equating of past cutoffs was
   *worse* than comparing raw cutoffs (MAE 1.55 vs 1.37, even onto the target year's own distribution):
   selective programs stay sticky in points and low ones sit on the ministry floors. The backtest
   therefore chooses no equating, and the forecast is about as good as "last year's cutoff"
   (MAE ≈ 1.37). The distributions still drive the "top X% of candidates" figures in explanations.
+  Adding 2018–2022 history did not change that either (like-for-like MAE 1.362 → 1.359).
   Beating the naive forecast needs other signals (quota history, applicants per program).
 - `P(admit)` is calibrated on held-out years (Brier 0.12, ECE 0.056) and errs on the safe side.
 
@@ -78,6 +82,8 @@ distributions built from them are committed. Without them, `build` falls back to
   free text incl. teen-code, no diacritics, parent voice, typos, contradictions) paired with real
   programs; rubric teacher with 5 simulated annotators → soft labels; split by university; deduped.
   Optional LLM teacher (`uniadvisor slm-relabel`, Gemini via `GEMINI_API_KEYS`, as in UniPilotData).
+- Gemini as a second gold labeller: `uniadvisor gold-llm` (keys in `.env`, see `.env.example`; 2 rows per request, Flash then
+  Flash-Lite across all keys, resumable) writes `data/slm/gold_llm.csv`; compare it with your labels before trusting either.
 - Human gold set: `uniadvisor label` opens a labelling tool (http://localhost:8502) over
   `data/slm/gold_to_label.csv` (294 test rows, 42 per question, never used for training). It shows the
   rubric, never a model answer (guide: [data/slm/LABELLING.md](data/slm/LABELLING.md)), and saves every click to `data/slm/gold_labeled.csv` (commit it). Then

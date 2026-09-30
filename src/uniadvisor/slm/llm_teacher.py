@@ -39,7 +39,9 @@ class GeminiTeacher:
     def __init__(self, model: str | None = None, rpm: float | None = None):
         from google import genai  # pip install google-genai
 
-        keys = [k.strip() for k in os.environ.get("GEMINI_API_KEYS", os.environ.get("GEMINI_API_KEY", "")).split(",") if k.strip()]
+        from uniadvisor.slm.llm_label import env_keys
+
+        keys = env_keys()
         if not keys:
             raise RuntimeError("Set GEMINI_API_KEYS (comma-separated) to use the LLM teacher.")
         self.clients = [genai.Client(api_key=k) for k in keys]
