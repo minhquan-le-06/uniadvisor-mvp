@@ -252,12 +252,34 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
     return stats
 
 
+def current_teacher_labels(data: Path = SLM_DATA) -> dict[str, str]:
+    """Teacher label per gold id, recomputed with the current teacher from the frozen rows (falls back to test.jsonl)."""
+    import random
+    from dataclasses import fields
+
+    from uniadvisor.slm import teacher
+    from uniadvisor.slm.synth import Latent
+
+    frozen = data / "gold_frozen.jsonl"
+    if not frozen.exists():
+        test = data / "test.jsonl"
+        return {r["id"]: r["label"] for r in map(json.loads, open(test, encoding="utf-8"))} if test.exists() else {}
+    names = {f.name for f in fields(Latent)}
+    out = {}
+    for r in map(json.loads, open(frozen, encoding="utf-8")):
+        z = {k: v for k, v in r["latent"].items() if k in names}
+        z["interests"] = [tuple(x) for x in z.get("interests") or []]
+        soft = teacher.label(r["question"], Latent(**z), r["program"], random.Random(r["id"]))
+        out[r["id"]] = max(soft, key=soft.get)
+    return out
+
+
 def agreement(out: Path = OUT, human: Path = gold.LABELED, test: Path = SLM_DATA / "test.jsonl") -> pd.DataFrame:
     """Per question: how often Gemini agrees with the synthetic teacher label (and with you, once you have labelled)."""
     g = pd.read_csv(out, dtype=str, keep_default_na=False, encoding="utf-8-sig")
     g = g[g.human_label != ""]
-    if test.exists():
-        teacher = {r["id"]: r["label"] for r in map(json.loads, open(test, encoding="utf-8"))}
+    teacher = current_teacher_labels(test.parent)
+    if teacher:
         g["teacher"] = g.id.map(teacher)
     if human.exists():
         h = pd.read_csv(human, dtype=str, keep_default_na=False, encoding="utf-8-sig")

@@ -301,7 +301,10 @@ class SLMJudge:
 # location_ok 0.98 vs 0.66, risk_tolerance 0.94 vs 0.87, budget_ok 0.97 vs 0.96. The rules stay better on
 # ability_fit (score arithmetic: 0.84 vs 0.47), interest_fit (0.69 vs 0.49), top_priority (0.89 vs 0.84),
 # and tie on conditions_ok, where they are also far cheaper. Override with "route" in models/slm/config.json.
-SLM_QUESTIONS = ("location_ok", "risk_tolerance", "budget_ok")
+# measured on Gemini gold labels (data/slm/gold_llm.csv): the SLM wins risk_tolerance and budget_ok. location_ok went
+# back to the rules: the first SLM learned location labels from a teacher bug (NaN campus = branch campus); re-check
+# after retraining on the fixed data
+SLM_QUESTIONS = ("risk_tolerance", "budget_ok")
 
 
 class HybridJudge:

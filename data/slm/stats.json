@@ -5,161 +5,162 @@
     "train": 34
   },
   "dropped_leak": 0,
-  "dropped_dup": 5,
+  "dropped_dup": 0,
+  "dropped_gold": 1782,
   "train": {
-    "examples": 61336,
-    "students": 2788,
+    "examples": 60522,
+    "students": 2751,
     "label_dist": {
       "ability_fit": {
-        "1": 0.358,
-        "2": 0.25,
+        "1": 0.365,
+        "2": 0.242,
         "3": 0.191,
-        "4": 0.12,
-        "5": 0.067,
+        "4": 0.117,
+        "5": 0.071,
         "insufficient": 0.014
       },
       "budget_ok": {
-        "insufficient": 0.622,
-        "no": 0.209,
-        "yes": 0.168
+        "insufficient": 0.621,
+        "no": 0.214,
+        "yes": 0.166
       },
       "conditions_ok": {
-        "yes": 0.863,
-        "insufficient": 0.071,
-        "no": 0.066
+        "yes": 0.872,
+        "insufficient": 0.069,
+        "no": 0.059
       },
       "interest_fit": {
-        "2": 0.304,
-        "5": 0.215,
-        "4": 0.16,
-        "3": 0.123,
+        "2": 0.298,
+        "5": 0.218,
+        "4": 0.161,
+        "3": 0.124,
         "1": 0.111,
-        "insufficient": 0.086
+        "insufficient": 0.088
       },
       "location_ok": {
-        "no": 0.588,
-        "insufficient": 0.268,
-        "yes": 0.144
+        "yes": 0.399,
+        "no": 0.31,
+        "insufficient": 0.291
       },
       "risk_tolerance": {
-        "insufficient": 0.378,
-        "an_toan": 0.282,
-        "can_bang": 0.187,
-        "mao_hiem": 0.153
+        "insufficient": 0.371,
+        "an_toan": 0.284,
+        "can_bang": 0.195,
+        "mao_hiem": 0.15
       },
       "top_priority": {
-        "insufficient": 0.341,
-        "nganh_yeu_thich": 0.156,
+        "insufficient": 0.349,
+        "nganh_yeu_thich": 0.16,
         "viec_lam_thu_nhap": 0.142,
-        "truong_danh_tieng": 0.129,
-        "hoc_phi_thap": 0.121,
-        "gan_nha": 0.11
+        "hoc_phi_thap": 0.122,
+        "truong_danh_tieng": 0.116,
+        "gan_nha": 0.112
       }
     },
-    "mean_max_soft": 0.905
+    "mean_max_soft": 0.906
   },
   "val": {
-    "examples": 12953,
-    "students": 589,
+    "examples": 13200,
+    "students": 600,
     "label_dist": {
       "ability_fit": {
-        "1": 0.39,
+        "1": 0.341,
         "2": 0.24,
-        "3": 0.18,
-        "4": 0.115,
-        "5": 0.059,
+        "3": 0.199,
+        "4": 0.128,
+        "5": 0.076,
         "insufficient": 0.016
       },
       "budget_ok": {
-        "insufficient": 0.504,
-        "no": 0.281,
-        "yes": 0.215
+        "insufficient": 0.492,
+        "no": 0.291,
+        "yes": 0.217
       },
       "conditions_ok": {
-        "yes": 0.866,
-        "insufficient": 0.073,
-        "no": 0.061
+        "yes": 0.877,
+        "insufficient": 0.064,
+        "no": 0.059
       },
       "interest_fit": {
-        "2": 0.28,
-        "5": 0.213,
-        "4": 0.152,
-        "3": 0.125,
-        "1": 0.124,
-        "insufficient": 0.105
+        "2": 0.31,
+        "5": 0.215,
+        "4": 0.149,
+        "3": 0.129,
+        "1": 0.103,
+        "insufficient": 0.095
       },
       "location_ok": {
-        "no": 0.57,
-        "insufficient": 0.262,
-        "yes": 0.168
+        "yes": 0.427,
+        "insufficient": 0.31,
+        "no": 0.264
       },
       "risk_tolerance": {
-        "insufficient": 0.368,
-        "an_toan": 0.28,
-        "can_bang": 0.205,
-        "mao_hiem": 0.146
+        "insufficient": 0.392,
+        "an_toan": 0.277,
+        "can_bang": 0.177,
+        "mao_hiem": 0.155
       },
       "top_priority": {
-        "insufficient": 0.336,
-        "nganh_yeu_thich": 0.168,
-        "viec_lam_thu_nhap": 0.141,
-        "truong_danh_tieng": 0.127,
-        "hoc_phi_thap": 0.126,
-        "gan_nha": 0.102
+        "insufficient": 0.332,
+        "nganh_yeu_thich": 0.158,
+        "truong_danh_tieng": 0.157,
+        "viec_lam_thu_nhap": 0.152,
+        "hoc_phi_thap": 0.108,
+        "gan_nha": 0.093
       }
     },
-    "mean_max_soft": 0.905
+    "mean_max_soft": 0.904
   },
   "test": {
-    "examples": 13706,
-    "students": 623,
+    "examples": 12496,
+    "students": 568,
     "label_dist": {
       "ability_fit": {
-        "1": 0.371,
-        "2": 0.25,
-        "3": 0.173,
-        "4": 0.12,
-        "5": 0.074,
-        "insufficient": 0.012
+        "1": 0.403,
+        "2": 0.246,
+        "3": 0.177,
+        "4": 0.117,
+        "5": 0.048,
+        "insufficient": 0.01
       },
       "budget_ok": {
-        "insufficient": 0.762,
+        "insufficient": 0.747,
         "yes": 0.136,
-        "no": 0.102
+        "no": 0.117
       },
       "conditions_ok": {
-        "yes": 0.968,
-        "insufficient": 0.016,
-        "no": 0.016
+        "yes": 0.973,
+        "no": 0.016,
+        "insufficient": 0.011
       },
       "interest_fit": {
-        "2": 0.313,
-        "5": 0.224,
-        "4": 0.155,
-        "3": 0.12,
-        "1": 0.107,
-        "insufficient": 0.081
+        "2": 0.281,
+        "5": 0.223,
+        "4": 0.171,
+        "1": 0.117,
+        "3": 0.116,
+        "insufficient": 0.092
       },
       "location_ok": {
-        "no": 0.586,
-        "insufficient": 0.272,
-        "yes": 0.142
+        "yes": 0.431,
+        "no": 0.308,
+        "insufficient": 0.261
       },
       "risk_tolerance": {
-        "insufficient": 0.395,
-        "an_toan": 0.3,
-        "can_bang": 0.161,
-        "mao_hiem": 0.144
+        "insufficient": 0.38,
+        "an_toan": 0.289,
+        "can_bang": 0.176,
+        "mao_hiem": 0.155
       },
       "top_priority": {
-        "insufficient": 0.368,
-        "nganh_yeu_thich": 0.159,
-        "viec_lam_thu_nhap": 0.151,
-        "gan_nha": 0.111,
-        "truong_danh_tieng": 0.106,
-        "hoc_phi_thap": 0.106
+        "insufficient": 0.333,
+        "nganh_yeu_thich": 0.16,
+        "viec_lam_thu_nhap": 0.141,
+        "truong_danh_tieng": 0.13,
+        "hoc_phi_thap": 0.12,
+        "gan_nha": 0.116
       }
     },
-    "mean_max_soft": 0.908
+    "mean_max_soft": 0.91
   }
 }

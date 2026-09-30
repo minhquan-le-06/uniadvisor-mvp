@@ -27,9 +27,9 @@ on the owner's Windows machine, in `models/slm/`).
 | Rules | 2026 verified by the owner (`verified: true`); 2027 is a draft inheriting 2026 |
 | Forecast | MAE 1.373 ≈ naive "last year's cutoff" (1.369). Percentile equating with exact data is worse (1.55), so the backtest picks `equate=never`. P(admit) calibrated: Brier 0.119, ECE 0.056 |
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
-| SLM | first Kaggle run: test (3,000 rows, synthetic labels) SLM 0.782, keywords 0.815, **hybrid 0.889**. `HybridJudge` routes location_ok / risk_tolerance / budget_ok to the SLM, the rest to keyword rules |
+| SLM | **retrain needed**: the first model learned location_ok from a teacher bug (NaN campus counted as a branch campus; fixed), so location_ok is routed to the rules for now. On Gemini labels: keywords 0.738, hybrid 0.728, SLM 0.674; the SLM wins risk_tolerance (0.90 vs 0.81) and budget_ok. First Kaggle run: test (3,000 rows, synthetic labels) SLM 0.782, keywords 0.815, **hybrid 0.889**. `HybridJudge` routes location_ok / risk_tolerance / budget_ok to the SLM, the rest to keyword rules |
 | App / API | Streamlit chat + FastAPI both tested (headless Chromium, TestClient); not deployed |
-| Labelling | `uniadvisor label` (human) and `uniadvisor gold-llm` (Gemini, 2 rows/request, key + model fallback) built and tested; guide in `data/slm/LABELLING.md`; 0/294 labelled |
+| Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`); interest_fit (42) and 8 ability_fit rows need `gold-llm --redo interest_fit,ability_fit` after the rubric fixes. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
 
 ## Next, in order of value
 
@@ -68,4 +68,7 @@ on the owner's Windows machine, in `models/slm/`).
   (`catalog._drop_reused_codes`). Its 'Thang 40' label marks 40-point rows even when the number is <= 30.
 - The 2025 `ct2006` score file (old-curriculum exam) is skipped by the importer on purpose.
 - The SLM is poor at score arithmetic (ability_fit 0.47): keep that question on the rules.
-- Gold ids hash the row text; any change to model_input/program_text changes them (rerun `slm-data`).
+- Gold ids hash the row text. The gold rows are frozen in `data/slm/gold_frozen.jsonl` (text, latent, program), so
+  regenerating the synthetic data no longer invalidates labels; teacher labels for them are recomputed on the fly.
+- The teacher and the dataset sampler share one RNG stream: any teacher change reshuffles later pairings.
+- pandas 3: `df.where(df.notna(), None)` keeps NaN in string columns; use `df.astype(object).where(...)`.

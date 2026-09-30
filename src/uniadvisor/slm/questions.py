@@ -95,10 +95,16 @@ QUESTIONS: list[Question] = [
         labels=("1", "2", "3", "4", "5"),
         labels_vi=("Rất không hợp", "Ít hợp", "Trung bình", "Khá hợp", "Rất hợp"),
         rubric=(
-            "5: đúng lĩnh vực/nghề học sinh nói muốn theo. 4: lĩnh vực gần, liên quan rõ tới sở thích (vd thích lập trình -> "
-            "an toàn thông tin). 3: không liên quan nhưng cũng không trái với gì học sinh nói, hoặc là lựa chọn gia đình muốn "
-            "mà học sinh không phản đối. 2: xa sở thích, hoặc chỉ là lựa chọn do người khác ép. 1: học sinh nói rõ không thích / "
-            "sợ lĩnh vực này.\ninsufficient: học sinh không nói gì về sở thích, môn thích, hay nghề muốn làm."
+            "Xét theo 'Lĩnh vực' của ngành (cùng lĩnh vực là đủ, không cần đúng tên ngành).\n"
+            "5: ngành thuộc lĩnh vực học sinh NÓI RÕ muốn học, hoặc lĩnh vực của nghề học sinh nói muốn làm.\n"
+            "4: lĩnh vực học sinh chỉ GỢI Ý qua sở thích, hoạt động (vd 'hay tự viết code', 'hay chăm sóc ông bà khi ốm') "
+            "mà không nói thẳng; hoặc lĩnh vực gần, liên quan rõ tới lĩnh vực học sinh muốn (vd CNTT và kỹ thuật điện tử).\n"
+            "3: học sinh KHÔNG nêu lĩnh vực hay nghề mong muốn nào (chỉ nói điều không thích, hoặc chỉ có mong muốn của gia "
+            "đình) và ngành không trái với điều đã nói; hoặc là ngành gia đình muốn mà học sinh chấp nhận.\n"
+            "2: học sinh ĐÃ nêu lĩnh vực/nghề muốn theo (nói rõ hoặc gợi ý) và ngành này thuộc lĩnh vực khác, không liên "
+            "quan (kể cả khi không trái với gì); hoặc là ngành gia đình ép mà học sinh không muốn.\n"
+            "1: học sinh nói rõ không thích / sợ lĩnh vực này.\n"
+            "insufficient: không nói gì về sở thích, môn thích, nghề muốn làm, điều không thích hay mong muốn của gia đình."
         ),
         clarify_vi="Em thích làm công việc gì sau này, hoặc có môn học/hoạt động nào em thật sự hứng thú không?",
     ),

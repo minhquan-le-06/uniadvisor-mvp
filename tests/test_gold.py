@@ -64,3 +64,19 @@ def _first_label(qid: str) -> str:
     from uniadvisor.slm.questions import BY_ID
 
     return BY_ID[qid].labels[0]
+
+
+def test_frozen_gold_set_evaluates_without_the_test_split(tmp_path):
+    """Gold labels stay usable after the synthetic data is regenerated: evaluation reads gold_frozen.jsonl."""
+    import shutil
+    from pathlib import Path
+
+    from uniadvisor.slm.evaluate import evaluate
+    from uniadvisor.slm.infer import HeuristicJudge
+
+    src = Path("data/slm")
+    if not (src / "gold_frozen.jsonl").exists() or not (src / "gold_llm.csv").exists():
+        pytest.skip("no frozen gold set")
+    shutil.copy(src / "gold_frozen.jsonl", tmp_path)  # no test.jsonl, latents or snapshot next to it
+    r = evaluate(HeuristicJudge(), gold=src / "gold_llm.csv", data=tmp_path)
+    assert r["n"] == 294 and r["split"] == "gold"

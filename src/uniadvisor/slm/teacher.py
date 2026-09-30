@@ -127,7 +127,8 @@ def budget_ok(z: Latent, p: dict, rng: random.Random) -> dict[str, float]:
 def location_ok(z: Latent, p: dict, rng: random.Random) -> dict[str, float]:
     labels = BY_ID["location_ok"].all_labels
     city = p.get("city")
-    branch = bool(p.get("campus"))
+    campus = p.get("campus")
+    branch = isinstance(campus, str) and campus.strip() != ""  # NaN is truthy: never use bool() on a cell
     if z.avoid_branch and branch:
         return _vote("no", labels, 0.1, rng, "bool")
     if z.location is None:

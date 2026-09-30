@@ -11,6 +11,7 @@ models/slm*/adapter.pt
 .streamlit/secrets.toml
 .env
 data/slm/*.jsonl
+!data/slm/gold_frozen.jsonl
 data/slm/programs_snapshot.csv
 models/slm_smoke/
 reports/*.log

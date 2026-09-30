@@ -24,19 +24,32 @@ def _load(split: str, data: Path) -> list[dict]:
     return [json.loads(line) for line in open(data / f"{split}.jsonl", encoding="utf-8")]
 
 
+def load_frozen(data: Path = SLM_DATA) -> list[dict] | None:
+    """The gold rows exactly as labelled (text, latent student, program), or None if not frozen yet.
+    Evaluating on these keeps gold labels valid when the synthetic dataset is regenerated."""
+    path = data / "gold_frozen.jsonl"
+    return [json.loads(line) for line in open(path, encoding="utf-8")] if path.exists() else None
+
+
 def evaluate(judge, split: str = "test", gold: Path | None = None, limit: int | None = None, data: Path = SLM_DATA) -> dict:  # noqa: ANN001
-    rows = _load(split, data)
+    frozen = load_frozen(data) if gold is not None else None
+    if frozen is not None:
+        latents = {r["student_id"]: r["latent"] for r in frozen}
+        progs = {r["program_id"]: r["program"] for r in frozen if r["program_id"]}
+        rows = frozen
+    else:
+        rows = _load(split, data)
+        latents = {z["student_id"]: z for z in map(json.loads, open(data / "latents.jsonl", encoding="utf-8"))}
+        snap = pd.read_csv(data / "programs_snapshot.csv", dtype={"program_code": str, "major_code": str})
+        snap = snap.astype(object).where(snap.notna(), None)
+        progs = {r["program_id"]: r for r in snap.to_dict("records")}
     if gold is not None:
-        g = pd.read_csv(gold, dtype=str, keep_default_na=False)
+        g = pd.read_csv(gold, dtype=str, keep_default_na=False, encoding="utf-8-sig")
         g = g[g.human_label.str.strip() != ""]
         labels = dict(zip(g.id, g.human_label.str.strip()))
         rows = [dict(r, label=labels[r["id"]]) for r in rows if r["id"] in labels]
     if limit:
         rows = rows[:limit]
-    latents = {z["student_id"]: z for z in map(json.loads, open(data / "latents.jsonl", encoding="utf-8"))}
-    snap = pd.read_csv(data / "programs_snapshot.csv", dtype={"program_code": str, "major_code": str})
-    snap = snap.astype(object).where(snap.notna(), None)
-    progs = {r["program_id"]: r for r in snap.to_dict("records")}
     items = []
     for r in rows:
         z = latents[r["student_id"]]

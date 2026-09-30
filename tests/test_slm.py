@@ -99,3 +99,22 @@ def test_program_text_treats_nan_as_missing():
 
     t = program_text(dict(PROGRAM, campus=float("nan"), tuition_min=float("nan"), conditions=float("nan")))
     assert "nan" not in t and "Nơi học: Hà Nội" in t and "Học phí: không rõ" in t
+
+
+def test_teacher_nan_campus_is_not_a_branch_campus():
+    """Regression: a NaN campus (pandas 3 string column) counted as a branch campus, so every
+    location_ok label for a matching city came out 'no'."""
+    rng = random.Random(3)
+    top = lambda d: max(d, key=d.get)  # noqa: E731
+    p = dict(PROGRAM, campus=float("nan"))
+    assert top(teacher.label("location_ok", _latent(location="city:" + PROGRAM["city"]), p, rng)) == "yes"
+    assert top(teacher.label("location_ok", _latent(location="anywhere", avoid_branch=True), p, rng)) == "yes"
+    assert top(teacher.label("location_ok", _latent(location="anywhere", avoid_branch=True), dict(PROGRAM, campus="Thanh Hóa"), rng)) == "no"
+
+
+def test_dataset_programs_have_no_nan_cells():
+    import pandas as pd
+
+    programs = pd.read_csv("data/processed/programs.csv", dtype={"program_code": str, "major_code": str})
+    fixed = programs.astype(object).where(programs.notna(), None)
+    assert not any(isinstance(v, float) and v != v for v in fixed.campus)

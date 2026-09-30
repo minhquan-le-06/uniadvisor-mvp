@@ -20,6 +20,9 @@ uniadvisor slm-eval --judge heuristic --gold data/slm/gold_labeled.csv
   random. Mismatches are intended. Do not judge whether the pairing is sensible; answer the question for it.
 - No model or teacher answer is ever shown, so your labels are an independent test.
 
+The gold rows are frozen in `data/slm/gold_frozen.jsonl`: evaluation reads them from there, so regenerating
+the synthetic data (`slm-data`) never invalidates labels, and those students never appear in training.
+
 ## One question at a time, in isolation
 
 The app combines the 7 answers itself. Each question looks only at its own evidence:

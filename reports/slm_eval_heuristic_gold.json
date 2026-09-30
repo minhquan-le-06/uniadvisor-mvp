@@ -1,0 +1,110 @@
+{
+  "judge": "heuristic",
+  "split": "gold",
+  "n": 294,
+  "per_question": {
+    "ability_fit": {
+      "n": 42,
+      "accuracy": 0.5952,
+      "macro_f1": 0.4792,
+      "ece": 0.1048,
+      "level_mae": 0.375,
+      "escalation_rate": 0.0,
+      "accuracy_when_not_escalated": 0.5952
+    },
+    "budget_ok": {
+      "n": 42,
+      "accuracy": 0.8571,
+      "macro_f1": 0.5512,
+      "ece": 0.2917,
+      "escalation_rate": 0.9048,
+      "accuracy_when_not_escalated": 0.5
+    },
+    "conditions_ok": {
+      "n": 42,
+      "accuracy": 0.9762,
+      "macro_f1": 0.8847,
+      "ece": 0.2429,
+      "escalation_rate": 0.0238,
+      "accuracy_when_not_escalated": 0.9756
+    },
+    "interest_fit": {
+      "n": 42,
+      "accuracy": 0.2857,
+      "macro_f1": 0.3159,
+      "ece": 0.3048,
+      "level_mae": 0.8529,
+      "escalation_rate": 0.5476,
+      "accuracy_when_not_escalated": 0.4737
+    },
+    "location_ok": {
+      "n": 42,
+      "accuracy": 0.8571,
+      "macro_f1": 0.8393,
+      "ece": 0.2095,
+      "escalation_rate": 0.2857,
+      "accuracy_when_not_escalated": 0.9333
+    },
+    "risk_tolerance": {
+      "n": 42,
+      "accuracy": 0.8095,
+      "macro_f1": 0.7732,
+      "ece": 0.1988,
+      "escalation_rate": 0.5952,
+      "accuracy_when_not_escalated": 0.9412
+    },
+    "top_priority": {
+      "n": 42,
+      "accuracy": 0.7857,
+      "macro_f1": 0.779,
+      "ece": 0.15,
+      "escalation_rate": 0.4286,
+      "accuracy_when_not_escalated": 0.875
+    }
+  },
+  "by_group": {
+    "region": {
+      "central": {
+        "n": 35,
+        "accuracy": 0.6571
+      },
+      "north": {
+        "n": 206,
+        "accuracy": 0.7476
+      },
+      "south": {
+        "n": 53,
+        "accuracy": 0.7547
+      }
+    },
+    "track": {
+      "DI+N1": {
+        "n": 31,
+        "accuracy": 0.7097
+      },
+      "LI+SU": {
+        "n": 39,
+        "accuracy": 0.7179
+      },
+      "N1+SU": {
+        "n": 31,
+        "accuracy": 0.7742
+      }
+    },
+    "score_band": {
+      "6-7.5": {
+        "n": 139,
+        "accuracy": 0.705
+      },
+      "7.5-8.5": {
+        "n": 58,
+        "accuracy": 0.7241
+      },
+      "<6": {
+        "n": 92,
+        "accuracy": 0.7935
+      }
+    }
+  },
+  "overall_accuracy": 0.7381
+}
