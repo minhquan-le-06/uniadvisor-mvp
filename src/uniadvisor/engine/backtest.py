@@ -117,10 +117,16 @@ def run(save: bool = True) -> dict:
     dists = default_distributions()
     prog, hist = _histories()
 
-    grid = {rec: float(residuals(prog, hist, dists, ForecastParams(recency=rec)).resid.abs().mean()) for rec in (0.0, 0.2, 0.35, 0.5, 0.7, 1.0)}
-    # keep some history when it costs < 1% MAE: damps one-year spikes at no real accuracy cost
-    best = max(r for r, v in grid.items() if v <= 1.01 * min(grid.values()))
-    base = ForecastParams(recency=best)
+    # equating is a choice the data has to earn: with exact 2023-2026 distributions, same-percentile
+    # equating was still worse than raw scores (selective programs stay sticky in points, low ones sit on floors)
+    grid = {(eq, rec): float(residuals(prog, hist, dists, ForecastParams(recency=rec, equate=eq)).resid.abs().mean())
+            for eq in ("never", "trusted") for rec in (0.0, 0.2, 0.35, 0.5, 0.7, 1.0)}
+    # keep some history when it costs < 1% MAE: damps one-year spikes at no real accuracy cost;
+    # prefer not equating unless it wins by more than that margin
+    ok = [k for k, v in grid.items() if v <= 1.01 * min(grid.values())]
+    eq = "never" if any(e == "never" for e, _ in ok) else "trusted"
+    best = max(r for e, r in ok if e == eq)
+    base = ForecastParams(recency=best, equate=eq)
     res = residuals(prog, hist, dists, base)
     df, scales = fit_t(res)
     final = replace(base, df=df, sigma_by_history=scales)
@@ -130,19 +136,25 @@ def run(save: bool = True) -> dict:
         params_by_fold[f] = replace(final, sigma_by_history=sc)
     calib = calibration(res, prog, hist, dists, params_by_fold)
     ablation = residuals(prog, hist, dists, replace(final, equate="always"))
+    # equating onto the target year's own distribution (known before cutoffs, since exam results come first)
+    own_year = residuals(prog, hist, dists, replace(final, equate="trusted"), pre_results=False)
+    exact_past = sorted({y for (_, y), info in dists.meta.items() if info.provenance == "exact" and y < max(TARGETS)})
 
     report = {
-        "recency_grid_mae": grid,
+        "grid_mae": {f"{e}/recency={r}": round(v, 4) for (e, r), v in grid.items()},
         "chosen": asdict(final),
         "engine_pre_results": {"all": errors(res), **{f"target_{T}": errors(res[res.target == T]) for T in TARGETS},
                                **{f"history_{k}y": errors(res[res.n_years == k]) for k in sorted(res.n_years.unique())},
                                "rows_with_percentile_equating": int(res.any_equated.sum())},
-        "ablation_equate_through_approximated_distributions": {"all": errors(ablation), **{f"target_{T}": errors(ablation[ablation.target == T]) for T in TARGETS}},
+        "ablation_equate_always": {"all": errors(ablation), **{f"target_{T}": errors(ablation[ablation.target == T]) for T in TARGETS}},
+        "ablation_equate_onto_target_year": {"all": errors(own_year), **{f"target_{T}": errors(own_year[own_year.target == T]) for T in TARGETS}},
         "calibration_cross_fitted": calib,
-        "note": ("Only 2026 has observed score distributions, so no past year can be percentile-equated in a trusted way "
-                 "and the engine falls back to comparing scores directly. The ablation shows that equating through the "
-                 "approximated 2023-2025 distributions hurts. Add per-candidate score files for 2023-2025 to data/inbox/ "
-                 "and rebuild to switch equating on."),
+        "exact_past_years": exact_past,
+        "note": (f"Exact per-candidate distributions for {exact_past} are loaded. Same-percentile equating was still worse "
+                 "than comparing raw cutoffs, even onto the target year's own distribution, so the engine does not equate "
+                 "(chosen by the grid above)." if exact_past else
+                 "Only approximated distributions exist for past years; equating through them hurts, so the engine compares "
+                 "raw cutoffs. Add per-candidate score files to data/inbox/ and rebuild to test equating on real data."),
     }
     if save:
         final.save()

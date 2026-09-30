@@ -9,5 +9,5 @@
   "df": 3.8165895638424017,
   "bias": 0.0,
   "sigma_floor": 0.5,
-  "equate": "trusted"
+  "equate": "never"
 }

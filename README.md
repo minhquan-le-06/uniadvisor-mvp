@@ -38,6 +38,7 @@ The sidebar says which.
 
 ```bash
 uniadvisor collect      # polite + cached: robots.txt, 1.5 s/host, raw responses in data/raw/
+uniadvisor fetch-scores # per-candidate exam scores 2023-2026 -> data/inbox/ (~350 MB, not in git)
 uniadvisor build        # distributions -> cutoffs (3-source consensus) -> catalog
 uniadvisor backtest     # fits forecast parameters, writes reports/backtest.json
 uniadvisor report       # reports/data_report.md: coverage, quality, gaps
@@ -47,18 +48,21 @@ uniadvisor slm-data     # synthetic students x real programs -> data/slm/
 Sources (trust levels as in UniPilotData): VietNamNet cutoff API (3, 2023–2026), VnExpress (3,
 2025–2026 + tuition + 2026 score histograms), tuyensinh247 (4, 2026 cross-check), UniPilotData
 step-1 export (schools, 2026 programs, quotas, combos), and ministry percentiles/means quoted in news
-(`data/manual/distribution_anchors.csv`, each row with its quote). Only public aggregate data is
-stored; no per-candidate records are kept.
+(`data/manual/distribution_anchors.csv`, each row with its quote), and per-candidate exam scores
+compiled from the Ministry's public results ([sdgedfegw/du-lieu-diem-thi](https://github.com/sdgedfegw/du-lieu-diem-thi),
+subject scores only, no names). Those files stay in `data/inbox/` (git-ignored); only the aggregate
+distributions built from them are committed. Without them, `build` falls back to approximations.
 
 **Read [reports/data_report.md](reports/data_report.md) before trusting any number.** The short version:
 
 - 48 schools (28 Hà Nội, 20 TP.HCM), ~1,670 programs; 2026 cutoffs cross-checked across up to 3 sources.
-- Only 2026 has real score distributions. Past years are approximations, and the backtest showed
-  percentile-equating through them is *worse* than not equating, so the engine gates equating on
-  distribution quality. Today it therefore forecasts on raw scores (MAE ≈ 1.37 points, same as
-  "last year's cutoff"); **dropping per-candidate score files for 2023–2025 into `data/inbox/`**
-  (e.g. the Kaggle dataset "Dữ liệu điểm thi THPT quốc gia 2020-2024") and running `uniadvisor build`
-  switches real percentile equating on.
+- Score distributions are exact for 2023–2026 (1.0–1.2 M candidates per year; the 2026 file matches
+  VnExpress's per-subject counts exactly). Even so, same-percentile equating of past cutoffs was
+  *worse* than comparing raw cutoffs (MAE 1.55 vs 1.37, even onto the target year's own distribution):
+  selective programs stay sticky in points and low ones sit on the ministry floors. The backtest
+  therefore chooses no equating, and the forecast is about as good as "last year's cutoff"
+  (MAE ≈ 1.37). The distributions still drive the "top X% of candidates" figures in explanations.
+  Beating the naive forecast needs other signals (quota history, applicants per program).
 - `P(admit)` is calibrated on held-out years (Brier 0.12, ECE 0.056) and errs on the safe side.
 
 ## SLM

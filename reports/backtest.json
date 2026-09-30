@@ -1,11 +1,17 @@
 {
-  "recency_grid_mae": {
-    "0.0": 1.3689833641404805,
-    "0.2": 1.3725092421441776,
-    "0.35": 1.3904390018484287,
-    "0.5": 1.415318853974122,
-    "0.7": 1.451746765249538,
-    "1.0": 1.5066404805914972
+  "grid_mae": {
+    "never/recency=0.0": 1.369,
+    "never/recency=0.2": 1.3725,
+    "never/recency=0.35": 1.3904,
+    "never/recency=0.5": 1.4153,
+    "never/recency=0.7": 1.4517,
+    "never/recency=1.0": 1.5066,
+    "trusted/recency=0.0": 1.3793,
+    "trusted/recency=0.2": 1.4132,
+    "trusted/recency=0.35": 1.4596,
+    "trusted/recency=0.5": 1.5118,
+    "trusted/recency=0.7": 1.5794,
+    "trusted/recency=1.0": 1.6661
   },
   "chosen": {
     "recency": 0.2,
@@ -18,7 +24,7 @@
     "df": 3.8165895638424017,
     "bias": 0.0,
     "sigma_floor": 0.5,
-    "equate": "trusted"
+    "equate": "never"
   },
   "engine_pre_results": {
     "all": {
@@ -71,28 +77,54 @@
     },
     "rows_with_percentile_equating": 0
   },
-  "ablation_equate_through_approximated_distributions": {
+  "ablation_equate_always": {
     "all": {
       "n": 2164,
-      "mae": 1.458,
-      "bias": -0.249,
-      "within_1pt": 0.471,
+      "mae": 1.413,
+      "bias": -0.415,
+      "within_1pt": 0.495,
       "naive_mae": 1.369,
       "naive_within_1pt": 0.547
     },
     "target_2025": {
       "n": 945,
-      "mae": 1.644,
-      "bias": -0.954,
-      "within_1pt": 0.397,
+      "mae": 1.693,
+      "bias": -1.034,
+      "within_1pt": 0.386,
       "naive_mae": 1.656,
       "naive_within_1pt": 0.465
     },
     "target_2026": {
       "n": 1219,
-      "mae": 1.314,
-      "bias": 0.297,
-      "within_1pt": 0.528,
+      "mae": 1.196,
+      "bias": 0.065,
+      "within_1pt": 0.579,
+      "naive_mae": 1.147,
+      "naive_within_1pt": 0.61
+    }
+  },
+  "ablation_equate_onto_target_year": {
+    "all": {
+      "n": 2164,
+      "mae": 1.55,
+      "bias": 0.052,
+      "within_1pt": 0.452,
+      "naive_mae": 1.369,
+      "naive_within_1pt": 0.547
+    },
+    "target_2025": {
+      "n": 945,
+      "mae": 1.907,
+      "bias": -0.043,
+      "within_1pt": 0.335,
+      "naive_mae": 1.656,
+      "naive_within_1pt": 0.465
+    },
+    "target_2026": {
+      "n": 1219,
+      "mae": 1.272,
+      "bias": 0.125,
+      "within_1pt": 0.542,
       "naive_mae": 1.147,
       "naive_within_1pt": 0.61
     }
@@ -184,5 +216,10 @@
       }
     ]
   },
-  "note": "Only 2026 has observed score distributions, so no past year can be percentile-equated in a trusted way and the engine falls back to comparing scores directly. The ablation shows that equating through the approximated 2023-2025 distributions hurts. Add per-candidate score files for 2023-2025 to data/inbox/ and rebuild to switch equating on."
+  "exact_past_years": [
+    2023,
+    2024,
+    2025
+  ],
+  "note": "Exact per-candidate distributions for [2023, 2024, 2025] are loaded. Same-percentile equating was still worse than comparing raw cutoffs, even onto the target year's own distribution, so the engine does not equate (chosen by the grid above)."
 }

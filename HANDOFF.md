@@ -6,11 +6,12 @@ Setup on a fresh machine (Python 3.11+, run from the project root; `.venv/Script
 python -m venv .venv && . .venv/bin/activate
 pip install -e ".[dev]"            # add ".[slm]" only if you will run the SLM (pulls torch)
 uniadvisor slm-data                # regenerates data/slm/*.jsonl (not in git, ~40 s)
-python -m pytest -q                # 49 tests pass (1 skips without torch)
+python -m pytest -q                # 50 tests pass (1 skips without torch)
 ```
 
 Everything the app needs is committed (`data/processed`, `data/collected`, `data/unipilot`,
-`models/forecast_params.json`). Re-collecting from the news sites is not needed. The trained SLM
+`models/forecast_params.json`). Re-collecting from the news sites is not needed. To rebuild the
+distributions exactly, run `uniadvisor fetch-scores` first (files stay in `data/inbox/`, not in git). The trained SLM
 (`models/slm/`) lives only on the owner's machine: `adapter.pt` is git-ignored.
 
 ## Done
@@ -24,6 +25,9 @@ Everything the app needs is committed (`data/processed`, `data/collected`, `data
   the keyword rules; it is what the app and API use whenever `models/slm/` loads.
   `uniadvisor slm-eval --judge hybrid|slm|heuristic|auto`.
 
+- Exact score distributions 2023-2026 from per-candidate files (`uniadvisor fetch-scores`, then
+  `build`); the importer reads CamelCase headers, merges files per year and skips the 2025 ct2006 exam.
+  The backtest now chooses whether to equate (it chooses not to).
 - 2026 rules verified by the owner (`verified: true`). Fixed: 'unlikely' programs were recommended;
   API accepted scores outside 0-10; SLM training texts said 'Nơi học: nan' for ~90% of rows (the app
   showed the city), so the next retrain trains on the same text the app sends.
@@ -34,8 +38,10 @@ Everything the app needs is committed (`data/processed`, `data/collected`, `data
    `uniadvisor slm-data`, then `uniadvisor label` (294 rows, 42 per question; saves to
    `data/slm/gold_labeled.csv` after every click). Then `uniadvisor slm-eval --judge hybrid --gold
    data/slm/gold_labeled.csv` and the same with `--judge heuristic`. Re-pick the routing if a question flips.
-2. **Per-candidate score files for 2023-2025** in `data/inbox/`, then `uniadvisor build` and
-   `uniadvisor backtest`. Switches on percentile equating; biggest forecast upgrade.
+2. **Forecast signals beyond last year's cutoff.** Exact 2023-2026 distributions are now in
+   (`uniadvisor fetch-scores`), but percentile equating did not beat raw cutoffs (MAE 1.55 vs 1.37), so
+   the backtest turns it off. Next candidates: quota history (enables `kappa_quota`), applicant counts
+   per program, per-combination cutoffs.
 3. **interest_fit** is the weakest question (0.65 with the rules, 0.46 with the SLM; the SLM is right
    94% of the time when confident but is rarely confident). Try a Kaggle retrain with `--epochs 5`, or
    LLM-teacher labels (`uniadvisor slm-relabel`), and re-evaluate.

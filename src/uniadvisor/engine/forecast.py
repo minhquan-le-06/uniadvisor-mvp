@@ -6,9 +6,10 @@ of c, used as the target year's scale until T's own distribution is published):
   1. Put every past cutoff s_y on D's scale by *percentile equating*
          s_y->D = F_D^-1( F_y(s_y) )          when both F_y and F_D are trustworthy (exact/observed)
          s_y->D = s_y                          otherwise (scores assumed comparable)
-     The backtest showed that equating through approximated distributions (anchored / year_shift)
-     is worse than not equating, so it is only done where the data supports it. Adding exact
-     per-candidate distributions (data/inbox/) switches it on automatically.
+     Whether to equate at all is chosen by the backtest (ForecastParams.equate). Equating through
+     approximated distributions (anchored / year_shift) was worse than not equating, and so was
+     equating through the exact 2023-2026 per-candidate distributions (data/inbox/): cutoffs of
+     selective programs stay sticky in points and low ones sit on the ministry floors.
   2. s* = sum_y w_y s_y->D / sum_y w_y,  w_y = recency^(T-1-y)      (+ quota adjustment when known)
   3. Uncertainty: Student-t with scale sigma(n history years) fitted on backtest residuals.
   4. P(admit | student total t) = P(t >= next cutoff) = T_nu((t - s*) / sqrt(sigma^2 + sd_student^2))
@@ -40,7 +41,7 @@ class ForecastParams:
     df: float = 4.0                          # Student-t degrees of freedom (heavy tails seen in backtest)
     bias: float = 0.0                        # added to s*; kept 0 (the year-to-year bias changes sign)
     sigma_floor: float = 0.5
-    equate: str = "trusted"                  # trusted | always | never (always/never are backtest ablations)
+    equate: str = "trusted"                  # trusted | never (chosen by the backtest) | always (ablation only)
 
     def sigma(self, n_years: int) -> float:
         k = max(1, min(n_years, max(self.sigma_by_history)))

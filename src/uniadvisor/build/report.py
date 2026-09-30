@@ -34,6 +34,8 @@ def build() -> str:
     cut["scale"] = cut.scale.astype(int)
     by_year = cut[cut.scale == 30].pivot_table(index="year", columns="status", values="key_code", aggfunc="count", fill_value=0).reset_index()
     tuition_known = prog.tuition_min.notna() & (prog.tuition_imputed == "False")
+    exact = dmeta[dmeta.provenance == "exact"]
+    exact_years = sorted(exact.year.unique().tolist())
     out = [
         f"# Data report (generated {date.today().isoformat()})",
         "",
@@ -48,6 +50,9 @@ def build() -> str:
         "| VnExpress phổ điểm 2026 | 3 | per-subject (0.25 bins) and 13 per-combination (1-point bins) score histograms | 2026 only |",
         "| Ministry figures quoted in news (data/manual/distribution_anchors.csv) | 5 (hand-entered, quoted) | 2025 p50/p75/p90 for 7 combinations; 2023-2024 means | 28 |",
         f"| UniPilotData step-1 export | 4 (aggregator) | school details, 2026 programs, quotas, THPT combinations | {len(prog)} programs matched |",
+        *([f"| Per-candidate score files in data/inbox/ (not in git; e.g. github.com/sdgedfegw/du-lieu-diem-thi) | 4 (public "
+           f"Ministry results, compiled) | exact score distributions per combination | {', '.join(map(str, exact_years))} "
+           f"(up to {int(exact.n.max()):,} candidates per combination) |"] if exact_years else []),
         "",
         "## Cutoffs (30-point THPT method)",
         "",
@@ -81,6 +86,8 @@ def build() -> str:
         f"real per-subject histograms (Gaussian copula + selection correction; leave-one-out KS vs observed ≈ "
         f"{dist_rep.get('copula', {}).get('leave_one_out_ks_mean', '?')}). `anchored`/`year_shift`: the 2026 shape moved to "
         "match published percentiles/means (weak).",
+        "- `exact`: built from per-candidate score files (data/inbox/). The 2026 file matches VnExpress's per-subject "
+        "candidate counts exactly." if exact_years else
         "- The engine only percentile-equates between *trusted* distributions (observed/exact); with today's data that means "
         "no equating across years (see backtest).",
         "",
@@ -92,8 +99,11 @@ def build() -> str:
             "## Backtest (forecast 2025 and 2026 from earlier years)",
             "",
             f"- Cutoff MAE {e['mae']} points (naive 'same as last year': {e['naive_mae']}); within ±1 point: {e['within_1pt']:.0%}.",
-            f"- An earlier variant that percentile-equated through the approximated 2023-2025 distributions did worse "
-            f"(MAE ≈ 1.51 vs naive 1.37), which is why equating is gated on distribution quality.",
+            f"- Chosen: equate={bt['chosen']['equate']}, recency={bt['chosen']['recency']}. {bt.get('note', '')}",
+            *([f"- Same-percentile equating onto the target year's own distribution: MAE "
+               f"{bt['ablation_equate_onto_target_year']['all']['mae']} (vs raw {e['naive_mae']}). It helps mid-range programs "
+               "but fails at both ends: selective programs stay sticky in points and low ones sit on the ministry floors."]
+              if "ablation_equate_onto_target_year" in bt else []),
             f"- P(admit) calibration (cross-fitted): Brier {c['brier']}, ECE {c['ece']}. By bucket (predicted → actual): "
             + "; ".join(f"{b['bucket']} {b['mean_pred']:.0%} → {b['admit_rate']:.0%}" for b in c["buckets"]) + ".",
             "- Predictions are slightly conservative because cutoffs dropped in the 2025 reform year.",
@@ -114,9 +124,11 @@ def build() -> str:
     out += [
         "## Known gaps (priority order)",
         "",
-        "1. **Exact score distributions for 2023-2025.** Per-candidate score files (e.g. Kaggle 'Dữ liệu điểm thi THPT quốc gia "
-        "2020-2024') dropped into data/inbox/ replace the approximations and switch on percentile equating. 2025 is the most "
-        "valuable year (first year of the new exam).",
+        ("1. **A better cutoff model.** Exact distributions did not beat 'same as last year'; the next gains need other "
+         "signals (quota history, applicant counts per program, per-combination cutoffs), not better distributions."
+         if exact_years else
+         "1. **Exact score distributions for 2023-2025.** Per-candidate score files (e.g. github.com/sdgedfegw/du-lieu-diem-thi) "
+         "dropped into data/inbox/ replace the approximations and let the backtest test percentile equating on real data."),
         "2. **Quota history.** Only 2026 quotas are known, so the quota adjustment in the forecast is off (kappa = 0).",
         "3. **Tuition** for ~half the programs is a school-level estimate; the đề án (UniPilotData step 6) has the real figures.",
         "4. **Combination-specific cutoffs.** When a program sets different cutoffs per combination, the lowest is kept.",
