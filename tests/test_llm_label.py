@@ -74,3 +74,19 @@ def test_keys_come_from_dotenv_and_shell_wins(tmp_path, monkeypatch):
 
     assert os.environ["OTHER"] == "from-shell"
     assert llm_label.load_keys(tmp_path / "missing.txt") == ["a", "b", "c", "d", "e"]  # numbered keys in numeric order
+
+
+def test_dotenv_windows_variants_and_diagnostics(tmp_path, monkeypatch):
+    import os
+
+    from uniadvisor import env as envmod
+
+    for k in [k for k in os.environ if k.upper().startswith(("GEMINI", "GOOGLE_API"))]:
+        monkeypatch.delenv(k, raising=False)
+    # PowerShell 5 `echo ... > .env` writes UTF-16 with a BOM; `$env:` prefix and a numbered name without '_'
+    (tmp_path / ".env.txt").write_bytes("﻿$env:GEMINI_API_KEY1 = 'x1'\r\nset GEMINI_API_KEY2=x2;x3\r\n".encode("utf-16-le"))
+    monkeypatch.setattr(envmod, "ROOT", tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert sorted(envmod.load_dotenv()) == ["GEMINI_API_KEY1", "GEMINI_API_KEY2"]
+    assert llm_label.load_keys(tmp_path / "missing.txt") == ["x1", "x2", "x3"]
+    assert "GEMINI_API_KEY1, GEMINI_API_KEY2" in envmod.describe() and "x1" not in envmod.describe()

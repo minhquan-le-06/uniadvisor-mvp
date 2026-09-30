@@ -117,12 +117,20 @@ def parse_answers(resp: dict, qid: str, n: int) -> list[tuple[str, str]] | None:
     return out
 
 
+KEY_NAME = re.compile(r"(GEMINI|GOOGLE)_API_KEYS?_?(\d*)", re.IGNORECASE)
+
+
 def env_keys() -> list[str]:
-    """GEMINI_API_KEYS (comma list), GEMINI_API_KEY, and GEMINI_API_KEY_1, _2, ... in numeric order."""
-    keys = [k.strip() for k in os.environ.get("GEMINI_API_KEYS", "").split(",")]
-    keys.append(os.environ.get("GEMINI_API_KEY", ""))
-    numbered = sorted((int(m.group(1)), v) for k, v in os.environ.items() if (m := re.fullmatch(r"GEMINI_API_KEY_(\d+)", k)))
-    keys += [v.strip() for _, v in numbered]
+    """Keys from GEMINI_API_KEYS / GEMINI_API_KEY / GEMINI_API_KEY_1.._N (also KEY1, and GOOGLE_API_KEY...).
+    A value may hold several keys separated by commas, semicolons or spaces. Unnumbered names come first,
+    numbered ones in numeric order."""
+    found = []
+    for name, value in os.environ.items():
+        m = KEY_NAME.fullmatch(name)
+        if m:
+            vendor = 0 if m.group(1).upper() == "GEMINI" else 1
+            found.append((vendor, int(m.group(2) or 0), name, value))
+    keys = [k for *_, value in sorted(found) for k in re.split(r"[,;\s]+", value.strip().strip("'\""))]
     return list(dict.fromkeys(k for k in keys if k))
 
 
@@ -161,7 +169,10 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
         limit: int | None = None, post: Post = _post, sleep: Callable[[float], None] = time.sleep) -> dict:
     """Label every unlabelled gold row; returns counts. Stops early when every key/model is out of quota."""
     if not keys:
-        raise ValueError("no Gemini API key: put GEMINI_API_KEYS=k1,k2,... in .env (see .env.example)")
+        from uniadvisor.env import describe
+
+        raise ValueError("no Gemini API key found. Put a line GEMINI_API_KEYS=key1,key2,... in a file named exactly "
+                         f".env in the project root (see .env.example). Checked:\n{describe()}")
     df = gold.load(labeled=out)
     open_rows = df[df.human_label.str.strip() == ""]
     batches = [list(g.index[i:i + ROWS_PER_REQUEST]) for _, g in open_rows.groupby("question", sort=True)
