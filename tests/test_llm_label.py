@@ -58,3 +58,19 @@ def test_instructions_cover_every_question():
     for q in QUESTIONS:
         text = llm_label.instructions(q.id)
         assert q.rubric in text and "insufficient" in text and len(text) < 6000
+
+
+def test_keys_come_from_dotenv_and_shell_wins(tmp_path, monkeypatch):
+    from uniadvisor.env import load_dotenv
+
+    for k in ("GEMINI_API_KEYS", "GEMINI_API_KEY", "GEMINI_API_KEY_1", "GEMINI_API_KEY_2", "GEMINI_API_KEY_10", "OTHER"):
+        monkeypatch.delenv(k, raising=False)
+    env = tmp_path / ".env"
+    env.write_text('# my keys\nGEMINI_API_KEYS="a, b"\nexport GEMINI_API_KEY_2=d  # comment\nGEMINI_API_KEY_10=\'e\'\n'
+                   "GEMINI_API_KEY_1=c\n\nOTHER=from-file\n", encoding="utf-8")
+    monkeypatch.setenv("OTHER", "from-shell")
+    assert sorted(load_dotenv(env)) == ["GEMINI_API_KEYS", "GEMINI_API_KEY_1", "GEMINI_API_KEY_10", "GEMINI_API_KEY_2"]
+    import os
+
+    assert os.environ["OTHER"] == "from-shell"
+    assert llm_label.load_keys(tmp_path / "missing.txt") == ["a", "b", "c", "d", "e"]  # numbered keys in numeric order

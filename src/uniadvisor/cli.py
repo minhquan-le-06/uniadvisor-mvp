@@ -18,6 +18,13 @@ from uniadvisor.paths import ROOT
 app = typer.Typer(add_completion=False, help="UniAdvisor: university application advisor (THPT exam-score method).")
 
 
+@app.callback()
+def _startup() -> None:
+    from uniadvisor.env import load_dotenv
+
+    load_dotenv()  # .env in the project root (git-ignored): API keys etc.
+
+
 def _log() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
     logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -209,8 +216,9 @@ def gold_llm(models: str = typer.Option("gemini-3.5-flash,gemini-3.5-flash-lite"
     stats = llm_label.run(llm_label.load_keys(), models=tuple(m.strip() for m in models.split(",") if m.strip()),
                           delay=delay, limit=limit)
     print(json.dumps(stats, indent=1))
-    if llm_label.OUT.exists():
-        print(llm_label.agreement().to_string(index=False))
+    table = llm_label.agreement() if llm_label.OUT.exists() else None
+    if table is not None and len(table):
+        print(table.to_string(index=False))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 """Label the gold set with Gemini (a second, independent labeller; never trained on).
 
-    uniadvisor gold-llm                      # keys from GEMINI_API_KEYS="k1,k2,..." or data/slm/gemini_keys.txt
+    uniadvisor gold-llm                      # keys from .env / environment (GEMINI_API_KEYS=k1,k2,... or GEMINI_API_KEY_1..N)
 
 Two rows per request (same question), so the model can't mix cases up. Each request carries the question's
 rubric and a plain "look only at / ignore" guide (~1-2k tokens in total). Output goes to data/slm/gold_llm.csv,
@@ -117,8 +117,18 @@ def parse_answers(resp: dict, qid: str, n: int) -> list[tuple[str, str]] | None:
     return out
 
 
+def env_keys() -> list[str]:
+    """GEMINI_API_KEYS (comma list), GEMINI_API_KEY, and GEMINI_API_KEY_1, _2, ... in numeric order."""
+    keys = [k.strip() for k in os.environ.get("GEMINI_API_KEYS", "").split(",")]
+    keys.append(os.environ.get("GEMINI_API_KEY", ""))
+    numbered = sorted((int(m.group(1)), v) for k, v in os.environ.items() if (m := re.fullmatch(r"GEMINI_API_KEY_(\d+)", k)))
+    keys += [v.strip() for _, v in numbered]
+    return list(dict.fromkeys(k for k in keys if k))
+
+
 def load_keys(keys_file: Path = KEYS_FILE) -> list[str]:
-    keys = [k.strip() for k in os.environ.get("GEMINI_API_KEYS", os.environ.get("GEMINI_API_KEY", "")).split(",")]
+    """Keys from the environment (the CLI loads .env into it first), then data/slm/gemini_keys.txt."""
+    keys = env_keys()
     if keys_file.exists():
         keys += [line.strip() for line in keys_file.read_text(encoding="utf-8").splitlines()]
     return list(dict.fromkeys(k for k in keys if k and not k.startswith("#")))
@@ -151,7 +161,7 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
         limit: int | None = None, post: Post = _post, sleep: Callable[[float], None] = time.sleep) -> dict:
     """Label every unlabelled gold row; returns counts. Stops early when every key/model is out of quota."""
     if not keys:
-        raise ValueError("no Gemini API key: set GEMINI_API_KEYS=k1,k2,... or write them to data/slm/gemini_keys.txt")
+        raise ValueError("no Gemini API key: put GEMINI_API_KEYS=k1,k2,... in .env (see .env.example)")
     df = gold.load(labeled=out)
     open_rows = df[df.human_label.str.strip() == ""]
     batches = [list(g.index[i:i + ROWS_PER_REQUEST]) for _, g in open_rows.groupby("question", sort=True)
@@ -169,7 +179,7 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
             combo = next(((m, k) for m in models if m not in bad_models for k in keys if (m, k) not in dead), None)
             if combo is None:
                 stats["left"] = len(batches) - bi
-                log.warning("every key/model is out of quota; re-run later to label the remaining %d requests", stats["left"])
+                log.warning("no usable key/model left (daily quota used up or key rejected); re-run later for the remaining %d requests", stats["left"])
                 gold.save(df, out)
                 return stats
             model, key = combo
