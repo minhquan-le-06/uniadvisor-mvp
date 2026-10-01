@@ -8,159 +8,159 @@
   "dropped_dup": 0,
   "dropped_gold": 1782,
   "train": {
-    "examples": 60522,
-    "students": 2751,
+    "examples": 61402,
+    "students": 2791,
     "label_dist": {
       "ability_fit": {
-        "1": 0.365,
+        "1": 0.358,
         "2": 0.242,
-        "3": 0.191,
-        "4": 0.117,
-        "5": 0.071,
-        "insufficient": 0.014
+        "3": 0.188,
+        "4": 0.119,
+        "5": 0.076,
+        "insufficient": 0.016
       },
       "budget_ok": {
-        "insufficient": 0.621,
-        "no": 0.214,
-        "yes": 0.166
+        "insufficient": 0.62,
+        "no": 0.206,
+        "yes": 0.174
       },
       "conditions_ok": {
-        "yes": 0.872,
-        "insufficient": 0.069,
-        "no": 0.059
+        "yes": 0.87,
+        "insufficient": 0.068,
+        "no": 0.062
       },
       "interest_fit": {
-        "2": 0.298,
-        "5": 0.218,
-        "4": 0.161,
-        "3": 0.124,
-        "1": 0.111,
-        "insufficient": 0.088
+        "2": 0.293,
+        "5": 0.222,
+        "4": 0.163,
+        "3": 0.119,
+        "1": 0.112,
+        "insufficient": 0.09
       },
       "location_ok": {
-        "yes": 0.399,
-        "no": 0.31,
-        "insufficient": 0.291
+        "yes": 0.4,
+        "no": 0.306,
+        "insufficient": 0.294
       },
       "risk_tolerance": {
-        "insufficient": 0.371,
-        "an_toan": 0.284,
-        "can_bang": 0.195,
-        "mao_hiem": 0.15
+        "insufficient": 0.373,
+        "an_toan": 0.285,
+        "can_bang": 0.189,
+        "mao_hiem": 0.153
       },
       "top_priority": {
-        "insufficient": 0.349,
-        "nganh_yeu_thich": 0.16,
-        "viec_lam_thu_nhap": 0.142,
-        "hoc_phi_thap": 0.122,
-        "truong_danh_tieng": 0.116,
-        "gan_nha": 0.112
+        "insufficient": 0.351,
+        "nganh_yeu_thich": 0.151,
+        "viec_lam_thu_nhap": 0.146,
+        "truong_danh_tieng": 0.121,
+        "hoc_phi_thap": 0.118,
+        "gan_nha": 0.113
       }
     },
     "mean_max_soft": 0.906
   },
   "val": {
-    "examples": 13200,
-    "students": 600,
+    "examples": 12694,
+    "students": 577,
     "label_dist": {
       "ability_fit": {
-        "1": 0.341,
-        "2": 0.24,
-        "3": 0.199,
-        "4": 0.128,
-        "5": 0.076,
-        "insufficient": 0.016
+        "1": 0.375,
+        "2": 0.232,
+        "3": 0.189,
+        "4": 0.118,
+        "5": 0.071,
+        "insufficient": 0.014
       },
       "budget_ok": {
-        "insufficient": 0.492,
-        "no": 0.291,
-        "yes": 0.217
+        "insufficient": 0.502,
+        "no": 0.289,
+        "yes": 0.21
       },
       "conditions_ok": {
-        "yes": 0.877,
-        "insufficient": 0.064,
-        "no": 0.059
+        "yes": 0.863,
+        "insufficient": 0.071,
+        "no": 0.066
       },
       "interest_fit": {
-        "2": 0.31,
-        "5": 0.215,
-        "4": 0.149,
-        "3": 0.129,
-        "1": 0.103,
-        "insufficient": 0.095
+        "2": 0.318,
+        "5": 0.216,
+        "4": 0.168,
+        "3": 0.12,
+        "1": 0.106,
+        "insufficient": 0.073
       },
       "location_ok": {
-        "yes": 0.427,
-        "insufficient": 0.31,
-        "no": 0.264
+        "yes": 0.435,
+        "insufficient": 0.286,
+        "no": 0.28
       },
       "risk_tolerance": {
-        "insufficient": 0.392,
-        "an_toan": 0.277,
-        "can_bang": 0.177,
-        "mao_hiem": 0.155
-      },
-      "top_priority": {
-        "insufficient": 0.332,
-        "nganh_yeu_thich": 0.158,
-        "truong_danh_tieng": 0.157,
-        "viec_lam_thu_nhap": 0.152,
-        "hoc_phi_thap": 0.108,
-        "gan_nha": 0.093
-      }
-    },
-    "mean_max_soft": 0.904
-  },
-  "test": {
-    "examples": 12496,
-    "students": 568,
-    "label_dist": {
-      "ability_fit": {
-        "1": 0.403,
-        "2": 0.246,
-        "3": 0.177,
-        "4": 0.117,
-        "5": 0.048,
-        "insufficient": 0.01
-      },
-      "budget_ok": {
-        "insufficient": 0.747,
-        "yes": 0.136,
-        "no": 0.117
-      },
-      "conditions_ok": {
-        "yes": 0.973,
-        "no": 0.016,
-        "insufficient": 0.011
-      },
-      "interest_fit": {
-        "2": 0.281,
-        "5": 0.223,
-        "4": 0.171,
-        "1": 0.117,
-        "3": 0.116,
-        "insufficient": 0.092
-      },
-      "location_ok": {
-        "yes": 0.431,
-        "no": 0.308,
-        "insufficient": 0.261
-      },
-      "risk_tolerance": {
-        "insufficient": 0.38,
-        "an_toan": 0.289,
-        "can_bang": 0.176,
-        "mao_hiem": 0.155
+        "insufficient": 0.376,
+        "an_toan": 0.302,
+        "can_bang": 0.192,
+        "mao_hiem": 0.13
       },
       "top_priority": {
         "insufficient": 0.333,
-        "nganh_yeu_thich": 0.16,
-        "viec_lam_thu_nhap": 0.141,
-        "truong_danh_tieng": 0.13,
-        "hoc_phi_thap": 0.12,
-        "gan_nha": 0.116
+        "nganh_yeu_thich": 0.173,
+        "viec_lam_thu_nhap": 0.159,
+        "truong_danh_tieng": 0.139,
+        "hoc_phi_thap": 0.102,
+        "gan_nha": 0.094
       }
     },
-    "mean_max_soft": 0.91
+    "mean_max_soft": 0.905
+  },
+  "test": {
+    "examples": 12122,
+    "students": 551,
+    "label_dist": {
+      "ability_fit": {
+        "1": 0.387,
+        "2": 0.223,
+        "3": 0.191,
+        "4": 0.119,
+        "5": 0.069,
+        "insufficient": 0.01
+      },
+      "budget_ok": {
+        "insufficient": 0.739,
+        "yes": 0.142,
+        "no": 0.119
+      },
+      "conditions_ok": {
+        "yes": 0.961,
+        "no": 0.02,
+        "insufficient": 0.02
+      },
+      "interest_fit": {
+        "2": 0.288,
+        "5": 0.22,
+        "4": 0.151,
+        "3": 0.127,
+        "insufficient": 0.108,
+        "1": 0.107
+      },
+      "location_ok": {
+        "yes": 0.42,
+        "no": 0.307,
+        "insufficient": 0.273
+      },
+      "risk_tolerance": {
+        "insufficient": 0.374,
+        "an_toan": 0.269,
+        "can_bang": 0.203,
+        "mao_hiem": 0.154
+      },
+      "top_priority": {
+        "insufficient": 0.318,
+        "nganh_yeu_thich": 0.191,
+        "hoc_phi_thap": 0.138,
+        "truong_danh_tieng": 0.131,
+        "viec_lam_thu_nhap": 0.114,
+        "gan_nha": 0.109
+      }
+    },
+    "mean_max_soft": 0.909
   }
 }

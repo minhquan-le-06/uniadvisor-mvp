@@ -107,14 +107,17 @@ Current model (third Kaggle run: fixed teacher, 5 epochs, both T4s, batch 128 pe
 | risk_tolerance | 0.810 | **0.929** | SLM |
 | budget_ok | 0.857 | **0.929** | SLM (81% of rows are "insufficient": tuition is mostly unknown) |
 | conditions_ok | 0.976 | 0.976 | SLM (tie; its confidence is calibrated, ECE 0.04 vs 0.24) |
-| ability_fit | **0.643** | 0.381 | keywords (score arithmetic; the SLM almost always defers) |
+| ability_fit | **0.929** | 0.381 | keywords (weighted core subjects + self-assessment, as the rubric says) |
 | top_priority | **0.786** | 0.738 | keywords |
-| interest_fit | **0.476** | 0.452 | keywords (tie within one row; weakest question for both) |
-| **Overall** | 0.772 | 0.765 | **hybrid ≈ 0.81** |
+| interest_fit | **0.548** | 0.452 | keywords (weakest question for both) |
+| **Overall** | 0.823 | 0.765 | **hybrid ≈ 0.86** (estimated from the per-question numbers) |
 
-On the synthetic test split the same model reaches 0.96–0.99 on location/budget/risk/conditions. The gap to
-the Gemini labels is what the gold set is for. interest_fit is the open problem: when the SLM does answer it is
-right 71% of the time (keywords 37%), but it defers on 83% of rows.
+The keyword column is after the fixes found by reading Gemini's disagreements (0.772 before): the ability rule now
+weights the first core subject double and reads "Toán là môn mạnh nhất" / "Tiếng Anh em rất kém" as one level up /
+down; interest_fit scores a family-forced field 2 and, when no interest is stated, an unrelated field 3. Program
+fields are matched on whole words (as substrings, "thời trang" matched "răng" and "tâm lý học" matched "y học").
+On the synthetic test split the SLM reaches 0.96–0.99 on location/budget/risk/conditions; the gap to Gemini's
+labels is what the gold set is for.
 Re-pick the routing after every retrain.
 
 ## Privacy, reproducibility, disclaimer

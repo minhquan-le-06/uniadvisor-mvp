@@ -5,12 +5,12 @@
   "per_question": {
     "ability_fit": {
       "n": 42,
-      "accuracy": 0.5952,
-      "macro_f1": 0.4792,
-      "ece": 0.1048,
-      "level_mae": 0.375,
+      "accuracy": 0.9286,
+      "macro_f1": 0.7682,
+      "ece": 0.2286,
+      "level_mae": 0.0488,
       "escalation_rate": 0.0,
-      "accuracy_when_not_escalated": 0.5952
+      "accuracy_when_not_escalated": 0.9286
     },
     "budget_ok": {
       "n": 42,
@@ -30,12 +30,12 @@
     },
     "interest_fit": {
       "n": 42,
-      "accuracy": 0.2857,
-      "macro_f1": 0.3159,
-      "ece": 0.3048,
-      "level_mae": 0.8529,
-      "escalation_rate": 0.5476,
-      "accuracy_when_not_escalated": 0.4737
+      "accuracy": 0.5476,
+      "macro_f1": 0.4443,
+      "ece": 0.169,
+      "level_mae": 0.6923,
+      "escalation_rate": 0.619,
+      "accuracy_when_not_escalated": 0.4375
     },
     "location_ok": {
       "n": 42,
@@ -66,11 +66,11 @@
     "region": {
       "central": {
         "n": 35,
-        "accuracy": 0.6571
+        "accuracy": 0.7714
       },
       "north": {
         "n": 206,
-        "accuracy": 0.7476
+        "accuracy": 0.8495
       },
       "south": {
         "n": 53,
@@ -80,31 +80,31 @@
     "track": {
       "DI+N1": {
         "n": 31,
-        "accuracy": 0.7097
+        "accuracy": 0.8065
       },
       "LI+SU": {
         "n": 39,
-        "accuracy": 0.7179
+        "accuracy": 0.8974
       },
       "N1+SU": {
         "n": 31,
-        "accuracy": 0.7742
+        "accuracy": 0.8065
       }
     },
     "score_band": {
       "6-7.5": {
         "n": 139,
-        "accuracy": 0.705
+        "accuracy": 0.7986
       },
       "7.5-8.5": {
         "n": 58,
-        "accuracy": 0.7241
+        "accuracy": 0.8621
       },
       "<6": {
         "n": 92,
-        "accuracy": 0.7935
+        "accuracy": 0.837
       }
     }
   },
-  "overall_accuracy": 0.7381
+  "overall_accuracy": 0.8231
 }

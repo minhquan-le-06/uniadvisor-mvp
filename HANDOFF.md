@@ -27,7 +27,7 @@ on the owner's Windows machine, in `models/slm/`).
 | Rules | 2026 verified by the owner (`verified: true`); 2027 is a draft inheriting 2026 |
 | Forecast | MAE 1.373 ≈ naive "last year's cutoff" (1.369). Percentile equating with exact data is worse (1.55), so the backtest picks `equate=never`. P(admit) calibrated: Brier 0.119, ECE 0.056 |
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
-| SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `models/slm/`). On Gemini's gold labels: keywords 0.772, SLM 0.765, hybrid ≈ 0.81 with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weak spots: interest_fit (~0.47 both), ability_fit (rules 0.64; SLM defers) |
+| SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `models/slm/`). On Gemini's gold labels: keywords 0.823 (after rubric fixes), SLM 0.765, hybrid ≈ 0.86 with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weakest: interest_fit (0.55). The teacher changed since (English self-assessment counts for ability_fit; 48 program fields fixed), so the next retrain trains on slightly better labels |
 | App / API | Streamlit chat + FastAPI both tested (headless Chromium, TestClient); not deployed |
 | Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`); interest_fit (42) and 8 ability_fit rows need `gold-llm --redo interest_fit,ability_fit` after the rubric fixes. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
 
@@ -73,3 +73,5 @@ on the owner's Windows machine, in `models/slm/`).
   regenerating the synthetic data no longer invalidates labels; teacher labels for them are recomputed on the fly.
 - The teacher and the dataset sampler share one RNG stream: any teacher change reshuffles later pairings.
 - pandas 3: `df.where(df.notna(), None)` keeps NaN in string columns; use `df.astype(object).where(...)`.
+- Keyword matching (program fields, free text) is on whole words: substring matching put "Thiết kế thời trang"
+  ("rang") and "Tâm lý học" ("y học") under health.

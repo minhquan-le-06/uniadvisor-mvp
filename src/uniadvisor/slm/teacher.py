@@ -87,8 +87,11 @@ def ability_fit(z: Latent, p: dict, rng: random.Random) -> dict[str, float]:
     labels = BY_ID["ability_fit"].all_labels
     core = CORE_SUBJECTS.get(p.get("field") or "", DEFAULT_CORE)
     have = [z.scores[s] for s in core if s in z.scores]
-    said_strong = [s for s in core if s in z.strong]
-    said_weak = [s for s in core if s in z.weak]
+    # the English self-assessment ("Tiếng Anh em rất kém", "Em có IELTS 6.5") is a statement about English too
+    strong = set(z.strong) | ({"N1"} if z.english in ("good", "ielts") else set())
+    weak = set(z.weak) | ({"N1"} if z.english == "weak" else set())
+    said_strong = [s for s in core if s in strong]
+    said_weak = [s for s in core if s in weak]
     if not have and not said_strong and not said_weak:
         return _vote(INSUFFICIENT, labels, 0.1, rng, "score", alt="3")
     if have:

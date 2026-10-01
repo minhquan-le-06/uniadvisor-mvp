@@ -6,6 +6,8 @@ Used to describe programs to the SLM and in the comparison table. Keyword rules 
 
 from __future__ import annotations
 
+import re
+
 from uniadvisor.text import fold
 
 FIELDS: dict[str, str] = {
@@ -35,9 +37,9 @@ RULES: list[tuple[str, tuple[str, ...]]] = [
     ("bao_chi", ("bao chi", "truyen thong", "quan he cong chung", "bao mang", "xuat ban", "quang cao", "phat thanh", "truyen hinh", "media")),
     ("tai_chinh", ("tai chinh", "ngan hang", "ke toan", "kiem toan", "bao hiem", "dau tu", "fintech", "cong nghe tai chinh", "chung khoan", "thue", "tham dinh gia")),
     ("du_lich", ("du lich", "khach san", "nha hang", "logistics", "chuoi cung ung", "hang khong", "van tai", "dich vu", "lu hanh", "su kien")),
-    ("cntt", ("cong nghe thong tin", "khoa hoc may tinh", "ky thuat may tinh", "may tinh", "phan mem", "tri tue nhan tao", "du lieu", "an toan thong tin", "an ninh mang", "khong gian so", "he thong thong tin", "mang may tinh", "truyen thong va mang", "cntt", " it ", "data", " ai ", "thiet ke vi mach", "ban dan", "game", "iot", "robot")),
-    ("ngon_ngu", ("ngon ngu", "tieng ", "quoc te hoc", "dong phuong", "han quoc hoc", "nhat ban hoc", "trung quoc hoc", "van hoa", "phien dich", "bien dich", "khu vuc hoc", "viet nam hoc", "han nom", "dong nam a hoc")),
-    ("xa_hoi", ("tam ly", "xa hoi hoc", "cong tac xa hoi", "chinh tri", "triet hoc", "lich su", "nhan hoc", "van hoc", "hanh chinh", "quan ly nha nuoc", "quan ly cong", "dia ly", "luu tru", "thu vien", "ton giao", "nhan van", "quan he quoc te", "chinh sach", "dia li", "phat trien quoc te", "nghien cuu phat trien")),
+    ("cntt", ("cong nghe thong tin", "khoa hoc may tinh", "ky thuat may tinh", "may tinh", "phan mem", "tri tue nhan tao", "du lieu", "an toan thong tin", "an ninh mang", "khong gian so", "he thong thong tin", "mang may tinh", "truyen thong va mang", "cntt", " it ", "data", " ai ", "thiet ke vi mach", "ban dan", "game", "iot", "robot", "dia khong gian", "thong tin dia ly")),
+    ("ngon_ngu", ("ngon ngu", "tieng ", "quoc te hoc", "dong phuong", "han quoc hoc", "nhat ban hoc", "trung quoc hoc", "van hoa", "phien dich", "bien dich", "khu vuc hoc", "viet nam hoc", "han nom", "dong nam a hoc", "hoa ky hoc", "my hoc", "chau au hoc")),
+    ("xa_hoi", ("tam ly", "chu nghia xa hoi", "xa hoi hoc", "cong tac xa hoi", "chinh tri", "triet hoc", "lich su", "nhan hoc", "van hoc", "hanh chinh", "quan ly nha nuoc", "quan ly cong", "dia ly", "luu tru", "thu vien", "ton giao", "nhan van", "quan he quoc te", "chinh sach", "dia li", "phat trien quoc te", "nghien cuu phat trien")),
     ("xay_dung", ("xay dung", "kien truc", "quy hoach", "giao thong", "cau duong", "cong trinh", "do thi", "ha tang", "noi that", "duong sat", "cang")),
     ("nong_lam_mt", ("nong nghiep", "lam nghiep", "thuy san", "chan nuoi", "trong trot", "bao ve thuc vat", "moi truong", "tai nguyen", "dat dai", "lam hoc", "kinh te nong nghiep", "thuy loi", "khi tuong", "thuy van", "dia chat", "bien doi khi hau", "nong hoc", "nong thon")),
     ("sinh_hoa", ("sinh hoc", "cong nghe sinh hoc", "hoa hoc", "hoa duoc", "thuc pham", "ky thuat hoa", "cong nghe hoa", "sinh hoa", "vi sinh")),
@@ -64,9 +66,11 @@ CODE_PREFIX = [
 
 
 def field_of(name: str, major_code: str | None = None) -> str | None:
-    f = f" {fold(name)} "
+    # whole words only: as substrings, "thời trang" contained "rang" (dentistry) and "tâm lý học" contained
+    # "y học" (medicine), which put fashion design and psychology under health
+    f = f" {re.sub(r'[^a-z0-9]+', ' ', fold(name))} "
     for field, words in RULES:
-        if any(w in f for w in words):
+        if any(f" {w.strip()} " in f for w in words):
             return field
     code = (major_code or "").strip()
     for prefix, field in CODE_PREFIX:
