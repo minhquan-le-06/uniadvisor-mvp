@@ -31,7 +31,9 @@ module 4 stays as-is for now. The owner discusses in chat and wants results as M
 Starting points for module 2: the review's module 2 findings (intent never extracted as explicit facts; interest_fit
 does not separate programs; clarifying questions only for risk/priority), the keyword baseline 0.823 and hybrid 0.864
 on `data/slm/gold_llm.csv`, the tiny simulated world for fast tests (`tiny_db` fixture), and the deferred move of
-the SLM's synthetic data to `data/sim/`. For module 3, `uniadvisor sim season` is the ready test bed.
+the SLM's synthetic data to `data/sim/`. First step agreed with the owner: fields come from MOET's major code
+(digits 1-3 lĩnh vực, 1-5 nhóm ngành, 1-7 ngành), not home-made keyword fields; 589 programs lack a MOET code
+(review, module 1 problem 3). For module 3, `uniadvisor sim season` is the ready test bed.
 
 SLM work is wrapped up for the MVP (owner decision, 2026-10-01): hybrid 0.864 on Gemini's gold labels.
 

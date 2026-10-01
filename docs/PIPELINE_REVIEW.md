@@ -37,8 +37,18 @@ programs have several, missing quota and applicant history, and coarse field lab
    7,098 cutoff rows (13%); they are flagged `lowest_of_several`, but the engine ignores the flag.
 2. **Missing signals for the forecast.** Only 2026 quotas exist; applicant counts and per-combination cutoffs are
    absent. This is why the forecast cannot beat "same as last year" (module 3).
-3. **Coarse field labels.** Programs fall into 16 broad fields by keyword. "Khoa học thông tin địa không gian"
-   (geospatial science, QHT) is filed under IT because its name contains "thông tin", and it has no ministry major code.
+3. **Field labels are home-made instead of MOET's.** MOET's 7-digit major code is itself the taxonomy:
+   digit 1 = level (7 = đại học), digits 1-3 = lĩnh vực (748 Máy tính và công nghệ thông tin), digits 1-5 = nhóm
+   ngành (74802), all 7 = ngành (7480201). The build instead files programs into 16 hand-made fields by name keywords
+   and uses the code only as a fallback, so it disagrees with MOET (746 Toán và thống kê lands in "cntt";
+   "Khoa học thông tin địa không gian" lands in IT because its name contains "thông tin").
+   - Coverage: 1,077 of 1,666 programs (65%) carry a MOET code, spanning 22 lĩnh vực, 69 nhóm ngành and 256 ngành.
+     The other 589 only have the school's own code (BKA 69, GHA 53, KHA 47, TLA 46, NHH 45, ...); the UniPilot
+     export fills just 23 of them. The rest need each school's đề án (it maps school codes to MOET codes) or a
+     name match against MOET's catalog of ngành names.
+   - Fix: take field and group from the code (catalog of names as a sourced manual input, Thông tư 09/2022/TT-BGDĐT
+     danh mục thống kê ngành đào tạo), keep the keywords only for programs without a code, and store the code's
+     levels in the database. Interest fit (module 2) can then reason at ngành / nhóm ngành level.
 4. **Tuition is thin.** 756 programs (45%) have a sourced fee, 182 (11%) use their school's median, and 728 (44%) are
    unknown. *Fixed:* the old `tuition_imputed` flag was also set on the 728 programs with no fee, so students saw
    "học phí là ước tính" where nothing was estimated; the database now records observed, estimated or missing.
@@ -155,4 +165,5 @@ Across modules, the biggest fixes are correlated errors in the optimizer (module
 2. ~~Simulated data and a checked database.~~ Done: [DATA.md](DATA.md).
 3. Use per-combination cutoffs where `lowest_of_several` is set (13% of cutoff rows) instead of the lowest one; the
    `cutoffs` table already has a `combo` column for them.
-4. File programs by ministry major code instead of name keywords.
+4. Derive fields from MOET's major code (lĩnh vực / nhóm ngành / ngành) and fill the 589 missing codes; see
+   problem 3. Planned as the first step of module 2, since interest fit depends on it.
