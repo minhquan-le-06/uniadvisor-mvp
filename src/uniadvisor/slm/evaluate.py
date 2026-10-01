@@ -9,6 +9,8 @@ human-labelled gold set.
 from __future__ import annotations
 
 import json
+import sys
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -55,7 +57,15 @@ def evaluate(judge, split: str = "test", gold: Path | None = None, limit: int | 
         z = latents[r["student_id"]]
         p = StudentProfile(scores=z["scores"], province=z["province"], gender=z["gender"], score_kind=z["score_kind"], free_text=z["free_text"])
         items.append((r["question"], p, progs.get(r["program_id"]) if r["program_id"] else None))
-    answers = judge.answer(items)
+    answers = []
+    chunk = 512
+    t0 = time.time()
+    for s in range(0, len(items), chunk):  # in chunks, so long CPU runs show progress instead of looking frozen
+        answers += judge.answer(items[s:s + chunk])
+        if len(items) > chunk:
+            done = min(s + chunk, len(items))
+            eta = (time.time() - t0) / done * (len(items) - done)
+            print(f"[slm-eval] {done}/{len(items)} rows, ~{eta / 60:.0f} min left", file=sys.stderr, flush=True)
     recs = []
     for r, a in zip(rows, answers):
         rec = {"question": r["question"], "label": r["label"], "pred": a.label, "conf": a.confidence,
