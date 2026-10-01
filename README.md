@@ -5,12 +5,12 @@ Decision support for Vietnamese grade-12 students building an ordered university
 
 | Part | What it decides | Where |
 |---|---|---|
-| Knowledge base (rules, versioned per year) | eligibility, priority points (with the 2025 taper), ministry floors, risk buckets, list constraints | `config/rules/`, `src/uniadvisor/kb/` |
-| Statistical engine | next cutoff forecast, uncertainty, `P(admit)`, backtest | `src/uniadvisor/engine/` |
-| Small language model (self-built) + keyword rules | soft judgments only: risk tolerance, top priority, interest fit, ability fit, budget / location / special-condition fit read from free text; each question is routed to whichever judge answers it better | `src/uniadvisor/slm/` |
-| Optimizer | which programs to list and in what order: max `E = Σ pᵢ·Π(1−pⱼ)·uᵢ` s.t. KB constraints | `src/uniadvisor/optimizer.py` |
-| Comparison + explanations | criteria, goal-based weights, wins/losses, Vietnamese explanations from engine numbers only | `compare.py`, `explain.py` |
-| UI / API | Vietnamese chat (Streamlit), REST (FastAPI) | `app/`, `src/uniadvisor/api.py` |
+| Knowledge base (rules, versioned per year) | eligibility, priority points (with the 2025 taper), ministry floors, risk buckets, list constraints | `backend/config/rules/`, `backend/uniadvisor/recommend/rules.py` |
+| Statistical engine | next cutoff forecast, uncertainty, `P(admit)`, backtest | `backend/uniadvisor/recommend/` |
+| Small language model (self-built) + keyword rules | soft judgments only: risk tolerance, top priority, interest fit, ability fit, budget / location / special-condition fit read from free text; each question is routed to whichever judge answers it better | `backend/uniadvisor/student/slm/` |
+| Optimizer | which programs to list and in what order: max `E = Σ pᵢ·Π(1−pⱼ)·uᵢ` s.t. KB constraints | `backend/uniadvisor/recommend/optimizer.py` |
+| Comparison + explanations | criteria, goal-based weights, wins/losses, Vietnamese explanations from engine numbers only | `backend/uniadvisor/recommend/compare.py`, `backend/uniadvisor/explain/` |
+| UI / API | Vietnamese chat (Streamlit), REST (FastAPI) | `app/`, `backend/uniadvisor/api.py` |
 
 The SLM never computes probabilities or regulation facts. Low-confidence SLM answers become clarifying
 questions (profile level) or "cần xác nhận" flags (program level).
@@ -23,7 +23,7 @@ Run everything from the project root (the folder with `pyproject.toml`).
 ```bash
 py -3.14 -m venv .venv --system-site-packages     # reuses torch/streamlit/fastapi if installed globally
 .venv/Scripts/python -m pip install -e ".[slm,dev]"
-.venv/Scripts/uniadvisor slm-data                   # regenerates data/slm/*.jsonl (not in git, ~40 s)
+.venv/Scripts/uniadvisor slm-data                   # regenerates backend/slm_data/*.jsonl (not in git, ~40 s)
 .venv/Scripts/uniadvisor app                        # chat UI on http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # API on http://localhost:8000/docs
 .venv/Scripts/uniadvisor advise --scores "TO=8.4,VA=7,LI=8,N1=8.2" --province "Nghệ An" --area KV2-NT --text "Em muốn học CNTT, học phí tối đa 30 triệu/năm, muốn học ở Hà Nội"
@@ -44,7 +44,7 @@ uniadvisor fetch-scores # per-candidate exam scores 2023-2026 -> data/inbox/ (~3
 uniadvisor build        # distributions -> cutoffs (3-source consensus) -> catalog
 uniadvisor backtest     # fits forecast parameters, writes artifacts/reports/backtest.json
 uniadvisor report       # artifacts/reports/data_report.md: coverage, quality, gaps
-uniadvisor slm-data     # synthetic students x real programs -> data/slm/
+uniadvisor slm-data     # synthetic students x real programs -> backend/slm_data/
 ```
 
 Sources (trust levels as in UniPilotData): VietNamNet cutoff API (3, 2023–2026), VnExpress (3,
@@ -79,17 +79,17 @@ distributions built from them are committed. Without them, `build` falls back to
   (CORAL ordinal 1–5 + insufficient). Soft-label losses. Temperature scaling per question on val;
   ECE, accuracy, macro-F1, escalation rate and per-group quality (region, elective track, score band)
   on test. Confidence thresholds are chosen on val for 90% accuracy on non-escalated answers.
-- 7 questions with written rubrics: `data/slm/rubrics.md` (generated from `slm/questions.py`).
+- 7 questions with written rubrics: `backend/slm_data/rubrics.md` (generated from `slm/questions.py`).
 - Data: synthetic students (scores drawn from the real 2026 subject distributions, diverse Vietnamese
   free text incl. teen-code, no diacritics, parent voice, typos, contradictions) paired with real
   programs; rubric teacher with 5 simulated annotators → soft labels; split by university; deduped.
   Optional LLM teacher (`uniadvisor slm-relabel`, Gemini via `GEMINI_API_KEYS`, as in UniPilotData).
 - Gemini as a second gold labeller: `uniadvisor gold-llm` (keys in `.env`, see `.env.example`; 2 rows per request, Flash then
-  Flash-Lite across all keys, resumable) writes `data/slm/gold_llm.csv`; compare it with your labels before trusting either.
+  Flash-Lite across all keys, resumable) writes `backend/slm_data/gold_llm.csv`; compare it with your labels before trusting either.
 - Human gold set: `uniadvisor label` opens a labelling tool (http://localhost:8502) over
-  `data/slm/gold_to_label.csv` (294 test rows, 42 per question, never used for training). It shows the
-  rubric, never a model answer (guide: [data/slm/LABELLING.md](data/slm/LABELLING.md)), and saves every click to `data/slm/gold_labeled.csv` (commit it). Then
-  `uniadvisor slm-eval --judge hybrid --gold data/slm/gold_labeled.csv`. Run `uniadvisor slm-data` first:
+  `backend/slm_data/gold_to_label.csv` (294 test rows, 42 per question, never used for training). It shows the
+  rubric, never a model answer (guide: [backend/slm_data/LABELLING.md](backend/slm_data/LABELLING.md)), and saves every click to `backend/slm_data/gold_labeled.csv` (commit it). Then
+  `uniadvisor slm-eval --judge hybrid --gold backend/slm_data/gold_labeled.csv`. Run `uniadvisor slm-data` first:
   gold ids must match your local test split (the tool warns when they do not).
 - Training: see [docs/kaggle/README.md](docs/kaggle/README.md) (`uniadvisor kaggle-bundle` → Kaggle GPU →
   unzip into `artifacts/models/slm/`). `uniadvisor slm-train --limit 300 --eval-limit 200 --epochs 1 --bs 16
@@ -101,7 +101,7 @@ distributions built from them are committed. Without them, `build` falls back to
   compare judges (use the same limit for each).
 
 Current model (third Kaggle run: fixed teacher, 5 epochs, both T4s, batch 128 per GPU, ~24 min), scored on the
-294 frozen gold rows labelled by Gemini (`data/slm/gold_llm.csv`, 42 per question, so one row is 2.4 points):
+294 frozen gold rows labelled by Gemini (`backend/slm_data/gold_llm.csv`, 42 per question, so one row is 2.4 points):
 
 | Question | Keywords | SLM | Routed to |
 |---|---|---|---|
@@ -128,21 +128,26 @@ Re-pick the routing after every retrain.
   for consent before processing (Decree 13/2023/NĐ-CP). The SLM runs locally.
 - Rules and statistics are deterministic: same input → same output (tested).
 - Every result carries the disclaimer that it is advisory and must be checked against the official
-  regulation and each school's đề án. The 2026 rules in `config/rules/2026.yaml` were checked against the
+  regulation and each school's đề án. The 2026 rules in `backend/config/rules/2026.yaml` were checked against the
   official text (`verified: true`); 2027 is a draft ruleset inheriting 2026.
 
 ## Layout
 
+One folder per side of the system; each module's task doc (Vietnamese) is in [docs/tasks/](docs/tasks/).
+
 ```
+data/         MODULE 1, data: unidata/ (the package: collect/ build/ db/ sim/), config/ (scope, sources,
+              fields.yaml), tests/; and the data itself: manual/ unipilot/ (inputs) -> collected/ (parsed per
+              source) -> db/ (the database every module reads); sim/ (simulated, not in git); raw/ inbox/ (caches)
+backend/      MODULES 2-4: uniadvisor/ (the package: student/ = module 2, recommend/ = module 3, explain/ = module 4,
+              api.py, cli.py), config/ (interests.yaml, rules/<year>.yaml), slm_data/ (SLM dataset, rubrics,
+              gold set), tests/
 app/          Streamlit entry points: streamlit_app.py (the deployed chat), label_gold.py (gold labelling)
-src/          the uniadvisor package: db/ sim/ collect/ build/ kb/ engine/ slm/ optimizer compare explain advisor api cli
-tests/        pytest suite
-config/       scope.yaml (schools/regions), sources.yaml, rules/<year>.yaml
-data/         manual/ unipilot/ (inputs) -> collected/ (parsed per source) -> db/ (the database the app reads);
-              sim/ (simulated databases, not in git); slm/ (SLM dataset, rubrics, gold set); raw/ inbox/ (local caches)
-artifacts/    what pipeline runs produce: build/ (intermediates and checks), models/ (forecast params, trained
-              SLM), reports/ (data report, backtest, SLM evaluations)
-docs/         MVP.md (spec), DATA.md (the database), DEPLOY.md, HANDOFF.md (status + roadmap),
-              PIPELINE_REVIEW.md, kaggle/ (SLM training guide + notebook)
+artifacts/    what runs produce: build/ (data intermediates and checks), models/ (forecast params, trained SLM),
+              reports/ (data report, backtest, evaluations)
+docs/         MVP.md (spec), DATA.md (the database), TEAM_REPORT.md, tasks/ (one per module), DEPLOY.md,
+              HANDOFF.md (status + roadmap), PIPELINE_REVIEW.md, kaggle/ (SLM training guide + notebook)
 CLAUDE.md     working notes for Claude sessions
 ```
+
+`unidata` never imports `uniadvisor` (a test checks it): modules 2-4 build on module 1, not the other way round.

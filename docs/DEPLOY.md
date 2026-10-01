@@ -50,7 +50,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/streamlit run app/streamlit_app.py
 ```
 
-`uniadvisor.paths` finds `config/` and `data/` next to the source checkout, or in the current folder when the
+`unidata.paths` finds `config/` and `data/` next to the source checkout, or in the current folder when the
 package was installed non-editable; set `UNIADVISOR_ROOT` to point elsewhere.
 
 ## Later: the SLM version

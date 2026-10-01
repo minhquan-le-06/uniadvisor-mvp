@@ -1,7 +1,7 @@
 """Gold-label tool for the SLM test set.   uniadvisor label   (or: streamlit run app/label_gold.py)
 
-Shows one row of data/slm/gold_to_label.csv at a time with the question's rubric and the answer
-options as buttons. Every click is saved to data/slm/gold_labeled.csv at once, so the tool can be
+Shows one row of backend/slm_data/gold_to_label.csv at a time with the question's rubric and the answer
+options as buttons. Every click is saved to backend/slm_data/gold_labeled.csv at once, so the tool can be
 closed and reopened at any point. No model or teacher answer is shown: the labels must be your own.
 """
 
@@ -9,8 +9,8 @@ from __future__ import annotations
 
 import streamlit as st
 
-from uniadvisor.slm import gold
-from uniadvisor.slm.questions import BY_ID, INSUFFICIENT
+from uniadvisor.student.slm import gold
+from uniadvisor.student.slm.questions import BY_ID, INSUFFICIENT
 
 st.set_page_config(page_title="UniAdvisor – Gán nhãn", page_icon=":material/label:", layout="wide")
 ss = st.session_state
@@ -58,15 +58,15 @@ with st.sidebar:
     st.progress(done / total if total else 0.0, text=f"Đã gán {done}/{total}")
     st.dataframe(prog.rename(columns={"done": "Đã gán", "total": "Tổng"}), use_container_width=True)
     st.caption(f"Lưu tự động vào `{gold.LABELED.relative_to(gold.SLM_DATA.parent.parent)}` · "
-               "Hướng dẫn: `data/slm/LABELLING.md` (mỗi câu hỏi chỉ xét bằng chứng của riêng nó)")
+               "Hướng dẫn: `backend/slm_data/LABELLING.md` (mỗi câu hỏi chỉ xét bằng chứng của riêng nó)")
     st.download_button("Tải file đã gán nhãn", gold.LABELED.read_bytes() if gold.LABELED.exists() else b"",
                        "gold_labeled.csv", "text/csv", disabled=not gold.LABELED.exists(), icon=":material/download:")
 
     missing = gold.unmatched_ids(df)
     if missing is None:
-        st.info("Chưa có data/slm/test.jsonl. Chạy `uniadvisor slm-data` trước khi đánh giá bằng file này.")
+        st.info("Chưa có backend/slm_data/test.jsonl. Chạy `uniadvisor slm-data` trước khi đánh giá bằng file này.")
     elif missing:
-        st.warning(f"{missing} dòng không khớp với data/slm/test.jsonl. Dữ liệu SLM đã cũ: chạy `uniadvisor slm-data`.")
+        st.warning(f"{missing} dòng không khớp với backend/slm_data/test.jsonl. Dữ liệu SLM đã cũ: chạy `uniadvisor slm-data`.")
 
 order = [i for i in df.index if pick == "all" or df.at[i, "question"] == pick]
 if ss.cur not in order:
@@ -97,7 +97,7 @@ if nav[2].button("Câu chưa gán", icon=":material/skip_next:", use_container_w
 nav[3].markdown(f"Dòng **{pos + 1}/{len(order)}** · `{row.question}` · id `{row.id}`")
 
 if all(is_done(j) for j in order):
-    st.success("Đã gán nhãn xong phần này. Chạy `uniadvisor slm-eval --judge hybrid --gold data/slm/gold_labeled.csv`.")
+    st.success("Đã gán nhãn xong phần này. Chạy `uniadvisor slm-eval --judge hybrid --gold backend/slm_data/gold_labeled.csv`.")
 
 st.subheader(q.text_vi)
 with st.expander("Hướng dẫn chấm (rubric)", expanded=True, icon=":material/rule:"):

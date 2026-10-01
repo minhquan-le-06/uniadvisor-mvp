@@ -2,7 +2,7 @@
 .venv/
 .env
 .streamlit/secrets.toml
-data/slm/gemini_keys.txt
+backend/slm_data/gemini_keys.txt
 .claude/settings.local.json
 
 # Python
@@ -15,10 +15,10 @@ __pycache__/
 data/raw/
 data/inbox/*
 !data/inbox/.gitkeep
-data/slm/llm_cache/
-data/slm/*.jsonl
-!data/slm/gold_frozen.jsonl
-data/slm/programs_snapshot.csv
+backend/slm_data/llm_cache/
+backend/slm_data/*.jsonl
+!backend/slm_data/gold_frozen.jsonl
+backend/slm_data/programs_snapshot.csv
 # simulated databases: rebuilt exactly from the seed in their manifest (uniadvisor sim ...)
 data/sim/
 

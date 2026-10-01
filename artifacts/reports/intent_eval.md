@@ -1,6 +1,6 @@
 # Intent reader: fact-by-fact evaluation
 
-2000 synthetic students (seed 99), keyword reader (`uniadvisor.intent.keywords`). Regenerate with `uniadvisor intent-eval`. The texts come from the generator's phrase banks: these numbers measure coverage of that phrasing, not accuracy on real students.
+2000 synthetic students (seed 99), keyword reader (`uniadvisor.student.intent.keywords`). Regenerate with `uniadvisor intent-eval`. The texts come from the generator's phrase banks: these numbers measure coverage of that phrasing, not accuracy on real students.
 
 ## Facts with one value
 

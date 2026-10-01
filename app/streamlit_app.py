@@ -12,15 +12,15 @@ import json
 import pandas as pd
 import streamlit as st
 
-from uniadvisor.advisor import Advice, advise
-from uniadvisor.compare import BASE_WEIGHTS, CRITERIA
-from uniadvisor.db import get_db
+from uniadvisor.recommend.advisor import Advice, advise
+from uniadvisor.recommend.compare import BASE_WEIGHTS, CRITERIA
+from unidata.db import get_db
 from uniadvisor.explain import DISCLAIMER
-from uniadvisor.kb.rules import BUCKET_VI, load_rules
-from uniadvisor.slm.infer import get_judge
-from uniadvisor.slm.questions import BY_ID
-from uniadvisor.slm.state import SUBJECT_VI, StudentProfile
-from uniadvisor.slm.synth import CENTRAL, NORTH, SOUTH
+from uniadvisor.recommend.rules import BUCKET_VI, load_rules
+from uniadvisor.student.slm.infer import get_judge
+from uniadvisor.student.slm.questions import BY_ID
+from uniadvisor.student.slm.state import SUBJECT_VI, StudentProfile
+from uniadvisor.student.slm.synth import CENTRAL, NORTH, SOUTH
 
 st.set_page_config(page_title="UniAdvisor – Tư vấn nguyện vọng", page_icon=":material/school:", layout="wide")
 

@@ -13,14 +13,14 @@ Kết quả phải đủ rõ để module 3 dùng và để học sinh tự ki�
 - **Module 2 không cần module 3.** Chất lượng được đo riêng: trên bộ câu hỏi đã gán nhãn (gold set) và trên học sinh
   mô phỏng biết sẵn "sự thật".
 - **Module 3 không cần module 2 hoàn hảo.** Module 3 kiểm thử bằng một bộ trả lời "biết trước"
-  (`uniadvisor.sim.students.OracleJudge`), trả lời đúng theo dữ kiện thật của học sinh mô phỏng.
+  (`uniadvisor.student.simulated.OracleJudge`), trả lời đúng theo dữ kiện thật của học sinh mô phỏng.
 - **Ranh giới** là giao diện của bộ trả lời: `judge.answer([(câu_hỏi, hồ_sơ, ngành)])`. Đổi cách đọc bên trong thoải
   mái, miễn giữ giao diện này.
 
 ## Đầu vào
 
 - **Form:** điểm từng môn, tỉnh, khu vực ưu tiên, đối tượng ưu tiên, giới tính, điểm thật hay điểm thi thử
-  (`StudentProfile` trong `src/uniadvisor/slm/state.py`).
+  (`StudentProfile` trong `backend/uniadvisor/student/slm/state.py`).
 - **Câu chữ tự do** của học sinh, cộng các tin nhắn sau.
 - **Câu trả lời cho câu hỏi làm rõ** (nếu app đã hỏi lại).
 - **Thông tin ngành** từ CSDL, cho các câu hỏi theo từng ngành.
@@ -28,7 +28,7 @@ Kết quả phải đủ rõ để module 3 dùng và để học sinh tự ki�
 ## Đầu ra
 
 **Hiện tại:** trả lời 7 câu hỏi. Mỗi câu trả lời có nhãn, xác suất từng nhãn, độ tin cậy, và cờ "chưa chắc, cần hỏi
-lại" (`Answer` trong `src/uniadvisor/slm/infer.py`).
+lại" (`Answer` trong `backend/uniadvisor/student/slm/infer.py`).
 
 | Câu hỏi | Phạm vi | Nhãn |
 |---|---|---|
@@ -42,7 +42,7 @@ lại" (`Answer` trong `src/uniadvisor/slm/infer.py`).
 
 Câu nào cũng có thêm nhãn "không đủ thông tin".
 
-**Mục tiêu (đang làm dở):** một bản tóm tắt dữ kiện về học sinh (`StudentIntent` trong `src/uniadvisor/intent/`),
+**Mục tiêu (đang làm dở):** một bản tóm tắt dữ kiện về học sinh (`StudentIntent` trong `backend/uniadvisor/student/intent/`),
 đọc một lần, mỗi dữ kiện kèm câu gốc làm bằng chứng:
 
 - ngành thích, ngành không thích, mong muốn của gia đình, theo mã nhóm ngành của Bộ;
@@ -74,9 +74,9 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
 
 1. **Chọn việc** trong danh sách bên dưới.
 2. **Đo trước khi sửa:** chạy `uniadvisor intent-eval` (từng dữ kiện) và
-   `uniadvisor slm-eval --judge heuristic --gold data/slm/gold_llm.csv` (7 câu hỏi), ghi lại số liệu.
-3. **Sửa:** từ khóa ở `config/interests.yaml` và `src/uniadvisor/intent/keywords.py`; câu hỏi và cách chấm ở
-   `src/uniadvisor/slm/`.
+   `uniadvisor slm-eval --judge heuristic --gold backend/slm_data/gold_llm.csv` (7 câu hỏi), ghi lại số liệu.
+3. **Sửa:** từ khóa ở `backend/config/interests.yaml` và `backend/uniadvisor/student/intent/keywords.py`; câu hỏi và cách chấm ở
+   `backend/uniadvisor/student/slm/`.
 4. **Đo lại** bằng cùng hai lệnh. Chỉ giữ thay đổi làm số liệu tốt lên, và không làm câu hỏi nào tệ đi rõ rệt.
 5. **Nếu đổi cách SLM học:** tạo lại dữ liệu (`uniadvisor slm-data`), huấn luyện lại (hướng dẫn ở `docs/kaggle/`), rồi
    chọn lại câu nào giao cho SLM (`SLM_QUESTIONS` trong `slm/infer.py`).

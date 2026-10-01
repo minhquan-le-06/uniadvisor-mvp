@@ -2,7 +2,7 @@
 
 Everything the app, API, engine and SLM read is one **database**: a folder of CSV tables, the score
 distributions in `distributions.parquet`, and `manifest.json`. The real one is `data/db/`. Simulated ones live
-in `data/sim/<name>/` with the same schema. `uniadvisor.db` loads and checks them; `src/uniadvisor/db/schema.py`
+in `data/sim/<name>/` with the same schema. `unidata.db` loads and checks them; `data/unidata/db/schema.py`
 is the schema the loader enforces, and this page explains it.
 
 ```
@@ -19,7 +19,7 @@ data/sim/<name>/                              simulated databases (git-ignored; 
 ## Using it
 
 ```python
-from uniadvisor.db import get_db, load
+from unidata.db import get_db, load
 db = get_db()                      # data/db/, or the folder in UNIADVISOR_DB
 db.catalog                         # one row per program: school, city, latest cutoff + status, quota, fee
 db.history["BKA:IT1"]              # {year: cutoff}
@@ -29,7 +29,7 @@ db["cutoffs"]                      # any table as a DataFrame
 ```
 
 `advise(profile, db=...)`, `backtest.run(db=...)` and the rules take a database explicitly; without one they use
-`get_db()`. Tests use the tiny simulated world (`tests/conftest.py`: `tiny_db`, `use_tiny`).
+`get_db()`. Tests use the tiny simulated world (`unidata.testing`: `tiny_db`, `use_tiny`).
 
 ```bash
 uniadvisor check-db                    # check data/db/ against the schema, print counts and provenance
@@ -47,7 +47,7 @@ Every fact (cutoff, quota, fee, distribution) has a `provenance`:
 | observed | published by a source (`source`, `url`) | cutoffs, 2026 quotas, fees from VnExpress | yes | yes | yes |
 | derived | a fixed rule applied to observed values | exact distributions from per-candidate scores | yes | yes | yes |
 | estimated | a model fills a missing real value; its error is measured | school-median fees, synthesized distributions | yes, as "ước tính" | no | yes |
-| simulated | made up from scratch to train or test | everything `uniadvisor.sim` generates | never | never | yes |
+| simulated | made up from scratch to train or test | everything `unidata.sim` generates | never | never | yes |
 
 A missing fact has **no row** (no fee row = tuition unknown), so "missing" is never a provenance; the catalog
 view reports it as `tuition_provenance = missing`.
@@ -81,7 +81,7 @@ each program's MOET code in this order: the code UniPilotData lists for it, a pr
 against MOET's ngành names (both estimated; exact name matching is right 99% of the time on programs whose code is
 known, while "starts with an official name" was right only 41% and is not used).
 
-The app's 16 interest fields are groups of MOET codes ([config/fields.yaml](../config/fields.yaml), longest prefix
+The app's 16 interest fields are groups of MOET codes ([data/config/fields.yaml](../config/fields.yaml), longest prefix
 wins): whole lĩnh vực, split only along nhóm ngành, and a single ngành moves only where a field names it (data
 science, logistics, chemistry). Programs without a code fall back to keywords on the name. The catalog view adds
 MOET's names: `major_name`, `moet_group` (nhóm ngành), `moet_field` (lĩnh vực).

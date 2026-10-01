@@ -7,7 +7,7 @@ phổ điểm, mã ngành. Đây là nguồn duy nhất mà các module khác đ
 
 ## Tính độc lập
 
-Ranh giới giữa module 1 và các module khác là **cấu trúc CSDL** (`src/uniadvisor/db/schema.py`) cùng hàm đọc
+Ranh giới giữa module 1 và các module khác là **cấu trúc CSDL** (`data/unidata/db/schema.py`) cùng hàm đọc
 `get_db()`.
 
 - **Các module khác không cần chờ module 1.** Họ phát triển và kiểm thử trên CSDL mô phỏng có cùng cấu trúc ("thế giới
@@ -15,7 +15,7 @@ Ranh giới giữa module 1 và các module khác là **cấu trúc CSDL** (`src
 - **Module 1 được tự do thay đổi cách thu thập và làm sạch**, miễn là CSDL vẫn qua được bước kiểm tra
   (`uniadvisor check-db`).
 - **Khi đổi cấu trúc** (thêm bảng, thêm cột): sửa `schema.py` trước, cập nhật thế giới mô phỏng
-  (`src/uniadvisor/sim/tiny.py`), cập nhật [docs/DATA.md](../DATA.md), rồi báo các module khác. Các cột cũ không được
+  (`data/unidata/sim/tiny.py`), cập nhật [docs/DATA.md](../DATA.md), rồi báo các module khác. Các cột cũ không được
   xóa hay đổi nghĩa mà không báo trước.
 
 ## Đầu vào
@@ -74,7 +74,7 @@ gần nhất, số năm có điểm, chỉ tiêu, học phí, tên ngành theo B
 ## Quy trình làm việc (gợi ý)
 
 1. **Chọn việc** trong danh sách bên dưới. Trước khi bắt đầu, ghi rõ việc đó thêm hay sửa bảng nào, cột nào.
-2. **Thu thập:** mỗi nguồn một chương trình riêng (`src/uniadvisor/collect/`). Kết quả thô lưu ở `data/collected/`.
+2. **Thu thập:** mỗi nguồn một chương trình riêng (`data/unidata/collect/`). Kết quả thô lưu ở `data/collected/`.
 3. **Làm sạch và dựng CSDL:** `uniadvisor build`. Phần trung gian và danh sách lỗi nằm ở `artifacts/build/`.
 4. **Kiểm tra:**
    - chạy `uniadvisor check-db` và bộ kiểm thử (`python -m pytest -q`);

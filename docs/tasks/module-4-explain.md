@@ -11,8 +11,8 @@ dùng con số do module 3 tính ra, không bịa thông tin.
   module 1, 2, 3 hoàn chỉnh:
   - tự tạo vài ví dụ bằng tay;
   - hoặc chạy `advise` trên thế giới mô phỏng (`tiny_db`) với bộ trả lời từ khóa (`HeuristicJudge`) hay bộ trả lời
-    "biết trước" (`uniadvisor.sim.students.OracleJudge`).
-- **Ranh giới:** các hàm trong `src/uniadvisor/explain.py`. Module 3 sở hữu cấu trúc `Advice`. Khi module 3 thêm hoặc
+    "biết trước" (`uniadvisor.student.simulated.OracleJudge`).
+- **Ranh giới:** các hàm trong `backend/uniadvisor/explain/__init__.py`. Module 3 sở hữu cấu trúc `Advice`. Khi module 3 thêm hoặc
   đổi trường, module 4 cập nhật cách dùng.
 
 ## Đầu vào
@@ -60,7 +60,7 @@ Khi module 3 đổi cách chọn danh sách (sắp theo độ khó, mức đậu
 2. **Tạo bộ ví dụ cố định:**
    - vài học sinh mô phỏng chạy trên `tiny_db`, lưu đầu vào và đầu ra hiện tại;
    - đọc lại như một học sinh để thấy câu nào sai, thừa hoặc khó hiểu.
-3. **Sửa** trong `src/uniadvisor/explain.py`. Phần hiển thị nằm ở `app/streamlit_app.py`.
+3. **Sửa** trong `backend/uniadvisor/explain/__init__.py`. Phần hiển thị nằm ở `app/streamlit_app.py`.
 4. **Kiểm thử:**
    - mỗi con số trong câu giải thích phải có trong đầu vào;
    - không trộn tổ hợp;
