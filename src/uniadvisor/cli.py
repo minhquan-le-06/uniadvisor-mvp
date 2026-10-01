@@ -167,6 +167,17 @@ def slm_eval(judge: str = "auto", gold: Path | None = None, limit: int | None = 
     print(json.dumps({"judge": r["judge"], "n": r["n"], "overall_accuracy": r["overall_accuracy"], "per_question": r["per_question"]}, indent=1, ensure_ascii=False))
 
 
+@app.command("intent-eval")
+def intent_eval(students: int = 2000, seed: int = 99) -> None:
+    """Score the intent reader fact by fact on simulated students (artifacts/reports/intent_eval.md/.json)."""
+    from uniadvisor.intent.evaluate import evaluate, markdown
+
+    r = evaluate(students, seed)
+    (REPORTS / "intent_eval.json").write_text(json.dumps(r, indent=2, ensure_ascii=False, default=list), encoding="utf-8")
+    (REPORTS / "intent_eval.md").write_text(markdown(r), encoding="utf-8")
+    print(markdown(r))
+
+
 @app.command()
 def advise(scores: str = typer.Option(..., help="e.g. TO=8.4,VA=7,LI=8,N1=8.2"), text: str = "", province: str = "",
            area: str = "KV3", category: str = "none", gender: str = "", mock: bool = False, k: int = 10) -> None:
@@ -281,6 +292,16 @@ def sim_season(seed: int = 0, reform: bool = typer.Option(False, help="add the 2
     sim = season.simulate(get_db(), seed=seed, reform=reform)
     db = write(out or SIM / sim.name, sim)
     print(f"wrote {db.path}: {db.manifest['generator']}")
+
+
+@sim_app.command("students")
+def sim_students(n: int = 5000, seed: int = 0, out: Path | None = typer.Option(None, help="default: data/sim/students-<seed>")) -> None:
+    """Simulated students (form fields, free text, and the true facts the text states) for engine tests."""
+    from uniadvisor.paths import SIM
+    from uniadvisor.sim import students
+
+    path = students.write(students.generate(n, seed), out or SIM / f"students-{seed}", seed)
+    print(f"wrote {path}: {n} students")
 
 
 if __name__ == "__main__":

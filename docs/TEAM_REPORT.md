@@ -2,22 +2,21 @@
 
 ## 1. Hệ thống làm gì
 
-UniAdvisor giúp học sinh lớp 12 lập danh sách nguyện vọng đại học theo phương thức xét điểm thi THPT. Học sinh nhập
-điểm, tỉnh, khu vực ưu tiên và vài câu tự mô tả. Hệ thống trả về danh sách nguyện vọng đã sắp xếp, kèm dự báo điểm
+UniAdvisor giúp học sinh lớp 12 lập danh sách nguyện vọng đại học theo phương thức xét điểm thi THPT. Học sinh nhập điểm, tỉnh, khu vực ưu tiên, ... Hệ thống trả về danh sách nguyện vọng đã sắp xếp, kèm dự báo điểm
 chuẩn, xác suất đỗ và lời giải thích. Phạm vi hiện tại là các trường ở Hà Nội và TP.HCM, khoảng 1.700 ngành.
 
-## 2. Hệ thống gồm 4 phần
+## 2. Hệ thống gồm 4 module
 
-| Phần | Làm gì | Cách làm | Tình trạng |
+| module | Làm gì | Cách làm | Tình trạng |
 |---|---|---|---|
-| 1. Dữ liệu | Thu thập điểm chuẩn, chỉ tiêu, học phí, phổ điểm từ báo và các nguồn công khai, rồi làm sạch | Chương trình tự thu thập dữ liệu từ web, làm sạch bằng quy tắc, đối chiếu nhiều nguồn; phổ điểm dựng bằng thống kê. Không dùng AI. | Đã làm lại, đủ dùng |
-| 2. Hiểu học sinh | Đọc thông tin và câu chữ của học sinh để biết em muốn gì | Kết hợp bộ đọc từ khóa (quy tắc) và một mô hình ngôn ngữ nhỏ (SLM) tự huấn luyện, mỗi câu hỏi giao cho bên làm tốt hơn. Gemini chỉ dùng để gán nhãn bộ kiểm tra, không chạy trong ứng dụng. | Sẽ làm (đã có bản thử) |
+| 1. Dữ liệu | Thu thập điểm chuẩn, chỉ tiêu, học phí, phổ điểm từ báo và các nguồn công khai, rồi làm sạch | Chương trình tự thu thập dữ liệu từ web, làm sạch bằng quy tắc, đối chiếu nhiều nguồn; phổ điểm dựng bằng thống kê. | đủ dùng |
+| 2. Hiểu học sinh | Đọc thông tin và câu chữ của học sinh để biết em muốn gì | Kết hợp bộ đọc từ khóa (quy tắc) và một mô hình ngôn ngữ nhỏ (SLM) tự huấn luyện, mỗi câu hỏi giao cho bên làm tốt hơn. Gemini chỉ dùng để gán nhãn bộ kiểm tra, không chạy trong ứng dụng. | sẽ làm (đã có bản thử) |
 | 3. Gợi ý | Dự báo điểm chuẩn, tính xác suất đỗ, chọn và xếp danh sách | Luật theo quy chế tuyển sinh 2026, mô hình thống kê để dự báo và tính xác suất, thuật toán tối ưu để chọn danh sách. Không dùng AI. | **Đang làm** |
-| 4. Giải thích | Viết lời giải thích cho từng gợi ý | Câu mẫu điền bằng các con số của phần 3, nên không bịa thông tin. Không dùng AI. | Tạm giữ nguyên |
+| 4. Giải thích | Viết lời giải thích cho từng gợi ý | Câu mẫu điền bằng các con số của module 3, nên không bịa thông tin. Dùng AI để tạo câu mẫu. | Tạm giữ nguyên |
 
-## 3. Đã làm xong: phần 1 (dữ liệu)
+## 3. Đã làm xong: module 1 (dữ liệu)
 
-- **Một cơ sở dữ liệu duy nhất, tự kiểm tra khi nạp** (không trùng, không thiếu liên kết, điểm trong 0–30).
+- **Một CSDL duy nhất, tự kiểm tra khi nạp** (không trùng, không thiếu liên kết, điểm trong 0–30).
 - **Mỗi con số ghi rõ nguồn gốc:** quan sát được, suy ra, ước tính (ứng dụng hiện chữ "ước tính") hoặc mô phỏng.
 - **Dữ liệu mô phỏng để kiểm thử, tách hẳn khỏi dữ liệu thật.**
 - **Gắn mã ngành của Bộ GD&ĐT** (Thông tư 09/2022) cho 1.424/1.666 ngành. Lĩnh vực của ngành giờ theo mã Bộ, nhờ đó
@@ -25,9 +24,9 @@ chuẩn, xác suất đỗ và lời giải thích. Phạm vi hiện tại là c
 - **Còn thiếu:** điểm chuẩn theo từng tổ hợp, 242 ngành chưa có mã, chỉ tiêu mới có năm 2026, khoảng 44% ngành chưa
   rõ học phí.
 
-## 4. Đang làm: phần 3 (gợi ý)
+## 4. Đang làm: module 3 (gợi ý)
 
-**Làm trước phần 2 vì** phần 3 chủ yếu dùng thông tin trong form (điểm, khu vực, tổ hợp). Các tiêu chí từ phần 2 có
+**Làm trước module 2 vì** module 3 chủ yếu dùng thông tin trong form (điểm, khu vực, tổ hợp). Các tiêu chí từ module 2 có
 thể thay bằng câu trả lời cố định khi kiểm thử.
 
 ### Thuật toán hiện tại
@@ -78,7 +77,7 @@ thể thay bằng câu trả lời cố định khi kiểm thử.
   cần cho phần lót an toàn.
 
 **Các bước:**
-1. **Đề xuất ngành phù hợp (trọng tâm).** App xếp các ngành em đủ điều kiện theo mức hợp với em: sở thích (từ phần
+1. **Đề xuất ngành phù hợp (trọng tâm).** App xếp các ngành em đủ điều kiện theo mức hợp với em: sở thích (từ module
    2), chất lượng trường, học phí, nơi học. Em xem, bỏ bớt hoặc thêm. Khả năng đậu không được dùng để loại ngành mơ
    ước.
 2. **Sắp thứ tự theo điểm chuẩn tương đối.** Dự đoán ngành nào điểm chuẩn cao hơn ngành nào, rồi sắp từ cao xuống
@@ -101,7 +100,7 @@ thể thay bằng câu trả lời cố định khi kiểm thử.
    biến động chung của trường, đều triệt tiêu khi so. Sau đó thử thêm xu hướng qua các năm, và chỉ giữ cái nào làm thứ
    tự đúng hơn.
 
-## 5. Sẽ làm: phần 2 (hiểu học sinh)
+## 5. Sẽ làm: module 2 (hiểu học sinh)
 
 - **Vấn đề:** ứng dụng không tóm lại "em muốn gì" mà đọc lại câu chữ cho từng ngành. Học sinh không thấy được máy hiểu
   mình thế nào để sửa. Tiêu chí sở thích (35% trọng số) cũng không phân biệt được ngành.
@@ -113,5 +112,5 @@ thể thay bằng câu trả lời cố định khi kiểm thử.
 
 ## 6. Cần lưu ý
 
-- Chưa có đánh giá với học sinh thật. Bộ kiểm tra phần 2 (294 câu) do Gemini gán nhãn, chưa có nhãn của người.
-- Bản trên web chưa có file mô hình nên phần 2 chỉ chạy bộ đọc từ khóa.
+- Chưa có đánh giá với học sinh thật. Bộ kiểm tra module 2 (294 câu) do Gemini gán nhãn, chưa có nhãn của người.
+- Bản trên web chưa có file mô hình nên module 2 chỉ chạy bộ đọc từ khóa.

@@ -14,7 +14,7 @@ and `metrics.json` are committed.
 
 | Component | State |
 |---|---|
-| Data | 48 schools (HN 28, HCM 20), 1,666 programs, cutoffs 2018-2026 from 4 sources (2018-2022 ADS_Final only); exact score distributions 2023-2026 (1.0-1.2 M candidates/year). Stored as one checked database with provenance per fact (`data/db/`, [DATA.md](DATA.md)); simulated databases for tests and engine checks: `uniadvisor sim tiny|season` |
+| Data | 48 schools (HN 28, HCM 20), 1,666 programs, cutoffs 2018-2026 from 4 sources (2018-2022 ADS_Final only); exact score distributions 2023-2026 (1.0-1.2 M candidates/year). Stored as one checked database with provenance per fact (`data/db/`, [DATA.md](DATA.md)); simulated databases for tests and engine checks: `uniadvisor sim tiny|season`; simulated students: `uniadvisor sim students` |
 | Rules | 2026 verified by the owner (`verified: true`); 2027 is a draft inheriting 2026 |
 | Forecast | MAE 1.373 ≈ naive "last year's cutoff" (1.369). Percentile equating with exact data is worse (1.55), so the backtest picks `equate=never`. P(admit) calibrated: Brier 0.119, ECE 0.056 |
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
@@ -24,10 +24,20 @@ and `metrics.json` are committed.
 
 ## Next, in order of value
 
-**In progress: reviewing the pipeline module by module with the owner** ([PIPELINE_REVIEW.md](PIPELINE_REVIEW.md)):
-1 data collecting, 2 student info and intention processing, 3 recommendation engine, 4 explanations.
-Module 1 is done (decisions recorded there; the database redesign implements them). **Module 2 is next**, then 3;
-module 4 stays as-is for now. The owner discusses in chat and wants results as Markdown files in the repo.
+**The system is split into 4 independent modules, one task each for team members** ([tasks/](tasks/), Vietnamese:
+input, output, current state, suggested process, open work). Review notes: [PIPELINE_REVIEW.md](PIPELINE_REVIEW.md);
+team overview and the module 3 plan: [TEAM_REPORT.md](TEAM_REPORT.md).
+- Module 1 (data): done for now (database redesign, MOET codes).
+- Module 3 (recommendation): **in progress**. Plan: choose programs by fit (never drop a dream program for its odds),
+  order them by how hard each is for this student (predicted cutoff minus their own total), point out
+  preference/order conflicts, end with 2-3 safe wishes at different schools, show 3-4 levels instead of %. Measure the
+  forecast by how often it orders pairs of programs correctly. Test bed: `sim students` × `sim season` with
+  `sim.students.OracleJudge` (an always-right module 2).
+- Module 2 (student understanding): next. A fact reader (`uniadvisor.intent`, interests as MOET nhóm ngành) exists
+  and is measured (`uniadvisor intent-eval`), not yet used by the app.
+- Module 4 (explanations): as-is for now.
+
+The owner discusses in chat and wants results as Markdown files in the repo.
 Starting points for module 2: the review's module 2 findings (intent never extracted as explicit facts; interest_fit
 does not separate programs; clarifying questions only for risk/priority), the keyword baseline 0.823 and hybrid 0.864
 on `data/slm/gold_llm.csv`, the tiny simulated world for fast tests (`tiny_db` fixture), and the deferred move of

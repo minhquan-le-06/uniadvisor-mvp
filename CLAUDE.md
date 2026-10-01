@@ -2,14 +2,15 @@
 
 University application advisor (nguyện vọng) for Vietnamese grade-12 students: rules (KB) + statistical engine +
 a small typed-head language model (SLM) for soft judgments only. Spec: [docs/MVP.md](docs/MVP.md). Current status,
-results and roadmap: [docs/HANDOFF.md](docs/HANDOFF.md). Read [artifacts/reports/data_report.md](artifacts/reports/data_report.md)
+results and roadmap: [docs/HANDOFF.md](docs/HANDOFF.md). The system is 4 modules, one task doc each (Vietnamese, for the team):
+[docs/tasks/](docs/tasks/) (data, student understanding, recommendation, explanation). Read [artifacts/reports/data_report.md](artifacts/reports/data_report.md)
 before trusting any number.
 
 ## Commands (run from the repo root; Windows venv shown, use `.venv/bin/` elsewhere)
 
 ```bash
 .venv/Scripts/python -m pip install -e ".[dev]"     # add ",slm" to run the SLM (pulls torch)
-.venv/Scripts/python -m pytest -q                   # ~60 s; 89 pass with torch (the SLM test skips without it)
+.venv/Scripts/python -m pytest -q                   # ~60 s; 114 pass (the SLM test skips without it)
 .venv/Scripts/uniadvisor slm-data                   # regenerates data/slm/*.jsonl (git-ignored, ~40 s); needed by SLM tests/eval
 .venv/Scripts/uniadvisor app                        # Streamlit chat, http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # FastAPI, http://localhost:8000/docs
@@ -18,14 +19,15 @@ before trusting any number.
 ```
 
 Data pipeline (yearly refresh): `collect` → `fetch-scores` (optional, ~350 MB into data/inbox/) → `build` →
-`check-db` → `backtest` → `report` → `slm-data`. Simulated databases: `sim tiny`, `sim season`. Other commands:
+`check-db` → `backtest` → `report` → `slm-data`. Simulated data: `sim tiny`, `sim season` (databases), `sim students`
+(students with their true facts; `sim.students.OracleJudge` answers from those facts). Module 2's fact reader: `intent-eval`. Other commands:
 `slm-train`, `slm-relabel`, `kaggle-bundle`, `label`, `gold-llm`. All are in `src/uniadvisor/cli.py`.
 
 ## Layout
 
 | Path | What | In git |
 |---|---|---|
-| `src/uniadvisor/` | package: `db/` the database (schema, loader, checks), `sim/` simulated databases, `collect/` scrapers, `build/` cleaning + catalog, `kb/` rules, `engine/` forecast + backtest, `slm/` model + data + eval, `optimizer.py`, `compare.py`, `explain.py`, `advisor.py` (orchestrates), `api.py`, `cli.py`, `paths.py` (every path comes from here) | yes |
+| `src/uniadvisor/` | package: `db/` the database (schema, loader, checks), `sim/` simulated databases and students, `intent/` module 2's fact reader (StudentIntent), `collect/` scrapers, `build/` cleaning + catalog, `kb/` rules, `engine/` forecast + backtest, `slm/` model + data + eval, `optimizer.py`, `compare.py`, `explain.py`, `advisor.py` (orchestrates), `api.py`, `cli.py`, `paths.py` (every path comes from here) | yes |
 | `app/` | `streamlit_app.py` (the deployed app), `label_gold.py` (gold labelling tool) | yes |
 | `config/` | `scope.yaml`, `sources.yaml`, `rules/<year>.yaml` (versioned per admission year) | yes |
 | `data/manual/` → `data/collected/` → `data/db/` | hand-entered facts → parsed rows per source → **the database** the app reads ([docs/DATA.md](docs/DATA.md)) | yes |
@@ -36,7 +38,7 @@ Data pipeline (yearly refresh): `collect` → `fetch-scores` (optional, ~350 MB 
 | `artifacts/models/` | `forecast_params.json`; `artifacts/models/slm/` = trained SLM (`config.json` + `metrics.json` committed, `adapter.pt` ignored) | partly |
 | `artifacts/build/` | build intermediates: cutoff consensus over all sources, distributions, exclusions, problems | yes |
 | `artifacts/reports/` | data report, backtest, SLM eval results | yes (`*.log` ignored) |
-| `docs/` | MVP spec, deploy guide, hand-off/status; `docs/kaggle/` = GPU training guide + notebook | yes |
+| `docs/` | MVP spec, deploy guide, hand-off/status, team report; `docs/tasks/` = one task doc per module; `docs/kaggle/` = GPU training guide + notebook | yes |
 
 Keep the root lean: new outputs go under `artifacts/`, new docs under `docs/`, scratch outside the repo
 (old snapshots live in `../MLAI_test_archive/`). Code takes folder paths from `paths.py`.
