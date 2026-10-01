@@ -1,0 +1,103 @@
+{
+  "base_model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+  "max_len": 320,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "questions": [
+    {
+      "id": "risk_tolerance",
+      "kind": "choice",
+      "labels": [
+        "an_toan",
+        "can_bang",
+        "mao_hiem",
+        "insufficient"
+      ]
+    },
+    {
+      "id": "top_priority",
+      "kind": "choice",
+      "labels": [
+        "nganh_yeu_thich",
+        "truong_danh_tieng",
+        "hoc_phi_thap",
+        "gan_nha",
+        "viec_lam_thu_nhap",
+        "insufficient"
+      ]
+    },
+    {
+      "id": "interest_fit",
+      "kind": "score",
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "insufficient"
+      ]
+    },
+    {
+      "id": "ability_fit",
+      "kind": "score",
+      "labels": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "insufficient"
+      ]
+    },
+    {
+      "id": "budget_ok",
+      "kind": "bool",
+      "labels": [
+        "yes",
+        "no",
+        "insufficient"
+      ]
+    },
+    {
+      "id": "location_ok",
+      "kind": "bool",
+      "labels": [
+        "yes",
+        "no",
+        "insufficient"
+      ]
+    },
+    {
+      "id": "conditions_ok",
+      "kind": "bool",
+      "labels": [
+        "yes",
+        "no",
+        "insufficient"
+      ]
+    }
+  ],
+  "temperatures": {
+    "risk_tolerance": 0.9882203109920058,
+    "top_priority": 1.0364851317741894,
+    "interest_fit": 0.7423316383792868,
+    "ability_fit": 0.8166135321766519,
+    "budget_ok": 1.0364851317741894,
+    "location_ok": 1.0871072132797415,
+    "conditions_ok": 1.0871072132797415
+  },
+  "thresholds": {
+    "ability_fit": 0.95,
+    "budget_ok": 0.3,
+    "conditions_ok": 0.3,
+    "interest_fit": 0.95,
+    "location_ok": 0.3,
+    "risk_tolerance": 0.3,
+    "top_priority": 0.3
+  },
+  "train_examples": 60522,
+  "epochs": 5,
+  "batch_per_process": 128,
+  "processes": 2
+}

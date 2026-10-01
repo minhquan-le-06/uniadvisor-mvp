@@ -1,23 +1,11 @@
 # Hand-off (state as of 2026-10-01)
 
-Work happens on branch `claude/ecstatic-pasteur-9qby7f`; PRs #1-#3 are merged into `main`, the rest goes in PR #4.
-Read this file, then README.md and reports/data_report.md.
+PRs #1-#5 are merged into `main`; new work goes on a fresh branch off `main`.
+Read this file, then [README.md](../README.md) and [reports/data_report.md](../reports/data_report.md).
+Commands, layout and coding conventions are in [CLAUDE.md](../CLAUDE.md).
 
-## Setup (Python 3.11+, run everything from the project root; `.venv/Scripts/` on Windows)
-
-```bash
-python -m venv .venv && . .venv/bin/activate
-pip install -e ".[dev]"            # add ".[slm]" to run the SLM (pulls torch)
-uniadvisor slm-data                # regenerates data/slm/*.jsonl (not in git, ~40 s)
-python -m pytest -q                # 66 pass (1 skips without torch)
-uniadvisor fetch-scores            # optional: per-candidate scores 2023-2026 into data/inbox/ (~350 MB,
-                                   # git-ignored); needed only to rebuild the distributions exactly
-uniadvisor gold-llm                # Gemini labels for the gold set; keys in .env (see .env.example), resumable
-```
-
-Committed: `data/processed`, `data/collected`, `data/unipilot`, `models/forecast_params.json`. Not committed:
-`data/inbox/` (per-candidate files), `data/slm/*.jsonl` except `gold_frozen.jsonl`, `models/slm/` (the trained SLM
-lives only on the owner's Windows machine), `.env` (Gemini keys).
+The trained SLM adapter (`models/slm/adapter.pt`) lives only on the owner's Windows machine; its `config.json`
+and `metrics.json` are committed.
 
 ## Current state
 
@@ -93,32 +81,4 @@ Ordered by expected value. Measure every change on the frozen gold set (`slm-eva
 - Score the whole advisor, not only the 7 questions: for gold students, compare the recommended list (and the
   clarifying questions asked) with what a human counsellor would choose.
 
-## Cloud-environment notes (for the next Claude session)
-
-- The container's default `python3` is 3.11 and fine now; `python3.12` also exists.
-- Blocked: huggingface.co, download.pytorch.org, kaggle.com, the news sites. torch installs from PyPI. SLM
-  code paths can be smoke-tested with a tiny local random BERT (`--base <dir>`), not the real base model.
-- Reachable: GitHub (anonymous clone of public repos) and media.githubusercontent.com (serves LFS files;
-  `fetch-scores` uses it).
-- Chromium + global Playwright are installed: drive Streamlit with Node Playwright
-  (`createRequire(npm root -g)`); in the chat app the sidebar also has a "Bắt đầu lại" button, so select the
-  primary button by `data-testid=stBaseButton-primary`.
-- Avoid shell heredoc edits containing backslash escapes (caused corrupted regexes before); use the Edit tool.
-
-## Decisions and findings worth remembering
-
-- Build is reproducible across platforms: stable sorts with explicit tie-breaks (program dedupe prefers
-  longest history, then best-confirmed row, then program_id).
-- Percentile equating fails at the tails: selective programs stay sticky in points; low ones sit on the
-  ministry floors. The backtest grid chooses equate on/off from measured MAE.
-- ADS_Final (2018-2024 cutoffs) has correct scores but wrong program names in some years (BKA IT1 2019 named
-  "Kỹ thuật xây dựng"). So code reuse is detected by name mismatch AND a > 2.5-point jump, never name alone
-  (`catalog._drop_reused_codes`). Its 'Thang 40' label marks 40-point rows even when the number is <= 30.
-- The 2025 `ct2006` score file (old-curriculum exam) is skipped by the importer on purpose.
-- The SLM is poor at score arithmetic (ability_fit 0.47): keep that question on the rules.
-- Gold ids hash the row text. The gold rows are frozen in `data/slm/gold_frozen.jsonl` (text, latent, program), so
-  regenerating the synthetic data no longer invalidates labels; teacher labels for them are recomputed on the fly.
-- The teacher and the dataset sampler share one RNG stream: any teacher change reshuffles later pairings.
-- pandas 3: `df.where(df.notna(), None)` keeps NaN in string columns; use `df.astype(object).where(...)`.
-- Keyword matching (program fields, free text) is on whole words: substring matching put "Thiết kế thời trang"
-  ("rang") and "Tâm lý học" ("y học") under health.
+Cloud-environment notes and hard-won findings (gotchas) moved to [CLAUDE.md](../CLAUDE.md).

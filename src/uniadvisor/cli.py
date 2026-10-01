@@ -193,7 +193,7 @@ def kaggle_bundle(out: Path = ROOT / "dist" / "uniadvisor_kaggle_bundle.zip") ->
         z.write(ROOT / "pyproject.toml", "uniadvisor/pyproject.toml")
         for base in (ROOT / "src", ROOT / "config", ROOT / "data" / "slm", ROOT / "kaggle"):
             for f in base.rglob("*"):
-                if f.is_file() and "__pycache__" not in f.parts and "llm_cache" not in f.parts:
+                if f.is_file() and "__pycache__" not in f.parts and "llm_cache" not in f.parts and f.name != "gemini_keys.txt":
                     z.write(f, "uniadvisor/" + f.relative_to(ROOT).as_posix())
     print(f"wrote {out} ({out.stat().st_size / 1e6:.1f} MB)")
 

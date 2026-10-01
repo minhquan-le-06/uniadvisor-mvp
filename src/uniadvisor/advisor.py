@@ -1,6 +1,6 @@
 """End-to-end advice: profile -> ordered application list with probabilities and explanations.
 
-Division of labour (MVP.md 'core principle'):
+Division of labour (docs/MVP.md 'core principle'):
   KB (kb/rules.py)            eligibility, priority points, floors, buckets, list constraints
   engine (engine/*)           cutoff forecast, uncertainty, P(admit)
   SLM (slm/infer.py)          soft judgments only: risk tolerance, priority, interest/ability fit,

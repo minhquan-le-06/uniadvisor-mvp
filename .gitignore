@@ -17,3 +17,6 @@ models/slm_smoke/
 reports/*.log
 *.egg-info/
 data/slm/gemini_keys.txt
+# local scratch: old snapshots, superseded models, logs (safe to delete)
+_archive/
+.claude/settings.local.json

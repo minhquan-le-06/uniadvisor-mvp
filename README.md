@@ -1,7 +1,7 @@
 # UniAdvisor — tư vấn đặt nguyện vọng đại học (MVP)
 
 Decision support for Vietnamese grade-12 students building an ordered university application list
-(nguyện vọng) for the **THPT exam-score method**, following [MVP.md](MVP.md). Hybrid design:
+(nguyện vọng) for the **THPT exam-score method**, following [docs/MVP.md](docs/MVP.md). Hybrid design:
 
 | Part | What it decides | Where |
 |---|---|---|
@@ -34,7 +34,7 @@ The processed data (`data/processed/`) is included, so the app runs without re-c
 trained SLM in `models/slm/`, a transparent keyword judge is used; with one, the hybrid judge is used.
 The sidebar says which.
 
-To put the app online (Streamlit Community Cloud, keyword judge, no secrets), see [DEPLOY.md](DEPLOY.md).
+To put the app online (Streamlit Community Cloud, keyword judge, no secrets), see [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## Data pipeline (yearly refresh)
 
@@ -140,5 +140,7 @@ data/collected/    raw parsed rows per source                data/processed/  cl
 data/slm/          SLM dataset, rubrics, gold template       models/  forecast params, SLM adapter (models/slm/)
 reports/           data_report.md, backtest.json, distributions.json, SLM metrics
 src/uniadvisor/    collect/ build/ kb/ engine/ slm/ optimizer.py compare.py explain.py advisor.py api.py cli.py
-app/               streamlit_app.py                           kaggle/  training notebook + guide
+app/               streamlit_app.py, label_gold.py            kaggle/  training notebook + guide
+docs/              MVP.md (spec), DEPLOY.md, HANDOFF.md (status + roadmap)
+tests/             pytest suite                               CLAUDE.md  working notes for Claude sessions
 ```

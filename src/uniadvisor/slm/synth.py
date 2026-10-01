@@ -1,6 +1,6 @@
 """Synthetic student profiles with hidden ground-truth attributes (`Latent`) and Vietnamese free text.
 
-Design goals (MVP.md §5):
+Design goals (docs/MVP.md §5):
 - score distributions close to real ones: subject scores are drawn from the real 2026 per-subject
   histograms (VnExpress) with a shared ability factor; every student has the post-2025 exam shape
   (Toán + Văn + 2 electives)

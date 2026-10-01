@@ -1,4 +1,4 @@
 # Hosted app (Streamlit Community Cloud / Hugging Face Spaces): the package with its base dependencies.
 # The SLM extra (torch, transformers) is left out on purpose: without models/slm/ the app uses the
-# keyword judge. See DEPLOY.md.
+# keyword judge. See docs/DEPLOY.md.
 -e .
