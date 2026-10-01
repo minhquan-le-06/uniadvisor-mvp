@@ -14,7 +14,8 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from uniadvisor.build.fields import FIELDS, field_of
+from uniadvisor.build import majors as moet
+from uniadvisor.build.fields import code_prefixes, field_of_code, field_of_name
 from uniadvisor.build.unipilot import exam_combos, table
 from uniadvisor import db as database
 from uniadvisor.engine.dist import METHOD_PROVENANCE, METHOD_RANK
@@ -62,9 +63,11 @@ def conditions_of(name: str, kind: str, field: str | None, major_code: str) -> l
         out.append("Học bằng tiếng Anh (thường cần trình độ tiếng Anh tốt, có thể yêu cầu IELTS/chứng chỉ khi nhập học)")
     if kind == "international":
         out.append("Chương trình liên kết/quốc tế: học phí cao hơn chương trình chuẩn")
-    if field == "su_pham" or major_code.startswith("71402"):
+    # with a MOET code the code decides (71402 Đào tạo giáo viên, 772 Sức khoẻ: the groups the ministry sets floors
+    # for); the field only stands in when there is no code (field su_pham also covers 71401, y_duoc covers 764 Thú y)
+    if major_code.startswith("71402") or (not major_code and field == "su_pham"):
         out.append("Sư phạm: không nhận thí sinh bị dị hình, dị tật, nói ngọng, nói lắp; điểm sàn của Bộ")
-    if field == "y_duoc":
+    if major_code.startswith("772") or (not major_code and field == "y_duoc"):
         out.append("Khối sức khỏe: có ngưỡng điểm sàn của Bộ")
     m = re.search(r"thí sinh (nam|nữ)", name, flags=re.IGNORECASE)
     if m:
@@ -130,8 +133,51 @@ def _drop_reused_codes(history: pd.DataFrame, current_name: dict[str, str]) -> p
     return history.loc[sorted(keep)]
 
 
+def _major_code(u: pd.Series | None, program_code: str, name: str, school: str,
+                unipilot_names: dict[tuple[str, str], str]) -> tuple[str, str, str]:
+    """(MOET major code, provenance, method) for a program; ("", "", "") when none is known.
+    Observed: the code UniPilot lists for the program, or a program code that is itself a MOET code.
+    Estimated: the same school's program of the same name in UniPilot has one, or the name is an official
+    ngành name (build/majors.py; right 99% of the time on programs with a known code)."""
+    if u is not None and re.fullmatch(r"7\d{6}", u.major_code or ""):
+        return moet.current_code(u.major_code), "observed", ""
+    if re.fullmatch(r"7\d{6}", program_code or ""):
+        return moet.current_code(program_code), "observed", ""
+    if code := unipilot_names.get((school, moet.name_key(name))):
+        return moet.current_code(code), "estimated", "unipilot_same_name"
+    if code := moet.match_name(name):
+        return code, "estimated", "moet_name"
+    return "", "", ""
+
+
+def _unipilot_names(up: pd.DataFrame) -> dict[tuple[str, str], str]:
+    """(school, normalised program name) -> MOET code, from UniPilot rows that have one (names with two codes dropped)."""
+    rows = up[up.major_code.str.fullmatch(r"7\d{6}")]
+    pairs = pd.DataFrame({"key": list(zip(rows.school_code, rows.name_vi.map(moet.name_key))), "code": rows.major_code})
+    pairs = pairs.drop_duplicates()
+    pairs = pairs[~pairs.key.duplicated(keep=False)]
+    return dict(zip(pairs.key, pairs.code))
+
+
+def _majors_table(prog: pd.DataFrame, up: pd.DataFrame) -> pd.DataFrame:
+    """MOET's catalog, plus the codes our programs use that it lacks (pilot majors, majors added after 2022),
+    named as UniPilot names them."""
+    cat = moet.catalog().assign(provenance="observed")
+    extra = sorted(set(prog.major_code[prog.major_code != ""]) - set(cat.code))
+    named = up[up.major_code.isin(extra)].assign(name=lambda d: d.name_vi.map(
+        lambda s: clean(re.sub(r"\(.*?\)", "", re.sub(r"^\s*Ngành\s+", "", s)))))
+    first = named.groupby("major_code").name.agg(lambda s: s.value_counts().index[0])
+    fallback = prog.drop_duplicates("major_code").set_index("major_code").name
+    rows = pd.DataFrame(dict(code=extra, level="nganh", name=[first.get(c) or fallback.get(c, c) for c in extra],
+                             parent=[c[:5] for c in extra], former_code="", provenance="observed", source="unipilot_step1",
+                             note="not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it", url=""))
+    return pd.concat([cat, rows], ignore_index=True)
+
+
 def build(out=DB) -> dict:  # noqa: ANN001
     ensure_dirs()
+    if unknown := sorted({prefix for prefix, _ in code_prefixes()} - set(moet.catalog().code)):
+        raise ValueError(f"config/fields.yaml: codes not in MOET's catalog: {unknown}")
     scope = yaml.safe_load((CONFIG / "scope.yaml").read_text(encoding="utf-8"))
     city_of = {code: city for city, codes in scope["candidates"].items() for code in codes}
     cut = pd.read_csv(BUILD / "cutoffs_consensus.csv", dtype={"program_code": str, "key_code": str}, keep_default_na=False)
@@ -142,6 +188,7 @@ def build(out=DB) -> dict:  # noqa: ANN001
     exam = exam_combos()
     up = _unipilot_programs()
     schools_src = table("school").set_index("id")
+    unipilot_names = _unipilot_names(table("program"))
 
     latest30 = cut[(cut.year == LATEST) & (cut.scale == 30) & cut.school_code.isin(city_of)]
     per_school = latest30.groupby("school_code").size()
@@ -165,10 +212,12 @@ def build(out=DB) -> dict:  # noqa: ANN001
         if not ref:
             reasons.append(dict(school_code=r.school_code, key_code=r.key_code, reason="no score distribution for any combo"))
             continue
-        major_code = (u.major_code if u is not None else "") or (r.program_code if re.fullmatch(r"7\d{6}", r.program_code or "") else "")
         name = r.program_name
+        major_code, code_provenance, code_method = _major_code(u, r.program_code, name, r.school_code, unipilot_names)
         kind = program_kind(name, u.program_kind if u is not None else "")
-        field = field_of(name, major_code)
+        field, field_method = field_of_code(major_code), "major_code"
+        if not field:
+            field, field_method = field_of_name(name), "name_keywords"
         hist = cut[(cut.school_code == r.school_code) & (cut.key_code == r.key_code) & (cut.scale == 30)].sort_values("year")
         fees = [(y, *parse_tuition(t)) for y, t in zip(hist.year[::-1], hist.tuition_raw[::-1]) if t]
         fee_year, tmin, tmax, tunit = next(((y, a, b, u_) for y, a, b, u_ in fees if a), (None, None, None, ""))
@@ -178,7 +227,10 @@ def build(out=DB) -> dict:  # noqa: ANN001
             program_code=r.program_code,
             name=name,
             major_code=major_code,
+            major_code_provenance=code_provenance,
+            major_code_method=code_method,
             field=field or "",
+            field_method=field_method if field else "",
             kind=kind,
             campus=campus_of(name) or "",
             combos=";".join(exam_ok),
@@ -237,6 +289,7 @@ def build(out=DB) -> dict:  # noqa: ANN001
         "schools": pd.DataFrame(schools),
         "programs": prog[[c for c in prog.columns if not c.startswith("_")]],
         "cutoffs": cutoffs, "quotas": quotas, "tuition": fees, "combos": combos, "distributions": dmeta,
+        "majors": _majors_table(prog, table("program")),
     }, cdfs, {"kind": "real", "name": "real", "latest_year": LATEST, "admission_year": scope["admission_year"],
               "description": f"{len(schools)} schools in {', '.join(scope['regions'])}; THPT exam-score method, 30-point scale"})
     pd.DataFrame(reasons).to_csv(BUILD / "programs_excluded.csv", index=False, encoding="utf-8")
@@ -248,4 +301,6 @@ def build(out=DB) -> dict:  # noqa: ANN001
         "schools_excluded": dropped, "programs": len(cat), "programs_excluded": len(reasons),
         "cutoff_rows": len(cutoffs), "years_with_cutoff": cat.years_with_cutoff.value_counts().sort_index().to_dict(),
         "tuition": cat.tuition_provenance.value_counts().to_dict(), "field_missing": int(cat.field.isna().sum()),
+        "major_code": cat.major_code_provenance.fillna("missing").value_counts().to_dict(),
+        "field_method": cat.field_method.fillna("none").value_counts().to_dict(),
     }

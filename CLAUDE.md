@@ -60,6 +60,9 @@ rules). The deployed app (Streamlit Community Cloud) has no adapter, so it runs 
 ## Gotchas
 
 - pandas 3: `df.where(df.notna(), None)` keeps NaN in string columns; use `df.astype(object).where(...)`.
+- A program's field comes from its MOET major code (config/fields.yaml; MOET's code is the taxonomy: digits 1-3
+  lĩnh vực, 1-5 nhóm ngành, 1-7 ngành). Name keywords only fill in without a code. Rules keyed on MOET groups (floors,
+  sư phạm / health conditions) use the code when there is one, never the field (field su_pham also covers 71401).
 - Keyword matching (program fields, free text) is on whole words. Substring matching put "Thiết kế thời trang"
   ("rang") and "Tâm lý học" ("y học") under health.
 - Gold ids hash the row text. Gold rows are frozen in `data/slm/gold_frozen.jsonl` (text, latent, program), so

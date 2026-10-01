@@ -42,6 +42,8 @@ Programs by years of cutoff history: 1 năm: 436, 2 năm: 241, 3 năm: 120, 4 n�
 
 Tuition known from a source for 756 programs (45%); 182 use their school's median (marked 'ước tính' in the app); 728 unknown.
 
+MOET major code (Thông tư 09/2022/TT-BGDĐT; it also decides the field): 1077 listed for the program, 347 matched by name (right 99% of the time on programs with a known code), 242 unknown. Field from the code for 1424 programs, from name keywords for 241.
+
 Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Reason: fewer than min usable 30-point THPT cutoffs in the latest year (e.g. switched to a 100-point combined scale) or not found
 
 ## Score distributions
@@ -64,6 +66,7 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 | cutoffs | 7098 | 0 | 0 |
 | quotas | 938 | 0 | 0 |
 | tuition | 756 | 0 | 182 |
+| majors | 542 | 0 | 0 |
 | distributions | 0 | 430 | 47 |
 
 observed = published by a source; derived = a fixed rule on observed values; estimated = a model fills a missing value (students see 'ước tính'); simulated never appears in the real database. A missing fact has no row. Schema: docs/DATA.md.

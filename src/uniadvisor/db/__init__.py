@@ -101,6 +101,13 @@ class Database:
         p["tuition_max"] = p.program_id.map(fee.max_vnd)
         p["tuition_provenance"] = p.program_id.map(fee.provenance).fillna("missing")
         p["field_name"] = p.field.map(FIELDS).fillna("")
+        # MOET's names for the program's ngành, nhóm ngành and lĩnh vực
+        names = dict(zip(t["majors"].code, t["majors"].name))
+        p["major_name"] = p.major_code.map(names)
+        p["moet_group_code"] = p.major_code.str[:5].where(p.major_code != "", "")
+        p["moet_group"] = p.moet_group_code.map(names)
+        p["moet_field_code"] = p.major_code.str[:3].where(p.major_code != "", "")
+        p["moet_field"] = p.moet_field_code.map(names)
         p = p.replace("", np.nan)
         return p.astype(object).where(p.notna(), None)
 
@@ -273,6 +280,17 @@ def validate(tables: dict[str, pd.DataFrame], cdfs: pd.DataFrame | None, manifes
         problems.append("tuition: need 0 < min_vnd <= max_vnd")
     if (tables["quotas"].quota <= 0).any():
         problems.append("quotas: quota must be positive")
+    m = tables["majors"]
+    lengths = {"linh_vuc": 3, "nganh": 7, "nhom_nganh": 5}
+    if (bad := m[(m.code.str.len() != m.level.map(lengths)) | ~m.code.str.fullmatch(r"\d+")]).size:
+        problems.append(f"majors: code length does not match its level, e.g. {bad.code.head(3).tolist()}")
+    if (bad := m[(m.parent != "") & (m.code.str[:-2] != m.parent)]).size:
+        problems.append(f"majors: parent is not the code minus its last 2 digits, e.g. {bad.code.head(3).tolist()}")
+    nganh = set(m.code[m.level == "nganh"])
+    if bad := sorted(set(p.major_code[p.major_code != ""]) - nganh):
+        problems.append(f"programs.major_code: not a ngành (7-digit) code: {bad[:3]}")
+    if (p[(p.major_code == "") != (p.major_code_provenance == "")]).size:
+        problems.append("programs: major_code_provenance must be set exactly when major_code is")
     no_cut = sorted(set(p.program_id) - set(c.program_id))
     if no_cut:
         problems.append(f"programs: {len(no_cut)} program(s) without any cutoff, e.g. {no_cut[:3]}")

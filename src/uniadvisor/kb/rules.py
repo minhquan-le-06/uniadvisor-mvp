@@ -92,7 +92,9 @@ def floor_for(major_code: str, field_: str, ruleset: str = DEFAULT_RULESET) -> t
         if any(str(major_code or "").startswith(p) for p in f["major_prefixes"]):
             if best is None or f["min_total"] > best[0]:
                 best = (f["min_total"], f["note"])
-    if best is None and field_ == "su_pham":
+    # no MOET code: a teacher-training program can only be recognised by its field. With a code, the floor
+    # follows the code alone (field su_pham also covers 71401 Khoa học giáo dục, which has no floor)
+    if best is None and not major_code and field_ == "su_pham":
         f = floors["teacher_training"]
         best = (f["min_total"], f["note"])
     return best

@@ -2,7 +2,8 @@
 
 Small enough to check by hand, and it covers what the advisor branches on: two cities, every program kind,
 ministry floors (medicine, nursing, teacher training), an English-taught program, a program with one year
-of history, a disputed latest cutoff, and fees that are simulated, estimated (school median) or missing.
+of history, a disputed latest cutoff, fees that are simulated, estimated (school median) or missing, and MOET
+major codes that are observed, estimated (matched by name) or missing. The majors table is MOET's real catalog.
 
     from uniadvisor.sim import tiny
     db = tiny.build()                 # in memory
@@ -18,9 +19,10 @@ import pandas as pd
 from scipy.stats import norm
 
 from uniadvisor import db as database
+from uniadvisor.build import majors as moet
 from uniadvisor.engine.dist import GRID, mean_of, quantile
 
-VERSION = 1
+VERSION = 2  # 2: MOET majors and major-code provenance
 YEARS = (2022, 2023, 2024, 2025, 2026)
 
 SCHOOLS = [
@@ -53,7 +55,9 @@ PROGRAMS = [
 ]
 NEW_PROGRAM = "SIM-HN2:MKT"        # only one year of cutoffs
 DISPUTED = "SIM-HN1:EE"            # sources disagree on the latest cutoff
-NO_FEE_SCHOOL = "SIM-HC1"          # its two teacher-training programs have no fee and no school median: missing
+NO_FEE_SCHOOL = "SIM-HC1"
+CODE_ESTIMATED = "SIM-HN2:MKT"     # its MOET code was matched by name
+NO_CODE = "SIM-HC1:EDU-LIT"        # no MOET code: its field comes from name keywords          # its two teacher-training programs have no fee and no school median: missing
 # combination -> (mean, sd) of the 3-subject total; the same every year (a stable exam)
 SCORE_SHAPE = {"A00": (20.5, 3.6), "A01": (20.0, 3.7), "B00": (19.5, 3.8), "C00": (19.0, 4.0), "D01": (19.8, 3.9)}
 
@@ -70,8 +74,11 @@ def tables(seed: int = 0) -> tuple[dict[str, pd.DataFrame], pd.DataFrame, dict]:
     schools = pd.DataFrame([dict(school_code=c, name=n, short_name=s, city=city, website="", address="")
                             for c, n, s, city in SCHOOLS])
     programs = pd.DataFrame([dict(program_id=pid, school_code=pid.split(":")[0], program_code=pid.split(":")[1], name=name,
-                                  major_code=major, field=field, kind=kind, campus="", combos=combos, reference_combo=ref,
-                                  conditions=cond, source_url="")
+                                  major_code="" if pid == NO_CODE else major,
+                                  major_code_provenance="" if pid == NO_CODE else "estimated" if pid == CODE_ESTIMATED else "observed",
+                                  major_code_method="moet_name" if pid == CODE_ESTIMATED else "",
+                                  field=field, field_method="name_keywords" if pid == NO_CODE else "major_code",
+                                  kind=kind, campus="", combos=combos, reference_combo=ref, conditions=cond, source_url="")
                              for pid, name, major, field, kind, combos, ref, _, _, cond in PROGRAMS])
     cut = []
     for pid, *_, level, _fee, _cond in PROGRAMS:
@@ -110,7 +117,8 @@ def tables(seed: int = 0) -> tuple[dict[str, pd.DataFrame], pd.DataFrame, dict]:
                 "description": "3 schools, 12 programs, cutoffs 2022-2026: a hand-sized world for tests",
                 "generator": {"name": "uniadvisor.sim.tiny", "version": VERSION, "seed": seed}}
     t = {"schools": schools, "programs": programs, "cutoffs": pd.DataFrame(cut), "quotas": quotas,
-         "tuition": pd.DataFrame(fees), "combos": combos, "distributions": pd.DataFrame(meta)}
+         "tuition": pd.DataFrame(fees), "combos": combos, "distributions": pd.DataFrame(meta),
+         "majors": moet.catalog().assign(provenance="observed")}
     return t, cdfs, manifest
 
 

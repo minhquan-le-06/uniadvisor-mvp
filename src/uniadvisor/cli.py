@@ -63,7 +63,7 @@ def fetch_scores(years: str = typer.Option("2023,2024,2025,2026", help="comma li
 
 
 @app.command()
-def collect(refresh: bool = False, only: str = typer.Option("", help="comma list: vietnamnet,vnexpress,distributions,tuyensinh247,ads_final")) -> None:
+def collect(refresh: bool = False, only: str = typer.Option("", help="comma list: vietnamnet,vnexpress,distributions,tuyensinh247,ads_final,moet")) -> None:
     """Fetch cutoffs, tuition and score distributions (polite, cached)."""
     _log()
     from uniadvisor.collect.run import collect_all

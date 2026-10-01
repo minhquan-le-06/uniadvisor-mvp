@@ -46,9 +46,11 @@ programs have several, missing quota and applicant history, and coarse field lab
      The other 589 only have the school's own code (BKA 69, GHA 53, KHA 47, TLA 46, NHH 45, ...); the UniPilot
      export fills just 23 of them. The rest need each school's đề án (it maps school codes to MOET codes) or a
      name match against MOET's catalog of ngành names.
-   - Fix: take field and group from the code (catalog of names as a sourced manual input, Thông tư 09/2022/TT-BGDĐT
-     danh mục thống kê ngành đào tạo), keep the keywords only for programs without a code, and store the code's
-     levels in the database. Interest fit (module 2) can then reason at ngành / nhóm ngành level.
+   - *Fixed (2026-10-01):* MOET's catalog (Thông tư 09/2022/TT-BGDĐT, 24 lĩnh vực, 95 nhóm ngành, 375 ngành) is in
+     the database (`majors`); fields come from the code via config/fields.yaml; 347 missing codes were filled by exact
+     name match (99% right on known codes), leaving 242 programs on name keywords. 184 programs changed field, e.g.
+     English-taught engineering no longer "languages", networking now IT, educational psychology no longer teacher
+     training. Interest fit (module 2) can now reason at ngành / nhóm ngành level.
 4. **Tuition is thin.** 756 programs (45%) have a sourced fee, 182 (11%) use their school's median, and 728 (44%) are
    unknown. *Fixed:* the old `tuition_imputed` flag was also set on the 728 programs with no fee, so students saw
    "học phí là ước tính" where nothing was estimated; the database now records observed, estimated or missing.
@@ -165,5 +167,5 @@ Across modules, the biggest fixes are correlated errors in the optimizer (module
 2. ~~Simulated data and a checked database.~~ Done: [DATA.md](DATA.md).
 3. Use per-combination cutoffs where `lowest_of_several` is set (13% of cutoff rows) instead of the lowest one; the
    `cutoffs` table already has a `combo` column for them.
-4. Derive fields from MOET's major code (lĩnh vực / nhóm ngành / ngành) and fill the 589 missing codes; see
-   problem 3. Planned as the first step of module 2, since interest fit depends on it.
+4. ~~Derive fields from MOET's major code.~~ Done (problem 3); 242 programs still have no code (each school's đề
+   án would give them).

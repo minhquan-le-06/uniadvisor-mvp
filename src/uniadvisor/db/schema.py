@@ -53,6 +53,9 @@ def _provenance() -> Column:
 
 
 PROGRAM_KINDS = ("standard", "high_quality", "advanced", "international")
+MAJOR_LEVELS = ("linh_vuc", "nhom_nganh", "nganh")
+FIELD_KEYS = ("cntt", "ky_thuat", "kinh_te", "tai_chinh", "luat", "y_duoc", "su_pham", "ngon_ngu", "bao_chi", "xa_hoi",
+              "khoa_hoc_tn", "sinh_hoa", "xay_dung", "nong_lam_mt", "du_lich", "thiet_ke")  # = build.fields.FIELDS
 CUTOFF_STATUS = ("confirmed_2_sources", "disputed", "single_source")
 DIST_METHODS = ("exact", "observed", "synthesized", "anchored", "year_shift", "simulated")
 
@@ -65,14 +68,20 @@ TABLES: dict[str, Table] = {t.name: t for t in (
         Column("website", required=False),
         Column("address", required=False),
     )),
-    Table("programs", key=("program_id",), refs=(("school_code", "schools", "school_code"), ("reference_combo", "combos", "combo")),
+    Table("programs", key=("program_id",), refs=(("school_code", "schools", "school_code"), ("reference_combo", "combos", "combo"),
+                                                 ("major_code", "majors", "code")),
           doc="programs admitting by THPT exam score on the 30-point scale", columns=(
         Column("program_id", doc="<school_code>:<program code>"),
         Column("school_code"),
-        Column("program_code", required=False),
+        Column("program_code", required=False, doc="the school's own code"),
         Column("name"),
-        Column("major_code", required=False, doc="7-digit ministry major code when known"),
-        Column("field", required=False, doc="one of build.fields.FIELDS"),
+        Column("major_code", required=False, doc="MOET's 7-digit major (ngành) code; empty when unknown"),
+        Column("major_code_provenance", required=False, values=("observed", "estimated"),
+               doc="observed: listed for the program; estimated: matched by name (build/majors.py)"),
+        Column("major_code_method", required=False, values=("unipilot_same_name", "moet_name"), doc="how an estimate was made"),
+        Column("field", required=False, values=FIELD_KEYS, doc="the app's interest field (config/fields.yaml)"),
+        Column("field_method", required=False, values=("major_code", "name_keywords"),
+               doc="major_code: from MOET's code; name_keywords: no code, guessed from the name"),
         Column("kind", values=PROGRAM_KINDS),
         Column("campus", required=False, doc="branch campus, empty = main campus"),
         Column("combos", doc="exam combinations accepted, ';'-separated"),
@@ -106,6 +115,18 @@ TABLES: dict[str, Table] = {t.name: t for t in (
         _provenance(),
         Column("method", required=False, doc="how an estimate was made, e.g. school_median"),
         Column("source", required=False),
+    )),
+    Table("majors", key=("code",), refs=(("parent", "majors", "code"),),
+          doc="MOET's catalog of majors (Thông tư 09/2022/TT-BGDĐT): lĩnh vực > nhóm ngành > ngành", columns=(
+        Column("code", doc="3 digits lĩnh vực, 5 nhóm ngành, 7 ngành; each starts with its parent's code"),
+        Column("level", values=MAJOR_LEVELS),
+        Column("name"),
+        Column("parent", required=False, doc="the code one level up; empty for a lĩnh vực"),
+        Column("former_code", required=False, doc="the code before Thông tư 09/2022 renumbered it"),
+        _provenance(),
+        Column("source", doc="moet_tt09_2022, or unipilot_step1 for codes the circular lacks"),
+        Column("note", required=False),
+        Column("url", required=False),
     )),
     Table("combos", key=("combo",), doc="exam-only subject combinations (tổ hợp), all weights 1", columns=(
         Column("combo"), Column("subject_1"), Column("subject_2"), Column("subject_3"),

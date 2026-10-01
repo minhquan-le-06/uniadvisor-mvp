@@ -64,16 +64,32 @@ The loader enforces the boundary:
 | Table | Key | One row is | Notes |
 |---|---|---|---|
 | `schools` | school_code | a university in scope | city: Hà Nội or TP. Hồ Chí Minh |
-| `programs` | program_id | a program admitting by THPT exam score, 30-point scale | `<school_code>:<program code>`; `combos` is a `;` list; `reference_combo` places the cutoff in a distribution |
+| `programs` | program_id | a program admitting by THPT exam score, 30-point scale | `<school_code>:<program code>` (the school's own code); `major_code` = MOET's ngành code with `major_code_provenance` (observed: listed for the program; estimated: matched by name) and `major_code_method`; `field` = the app's interest field with `field_method` (major_code or name_keywords); `combos` is a `;` list; `reference_combo` places the cutoff in a distribution |
+| `majors` | code | a MOET lĩnh vực (3 digits), nhóm ngành (5) or ngành (7) | Thông tư 09/2022/TT-BGDĐT ([data/manual/moet_majors.csv](../data/manual/moet_majors.csv), `uniadvisor collect --only moet`); `parent` = the code minus its last 2 digits; `former_code` for the 5 majors the circular renumbered; codes our programs use that the circular lacks (pilot majors, majors added later) come from UniPilotData |
 | `cutoffs` | program_id, year, combo | an admission cutoff | `combo` empty = the program's single cutoff (all rows today); `status`: confirmed_2_sources, disputed, single_source; `lowest_of_several`: the source listed several cutoffs and the lowest was kept |
 | `quotas` | program_id, year | an admission quota (chỉ tiêu) | 2026 only today |
 | `tuition` | program_id, year | a fee per academic year in VND | `method` says how an estimate was made (`school_median`) |
 | `combos` | combo | an exam-only subject combination | three subjects, all weights 1 |
 | `distributions` | combo, year | a score distribution's metadata | `method`: exact, observed, synthesized, anchored, year_shift, simulated (engine/dist.py); the CDF itself is the matching row of `distributions.parquet` (columns g0..g600: P(total ≤ 0.05·i)) |
 
+### Majors and fields
+
+MOET's major code is the taxonomy: digits 1-3 = lĩnh vực (748 Máy tính và công nghệ thông tin), 1-5 = nhóm ngành
+(74802), 1-7 = ngành (7480201 Công nghệ thông tin). Schools list programs under their own codes, so the build finds
+each program's MOET code in this order: the code UniPilotData lists for it, a program code that is itself a MOET code
+(both observed), the same school's program of the same name in UniPilotData, then an exact match of the cleaned name
+against MOET's ngành names (both estimated; exact name matching is right 99% of the time on programs whose code is
+known, while "starts with an official name" was right only 41% and is not used).
+
+The app's 16 interest fields are groups of MOET codes ([config/fields.yaml](../config/fields.yaml), longest prefix
+wins): whole lĩnh vực, split only along nhóm ngành, and a single ngành moves only where a field names it (data
+science, logistics, chemistry). Programs without a code fall back to keywords on the name. The catalog view adds
+MOET's names: `major_name`, `moet_group` (nhóm ngành), `moet_field` (lĩnh vực).
+
 Rules the loader checks on top of the columns: keys are unique, references resolve (a program's school, a
 cutoff's program, a combination), every program has a cutoff and a distribution for its reference combination,
-scores are within 0-30, fees satisfy 0 < min ≤ max, and every CDF runs from 0 to 1 without decreasing.
+scores are within 0-30, fees satisfy 0 < min ≤ max, every CDF runs from 0 to 1 without decreasing, a program's
+major code is a ngành in `majors` (with its provenance set), and `majors` codes match their level and parent.
 
 ## Changing the schema
 

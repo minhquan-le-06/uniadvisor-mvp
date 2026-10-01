@@ -1,12 +1,16 @@
-"""Map a program to one broad field (nhóm ngành) from its name, falling back to the ministry major code.
+"""The app's 16 interest fields and how a program gets one.
 
-Used to describe programs to the SLM and in the comparison table. Keyword rules are checked in order
-(more specific first) on the diacritic-free lowercase name.
+MOET's major code decides (config/fields.yaml maps code prefixes to fields, following MOET's lĩnh vực and nhóm
+ngành). Programs without a code fall back to keyword rules on the name, checked in order (more specific first)
+on the diacritic-free lowercase name; the same keywords read a student's free text (slm/infer.py).
 """
 
 from __future__ import annotations
 
 import re
+from functools import lru_cache
+
+import yaml
 
 from uniadvisor.text import fold
 
@@ -55,25 +59,38 @@ GENERIC_IN_FREE_TEXT = {"cong nghe", "ky thuat", "quan ly", "dich vu", " may ", 
                         "kinh te", "van hoa", "chinh sach", "thue", "rang", "dau tu", "an toan thong tin", "he thong thong tin",
                         "duoc", "tieng ", "hoc tap", "suc khoe", "lich su", "dia li"}
 
-# ministry major code prefix -> field (fallback when the name matches nothing)
-CODE_PREFIX = [
-    ("714", "su_pham"), ("721", "ngon_ngu"), ("722", "ngon_ngu"), ("7310", "xa_hoi"), ("731", "kinh_te"),
-    ("732", "bao_chi"), ("7340", "kinh_te"), ("738", "luat"), ("742", "sinh_hoa"), ("744", "khoa_hoc_tn"),
-    ("746", "khoa_hoc_tn"), ("748", "cntt"), ("751", "ky_thuat"), ("752", "ky_thuat"), ("754", "sinh_hoa"),
-    ("758", "xay_dung"), ("762", "nong_lam_mt"), ("764", "y_duoc"), ("772", "y_duoc"), ("776", "xa_hoi"),
-    ("781", "du_lich"), ("784", "du_lich"), ("785", "nong_lam_mt"),
-]
+@lru_cache(maxsize=1)
+def code_prefixes() -> list[tuple[str, str]]:
+    """(MOET code prefix, field) from config/fields.yaml, longest prefix first."""
+    from uniadvisor.paths import CONFIG
+
+    data = yaml.safe_load((CONFIG / "fields.yaml").read_text(encoding="utf-8"))
+    pairs = [(str(prefix), field) for field, prefixes in data.items() for prefix in prefixes]
+    unknown = sorted({f for _, f in pairs} - set(FIELDS))
+    if unknown:
+        raise ValueError(f"config/fields.yaml: unknown fields {unknown}")
+    return sorted(pairs, key=lambda p: -len(p[0]))
 
 
-def field_of(name: str, major_code: str | None = None) -> str | None:
+def field_of_code(major_code: str | None) -> str | None:
+    """The field of a MOET major code (longest prefix in config/fields.yaml), or None."""
+    code = (major_code or "").strip()
+    if not code:
+        return None
+    return next((field for prefix, field in code_prefixes() if code.startswith(prefix)), None)
+
+
+def field_of_name(name: str) -> str | None:
+    """The field guessed from a program name by keywords (programs without a MOET code)."""
     # whole words only: as substrings, "thời trang" contained "rang" (dentistry) and "tâm lý học" contained
     # "y học" (medicine), which put fashion design and psychology under health
     f = f" {re.sub(r'[^a-z0-9]+', ' ', fold(name))} "
     for field, words in RULES:
         if any(f" {w.strip()} " in f for w in words):
             return field
-    code = (major_code or "").strip()
-    for prefix, field in CODE_PREFIX:
-        if code.startswith(prefix):
-            return field
     return None
+
+
+def field_of(name: str, major_code: str | None = None) -> str | None:
+    """MOET's code decides when there is one; the name keywords only fill in for programs without a code."""
+    return field_of_code(major_code) or field_of_name(name)

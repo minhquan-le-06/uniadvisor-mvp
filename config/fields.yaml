@@ -1,0 +1,68 @@
+# The app's 16 interest fields (build/fields.py FIELDS), defined as groups of MOET's major codes.
+#
+# MOET's code is the taxonomy (Thông tư 09/2022/TT-BGDĐT; data/manual/moet_majors.csv): digits 1-3 = lĩnh vực,
+# 1-5 = nhóm ngành, 1-7 = ngành. A program's field comes from its major code: the longest prefix listed below wins.
+# Rules for this file:
+#   - follow MOET's grouping: map whole lĩnh vực, split one only along its nhóm ngành;
+#   - a single ngành moves only where a field's own description names it (data science, logistics, chemistry);
+#   - every lĩnh vực is mapped except 790 Khác; programs without a code fall back to name keywords.
+# `uniadvisor build` checks that every prefix exists in MOET's catalog.
+
+cntt:          # Công nghệ thông tin - Máy tính - Dữ liệu - AI
+  - "748"      # Máy tính và công nghệ thông tin
+  - "7460108"  # Khoa học dữ liệu (MOET files it under Toán học)
+ky_thuat:      # Kỹ thuật - Công nghệ (cơ khí, điện, điện tử, ô tô, tự động hóa, vật liệu)
+  - "751"      # Công nghệ kỹ thuật (incl. 75106 Quản lý công nghiệp, Kinh tế công nghiệp)
+  - "752"      # Kỹ thuật
+  - "75402"    # Sản xuất, chế biến sợi, vải, giày, da
+  - "75490"    # Sản xuất và chế biến: khác
+kinh_te:       # Kinh tế - Kinh doanh - Quản trị - Marketing - Thương mại
+  - "734"      # Kinh doanh và quản lý (incl. 73404 Hệ thống thông tin quản lý)
+  - "73101"    # Kinh tế học
+tai_chinh:     # Tài chính - Ngân hàng - Kế toán - Kiểm toán - Bảo hiểm
+  - "73402"    # Tài chính - Ngân hàng - Bảo hiểm
+  - "73403"    # Kế toán - Kiểm toán
+luat:          # Luật
+  - "738"
+y_duoc:        # Y - Dược - Điều dưỡng - Sức khỏe
+  - "772"      # Sức khoẻ
+  - "764"      # Thú y
+su_pham:       # Sư phạm - Giáo dục
+  - "714"
+ngon_ngu:      # Ngôn ngữ - Văn hóa - Quốc tế học
+  - "72201"    # Ngôn ngữ, văn học và văn hóa Việt Nam
+  - "72202"    # Ngôn ngữ, văn học và văn hóa nước ngoài
+  - "73106"    # Khu vực học
+bao_chi:       # Báo chí - Truyền thông - Quan hệ công chúng
+  - "732"      # Báo chí và thông tin (incl. 73290: Công nghệ đa phương tiện)
+xa_hoi:        # Khoa học xã hội - Tâm lý - Nhân văn - Chính trị - Hành chính
+  - "731"      # Khoa học xã hội và hành vi
+  - "72290"    # Nhân văn: khác (triết học, lịch sử, văn học, văn hóa học, ...)
+  - "73202"    # Thông tin - Thư viện
+  - "73203"    # Văn thư - Lưu trữ - Bảo tàng
+  - "776"      # Dịch vụ xã hội
+  - "786"      # An ninh, Quốc phòng
+khoa_hoc_tn:   # Khoa học tự nhiên - Toán - Vật lý - Thống kê
+  - "744"      # Khoa học tự nhiên
+  - "746"      # Toán và thống kê
+sinh_hoa:      # Sinh học - Hóa học - Công nghệ sinh học - Thực phẩm
+  - "742"      # Khoa học sự sống
+  - "7440112"  # Hóa học
+  - "7510401"  # Công nghệ kỹ thuật hóa học
+  - "7520301"  # Kỹ thuật hoá học
+  - "75401"    # Chế biến lương thực, thực phẩm và đồ uống
+xay_dung:      # Kiến trúc - Xây dựng - Giao thông - Quy hoạch
+  - "758"      # Kiến trúc và xây dựng
+  - "75101"    # Công nghệ kỹ thuật kiến trúc và công trình xây dựng
+nong_lam_mt:   # Nông - Lâm - Thủy sản - Môi trường - Tài nguyên
+  - "762"      # Nông, lâm nghiệp và thủy sản
+  - "785"      # Môi trường và bảo vệ môi trường
+  - "74403"    # Khoa học môi trường
+  - "7510406"  # Công nghệ kỹ thuật môi trường
+  - "7520320"  # Kỹ thuật môi trường
+du_lich:       # Du lịch - Khách sạn - Logistics - Hàng không - Dịch vụ
+  - "781"      # Du lịch, khách sạn, thể thao và dịch vụ cá nhân
+  - "784"      # Dịch vụ vận tải (khai thác vận tải, quản lý hoạt động bay, hàng hải)
+  - "7510605"  # Logistics và Quản lý chuỗi cung ứng
+thiet_ke:      # Thiết kế - Nghệ thuật - Sáng tạo số
+  - "721"      # Nghệ thuật

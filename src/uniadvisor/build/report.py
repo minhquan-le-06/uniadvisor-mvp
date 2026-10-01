@@ -8,6 +8,7 @@ from datetime import date
 
 import pandas as pd
 
+from uniadvisor.build import majors
 from uniadvisor.db import TABLES, get_db, require_real
 from uniadvisor.paths import BUILD, COLLECTED, REPORTS, SLM_DATA
 
@@ -39,6 +40,8 @@ def build() -> str:
     cut["scale"] = cut.scale.astype(int)
     by_year = cut[cut.scale == 30].pivot_table(index="year", columns="status", values="key_code", aggfunc="count", fill_value=0).reset_index()
     fee = prog.tuition_provenance.value_counts()
+    codes = prog.major_code_provenance.fillna("missing").value_counts()
+    match = majors.evaluate(db["programs"][db["programs"].major_code_provenance == "observed"])
     exact = dmeta[dmeta.method == "exact"]
     exact_years = sorted(exact.year.unique().tolist())
     out = [
@@ -84,6 +87,12 @@ def build() -> str:
         "",
         f"Tuition known from a source for {fee.get('observed', 0)} programs ({fee.get('observed', 0) / len(prog):.0%}); "
         f"{fee.get('estimated', 0)} use their school's median (marked 'ước tính' in the app); {fee.get('missing', 0)} unknown.",
+        "",
+        f"MOET major code (Thông tư 09/2022/TT-BGDĐT; it also decides the field): "
+        f"{codes.get('observed', 0)} listed for the program, {codes.get('estimated', 0)} matched by name "
+        f"(right {match['same_major']:.0%} of the time on programs with a known code), {codes.get('missing', 0)} unknown. "
+        f"Field from the code for {int((prog.field_method == 'major_code').sum())} programs, from name keywords for "
+        f"{int((prog.field_method == 'name_keywords').sum())}.",
         "",
         "Schools dropped: " + ", ".join(excl.school_code) + ". Reason: " + (excl.reason.iloc[0] if len(excl) else "-"),
         "",

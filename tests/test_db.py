@@ -25,6 +25,11 @@ def _tables():
     (lambda t, m: m.update(kind="real"), "simulated row(s) in the real database"),
     (lambda t, m: m.update(kind="real"), "SIM- id(s) in the real database"),
     (lambda t, m: m.pop("generator"), "generator.name and generator.seed"),
+    (lambda t, m: t["programs"].loc.__setitem__((0, "major_code"), "74802"), "not a ngành"),
+    (lambda t, m: t["programs"].loc.__setitem__((0, "major_code"), "7999999"), "not in majors.code"),
+    (lambda t, m: t["programs"].loc.__setitem__((0, "major_code_provenance"), ""), "major_code_provenance must be set"),
+    (lambda t, m: t["programs"].loc.__setitem__((0, "field"), "robotics"), "field: not allowed"),
+    (lambda t, m: t["majors"].loc.__setitem__((0, "level"), "nganh"), "code length does not match its level"),
 ])
 def test_validation_names_each_problem(break_it, message):
     t, cdfs, manifest = _tables()
