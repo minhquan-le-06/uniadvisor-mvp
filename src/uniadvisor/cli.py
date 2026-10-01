@@ -13,7 +13,7 @@ from pathlib import Path
 
 import typer
 
-from uniadvisor.paths import ROOT
+from uniadvisor.paths import ARTIFACTS, REPORTS, ROOT
 
 app = typer.Typer(add_completion=False, help="UniAdvisor: university application advisor (THPT exam-score method).")
 
@@ -63,7 +63,7 @@ def fetch_scores(years: str = typer.Option("2023,2024,2025,2026", help="comma li
 
 
 @app.command()
-def collect(refresh: bool = False, only: str = typer.Option("", help="comma list: vietnamnet,vnexpress,distributions,tuyensinh247,ads_final")) -> None:
+def collect(refresh: bool = False, only: str = typer.Option("", help="comma list: vietnamnet,vnexpress,distributions,tuyensinh247,ads_final,moet")) -> None:
     """Fetch cutoffs, tuition and score distributions (polite, cached)."""
     _log()
     from uniadvisor.collect.run import collect_all
@@ -73,19 +73,26 @@ def collect(refresh: bool = False, only: str = typer.Option("", help="comma list
 
 @app.command()
 def build() -> None:
-    """Rebuild distributions, cutoffs and the program catalog from collected data."""
+    """Rebuild distributions, cutoffs and the database (data/db/) from collected data."""
     _log()
-    from uniadvisor.build import catalog, cutoffs, distributions
+    import pandas as pd
 
-    d = distributions.build()
-    print("distributions:", d["counts"])
+    from uniadvisor.build import catalog, cutoffs, distributions
+    from uniadvisor.paths import BUILD, INBOX
+
+    built = BUILD / "distributions.csv"
+    if not any(INBOX.glob("*.csv")) and built.exists() and (pd.read_csv(built).method == "exact").any():
+        # without the per-candidate files a rebuild would replace exact distributions with approximations
+        print("distributions: kept (data/inbox/ is empty; run `uniadvisor fetch-scores` to rebuild them exactly)")
+    else:
+        print("distributions:", distributions.build()["counts"])
     print("cutoffs:", json.dumps({k: v for k, v in cutoffs.build().items() if k != "by_year_status"}, default=str))
     print("catalog:", json.dumps(catalog.build(), default=str))
 
 
 @app.command()
 def backtest() -> None:
-    """Backtest the cutoff forecast, fit its parameters, write reports/backtest.json."""
+    """Backtest the cutoff forecast, fit its parameters, write artifacts/reports/backtest.json."""
     from uniadvisor.engine.backtest import run
 
     r = run()
@@ -95,7 +102,7 @@ def backtest() -> None:
 
 @app.command()
 def report() -> None:
-    """Write reports/data_report.md (coverage, quality, gaps)."""
+    """Write artifacts/reports/data_report.md (coverage, quality, gaps)."""
     from uniadvisor.build.report import build as build_report
 
     print(build_report())
@@ -155,9 +162,20 @@ def slm_eval(judge: str = "auto", gold: Path | None = None, limit: int | None = 
     else:
         raise typer.BadParameter("--judge must be auto, hybrid, slm or heuristic")
     r = evaluate(j, gold=gold, limit=limit)
-    out = ROOT / "reports" / f"slm_eval_{r['judge']}_{r['split']}.json"
+    out = REPORTS / f"slm_eval_{r['judge']}_{r['split']}.json"
     out.write_text(json.dumps(r, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({"judge": r["judge"], "n": r["n"], "overall_accuracy": r["overall_accuracy"], "per_question": r["per_question"]}, indent=1, ensure_ascii=False))
+
+
+@app.command("intent-eval")
+def intent_eval(students: int = 2000, seed: int = 99) -> None:
+    """Score the intent reader fact by fact on simulated students (artifacts/reports/intent_eval.md/.json)."""
+    from uniadvisor.intent.evaluate import evaluate, markdown
+
+    r = evaluate(students, seed)
+    (REPORTS / "intent_eval.json").write_text(json.dumps(r, indent=2, ensure_ascii=False, default=list), encoding="utf-8")
+    (REPORTS / "intent_eval.md").write_text(markdown(r), encoding="utf-8")
+    print(markdown(r))
 
 
 @app.command()
@@ -184,16 +202,16 @@ def advise(scores: str = typer.Option(..., help="e.g. TO=8.4,VA=7,LI=8,N1=8.2"),
 
 
 @app.command("kaggle-bundle")
-def kaggle_bundle(out: Path = ROOT / "dist" / "uniadvisor_kaggle_bundle.zip") -> None:
-    """Zip the code + SLM dataset for upload as a Kaggle Dataset (see kaggle/README.md)."""
+def kaggle_bundle(out: Path = ARTIFACTS / "uniadvisor_kaggle_bundle.zip") -> None:
+    """Zip the code + SLM dataset for upload as a Kaggle Dataset (see docs/kaggle/README.md)."""
     import zipfile
 
     out.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(ROOT / "pyproject.toml", "uniadvisor/pyproject.toml")
-        for base in (ROOT / "src", ROOT / "config", ROOT / "data" / "slm", ROOT / "kaggle"):
+        for base in (ROOT / "src", ROOT / "config", ROOT / "data" / "slm"):
             for f in base.rglob("*"):
-                if f.is_file() and "__pycache__" not in f.parts and "llm_cache" not in f.parts:
+                if f.is_file() and "__pycache__" not in f.parts and "llm_cache" not in f.parts and f.name != "gemini_keys.txt":
                     z.write(f, "uniadvisor/" + f.relative_to(ROOT).as_posix())
     print(f"wrote {out} ({out.stat().st_size / 1e6:.1f} MB)")
 
@@ -232,6 +250,58 @@ def gold_llm(models: str = typer.Option("gemini-3.5-flash,gemini-3.5-flash-lite"
     table = llm_label.agreement() if llm_label.OUT.exists() else None
     if table is not None and len(table):
         print(table.to_string(index=False))
+
+
+@app.command("check-db")
+def check_db(path: Path | None = typer.Argument(None, help="database folder (default: data/db/ or UNIADVISOR_DB)")) -> None:
+    """Load a database, check it against the schema, and print what it holds."""
+    from uniadvisor.db import load
+
+    db = load(path)
+    cat = db.catalog
+    print(json.dumps({"path": str(db.path), "kind": db.kind, "name": db.name, "counts": db.manifest.get("counts"),
+                      "tuition": cat.tuition_provenance.value_counts().to_dict(),
+                      "provenance": {name: db[name].provenance.value_counts().to_dict()
+                                     for name in ("cutoffs", "quotas", "tuition", "distributions")}},
+                     indent=1, ensure_ascii=False))
+
+
+sim_app = typer.Typer(help="Simulated databases in data/sim/<name>/ (same schema, SIM- ids; never the real data).")
+app.add_typer(sim_app, name="sim")
+
+
+@sim_app.command("tiny")
+def sim_tiny(seed: int = 0, out: Path | None = typer.Option(None, help="default: data/sim/tiny")) -> None:
+    """A hand-sized world (3 schools, 12 programs) for tests. Try the app on it:
+    UNIADVISOR_DB=data/sim/tiny uniadvisor app"""
+    from uniadvisor.paths import SIM
+    from uniadvisor.sim import tiny
+
+    db = tiny.build(out or SIM / "tiny", seed)
+    print(f"wrote {db.path}: {db.manifest['counts']}")
+
+
+@sim_app.command("season")
+def sim_season(seed: int = 0, reform: bool = typer.Option(False, help="add the 2025-like reform-year drop"),
+               out: Path | None = typer.Option(None, help="default: data/sim/<generated name>")) -> None:
+    """The real database plus one simulated admission season (correlated shocks), for engine checks."""
+    from uniadvisor.db import get_db, write
+    from uniadvisor.paths import SIM
+    from uniadvisor.sim import season
+
+    sim = season.simulate(get_db(), seed=seed, reform=reform)
+    db = write(out or SIM / sim.name, sim)
+    print(f"wrote {db.path}: {db.manifest['generator']}")
+
+
+@sim_app.command("students")
+def sim_students(n: int = 5000, seed: int = 0, out: Path | None = typer.Option(None, help="default: data/sim/students-<seed>")) -> None:
+    """Simulated students (form fields, free text, and the true facts the text states) for engine tests."""
+    from uniadvisor.paths import SIM
+    from uniadvisor.sim import students
+
+    path = students.write(students.generate(n, seed), out or SIM / f"students-{seed}", seed)
+    print(f"wrote {path}: {n} students")
 
 
 if __name__ == "__main__":

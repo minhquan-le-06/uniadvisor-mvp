@@ -22,7 +22,8 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
-from uniadvisor.paths import PROCESSED, SLM_DATA
+from uniadvisor.db import get_db, require_real
+from uniadvisor.paths import SLM_DATA
 from uniadvisor.slm import teacher
 from uniadvisor.slm.questions import INSUFFICIENT, PROFILE_QUESTIONS, PROGRAM_QUESTIONS, QUESTIONS
 from uniadvisor.slm.state import StudentProfile, model_input
@@ -85,9 +86,9 @@ def example(qid: str, profile: StudentProfile, program: dict | None, soft: dict[
 
 def build(n_students: int = 4000, programs_per_student: int = 4, seed: int = 13, gold_size: int = 300) -> dict:
     SLM_DATA.mkdir(parents=True, exist_ok=True)
-    programs = pd.read_csv(PROCESSED / "programs.csv", dtype={"program_code": str, "major_code": str})
-    # astype(object) first: on pandas 3 string columns, where(..., None) keeps NaN (and NaN is truthy)
-    programs = programs.astype(object).where(programs.notna(), None)
+    db = get_db()
+    require_real(db, "building the SLM dataset (students are paired with real programs)")
+    programs = db.catalog
     school_split = split_schools(programs.school_code.unique().tolist(), seed)
     pools = {s: programs[programs.school_code.map(school_split) == s] for s in SPLITS}
     gen = ProfileGenerator(seed)

@@ -10,7 +10,7 @@ What the deploy uses, all in the repo:
 |---|---|
 | `requirements.txt` | `-e .`: the package with its base dependencies (no `[slm]` extra) |
 | `.streamlit/config.toml` | headless server, no usage stats, viewer-only toolbar |
-| `data/processed/`, `config/`, `models/forecast_params.json` | everything the app reads; nothing is collected at runtime |
+| `data/db/`, `config/`, `artifacts/models/forecast_params.json` | everything the app reads; nothing is collected at runtime |
 
 No secrets are needed. The app writes nothing to disk; each browser session keeps its own state.
 
@@ -55,7 +55,7 @@ package was installed non-editable; set `UNIADVISOR_ROOT` to point elsewhere.
 
 ## Later: the SLM version
 
-1. Commit the trained adapter: un-ignore `models/slm/adapter.pt` (~7 MB) in `.gitignore` and add `models/slm/`.
+1. Commit the trained adapter: un-ignore `artifacts/models/slm/adapter.pt` (~7 MB) in `.gitignore` and add `artifacts/models/slm/`.
 2. Add CPU torch and transformers to `requirements.txt`
    (`--extra-index-url https://download.pytorch.org/whl/cpu`, then `torch`, `transformers`, `safetensors`).
 3. The base model (mmarco-mMiniLMv2-L12-H384, ~470 MB) downloads from Hugging Face at first start, so the host

@@ -7,7 +7,6 @@ from functools import lru_cache
 
 import yaml
 
-from uniadvisor.build.unipilot import exam_combos
 from uniadvisor.paths import RULES
 
 DEFAULT_RULESET = "2027-draft"
@@ -41,11 +40,20 @@ def priority_points(raw_total: float, area: str = "KV3", category: str = "none",
 
 
 # ------------------------------------------------------------------ combos and eligibility
-def combo_total(scores: dict[str, float], combo: str) -> float | None:
+def _combos(combos: dict[str, list[str]] | None) -> dict[str, list[str]]:
+    if combos is not None:
+        return combos
+    from uniadvisor.db import get_db
+
+    return get_db().combos
+
+
+def combo_total(scores: dict[str, float], combo: str, combos: dict[str, list[str]] | None = None) -> float | None:
     """Sum of the combination's 3 subjects, or None if the student lacks one of them.
     Scores are keyed by subject code; the foreign-language score sits under its own code
-    (N1 English, N3 French, N4 Chinese, ...), so D01 needs N1 and D03 needs N3."""
-    parts = exam_combos().get(combo)
+    (N1 English, N3 French, N4 Chinese, ...), so D01 needs N1 and D03 needs N3.
+    combos: combination -> subjects (default: the database's combos table)."""
+    parts = _combos(combos).get(combo)
     if not parts:
         return None
     vals = [scores.get(s) for s in parts]
@@ -54,11 +62,12 @@ def combo_total(scores: dict[str, float], combo: str) -> float | None:
     return round(float(sum(vals)), 2)
 
 
-def student_combos(scores: dict[str, float]) -> dict[str, float]:
+def student_combos(scores: dict[str, float], combos: dict[str, list[str]] | None = None) -> dict[str, float]:
     """Every exam combination the student can use, with its raw total."""
+    combos = _combos(combos)
     out = {}
-    for combo in exam_combos():
-        t = combo_total(scores, combo)
+    for combo in combos:
+        t = combo_total(scores, combo, combos)
         if t is not None:
             out[combo] = t
     return out
@@ -83,17 +92,21 @@ def floor_for(major_code: str, field_: str, ruleset: str = DEFAULT_RULESET) -> t
         if any(str(major_code or "").startswith(p) for p in f["major_prefixes"]):
             if best is None or f["min_total"] > best[0]:
                 best = (f["min_total"], f["note"])
-    if best is None and field_ == "su_pham":
+    # no MOET code: a teacher-training program can only be recognised by its field. With a code, the floor
+    # follows the code alone (field su_pham also covers 71401 Khoa học giáo dục, which has no floor)
+    if best is None and not major_code and field_ == "su_pham":
         f = floors["teacher_training"]
         best = (f["min_total"], f["note"])
     return best
 
 
 def eligibility(program: dict, scores: dict[str, float], area: str = "KV3", category: str = "none",
-                years_since_graduation: int = 0, gender: str | None = None, ruleset: str = DEFAULT_RULESET) -> Eligibility:
+                years_since_graduation: int = 0, gender: str | None = None, ruleset: str = DEFAULT_RULESET,
+                combo_parts: dict[str, list[str]] | None = None) -> Eligibility:
     """Which of the program's combinations the student can use, the best total, and hard rule checks."""
+    combo_parts = _combos(combo_parts)
     combos = [c for c in str(program.get("combos") or "").split(";") if c]
-    mine = {c: combo_total(scores, c) for c in combos}
+    mine = {c: combo_total(scores, c, combo_parts) for c in combos}
     mine = {c: t for c, t in mine.items() if t is not None}
     if not mine:
         return Eligibility(False, reasons=[f"Không có tổ hợp phù hợp (ngành xét: {', '.join(combos) or '?'})"])

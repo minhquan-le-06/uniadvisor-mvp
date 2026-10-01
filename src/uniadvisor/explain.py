@@ -15,7 +15,7 @@ def pct(p: float) -> str:
     return f"{100 * p:.0f}%"
 
 
-def confidence_label(n_years: int, status_2026: str, slm_escalations: int, tuition_imputed: bool) -> tuple[str, list[str]]:
+def confidence_label(n_years: int, latest_status: str, slm_escalations: int, tuition_estimated: bool) -> tuple[str, list[str]]:
     reasons = []
     score = 0
     if n_years >= 3:
@@ -24,9 +24,9 @@ def confidence_label(n_years: int, status_2026: str, slm_escalations: int, tuiti
         score += 1
     else:
         reasons.append("chỉ có điểm chuẩn 1 năm")
-    if status_2026 == "confirmed_2_sources":
+    if latest_status == "confirmed_2_sources":
         score += 1
-    elif status_2026 == "disputed":
+    elif latest_status == "disputed":
         score -= 1
         reasons.append("hai nguồn báo điểm chuẩn khác nhau")
     else:
@@ -34,7 +34,7 @@ def confidence_label(n_years: int, status_2026: str, slm_escalations: int, tuiti
     if slm_escalations:
         score -= 1
         reasons.append(f"{slm_escalations} nhận định về độ phù hợp chưa chắc chắn")
-    if tuition_imputed:
+    if tuition_estimated:
         reasons.append("học phí là ước tính theo mức chung của trường")
     label = "cao" if score >= 3 else "trung bình" if score >= 1 else "thấp"
     return label, reasons

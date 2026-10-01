@@ -1,6 +1,6 @@
 """Answer typed questions at run time.
 
-SLMJudge      the fine-tuned model in models/slm/ (config.json + adapter.pt), calibrated per question
+SLMJudge      the fine-tuned model in artifacts/models/slm/ (config.json + adapter.pt), calibrated per question
 HeuristicJudge transparent keyword rules, used when no trained model is available and as the
                baseline the SLM has to beat. Its confidence is capped low on purpose, so uncertain
                answers turn into clarifying questions instead of silent guesses.
@@ -22,6 +22,9 @@ from pathlib import Path
 import numpy as np
 
 from uniadvisor.build.fields import GENERIC_IN_FREE_TEXT, RULES as FIELD_RULES
+from uniadvisor.intent.keywords import FAMILY as _FAMILY, NEG, SELF_NEG as _SELF_NEG
+from uniadvisor.intent.keywords import budget as _budget, location, priority, risk, sentences as _sentences
+from uniadvisor.intent.keywords import self_assessed as _self_assessed
 from uniadvisor.paths import MODELS
 from uniadvisor.slm.questions import BY_ID, DEFAULT_CORE, INSUFFICIENT
 from uniadvisor.slm.state import StudentProfile, model_input
@@ -72,27 +75,8 @@ def _finish(qid: str, probs: dict[str, float], source: str, threshold: float) ->
 
 
 # ------------------------------------------------------------------ heuristic judge
-NEG = ("khong thich", "ghet", "so ", "khong muon", "khong hop", "khong co nang khieu", "chan", "buon ngu", "ngai", "bat em", "bat chau",
-       "ko thich", "ko muon", "khong phan doi")
-RISK_KW = {
-    "an_toan": ("chac chan do", "chac an", "an toan", "so truot", "phai do", "khong dam lieu", "khong cho thi lai", "do la duoc", "khong muon mao hiem"),
-    "can_bang": ("can bang", "du phong", "vua suc", "duong lui", "ca phuong an"),
-    "mao_hiem": ("lieu", "thi lai", "rui ro", "an ca nga ve khong", "thu suc het minh", "on them mot nam"),
-}
-PRIORITY_KW = {
-    "nganh_yeu_thich": ("dam me", "nganh minh thich", "cai minh yeu thich", "dung nganh"),
-    "truong_danh_tieng": ("danh tieng", "truong top", "co tieng", "ten tuoi", "truong xin"),
-    "hoc_phi_thap": ("hoc phi re", "hoc phi thap", "lo nhat", "do cho bo me"),
-    "gan_nha": ("gan nha", "khong muon di xa", "di xa gia dinh", "phu bo me"),
-    "viec_lam_thu_nhap": ("xin viec", "thu nhap cao", "luong cao", "on dinh", "co viec ngay"),
-}
-POOR = ("kho khan", "ngheo", "khong co dieu kien", "khong kha", "can ngheo", "lam nong", "lo tien hoc")
-RICH = ("khong lo ve hoc phi", "thoai mai", "bao nhieu cung lo")
-
-
-def _sentences(text: str) -> list[str]:
-    """Folded sentences with punctuation turned into spaces and padded, so keywords match whole words."""
-    return [f" {re.sub(r'[^a-z0-9]+', ' ', fold(s)).strip()} " for s in re.split(r"[.!?\n;]+", text or "") if s.strip()]
+# the profile-level reading (budget, location, risk, priority, subjects) lives in intent/keywords.py, the one reader
+# of a student's text; interest_fit below still reads fields with the program-name keywords until it moves to MOET codes
 
 
 @lru_cache(maxsize=1)
@@ -109,11 +93,6 @@ def _free_text_lexicon() -> list[tuple[str, tuple[str, ...]]]:
 
 def _fields_in(sentence: str) -> set[str]:
     return {field for field, words in _free_text_lexicon() if any(f" {w} " in sentence for w in words)}
-
-
-# "Bố mẹ bắt em học X", "Mẹ em muốn em học X", "Gia đình định hướng X": a field the family wants
-_FAMILY = re.compile(r" (?:bo me|bo|me|ba|gia dinh|vo chong toi|nha) (?:\w+ ){0,3}(?:bat|muon|dinh huong|khuyen|mong) ")
-_SELF_NEG = ("khong thich", "khong muon", "ko thich", "ko muon", "khong hop", "chang thich")
 
 
 @lru_cache(maxsize=256)
@@ -141,68 +120,6 @@ def _likes(text: str) -> tuple[frozenset[str], frozenset[str]]:
     return frozenset(likes - dislikes), frozenset(dislikes)
 
 
-# subject names as written (diacritics folded); English also as "tiếng Anh" / "ngoại ngữ"
-_SUBJ = {"TO": r"toan", "VA": r"(?:ngu )?van", "LI": r"(?:vat )?(?:ly|li)", "HO": r"hoa(?: hoc)?", "SI": r"sinh(?: hoc)?",
-         "SU": r"(?:lich )?su", "DI": r"dia(?: ly| li)?", "N1": r"(?:tieng anh|anh van|ngoai ngu|mon anh)",
-         "TI": r"tin(?: hoc)?", "GDKTPL": r"(?:gd)?ktpl"}
-_STRONG = (r"\b(?:hoc )?(?:tot|gioi|manh) (?:mon )?{s}\b", r"\b(?:mon )?{s} (?:la mon manh nhat|la mon tot nhat|"
-           r"(?:\w+ ){{0,2}}(?:rat |kha )?(?:tot|gioi|on))\b", r"\btu tin (?:\w+ )?{s}\b", r"\b{s} (?:\w+ ){{0,4}}tu tin\b")
-_WEAK = (r"\b(?:yeu|kem|so|mat goc|duoi) (?:nhat la )?(?:mon )?{s}\b", r"\b(?:mon )?{s} (?:\w+ ){{0,2}}(?:hoc )?(?:rat )?(?:kem|yeu|te)\b",
-         r"\bso nhat la (?:mon )?{s}\b", r"\b{s} (?:\w+ ){{0,3}}(?:chua|khong|ko|k) (?:\w+ )?(?:tot|gioi|on)\b")
-
-
-@lru_cache(maxsize=256)
-def _self_assessed(text: str) -> tuple[frozenset[str], frozenset[str]]:
-    """Subjects the student says they are good / weak at ("Toán là môn mạnh nhất", "Em yếu môn Lý",
-    "Tiếng Anh em rất kém", "Em có IELTS 6.5")."""
-    strong, weak = set(), set()
-    sentences = [re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", fold(x))).strip() for x in re.split(r"[.!?;\n]", text)]
-    for t in sentences:  # sentence by sentence: "...môn Hóa. Môn Văn em học kém" must not make Hóa weak
-        for code, name in _SUBJ.items():
-            if any(re.search(p.format(s=name), t) for p in _WEAK):
-                weak.add(code)
-            elif any(re.search(p.format(s=name), t) for p in _STRONG):
-                strong.add(code)
-    strong -= weak
-    if "ielts" in fold(text) and "N1" not in weak:
-        strong.add("N1")
-    return frozenset(strong), frozenset(weak)
-
-
-@lru_cache(maxsize=256)
-def _budget(text: str) -> tuple[str | None, float | None]:
-    t = fold(text)
-    m = re.search(r"(\d+(?:[.,]\d+)?)\s*(?:trieu|tr)\b", t)
-    if m and any(k in t for k in ("hoc phi", "tien hoc", "chi duoc", "lo duoc", "dong")):
-        v = float(m.group(1).replace(",", ".")) * 1e6
-        if re.search(r"\bthang\b", t[m.end(): m.end() + 20]):  # per month -> per (10-month) school year
-            v *= 10
-        return "number", v
-    if any(k in t for k in RICH):
-        return "rich", None
-    if any(k in t for k in POOR):
-        return "poor", None
-    return None, None
-
-
-@lru_cache(maxsize=256)
-def _location(text: str, province: str | None) -> str | None:
-    t = f" {fold(text)} "
-    hn = any(k in t for k in (" ha noi", " hn ", "thu do"))
-    hcm = any(k in t for k in ("sai gon", "hcm", "ho chi minh"))
-    if "dau cung duoc" in t or "khong quan trong" in t and "dia diem" in t or "bac hay nam" in t:
-        return "anywhere"
-    if "thanh pho lon" in t:
-        return "no_big_city"
-    if hn and not hcm:
-        return "city:Hà Nội"
-    if hcm and not hn:
-        return "city:TP. Hồ Chí Minh"
-    if any(k in t for k in ("gan nha", "xa nha", "di xa", "di hoc xa")):
-        return "near_home"
-    return None
-
-
 class HeuristicJudge:
     name = "heuristic"
     cap = 0.7
@@ -218,15 +135,13 @@ class HeuristicJudge:
             return {l: (conf if l == label else rest) for l in labels}
 
         if qid == "risk_tolerance":
-            hits = {k: sum(w in t for w in ws) for k, ws in RISK_KW.items()}
-            best = max(hits, key=hits.get)
-            if hits[best] == 0 or sorted(hits.values())[-2] == hits[best]:
+            best = risk(text)
+            if best is None:
                 return _finish(qid, dist(INSUFFICIENT, 0.55), self.name, DEFAULT_THRESHOLD)
             return _finish(qid, dist(best), self.name, DEFAULT_THRESHOLD)
         if qid == "top_priority":
-            hits = {k: sum(w in t for w in ws) for k, ws in PRIORITY_KW.items()}
-            best = max(hits, key=hits.get)
-            return _finish(qid, dist(best if hits[best] else INSUFFICIENT, c if hits[best] else 0.55), self.name, DEFAULT_THRESHOLD)
+            best = priority(text)
+            return _finish(qid, dist(best or INSUFFICIENT, c if best else 0.55), self.name, DEFAULT_THRESHOLD)
         assert program is not None
         field = program.get("field") or ""
         if qid == "interest_fit":
@@ -276,7 +191,7 @@ class HeuristicJudge:
                 return _finish(qid, dist("yes" if tmax <= 15e6 else "no", 0.55), self.name, DEFAULT_THRESHOLD)
             return _finish(qid, dist("yes" if tmax <= v else "no"), self.name, DEFAULT_THRESHOLD)
         if qid == "location_ok":
-            loc = _location(text, profile.province)
+            loc = location(text)
             city, branch = program.get("city"), bool(program.get("campus"))
             if loc is None:
                 return _finish(qid, dist(INSUFFICIENT, 0.6), self.name, DEFAULT_THRESHOLD)
@@ -363,7 +278,7 @@ class SLMJudge:
 # Questions the fine-tuned SLM answers better than the keyword rules (test split, first Kaggle run):
 # location_ok 0.98 vs 0.66, risk_tolerance 0.94 vs 0.87, budget_ok 0.97 vs 0.96. The rules stay better on
 # ability_fit (score arithmetic: 0.84 vs 0.47), interest_fit (0.69 vs 0.49), top_priority (0.89 vs 0.84),
-# and tie on conditions_ok, where they are also far cheaper. Override with "route" in models/slm/config.json.
+# and tie on conditions_ok, where they are also far cheaper. Override with "route" in artifacts/models/slm/config.json.
 # measured on the frozen gold set labelled by Gemini (data/slm/gold_llm.csv; see README): the SLM wins location_ok,
 # risk_tolerance and budget_ok and ties conditions_ok with far better calibration; the keyword rules win ability_fit
 # (score arithmetic) and top_priority; interest_fit is a tie, kept on the rules. Re-pick after every retrain.

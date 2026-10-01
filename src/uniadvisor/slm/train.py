@@ -2,7 +2,7 @@
 
 Runs on CPU (slow, use --limit for a smoke test) or GPU (Kaggle T4/P100: a few minutes per epoch).
 
-  python -m uniadvisor.slm.train --data data/slm --out models/slm --epochs 3
+  python -m uniadvisor.slm.train --data data/slm --out artifacts/models/slm --epochs 3
   python -m uniadvisor.slm.train --limit 2000 --epochs 1          # quick local smoke test
   torchrun --nproc_per_node 2 -m uniadvisor.slm.train ...         # several GPUs (DDP): --bs is per GPU
 
@@ -156,7 +156,7 @@ def vram(rank: int, world: int, local: int) -> None:
 def main(argv: list[str] | None = None) -> dict:
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/slm")
-    ap.add_argument("--out", default="models/slm")
+    ap.add_argument("--out", default="artifacts/models/slm")
     ap.add_argument("--base", default=DEFAULT_BASE)
     ap.add_argument("--epochs", type=int, default=3)
     ap.add_argument("--bs", type=int, default=32)

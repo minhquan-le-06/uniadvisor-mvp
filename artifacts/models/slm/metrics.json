@@ -1,0 +1,371 @@
+{
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.8018,
+      "val_accuracy": 0.5942,
+      "seconds": 288
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5641,
+      "val_accuracy": 0.6602,
+      "seconds": 290
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.435,
+      "val_accuracy": 0.7442,
+      "seconds": 289
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.3704,
+      "val_accuracy": 0.7723,
+      "seconds": 290
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.346,
+      "val_accuracy": 0.7769,
+      "seconds": 290
+    }
+  ],
+  "temperatures": {
+    "risk_tolerance": 0.9882203109920058,
+    "top_priority": 1.0364851317741894,
+    "interest_fit": 0.7423316383792868,
+    "ability_fit": 0.8166135321766519,
+    "budget_ok": 1.0364851317741894,
+    "location_ok": 1.0871072132797415,
+    "conditions_ok": 1.0871072132797415
+  },
+  "thresholds": {
+    "ability_fit": 0.95,
+    "budget_ok": 0.3,
+    "conditions_ok": 0.3,
+    "interest_fit": 0.95,
+    "location_ok": 0.3,
+    "risk_tolerance": 0.3,
+    "top_priority": 0.3
+  },
+  "val": {
+    "ability_fit": {
+      "n": 2400,
+      "accuracy": 0.5317,
+      "macro_f1": 0.3769,
+      "ece": 0.1351,
+      "level_mae": 0.5794,
+      "escalation_rate": 0.8712,
+      "accuracy_when_not_escalated": 0.9353
+    },
+    "budget_ok": {
+      "n": 2400,
+      "accuracy": 0.9575,
+      "macro_f1": 0.9451,
+      "ece": 0.0549,
+      "escalation_rate": 0.4871,
+      "accuracy_when_not_escalated": 0.918
+    },
+    "conditions_ok": {
+      "n": 2400,
+      "accuracy": 0.9792,
+      "macro_f1": 0.9327,
+      "ece": 0.0477,
+      "escalation_rate": 0.065,
+      "accuracy_when_not_escalated": 0.9808
+    },
+    "interest_fit": {
+      "n": 2400,
+      "accuracy": 0.5567,
+      "macro_f1": 0.5211,
+      "ece": 0.113,
+      "level_mae": 0.6161,
+      "escalation_rate": 0.8496,
+      "accuracy_when_not_escalated": 0.9584
+    },
+    "location_ok": {
+      "n": 2400,
+      "accuracy": 0.9804,
+      "macro_f1": 0.9783,
+      "ece": 0.0653,
+      "escalation_rate": 0.3192,
+      "accuracy_when_not_escalated": 0.9859
+    },
+    "risk_tolerance": {
+      "n": 600,
+      "accuracy": 0.9833,
+      "macro_f1": 0.9832,
+      "ece": 0.0665,
+      "escalation_rate": 0.3783,
+      "accuracy_when_not_escalated": 0.9759
+    },
+    "top_priority": {
+      "n": 600,
+      "accuracy": 0.8817,
+      "macro_f1": 0.8657,
+      "ece": 0.0603,
+      "escalation_rate": 0.4167,
+      "accuracy_when_not_escalated": 0.9514
+    }
+  },
+  "test_uncalibrated": {
+    "ability_fit": {
+      "n": 2272,
+      "accuracy": 0.5097,
+      "macro_f1": 0.2923,
+      "ece": 0.1419,
+      "level_mae": 0.6453
+    },
+    "budget_ok": {
+      "n": 2272,
+      "accuracy": 0.967,
+      "macro_f1": 0.9182,
+      "ece": 0.0479
+    },
+    "conditions_ok": {
+      "n": 2272,
+      "accuracy": 0.9956,
+      "macro_f1": 0.939,
+      "ece": 0.0273
+    },
+    "interest_fit": {
+      "n": 2272,
+      "accuracy": 0.4265,
+      "macro_f1": 0.3613,
+      "ece": 0.1544,
+      "level_mae": 0.8678
+    },
+    "location_ok": {
+      "n": 2272,
+      "accuracy": 0.9846,
+      "macro_f1": 0.9843,
+      "ece": 0.0522
+    },
+    "risk_tolerance": {
+      "n": 568,
+      "accuracy": 0.9595,
+      "macro_f1": 0.9612,
+      "ece": 0.0602
+    },
+    "top_priority": {
+      "n": 568,
+      "accuracy": 0.8732,
+      "macro_f1": 0.8753,
+      "ece": 0.0629
+    }
+  },
+  "test": {
+    "ability_fit": {
+      "n": 2272,
+      "accuracy": 0.5506,
+      "macro_f1": 0.3635,
+      "ece": 0.1321,
+      "level_mae": 0.5547,
+      "escalation_rate": 0.8059,
+      "accuracy_when_not_escalated": 0.941
+    },
+    "budget_ok": {
+      "n": 2272,
+      "accuracy": 0.967,
+      "macro_f1": 0.9182,
+      "ece": 0.0523,
+      "escalation_rate": 0.75,
+      "accuracy_when_not_escalated": 0.8838
+    },
+    "conditions_ok": {
+      "n": 2272,
+      "accuracy": 0.9956,
+      "macro_f1": 0.939,
+      "ece": 0.0381,
+      "escalation_rate": 0.0119,
+      "accuracy_when_not_escalated": 0.9964
+    },
+    "interest_fit": {
+      "n": 2272,
+      "accuracy": 0.5585,
+      "macro_f1": 0.5363,
+      "ece": 0.0885,
+      "level_mae": 0.6175,
+      "escalation_rate": 0.8367,
+      "accuracy_when_not_escalated": 0.9488
+    },
+    "location_ok": {
+      "n": 2272,
+      "accuracy": 0.9846,
+      "macro_f1": 0.9843,
+      "ece": 0.0678,
+      "escalation_rate": 0.2645,
+      "accuracy_when_not_escalated": 0.9856
+    },
+    "risk_tolerance": {
+      "n": 568,
+      "accuracy": 0.9595,
+      "macro_f1": 0.9612,
+      "ece": 0.061,
+      "escalation_rate": 0.3539,
+      "accuracy_when_not_escalated": 0.9428
+    },
+    "top_priority": {
+      "n": 568,
+      "accuracy": 0.8732,
+      "macro_f1": 0.8753,
+      "ece": 0.0717,
+      "escalation_rate": 0.4243,
+      "accuracy_when_not_escalated": 0.9602
+    }
+  },
+  "test_by_group": {
+    "region": {
+      "central": {
+        "n": 1694,
+        "accuracy": 0.8353
+      },
+      "north": {
+        "n": 7128,
+        "accuracy": 0.8277
+      },
+      "south": {
+        "n": 3674,
+        "accuracy": 0.8008
+      }
+    },
+    "track": {
+      "CNNN+DI": {
+        "n": 66,
+        "accuracy": 0.7879
+      },
+      "CNNN+HO": {
+        "n": 66,
+        "accuracy": 0.8333
+      },
+      "CNNN+LI": {
+        "n": 132,
+        "accuracy": 0.7879
+      },
+      "CNNN+N1": {
+        "n": 110,
+        "accuracy": 0.8818
+      },
+      "CNNN+SU": {
+        "n": 66,
+        "accuracy": 0.8182
+      },
+      "DI+GDKTPL": {
+        "n": 330,
+        "accuracy": 0.7848
+      },
+      "DI+HO": {
+        "n": 572,
+        "accuracy": 0.8217
+      },
+      "DI+LI": {
+        "n": 990,
+        "accuracy": 0.8394
+      },
+      "DI+N1": {
+        "n": 660,
+        "accuracy": 0.8015
+      },
+      "DI+SI": {
+        "n": 66,
+        "accuracy": 0.8485
+      },
+      "DI+SU": {
+        "n": 836,
+        "accuracy": 0.8254
+      },
+      "GDKTPL+HO": {
+        "n": 220,
+        "accuracy": 0.8364
+      },
+      "GDKTPL+LI": {
+        "n": 308,
+        "accuracy": 0.8442
+      },
+      "GDKTPL+N1": {
+        "n": 418,
+        "accuracy": 0.799
+      },
+      "GDKTPL+SU": {
+        "n": 660,
+        "accuracy": 0.8379
+      },
+      "HO+LI": {
+        "n": 1012,
+        "accuracy": 0.8053
+      },
+      "HO+N1": {
+        "n": 748,
+        "accuracy": 0.8302
+      },
+      "HO+SI": {
+        "n": 264,
+        "accuracy": 0.8068
+      },
+      "HO+SU": {
+        "n": 748,
+        "accuracy": 0.8209
+      },
+      "HO+TI": {
+        "n": 66,
+        "accuracy": 0.8182
+      },
+      "LI+N1": {
+        "n": 1166,
+        "accuracy": 0.8405
+      },
+      "LI+SI": {
+        "n": 308,
+        "accuracy": 0.8149
+      },
+      "LI+SU": {
+        "n": 1078,
+        "accuracy": 0.8247
+      },
+      "LI+TI": {
+        "n": 154,
+        "accuracy": 0.7273
+      },
+      "N1+SI": {
+        "n": 242,
+        "accuracy": 0.814
+      },
+      "N1+SU": {
+        "n": 704,
+        "accuracy": 0.804
+      },
+      "N1+TI": {
+        "n": 88,
+        "accuracy": 0.8409
+      },
+      "SI+SU": {
+        "n": 286,
+        "accuracy": 0.8042
+      },
+      "SU+TI": {
+        "n": 88,
+        "accuracy": 0.8295
+      }
+    },
+    "score_band": {
+      "6-7.5": {
+        "n": 4202,
+        "accuracy": 0.787
+      },
+      "7.5-8.5": {
+        "n": 968,
+        "accuracy": 0.8171
+      },
+      "<6": {
+        "n": 7150,
+        "accuracy": 0.8407
+      },
+      ">=8.5": {
+        "n": 176,
+        "accuracy": 0.8409
+      }
+    }
+  },
+  "note": "Labels are from the rubric teacher on synthetic students (see data/slm/stats.json). Report the human gold set separately (uniadvisor slm-eval --gold)."
+}

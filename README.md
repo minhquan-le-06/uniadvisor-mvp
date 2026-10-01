@@ -1,7 +1,7 @@
 # UniAdvisor — tư vấn đặt nguyện vọng đại học (MVP)
 
 Decision support for Vietnamese grade-12 students building an ordered university application list
-(nguyện vọng) for the **THPT exam-score method**, following [MVP.md](MVP.md). Hybrid design:
+(nguyện vọng) for the **THPT exam-score method**, following [docs/MVP.md](docs/MVP.md). Hybrid design:
 
 | Part | What it decides | Where |
 |---|---|---|
@@ -30,11 +30,11 @@ py -3.14 -m venv .venv --system-site-packages     # reuses torch/streamlit/fasta
 .venv/Scripts/python -m pytest -q
 ```
 
-The processed data (`data/processed/`) is included, so the app runs without re-collecting. Without a
-trained SLM in `models/slm/`, a transparent keyword judge is used; with one, the hybrid judge is used.
+The database (`data/db/`, see [docs/DATA.md](docs/DATA.md)) is included, so the app runs without re-collecting. Without a
+trained SLM in `artifacts/models/slm/`, a transparent keyword judge is used; with one, the hybrid judge is used.
 The sidebar says which.
 
-To put the app online (Streamlit Community Cloud, keyword judge, no secrets), see [DEPLOY.md](DEPLOY.md).
+To put the app online (Streamlit Community Cloud, keyword judge, no secrets), see [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## Data pipeline (yearly refresh)
 
@@ -42,8 +42,8 @@ To put the app online (Streamlit Community Cloud, keyword judge, no secrets), se
 uniadvisor collect      # polite + cached: robots.txt, 1.5 s/host, raw responses in data/raw/
 uniadvisor fetch-scores # per-candidate exam scores 2023-2026 -> data/inbox/ (~350 MB, not in git)
 uniadvisor build        # distributions -> cutoffs (3-source consensus) -> catalog
-uniadvisor backtest     # fits forecast parameters, writes reports/backtest.json
-uniadvisor report       # reports/data_report.md: coverage, quality, gaps
+uniadvisor backtest     # fits forecast parameters, writes artifacts/reports/backtest.json
+uniadvisor report       # artifacts/reports/data_report.md: coverage, quality, gaps
 uniadvisor slm-data     # synthetic students x real programs -> data/slm/
 ```
 
@@ -57,7 +57,7 @@ compiled from the Ministry's public results ([sdgedfegw/du-lieu-diem-thi](https:
 subject scores only, no names). Those files stay in `data/inbox/` (git-ignored); only the aggregate
 distributions built from them are committed. Without them, `build` falls back to approximations.
 
-**Read [reports/data_report.md](reports/data_report.md) before trusting any number.** The short version:
+**Read [artifacts/reports/data_report.md](artifacts/reports/data_report.md) before trusting any number.** The short version:
 
 - 48 schools (28 Hà Nội, 20 TP.HCM), ~1,670 programs; cutoffs 2018–2026, cross-checked across up to 3 sources per year
   (2023–2024 now confirmed by 2 sources for 55–65% of rows, up from none).
@@ -91,12 +91,12 @@ distributions built from them are committed. Without them, `build` falls back to
   rubric, never a model answer (guide: [data/slm/LABELLING.md](data/slm/LABELLING.md)), and saves every click to `data/slm/gold_labeled.csv` (commit it). Then
   `uniadvisor slm-eval --judge hybrid --gold data/slm/gold_labeled.csv`. Run `uniadvisor slm-data` first:
   gold ids must match your local test split (the tool warns when they do not).
-- Training: see [kaggle/README.md](kaggle/README.md) (`uniadvisor kaggle-bundle` → Kaggle GPU →
-  unzip into `models/slm/`). `uniadvisor slm-train --limit 300 --eval-limit 200 --epochs 1 --bs 16
-  --out models/slm_smoke` is a local smoke test.
+- Training: see [docs/kaggle/README.md](docs/kaggle/README.md) (`uniadvisor kaggle-bundle` → Kaggle GPU →
+  unzip into `artifacts/models/slm/`). `uniadvisor slm-train --limit 300 --eval-limit 200 --epochs 1 --bs 16
+  --out artifacts/models/slm_smoke` is a local smoke test.
 - Hybrid judge (`HybridJudge` in `slm/infer.py`): the SLM answers `SLM_QUESTIONS`, the keyword rules
   answer the rest, and the SLM runs only on its questions. Change the split with a `"route"` list in
-  `models/slm/config.json`. Evaluate with `uniadvisor slm-eval --judge hybrid|slm|heuristic [--limit N]`
+  `artifacts/models/slm/config.json`. Evaluate with `uniadvisor slm-eval --judge hybrid|slm|heuristic [--limit N]`
   (`auto` = what the app uses). On CPU the full test split takes 5–20 min; `--limit 3000` is enough to
   compare judges (use the same limit for each).
 
@@ -134,11 +134,15 @@ Re-pick the routing after every retrain.
 ## Layout
 
 ```
-config/            scope.yaml (schools/regions), sources.yaml, rules/<year>.yaml
-data/manual/       hand-entered anchors with quotes          data/inbox/  drop-in files (not in git)
-data/collected/    raw parsed rows per source                data/processed/  clean tables the app reads
-data/slm/          SLM dataset, rubrics, gold template       models/  forecast params, SLM adapter (models/slm/)
-reports/           data_report.md, backtest.json, distributions.json, SLM metrics
-src/uniadvisor/    collect/ build/ kb/ engine/ slm/ optimizer.py compare.py explain.py advisor.py api.py cli.py
-app/               streamlit_app.py                           kaggle/  training notebook + guide
+app/          Streamlit entry points: streamlit_app.py (the deployed chat), label_gold.py (gold labelling)
+src/          the uniadvisor package: db/ sim/ collect/ build/ kb/ engine/ slm/ optimizer compare explain advisor api cli
+tests/        pytest suite
+config/       scope.yaml (schools/regions), sources.yaml, rules/<year>.yaml
+data/         manual/ unipilot/ (inputs) -> collected/ (parsed per source) -> db/ (the database the app reads);
+              sim/ (simulated databases, not in git); slm/ (SLM dataset, rubrics, gold set); raw/ inbox/ (local caches)
+artifacts/    what pipeline runs produce: build/ (intermediates and checks), models/ (forecast params, trained
+              SLM), reports/ (data report, backtest, SLM evaluations)
+docs/         MVP.md (spec), DATA.md (the database), DEPLOY.md, HANDOFF.md (status + roadmap),
+              PIPELINE_REVIEW.md, kaggle/ (SLM training guide + notebook)
+CLAUDE.md     working notes for Claude sessions
 ```

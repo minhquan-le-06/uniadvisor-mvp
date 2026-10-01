@@ -1,37 +1,49 @@
 # Hand-off (state as of 2026-10-01)
 
-Work happens on branch `claude/ecstatic-pasteur-9qby7f`; PRs #1-#3 are merged into `main`, the rest goes in PR #4.
-Read this file, then README.md and reports/data_report.md.
+PRs #1-#5 are merged into `main`. Two local branches are stacked on it, committed but not pushed (the owner pushes):
+`chore/repo-cleanup` (repo layout: `artifacts/`, `docs/`, CLAUDE.md) and `feat/database` on top of it (the database
+redesign, [DATA.md](DATA.md)). Continue on `feat/database` or a branch off it.
+Read this file, then [PIPELINE_REVIEW.md](PIPELINE_REVIEW.md) (the module-by-module review in progress),
+[README.md](../README.md) and [artifacts/reports/data_report.md](../artifacts/reports/data_report.md).
+Commands, layout and coding conventions are in [CLAUDE.md](../CLAUDE.md).
 
-## Setup (Python 3.11+, run everything from the project root; `.venv/Scripts/` on Windows)
-
-```bash
-python -m venv .venv && . .venv/bin/activate
-pip install -e ".[dev]"            # add ".[slm]" to run the SLM (pulls torch)
-uniadvisor slm-data                # regenerates data/slm/*.jsonl (not in git, ~40 s)
-python -m pytest -q                # 66 pass (1 skips without torch)
-uniadvisor fetch-scores            # optional: per-candidate scores 2023-2026 into data/inbox/ (~350 MB,
-                                   # git-ignored); needed only to rebuild the distributions exactly
-uniadvisor gold-llm                # Gemini labels for the gold set; keys in .env (see .env.example), resumable
-```
-
-Committed: `data/processed`, `data/collected`, `data/unipilot`, `models/forecast_params.json`. Not committed:
-`data/inbox/` (per-candidate files), `data/slm/*.jsonl` except `gold_frozen.jsonl`, `models/slm/` (the trained SLM
-lives only on the owner's Windows machine), `.env` (Gemini keys).
+The trained SLM adapter (`artifacts/models/slm/adapter.pt`) lives only on the owner's Windows machine; its `config.json`
+and `metrics.json` are committed.
 
 ## Current state
 
 | Component | State |
 |---|---|
-| Data | 48 schools (HN 28, HCM 20), 1,666 programs, cutoffs 2018-2026 from 4 sources (2018-2022 ADS_Final only); exact score distributions 2023-2026 (1.0-1.2 M candidates/year) |
+| Data | 48 schools (HN 28, HCM 20), 1,666 programs, cutoffs 2018-2026 from 4 sources (2018-2022 ADS_Final only); exact score distributions 2023-2026 (1.0-1.2 M candidates/year). Stored as one checked database with provenance per fact (`data/db/`, [DATA.md](DATA.md)); simulated databases for tests and engine checks: `uniadvisor sim tiny|season`; simulated students: `uniadvisor sim students` |
 | Rules | 2026 verified by the owner (`verified: true`); 2027 is a draft inheriting 2026 |
 | Forecast | MAE 1.373 ≈ naive "last year's cutoff" (1.369). Percentile equating with exact data is worse (1.55), so the backtest picks `equate=never`. P(admit) calibrated: Brier 0.119, ECE 0.056 |
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
-| SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `models/slm/`). On Gemini's gold labels: keywords 0.823 (after rubric fixes), SLM 0.765, hybrid 0.864 (measured) with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weakest: interest_fit (0.55). The teacher changed since (English self-assessment counts for ability_fit; 48 program fields fixed), so the next retrain trains on slightly better labels |
+| SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `artifacts/models/slm/`). On Gemini's gold labels: keywords 0.823 (after rubric fixes), SLM 0.765, hybrid 0.864 (measured) with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weakest: interest_fit (0.55). The teacher changed since (English self-assessment counts for ability_fit; 48 program fields fixed), so the next retrain trains on slightly better labels |
 | App / API | Streamlit chat + FastAPI both tested (headless Chromium, TestClient). Deploy-ready for Streamlit Community Cloud with the keyword judge (`requirements.txt`, `.streamlit/config.toml`, [DEPLOY.md](DEPLOY.md)); tested from a clean clone: ~250 MB RAM, results in ~2 s. The owner still has to create the app on share.streamlit.io |
 | Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`, committed). 6 rows (4 ability_fit, 2 interest_fit) still carry labels from before the rubric fixes; `uniadvisor gold-llm --redo interest_fit,ability_fit` relabels just those. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
 
 ## Next, in order of value
+
+**The system is split into 4 independent modules, one task each for team members** ([tasks/](tasks/), Vietnamese:
+input, output, current state, suggested process, open work). Review notes: [PIPELINE_REVIEW.md](PIPELINE_REVIEW.md);
+team overview and the module 3 plan: [TEAM_REPORT.md](TEAM_REPORT.md).
+- Module 1 (data): done for now (database redesign, MOET codes).
+- Module 3 (recommendation): **in progress**. Plan: choose programs by fit (never drop a dream program for its odds),
+  order them by how hard each is for this student (predicted cutoff minus their own total), point out
+  preference/order conflicts, end with 2-3 safe wishes at different schools, show 3-4 levels instead of %. Measure the
+  forecast by how often it orders pairs of programs correctly. Test bed: `sim students` × `sim season` with
+  `sim.students.OracleJudge` (an always-right module 2).
+- Module 2 (student understanding): next. A fact reader (`uniadvisor.intent`, interests as MOET nhóm ngành) exists
+  and is measured (`uniadvisor intent-eval`), not yet used by the app.
+- Module 4 (explanations): as-is for now.
+
+The owner discusses in chat and wants results as Markdown files in the repo.
+Starting points for module 2: the review's module 2 findings (intent never extracted as explicit facts; interest_fit
+does not separate programs; clarifying questions only for risk/priority), the keyword baseline 0.823 and hybrid 0.864
+on `data/slm/gold_llm.csv`, the tiny simulated world for fast tests (`tiny_db` fixture), and the deferred move of
+the SLM's synthetic data to `data/sim/`. Done before module 2: fields now come from MOET's major code (digits
+1-3 lĩnh vực, 1-5 nhóm ngành, 1-7 ngành; `majors` table, config/fields.yaml); 242 programs still lack a code. 184 programs changed field, so run
+`uniadvisor slm-data` before the next SLM retrain (the frozen gold set is unaffected). For module 3, `uniadvisor sim season` is the ready test bed.
 
 SLM work is wrapped up for the MVP (owner decision, 2026-10-01): hybrid 0.864 on Gemini's gold labels.
 
@@ -93,32 +105,4 @@ Ordered by expected value. Measure every change on the frozen gold set (`slm-eva
 - Score the whole advisor, not only the 7 questions: for gold students, compare the recommended list (and the
   clarifying questions asked) with what a human counsellor would choose.
 
-## Cloud-environment notes (for the next Claude session)
-
-- The container's default `python3` is 3.11 and fine now; `python3.12` also exists.
-- Blocked: huggingface.co, download.pytorch.org, kaggle.com, the news sites. torch installs from PyPI. SLM
-  code paths can be smoke-tested with a tiny local random BERT (`--base <dir>`), not the real base model.
-- Reachable: GitHub (anonymous clone of public repos) and media.githubusercontent.com (serves LFS files;
-  `fetch-scores` uses it).
-- Chromium + global Playwright are installed: drive Streamlit with Node Playwright
-  (`createRequire(npm root -g)`); in the chat app the sidebar also has a "Bắt đầu lại" button, so select the
-  primary button by `data-testid=stBaseButton-primary`.
-- Avoid shell heredoc edits containing backslash escapes (caused corrupted regexes before); use the Edit tool.
-
-## Decisions and findings worth remembering
-
-- Build is reproducible across platforms: stable sorts with explicit tie-breaks (program dedupe prefers
-  longest history, then best-confirmed row, then program_id).
-- Percentile equating fails at the tails: selective programs stay sticky in points; low ones sit on the
-  ministry floors. The backtest grid chooses equate on/off from measured MAE.
-- ADS_Final (2018-2024 cutoffs) has correct scores but wrong program names in some years (BKA IT1 2019 named
-  "Kỹ thuật xây dựng"). So code reuse is detected by name mismatch AND a > 2.5-point jump, never name alone
-  (`catalog._drop_reused_codes`). Its 'Thang 40' label marks 40-point rows even when the number is <= 30.
-- The 2025 `ct2006` score file (old-curriculum exam) is skipped by the importer on purpose.
-- The SLM is poor at score arithmetic (ability_fit 0.47): keep that question on the rules.
-- Gold ids hash the row text. The gold rows are frozen in `data/slm/gold_frozen.jsonl` (text, latent, program), so
-  regenerating the synthetic data no longer invalidates labels; teacher labels for them are recomputed on the fly.
-- The teacher and the dataset sampler share one RNG stream: any teacher change reshuffles later pairings.
-- pandas 3: `df.where(df.notna(), None)` keeps NaN in string columns; use `df.astype(object).where(...)`.
-- Keyword matching (program fields, free text) is on whole words: substring matching put "Thiết kế thời trang"
-  ("rang") and "Tâm lý học" ("y học") under health.
+Cloud-environment notes and hard-won findings (gotchas) moved to [CLAUDE.md](../CLAUDE.md).

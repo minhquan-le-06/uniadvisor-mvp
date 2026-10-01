@@ -1,13 +1,13 @@
 """Synthetic student profiles with hidden ground-truth attributes (`Latent`) and Vietnamese free text.
 
-Design goals (MVP.md §5):
+Design goals (docs/MVP.md §5):
 - score distributions close to real ones: subject scores are drawn from the real 2026 per-subject
   histograms (VnExpress) with a shared ability factor; every student has the post-2025 exam shape
   (Toán + Văn + 2 electives)
 - diverse free text: several voices (student / casual / parent), paraphrase banks, hobby-implied
   interests, irrelevant filler, missing diacritics, typos
 - ambiguous and contradictory cases on purpose (parent pressure, mixed risk signals, vague budget)
-- paired with REAL programs from data/processed/programs.csv (see slm/dataset.py)
+- paired with REAL programs from the database's catalog (see slm/dataset.py)
 
 The latent attributes are what the rubric teacher (slm/teacher.py) labels from. An LLM teacher can
 relabel the same texts from the rubric alone (it never sees the latents).
@@ -149,6 +149,90 @@ FIELD_TEXT: dict[str, dict[str, list[str]]] = {
     },
 }
 
+# What each phrase means in MOET codes: the truth for intent extraction (uniadvisor.intent). Codes are nhóm ngành; a
+# ngành where its nhóm ngành also holds things the student did not mean (data science sits in Toán học, chemistry
+# next to physics, logistics in Quản lý công nghiệp); a lĩnh vực for a phrase that broad. A phrase not listed means
+# its field's default. Tagging never touches the random stream, so the generated texts stay the same.
+FIELD_CODES: dict[str, tuple[str, ...]] = {
+    "cntt": ("74801", "74802"), "ky_thuat": ("751", "752"), "kinh_te": ("73401", "73404", "73101"),
+    "tai_chinh": ("73402", "73403"), "luat": ("73801",), "y_duoc": ("772",), "su_pham": ("71402",),
+    "ngon_ngu": ("72202",), "bao_chi": ("73201",), "xa_hoi": ("73102", "73103", "73104", "72290", "77601"),
+    "khoa_hoc_tn": ("744", "746"), "sinh_hoa": ("742", "7440112", "75401"), "xay_dung": ("758", "75101"),
+    "nong_lam_mt": ("762", "785", "74403"), "du_lich": ("781", "784", "7510605"), "thiet_ke": ("721",),
+}
+_MECH, _ELEC = ("75102", "75201"), ("75103", "75202")
+PHRASE_CODES: dict[str, tuple[str, ...]] = {
+    # cntt
+    "theo ngành khoa học máy tính": ("74801",), "học khoa học dữ liệu": ("7460108",), "học an toàn thông tin": ("74802",),
+    "làm data analyst": ("7460108", "74801", "74802"), "làm chuyên gia bảo mật": ("74802",),
+    # ky_thuat
+    "học cơ khí": _MECH, "học điện - điện tử": _ELEC, "học ngành ô tô": _MECH, "học tự động hóa": _ELEC, "học cơ điện tử": _MECH,
+    "làm kỹ sư điện": _ELEC, "làm kỹ sư cơ khí": _MECH, "làm trong nhà máy sản xuất ô tô": _MECH, "thiết kế robot": _MECH + _ELEC,
+    "thích tháo lắp đồ điện tử trong nhà": _ELEC, "hay sửa xe máy cùng bố": _MECH,
+    "mê robot, từng thi sáng tạo kỹ thuật": _MECH + _ELEC, "thích lắp mạch Arduino": _ELEC,
+    # kinh_te
+    "học Quản trị kinh doanh": ("73401",), "học Marketing": ("73401",), "học kinh doanh quốc tế": ("73401",),
+    "học thương mại điện tử": ("73401",), "học kinh tế": ("73101",), "làm marketing": ("73401",), "tự mở công ty riêng": ("73401",),
+    "làm quản lý doanh nghiệp": ("73401", "73404"), "làm xuất nhập khẩu": ("73401", "73101"), "làm sales cho tập đoàn lớn": ("73401",),
+    "đang bán quần áo online kiếm thêm": ("73401",), "thích lên kế hoạch, tổ chức sự kiện ở trường": ("73401", "73404"),
+    "hay đọc sách về khởi nghiệp": ("73401",), "làm trưởng ban truyền thông CLB": ("73401",),
+    "không thích buôn bán": ("73401",), "không hợp với kinh doanh": ("73401",), "ghét phải đi thuyết phục người khác mua hàng": ("73401",),
+    # tai_chinh
+    "học Tài chính - Ngân hàng": ("73402",), "học Kế toán": ("73403",), "học Kiểm toán": ("73403",),
+    "học về đầu tư, chứng khoán": ("73402",), "học công nghệ tài chính": ("73402",), "làm ở ngân hàng": ("73402",),
+    "làm kế toán": ("73403",), "làm kiểm toán cho Big4": ("73403",), "làm chuyên viên phân tích đầu tư": ("73402",),
+    "thích theo dõi chứng khoán": ("73402",), "hay quản lý quỹ lớp rất chặt": ("73403",), "ghét tính toán sổ sách": ("73403",),
+    "không thích làm ngân hàng": ("73402",), "sợ làm kế toán cả đời ngồi một chỗ": ("73403",),
+    # y_duoc
+    "học Y": ("77201",), "học Dược": ("77202",), "học Điều dưỡng": ("77203",), "học Răng hàm mặt": ("77205",), "theo ngành y": ("77201",),
+    "làm bác sĩ": ("77201",), "làm dược sĩ": ("77202",), "làm bác sĩ nha khoa": ("77205",), "không muốn học Y vì học quá lâu": ("77201",),
+    # ngon_ngu
+    "học quốc tế học": ("73106",), "học Đông phương học": ("73106",),
+    # xa_hoi
+    "học Tâm lý học": ("73104",), "học Xã hội học": ("73103",), "học Công tác xã hội": ("77601",), "học Quan hệ quốc tế": ("73102",),
+    "học Hành chính": ("73102",), "làm chuyên viên tâm lý": ("73104",), "làm công tác xã hội": ("77601",),
+    "làm việc trong cơ quan nhà nước": ("73102",), "làm ngoại giao": ("73102",), "hay lắng nghe tâm sự của bạn bè": ("73104",),
+    "thích đọc sách lịch sử": ("72290",), "tham gia tình nguyện nhiều": ("77601",),
+    # khoa_hoc_tn
+    "học Toán ứng dụng": ("74601",), "học Vật lý": ("74401",), "học Thống kê": ("74602",), "mê giải toán khó": ("74601",),
+    "từng đi thi học sinh giỏi Lý": ("74401",), "thích đọc về vũ trụ, vật lý": ("74401",), "ghét Toán": ("74601",),
+    # sinh_hoa
+    "học Công nghệ sinh học": ("74202",), "học Hóa học": ("7440112",), "học Công nghệ thực phẩm": ("75401",),
+    "học kỹ thuật hóa": ("7510401", "7520301"), "làm trong phòng thí nghiệm": ("742", "7440112"), "làm kỹ sư thực phẩm": ("75401",),
+    "nghiên cứu sinh học": ("742",), "thích làm thí nghiệm Hóa": ("7440112",), "hay nấu ăn và tò mò về thực phẩm": ("75401",),
+    "thích quan sát cây cối, vi sinh vật": ("742",), "sợ Hóa": ("7440112", "7510401", "7520301"),
+    "không thích làm thí nghiệm": ("742", "7440112"),
+    # xay_dung
+    "học Xây dựng": ("75802",), "học Kiến trúc": ("75801",), "học kỹ thuật xây dựng": ("75802", "75101"), "học quy hoạch": ("75801",),
+    "làm kỹ sư xây dựng": ("75802", "75101"), "làm kiến trúc sư": ("75801",), "thiết kế nhà": ("75801",),
+    "thích vẽ nhà, thiết kế phòng": ("75801",), "hay xem các công trình cầu đường": ("75802",),
+    "quen công trường vì bố làm thầu xây dựng": ("75802",), "không muốn làm công trường": ("75802", "75101"),
+    "sợ nắng nóng ngoài công trường": ("75802", "75101"),
+    # nong_lam_mt
+    "học Môi trường": ("785", "74403"), "học Nông nghiệp công nghệ cao": ("76201",), "học Quản lý tài nguyên": ("78501",),
+    "học Thú y": ("76401",), "làm về bảo vệ môi trường": ("785", "74403"), "làm nông nghiệp công nghệ cao": ("76201",),
+    "làm kỹ sư môi trường": ("785", "7510406", "7520320"), "thích trồng cây": ("76201",), "tham gia CLB môi trường xanh": ("785", "74403"),
+    "lớn lên ở trang trại của gia đình": ("762",), "không thích ngành nông nghiệp": ("762",), "không muốn về nông thôn làm việc": ("762",),
+    # du_lich
+    "học Du lịch": ("78101",), "học Quản trị khách sạn": ("78102",), "học Logistics": ("7510605",), "học ngành hàng không": ("78401",),
+    "làm hướng dẫn viên du lịch": ("78101",), "làm quản lý khách sạn": ("78102",), "làm tiếp viên hàng không": ("78401",),
+    "làm logistics": ("7510605",), "thích đi phượt": ("78101",), "mê du lịch, khám phá": ("78101",),
+    "thích giao tiếp với người nước ngoài": ("78101",), "không thích ngành dịch vụ": ("781",), "không muốn đi lại nhiều": ("78101", "78401"),
+    # thiet_ke
+    "học Thiết kế đồ họa": ("72104",), "học thiết kế": ("72104",), "học mỹ thuật số": ("72101", "72104"), "làm designer": ("72104",),
+    "làm họa sĩ minh họa": ("72101", "72104"), "làm thiết kế UI/UX": ("72104",), "vẽ rất nhiều, hay đăng tranh lên mạng": ("72101", "72104"),
+    "thích chỉnh ảnh, làm poster cho lớp": ("72104",), "mê thiết kế": ("72104",), "không có năng khiếu vẽ": ("72101", "72104"),
+}
+
+
+def phrase_codes(sentence: str, f: str, keys: tuple[str, ...]) -> list[str]:
+    """The MOET codes meant by the phrases of field `f` that a generated sentence contains (before voice and typos)."""
+    bank = FIELD_TEXT[f]
+    found = [p for k in keys for p in bank[k] if p in sentence or _as_major(p) in sentence]
+    found = [p for p in found if not any(p != q and p in q for q in found)]  # "làm bác sĩ" inside "làm bác sĩ nha khoa"
+    return sorted({c for p in found for c in PHRASE_CODES.get(p, FIELD_CODES[f])}) or list(FIELD_CODES[f])
+
+
 RISK_TEXT = {
     "an_toan": ["em chỉ cần chắc chắn đỗ, không muốn mạo hiểm", "nhà em không cho thi lại nên phải đỗ bằng được", "em sợ trượt lắm, muốn chọn chỗ chắc ăn",
                 "ưu tiên của em là an toàn, đỗ là được", "em không dám liều, năm nay nhất định phải có trường", "bố mẹ dặn phải đỗ ngay năm nay"],
@@ -192,6 +276,11 @@ class Latent:
     strong: list[str] = field(default_factory=list)
     weak: list[str] = field(default_factory=list)
     voice: str = "em"
+    # MOET codes the text actually names (PHRASE_CODES), filled in by ProfileGenerator.text(): one list per interest
+    # and per dislike, and the family's wish
+    interest_codes: list[list[str]] = field(default_factory=list)
+    dislike_codes: list[list[str]] = field(default_factory=list)
+    parent_codes: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -327,6 +416,7 @@ class ProfileGenerator:
     def text(self, z: Latent) -> str:
         r = self.rng
         sents: list[str] = []
+        z.interest_codes, z.dislike_codes, z.parent_codes = [], [], []
         for f, clarity in z.interests:
             bank = FIELD_TEXT[f]
             if clarity >= 1.0:
@@ -338,14 +428,17 @@ class ProfileGenerator:
                 ]))
             else:
                 sents.append(r.choice([f"Em {r.choice(bank['hobby'])}.", f"Ngoài giờ học em {r.choice(bank['hobby'])}.", f"Mọi người bảo em {r.choice(bank['hobby'])}."]))
+            z.interest_codes.append(phrase_codes(sents[-1], f, ("want", "career") if clarity >= 1.0 else ("hobby",)))
         for f in z.dislikes:
             sents.append(r.choice([f"Em {r.choice(FIELD_TEXT[f]['dislike'])}.", f"Nói thật là em {r.choice(FIELD_TEXT[f]['dislike'])}."]))
+            z.dislike_codes.append(phrase_codes(sents[-1], f, ("dislike",)))
         if z.parent_field:
             want = r.choice(FIELD_TEXT[z.parent_field]["want"])
             if z.accepts_parent:
                 sents.append(r.choice([f"Bố mẹ muốn em {want}, em thấy cũng được.", f"Gia đình định hướng em {want} và em cũng không phản đối."]))
             else:
                 sents.append(r.choice([f"Bố mẹ bắt em {want} nhưng em không muốn.", f"Mẹ em muốn em {want}, còn em thì không thích lắm."]))
+            z.parent_codes = phrase_codes(want, z.parent_field, ("want",))
         if z.budget_kind == "number":
             sents.append(r.choice([f"Gia đình em chỉ lo được học phí {money_say(z.budget, r)}.", f"Học phí em có thể đóng {money_say(z.budget, r)}.",
                                    f"Bố mẹ nói chỉ chi được {money_say(z.budget, r)} tiền học."]))

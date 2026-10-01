@@ -12,9 +12,9 @@ import json
 import pandas as pd
 import streamlit as st
 
-from uniadvisor.advisor import Advice, advise, catalog
+from uniadvisor.advisor import Advice, advise
 from uniadvisor.compare import BASE_WEIGHTS, CRITERIA
-from uniadvisor.engine.dist import default_distributions
+from uniadvisor.db import get_db
 from uniadvisor.explain import DISCLAIMER
 from uniadvisor.kb.rules import BUCKET_VI, load_rules
 from uniadvisor.slm.infer import get_judge
@@ -36,8 +36,8 @@ EXAMPLES = {
 # ------------------------------------------------------------------ cached resources
 @st.cache_resource(show_spinner="Đang tải dữ liệu và mô hình…")
 def warm_up() -> str:
-    catalog()
-    default_distributions()
+    db = get_db()
+    db.catalog, db.history, db.distributions  # noqa: B018 - build the cached views once
     return get_judge().name
 
 
@@ -73,7 +73,10 @@ rules = load_rules()
 with st.sidebar:
     st.header(":material/school: UniAdvisor")
     st.caption("Tư vấn đặt nguyện vọng đại học bằng điểm thi tốt nghiệp THPT.")
-    prog, _ = catalog()
+    db = get_db()
+    prog = db.catalog
+    if db.simulated:
+        st.warning(f"Dữ liệu MÔ PHỎNG ({db.name}), không phải dữ liệu thật: chỉ dùng để thử nghiệm.", icon=":material/science:")
     st.markdown(f"**Phạm vi dữ liệu:** {prog.school_code.nunique()} trường, {len(prog)} ngành ở Hà Nội và TP.HCM · "
                 f"quy chế `{rules['ruleset']}` ({'dự thảo' if rules.get('status') == 'draft' else 'chính thức'})")
     st.markdown(f"**Mô hình đánh giá mềm:** {'SLM đã tinh chỉnh + luật' if judge_name == 'hybrid' else 'luật từ khóa (chưa có SLM)'}")

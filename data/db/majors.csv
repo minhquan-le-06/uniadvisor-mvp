@@ -1,0 +1,543 @@
+code,level,name,parent,former_code,provenance,source,note,url
+714,linh_vuc,Khoa học giáo dục và đào tạo giáo viên,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+71401,nhom_nganh,Khoa học giáo dục,714,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140101,nganh,Giáo dục học,71401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140103,nganh,Công nghệ giáo dục,71401,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140114,nganh,Quản lý giáo dục,71401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+71402,nhom_nganh,Đào tạo giáo viên,714,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140201,nganh,Giáo dục Mầm non,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140202,nganh,Giáo dục Tiểu học,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140203,nganh,Giáo dục Đặc biệt,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140204,nganh,Giáo dục Công dân,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140205,nganh,Giáo dục Chính trị,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140206,nganh,Giáo dục Thể chất,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140208,nganh,Giáo dục Quốc phòng - An ninh,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140209,nganh,Sư phạm Toán học,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140210,nganh,Sư phạm Tin học,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140211,nganh,Sư phạm Vật lý,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140212,nganh,Sư phạm Hóa học,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140213,nganh,Sư phạm Sinh học,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140214,nganh,Sư phạm Kỹ thuật công nghiệp,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140215,nganh,Sư phạm Kỹ thuật nông nghiệp,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140217,nganh,Sư phạm Ngữ văn,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140218,nganh,Sư phạm Lịch sử,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140219,nganh,Sư phạm Địa lý,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140221,nganh,Sư phạm Âm nhạc,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140222,nganh,Sư phạm Mỹ thuật,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140223,nganh,Sư phạm Tiếng Bana,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140224,nganh,Sư phạm Tiếng Êđê,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140225,nganh,Sư phạm Tiếng Jrai,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140226,nganh,Sư phạm Tiếng Khmer,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140227,nganh,Sư phạm Tiếng H'mong,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140228,nganh,Sư phạm Tiếng Chăm,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140229,nganh,Sư phạm Tiếng M'nông,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140230,nganh,Sư phạm Tiếng Xêđăng,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140231,nganh,Sư phạm Tiếng Anh,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140232,nganh,Sư phạm Tiếng Nga,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140233,nganh,Sư phạm Tiếng Pháp,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140234,nganh,Sư phạm Tiếng Trung Quốc,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140235,nganh,Sư phạm Tiếng Đức,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140236,nganh,Sư phạm Tiếng Nhật,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140237,nganh,Sư phạm Tiếng Hàn Quốc,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140245,nganh,Sư phạm nghệ thuật,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140246,nganh,Sư phạm công nghệ,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140247,nganh,Sư phạm Khoa học tự nhiên,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140248,nganh,Giáo dục pháp luật,71402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7140249,nganh,Sư phạm Lịch sử - Địa lý,71402,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+71490,nhom_nganh,Khác,714,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+721,linh_vuc,Nghệ thuật,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+72101,nhom_nganh,Mỹ thuật,721,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210101,nganh,"Lý luận, lịch sử và phê bình mỹ thuật",72101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210103,nganh,Hội họa,72101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210104,nganh,Đồ họa,72101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210105,nganh,Điêu khắc,72101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210107,nganh,Gốm,72101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210110,nganh,Mỹ thuật đô thị,72101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+72102,nhom_nganh,Nghệ thuật trình diễn,721,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210201,nganh,Âm nhạc học,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210203,nganh,Sáng tác âm nhạc,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210204,nganh,Chỉ huy âm nhạc,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210205,nganh,Thanh nhạc,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210207,nganh,Biểu diễn nhạc cụ phương tây,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210208,nganh,Piano,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210209,nganh,Nhạc Jazz,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210210,nganh,Biểu diễn nhạc cụ truyền thống,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210221,nganh,"Lý luận, lịch sử và phê bình sân khấu",72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210225,nganh,Biên kịch sân khấu,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210226,nganh,Diễn viên sân khấu kịch hát,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210227,nganh,Đạo diễn sân khấu,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210231,nganh,"Lý luận, lịch sử và phê bình điện ảnh, truyền hình",72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210233,nganh,"Biên kịch điện ảnh, truyền hình",72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210234,nganh,"Diễn viên kịch, điện ảnh - truyền hình",72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210235,nganh,"Đạo diễn điện ảnh, truyền hình",72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210236,nganh,Quay phim,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210241,nganh,"Lý luận, lịch sử và phê bình múa",72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210242,nganh,Diễn viên múa,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210243,nganh,Biên đạo múa,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210244,nganh,Huấn luyện múa,72102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+72103,nhom_nganh,Nghệ thuật nghe nhìn,721,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210301,nganh,Nhiếp ảnh,72103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210302,nganh,"Công nghệ điện ảnh, truyền hình",72103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210303,nganh,"Thiết kế âm thanh, ánh sáng",72103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+72104,nhom_nganh,Mỹ thuật ứng dụng,721,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210402,nganh,Thiết kế công nghiệp,72104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210403,nganh,Thiết kế đồ họa,72104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210404,nganh,Thiết kế thời trang,72104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210406,nganh,"Thiết kế mỹ thuật sân khấu, điện ảnh",72104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7210408,nganh,Nghệ thuật số,72104,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+72190,nhom_nganh,Khác,721,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+722,linh_vuc,Nhân văn,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+72201,nhom_nganh,"Ngôn ngữ, văn học và văn hóa Việt Nam",722,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220101,nganh,Tiếng Việt và văn hóa Việt Nam,72201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220104,nganh,Hán Nôm,72201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220105,nganh,Ngôn ngữ Jrai,72201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220106,nganh,Ngôn ngữ Khmer,72201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220107,nganh,Ngôn ngữ H'mong,72201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220108,nganh,Ngôn ngữ Chăm,72201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220110,nganh,Sáng tác văn học,72201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220112,nganh,Văn hóa các dân tộc thiểu số Việt Nam,72201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+72202,nhom_nganh,"Ngôn ngữ, văn học và văn hóa nước ngoài",722,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220201,nganh,Ngôn ngữ Anh,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220202,nganh,Ngôn ngữ Nga,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220203,nganh,Ngôn ngữ Pháp,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220204,nganh,Ngôn ngữ Trung Quốc,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220205,nganh,Ngôn ngữ Đức,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220206,nganh,Ngôn ngữ Tây Ban Nha,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220207,nganh,Ngôn ngữ Bồ Đào Nha,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220208,nganh,Ngôn ngữ Italia,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220209,nganh,Ngôn ngữ Nhật,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220210,nganh,Ngôn ngữ Hàn Quốc,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7220211,nganh,Ngôn ngữ Ảrập,72202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+72290,nhom_nganh,Khác,722,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229001,nganh,Triết học,72290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229008,nganh,Chủ nghĩa xã hội khoa học,72290,729008,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Sửa mã ngành (mã cũ là 729008),https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229009,nganh,Tôn giáo học,72290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229010,nganh,Lịch sử,72290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229020,nganh,Ngôn ngữ học,72290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229030,nganh,Văn học,72290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229040,nganh,Văn hóa học,72290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229042,nganh,Quản lý văn hóa,72290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7229045,nganh,Gia đình học,72290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+731,linh_vuc,Khoa học xã hội và hành vi,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73101,nhom_nganh,Kinh tế học,731,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310101,nganh,Kinh tế,73101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310102,nganh,Kinh tế chính trị,73101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310104,nganh,Kinh tế đầu tư,73101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310105,nganh,Kinh tế phát triển,73101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310106,nganh,Kinh tế quốc tế,73101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310107,nganh,Thống kê kinh tế,73101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310108,nganh,Toán kinh tế,73101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310109,nganh,Kinh tế số,73101,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310110,nganh,Quản lý kinh tế,73101,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7310111,nganh,Nghiên cứu phát triển,73101,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7310113,nganh,Kinh tế thể thao,73101,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+73102,nhom_nganh,Khoa học chính trị,731,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310201,nganh,Chính trị học,73102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310202,nganh,Xây dựng Đảng và chính quyền nhà nước,73102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310205,nganh,Quản lý nhà nước,73102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310206,nganh,Quan hệ quốc tế,73102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73103,nhom_nganh,Xã hội học và Nhân học,731,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310301,nganh,Xã hội học,73103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310302,nganh,Nhân học,73103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73104,nhom_nganh,Tâm lý học,731,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310401,nganh,Tâm lý học,73104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310403,nganh,Tâm lý học giáo dục,73104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73105,nhom_nganh,Địa lý học,731,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310501,nganh,Địa lý học,73105,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73106,nhom_nganh,Khu vực học,731,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310601,nganh,Quốc tế học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310602,nganh,Châu Á học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310607,nganh,Thái Bình Dương học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310608,nganh,Đông phương học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310612,nganh,Trung Quốc học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310613,nganh,Nhật Bản học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310614,nganh,Hàn Quốc học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310620,nganh,Đông Nam Á học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7310630,nganh,Việt Nam học,73106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73190,nhom_nganh,Khác,731,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+732,linh_vuc,Báo chí và thông tin,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73201,nhom_nganh,Báo chí và truyền thông,732,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320101,nganh,Báo chí,73201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320104,nganh,Truyền thông đa phương tiện,73201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320105,nganh,Truyền thông đại chúng,73201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320106,nganh,Công nghệ truyền thông,73201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320107,nganh,Truyền thông quốc tế,73201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320108,nganh,Quan hệ công chúng,73201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320109,nganh,Truyền thông doanh nghiệp,73201,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+73202,nhom_nganh,Thông tin - Thư viện,732,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320201,nganh,Thông tin - Thư viện,73202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320205,nganh,Quản lý thông tin,73202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73203,nhom_nganh,Văn thư - Lưu trữ - Bảo tàng,732,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320303,nganh,Lưu trữ học,73203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320305,nganh,Bảo tàng học,73203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73204,nhom_nganh,Xuất bản - Phát hành,732,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320401,nganh,Xuất bản,73204,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7320402,nganh,Kinh doanh xuất bản phẩm,73204,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73290,nhom_nganh,Khác,732,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7329001,nganh,Công nghệ đa phương tiện,73290,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+734,linh_vuc,Kinh doanh và quản lý,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73401,nhom_nganh,Kinh doanh,734,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340101,nganh,Quản trị kinh doanh,73401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340102,nganh,Quản trị - Luật,73401,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7340114,nganh,Digital Marketing,73401,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7340115,nganh,Marketing,73401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340116,nganh,Bất động sản,73401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340120,nganh,Kinh doanh quốc tế,73401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340121,nganh,Kinh doanh thương mại,73401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340122,nganh,Thương mại điện tử,73401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340123,nganh,Kinh doanh thời trang và dệt may,73401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340129,nganh,Quản trị kinh doanh thực phẩm,73401,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+73402,nhom_nganh,Tài chính - Ngân hàng - Bảo hiểm,734,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340201,nganh,Tài chính - Ngân hàng,73402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340204,nganh,Bảo hiểm,73402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340205,nganh,Công nghệ tài chính,73402,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340206,nganh,Tài chính quốc tế,73402,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+73403,nhom_nganh,Kế toán - Kiểm toán,734,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340301,nganh,Kế toán,73403,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340302,nganh,Kiểm toán,73403,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73404,nhom_nganh,Quản trị - Quản lý,734,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340401,nganh,Khoa học quản lý,73404,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340403,nganh,Quản lý công,73404,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340404,nganh,Quản trị nhân lực,73404,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340405,nganh,Hệ thống thông tin quản lý,73404,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340406,nganh,Quản trị văn phòng,73404,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340408,nganh,Quan hệ lao động,73404,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340409,nganh,Quản lý dự án,73404,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7340410,nganh,Quản trị công nghệ truyền thông,73404,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7340412,nganh,Quản trị sự kiện,73404,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+73490,nhom_nganh,Khác,734,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+738,linh_vuc,Pháp luật,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+73801,nhom_nganh,Luật,738,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7380101,nganh,Luật,73801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7380102,nganh,Luật hiến pháp và luật hành chính,73801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7380103,nganh,Luật dân sự và tố tụng dân sự,73801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7380104,nganh,Luật hình sự và tố tụng hình sự,73801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7380107,nganh,Luật kinh tế,73801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7380108,nganh,Luật quốc tế,73801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7380109,nganh,Luật thương mại quốc tế,73801,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+73890,nhom_nganh,Khác,738,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+742,linh_vuc,Khoa học sự sống,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74201,nhom_nganh,Sinh học,742,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7420101,nganh,Sinh học,74201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74202,nhom_nganh,Sinh học ứng dụng,742,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7420201,nganh,Công nghệ sinh học,74202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7420202,nganh,Kỹ thuật sinh học,74202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7420203,nganh,Sinh học ứng dụng,74202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7420207,nganh,Công nghệ thẩm mỹ,74202,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+74290,nhom_nganh,Khác,742,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+744,linh_vuc,Khoa học tự nhiên,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74401,nhom_nganh,Khoa học vật chất,744,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440101,nganh,Thiên văn học,74401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440102,nganh,Vật lý học,74401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440106,nganh,Vật lý nguyên tử và hạt nhân,74401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440107,nganh,Công nghệ Vật lý điện tử và tin học,74401,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7440110,nganh,Cơ học,74401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440112,nganh,Hóa học,74401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440122,nganh,Khoa học vật liệu,74401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74402,nhom_nganh,Khoa học trái đất,744,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440201,nganh,Địa chất học,74402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440212,nganh,Bản đồ học,74402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440217,nganh,Địa lý tự nhiên,74402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440222,nganh,Khí tượng và khí hậu học,74402,7440221,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Sửa mã ngành (mã cũ là 7440221),https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440224,nganh,Thủy văn học,74402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440228,nganh,Hải dương học,74402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440229,nganh,Quản lý và phân tích dữ liệu khoa học,74402,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+74403,nhom_nganh,Khoa học môi trường,744,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7440301,nganh,Khoa học môi trường,74403,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74490,nhom_nganh,Khác,744,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+746,linh_vuc,Toán và thống kê,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74601,nhom_nganh,Toán học,746,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7460101,nganh,Toán học,74601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7460107,nganh,Khoa học tính toán,74601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7460108,nganh,Khoa học dữ liệu,74601,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7460112,nganh,Toán ứng dụng,74601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7460115,nganh,Toán cơ,74601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7460117,nganh,Toán tin,74601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74602,nhom_nganh,Thống kê,746,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7460201,nganh,Thống kê,74602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74690,nhom_nganh,Khác,746,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+748,linh_vuc,Máy tính và công nghệ thông tin,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+74801,nhom_nganh,Máy tính,748,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480101,nganh,Khoa học máy tính,74801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480102,nganh,Mạng máy tính và truyền thông dữ liệu,74801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480103,nganh,Kỹ thuật phần mềm,74801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480104,nganh,Hệ thống thông tin,74801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480106,nganh,Kỹ thuật máy tính,74801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480107,nganh,Trí tuệ nhân tạo,74801,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480108,nganh,Công nghệ kỹ thuật máy tính,74801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480118,nganh,Hệ thống nhúng và IoT,74801,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+74802,nhom_nganh,Công nghệ thông tin,748,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480201,nganh,Công nghệ thông tin,74802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480202,nganh,An toàn thông tin,74802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7480203,nganh,Kỹ thuật dữ liệu,74802,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7480206,nganh,Địa tin học,74802,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7480207,nganh,Trí tuệ nhân tạo,74802,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7480208,nganh,An ninh mạng,74802,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+74890,nhom_nganh,Khác,748,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+751,linh_vuc,Công nghệ kỹ thuật,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75101,nhom_nganh,Công nghệ kỹ thuật kiến trúc và công trình xây dựng,751,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510101,nganh,Công nghệ kỹ thuật kiến trúc,75101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510102,nganh,Công nghệ kỹ thuật công trình xây dựng,75101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510103,nganh,Công nghệ kỹ thuật xây dựng,75101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510104,nganh,Công nghệ kỹ thuật giao thông,75101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510105,nganh,Công nghệ kỹ thuật vật liệu xây dựng,75101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510106,nganh,Hệ thống kỹ thuật công trình xây dựng,75101,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+75102,nhom_nganh,Công nghệ kỹ thuật cơ khí,751,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510201,nganh,Công nghệ kỹ thuật cơ khí,75102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510202,nganh,Công nghệ chế tạo máy,75102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510203,nganh,Công nghệ kỹ thuật cơ điện tử,75102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510205,nganh,Công nghệ kỹ thuật ô tô,75102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510206,nganh,Công nghệ kỹ thuật nhiệt,75102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510207,nganh,Công nghệ kỹ thuật tàu thủy,75102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510208,nganh,Năng lượng tái tạo,75102,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7510209,nganh,Robot và trí tuệ nhân tạo,75102,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7510211,nganh,Bảo dưỡng công nghiệp,75102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75103,nhom_nganh,"Công nghệ kỹ thuật điện, điện tử và viễn thông",751,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510301,nganh,"Công nghệ kỹ thuật điện, điện tử",75103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510302,nganh,Công nghệ kỹ thuật điện tử - viễn thông,75103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510303,nganh,Công nghệ kỹ thuật điều khiển và tự động hóa,75103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75104,nhom_nganh,"Công nghệ hóa học, vật liệu, luyện kim và môi trường",751,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510401,nganh,Công nghệ kỹ thuật hóa học,75104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510402,nganh,Công nghệ vật liệu,75104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510403,nganh,Công nghệ kỹ thuật năng lượng,75104,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7510406,nganh,Công nghệ kỹ thuật môi trường,75104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510407,nganh,Công nghệ kỹ thuật hạt nhân,75104,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75106,nhom_nganh,Quản lý công nghiệp,751,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510601,nganh,Quản lý công nghiệp,75106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510602,nganh,Quản lý năng lượng,75106,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7510604,nganh,Kinh tế công nghiệp,75106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510605,nganh,Logistics và Quản lý chuỗi cung ứng,75106,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75107,nhom_nganh,Công nghệ dầu khí và khai thác,751,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510701,nganh,Công nghệ dầu khí và khai thác dầu,75107,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75108,nhom_nganh,Công nghệ kỹ thuật in,751,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7510801,nganh,Công nghệ kỹ thuật in,75108,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75190,nhom_nganh,Khác,751,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7519007,nganh,Công nghệ kỹ thuật năng lượng tái tạo,75190,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+752,linh_vuc,Kỹ thuật,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75201,nhom_nganh,Kỹ thuật cơ khí và cơ kỹ thuật,752,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520101,nganh,Cơ kỹ thuật,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520103,nganh,Kỹ thuật cơ khí,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520107,nganh,Kỹ thuật Robot,75201,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7520114,nganh,Kỹ thuật cơ điện tử,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520115,nganh,Kỹ thuật nhiệt,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520116,nganh,Kỹ thuật cơ khí động lực,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520117,nganh,Kỹ thuật công nghiệp,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520118,nganh,Kỹ thuật hệ thống công nghiệp,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520120,nganh,Kỹ thuật hàng không,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520121,nganh,Kỹ thuật không gian,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520122,nganh,Kỹ thuật tàu thủy,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520130,nganh,Kỹ thuật ô tô,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520137,nganh,Kỹ thuật in,75201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520138,nganh,Kỹ thuật hàng hải,75201,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520141,nganh,Công nghệ ô tô điện,75201,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+75202,nhom_nganh,"Kỹ thuật điện, điện tử và viễn thông",752,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520201,nganh,Kỹ thuật điện,75202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520204,nganh,Kỹ thuật rađa - dẫn đường,75202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520205,nganh,Kỹ thuật thủy âm,75202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520206,nganh,Kỹ thuật biển,75202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520207,nganh,Kỹ thuật điện tử - viễn thông,75202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520208,nganh,Công nghệ Internet vạn vật,75202,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7520212,nganh,Kỹ thuật y sinh,75202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520216,nganh,Kỹ thuật điều khiển và tự động hóa,75202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75203,nhom_nganh,"Kỹ thuật hóa học, vật liệu, luyện kim và môi trường",752,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520301,nganh,Kỹ thuật hoá học,75203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520309,nganh,Kỹ thuật vật liệu,75203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520310,nganh,Kỹ thuật vật liệu kim loại,75203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520312,nganh,Kỹ thuật dệt,75203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520320,nganh,Kỹ thuật môi trường,75203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75204,nhom_nganh,Vật lý kỹ thuật,752,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520401,nganh,Vật lý kỹ thuật,75204,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520402,nganh,Kỹ thuật hạt nhân,75204,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520403,nganh,Vật lý y khoa,75204,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+75205,nhom_nganh,"Kỹ thuật địa chất, địa vật lý và trắc địa",752,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520501,nganh,Kỹ thuật địa chất,75205,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520502,nganh,Kỹ thuật địa vật lý,75205,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520503,nganh,Kỹ thuật trắc địa - bản đồ,75205,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520505,nganh,Đá quý Đá mỹ nghệ,75205,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+75206,nhom_nganh,Kỹ thuật mỏ,752,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520601,nganh,Kỹ thuật mỏ,75206,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520602,nganh,Kỹ thuật thăm dò và khảo sát,75206,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520604,nganh,Kỹ thuật dầu khí,75206,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7520605,nganh,Kỹ thuật khí thiên nhiên,75206,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7520606,nganh,Công nghệ số trong thăm dò và khai thác tài nguyên thiên nhiên,75206,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7520607,nganh,Kỹ thuật tuyển khoáng,75206,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75290,nhom_nganh,Khác,752,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+754,linh_vuc,Sản xuất và chế biến,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75401,nhom_nganh,"Chế biến lương thực, thực phẩm và đồ uống",754,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540101,nganh,Công nghệ thực phẩm,75401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540102,nganh,Kỹ thuật thực phẩm,75401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540104,nganh,Công nghệ sau thu hoạch,75401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540105,nganh,Công nghệ chế biến thủy sản,75401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540106,nganh,Đảm bảo chất lượng và an toàn thực phẩm,75401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75402,nhom_nganh,"Sản xuất, chế biến sợi, vải, giày, da",754,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540202,nganh,"Công nghệ sợi, dệt",75402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540203,nganh,"Công nghệ vật liệu dệt, may",75402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540204,nganh,"Công nghệ dệt, may",75402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540206,nganh,Công nghệ da giày,75402,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7540209,nganh,Công nghệ may,75402,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+75490,nhom_nganh,Khác,754,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7549001,nganh,Công nghệ chế biến lâm sản,75490,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7549002,nganh,Dược liệu và hợp chất thiên nhiên,75490,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+758,linh_vuc,Kiến trúc và xây dựng,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75801,nhom_nganh,Kiến trúc và quy hoạch,758,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580101,nganh,Kiến trúc,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580102,nganh,Kiến trúc cảnh quan,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580103,nganh,Kiến trúc nội thất,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580104,nganh,Kiến trúc đô thị,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580105,nganh,Quy hoạch vùng và đô thị,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580106,nganh,Quản lý đô thị và công trình,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580108,nganh,Thiết kế nội thất,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580109,nganh,Quản lý phát triển đô thị và bất động sản,75801,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7580111,nganh,Bảo tồn di sản kiến trúc - Đô thị,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580112,nganh,Đô thị học,75801,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75802,nhom_nganh,Xây dựng,758,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580201,nganh,Kỹ thuật xây dựng,75802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580202,nganh,Kỹ thuật xây dựng công trình thủy,75802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580203,nganh,Kỹ thuật xây dựng công trình biển,75802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580204,nganh,Xây dựng công trình ngầm thành phố và Hệ thống tàu điện ngầm,75802,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7580205,nganh,Kỹ thuật xây dựng công trình giao thông,75802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580210,nganh,Kỹ thuật cơ sở hạ tầng,75802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580211,nganh,Địa kỹ thuật xây dựng,75802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580212,nganh,Kỹ thuật tài nguyên nước,75802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580213,nganh,Kỹ thuật cấp thoát nước,75802,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75803,nhom_nganh,Quản lý xây dựng,758,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580301,nganh,Kinh tế xây dựng,75803,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7580302,nganh,Quản lý xây dựng,75803,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+75890,nhom_nganh,Khác,758,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+762,linh_vuc,"Nông, lâm nghiệp và thủy sản",,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+76201,nhom_nganh,Nông nghiệp,762,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620101,nganh,Nông nghiệp,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620102,nganh,Khuyến nông,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620103,nganh,Khoa học đất,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620105,nganh,Chăn nuôi,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620109,nganh,Nông học,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620110,nganh,Khoa học cây trồng,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620112,nganh,Bảo vệ thực vật,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620113,nganh,Công nghệ rau hoa quả và cảnh quan,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620114,nganh,Kinh doanh nông nghiệp,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620115,nganh,Kinh tế nông nghiệp,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620116,nganh,Phát triển nông thôn,76201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+76202,nhom_nganh,Lâm nghiệp,762,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620201,nganh,Lâm học,76202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620202,nganh,Lâm nghiệp đô thị,76202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620205,nganh,Lâm sinh,76202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620211,nganh,Quản lý tài nguyên rừng,76202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+76203,nhom_nganh,Thủy sản,762,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620301,nganh,Nuôi trồng thủy sản,76203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620302,nganh,Bệnh học thủy sản,76203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620303,nganh,Khoa học thủy sản,76203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620304,nganh,Khai thác thủy sản,76203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7620305,nganh,Quản lý thủy sản,76203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+76290,nhom_nganh,Khác,762,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+764,linh_vuc,Thú y,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+76401,nhom_nganh,Thú y,764,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7640101,nganh,Thú y,76401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+76490,nhom_nganh,Khác,764,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+772,linh_vuc,Sức khoẻ,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77201,nhom_nganh,Y học,772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720101,nganh,Y khoa,77201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720110,nganh,Y học dự phòng,77201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720115,nganh,Y học cổ truyền,77201,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77202,nhom_nganh,Dược học,772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720201,nganh,Dược học,77202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720202,nganh,Công nghệ dược phẩm,77202,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7720203,nganh,Hóa dược,77202,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77203,nhom_nganh,Điều dưỡng - hộ sinh,772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720301,nganh,Điều dưỡng,77203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720302,nganh,Hộ sinh,77203,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77204,nhom_nganh,Dinh dưỡng,772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720401,nganh,Dinh dưỡng,77204,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77205,nhom_nganh,Răng - Hàm - Mặt (Nha khoa),772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720501,nganh,Răng - Hàm - Mặt,77205,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720502,nganh,Kỹ thuật phục hình răng,77205,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77206,nhom_nganh,Kỹ thuật Y học,772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720601,nganh,Kỹ thuật xét nghiệm y học,77206,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720602,nganh,Kỹ thuật hình ảnh y học,77206,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720603,nganh,Kỹ thuật Phục hồi chức năng,77206,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720609,nganh,Khúc xạ nhãn khoa,77206,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+77207,nhom_nganh,Y tế công cộng,772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720701,nganh,Y tế công cộng,77207,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77208,nhom_nganh,Quản lý Y tế,772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720801,nganh,Tổ chức và Quản lý y tế,77208,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7720802,nganh,Quản lý bệnh viện,77208,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77290,nhom_nganh,Khác,772,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7729001,nganh,Y sinh học thể dục thể thao,77290,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+776,linh_vuc,Dịch vụ xã hội,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77601,nhom_nganh,Công tác xã hội,776,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7760101,nganh,Công tác xã hội,77601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7760102,nganh,Công tác thanh thiếu niên,77601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7760103,nganh,Hỗ trợ giáo dục người khuyết tật,77601,8760103,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Sửa mã ngành (mã cũ là 8760103),https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+77690,nhom_nganh,Khác,776,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+781,linh_vuc,"Du lịch, khách sạn, thể thao và dịch vụ cá nhân",,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78101,nhom_nganh,Du lịch,781,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7810101,nganh,Du lịch,78101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7810103,nganh,Quản trị dịch vụ du lịch và lữ hành,78101,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7810105,nganh,Du lịch địa chất,78101,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+78102,nhom_nganh,"Khách sạn, nhà hàng",781,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7810201,nganh,Quản trị khách sạn,78102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7810202,nganh,Quản trị nhà hàng và dịch vụ ăn uống,78102,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78103,nhom_nganh,"Thể dục, thể thao",781,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7810301,nganh,Quản lý thể dục thể thao,78103,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7810302,nganh,Huấn luyện thể thao,78103,7140207,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Ngành chuyển đến từ nhóm ngành 71402 (mã cũ là 7140207),https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78105,nhom_nganh,Kinh tế gia đình,781,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7810501,nganh,Kinh tế gia đình,78105,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78190,nhom_nganh,Khác,781,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7819009,nganh,Khoa học dinh dưỡng và ẩm thực,78190,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7819010,nganh,Khoa học chế biến món ăn,78190,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+784,linh_vuc,Dịch vụ vận tải,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78401,nhom_nganh,Khai thác vận tải,784,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7840101,nganh,Khai thác vận tải,78401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7840102,nganh,Quản lý hoạt động bay,78401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7840104,nganh,Kinh tế vận tải,78401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7840106,nganh,Khoa học hàng hải,78401,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7840110,nganh,Quản lý và vận hành hạ tầng,78401,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+78490,nhom_nganh,Khác,784,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+785,linh_vuc,Môi trường và bảo vệ môi trường,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78501,nhom_nganh,Quản lý tài nguyên và môi trường,785,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7850101,nganh,Quản lý tài nguyên và môi trường,78501,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7850102,nganh,Kinh tế tài nguyên thiên nhiên,78501,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7850103,nganh,Quản lý đất đai,78501,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7850196,nganh,Quản lý tài nguyên khoáng sản,78501,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+78502,nhom_nganh,Dịch vụ an toàn lao động và vệ sinh công nghiệp,785,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7850201,nganh,Bảo hộ lao động,78502,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7850202,nganh,"An toàn, Vệ sinh lao động",78502,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+78590,nhom_nganh,Khác,785,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7859002,nganh,Tài nguyên và Du lịch sinh thái,78590,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+7859007,nganh,Cảnh quan và kỹ thuật hoa viên,78590,,observed,unipilot_step1,not in Thông tư 09/2022 (pilot major or added later); name as UniPilotData lists it,
+786,linh_vuc,"An ninh, Quốc phòng",,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78601,nhom_nganh,An ninh và trật tự xã hội,786,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860101,nganh,Trinh sát an ninh,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860102,nganh,Trinh sát cảnh sát,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860103,nganh,Trinh sát kỹ thuật,78601,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860104,nganh,Điều tra hình sự,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860107,nganh,Kỹ thuật Công an nhân dân,78601,,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Bổ sung ngành mới,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860108,nganh,Kỹ thuật hình sự,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860109,nganh,Quản lý nhà nước về an ninh trật tự,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860110,nganh,Quản lý trật tự an toàn giao thông,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860111,nganh,Thi hành án hình sự và hỗ trợ tư pháp,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860112,nganh,"Tham mưu, chỉ huy công an nhân dân",78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860113,nganh,Phòng cháy chữa cháy và cứu nạn cứu hộ,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860116,nganh,Hậu cần công an nhân dân,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860117,nganh,Tình báo an ninh,78601,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78602,nhom_nganh,Quân sự,786,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860201,nganh,Chỉ huy tham mưu Lục quân,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860202,nganh,Chỉ huy tham mưu Hải quân,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860203,nganh,Chỉ huy tham mưu Không quân,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860204,nganh,Chỉ huy tham mưu Phòng không,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860205,nganh,Chỉ huy tham mưu Pháo binh,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860206,nganh,Chỉ huy tham mưu Tăng - thiết giáp,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860207,nganh,Chỉ huy tham mưu Đặc công,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860214,nganh,Biên phòng,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860217,nganh,Tình báo quân sự,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860218,nganh,Hậu cần quân sự,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860219,nganh,"Chỉ huy, tham mưu thông tin",78602,7860220,observed,moet_tt09_2022,Có hiệu lực áp dụng từ ngày 22/7/2022 Sửa mã ngành (mã cũ là 7860220),https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860222,nganh,Quân sự cơ sở,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860226,nganh,Chỉ huy kỹ thuật Phòng không,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860227,nganh,Chỉ huy kỹ thuật Tăng - thiết giáp,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860228,nganh,Chỉ huy kỹ thuật công binh,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860229,nganh,Chỉ huy kỹ thuật hóa học,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860231,nganh,Trinh sát kỹ thuật,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860232,nganh,Chỉ huy kỹ thuật hải quân,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+7860233,nganh,Chỉ huy kỹ thuật tác chiến điện tử,78602,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+78690,nhom_nganh,Khác,786,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
+790,linh_vuc,Khác,,,observed,moet_tt09_2022,,https://hoatieu.vn/phap-luat/danh-muc-cac-nganh-dao-tao-trinh-do-dai-hoc-215006
