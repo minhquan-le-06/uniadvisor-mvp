@@ -11,10 +11,10 @@ ngành em mong muốn, đặt đúng thứ tự để không có nguyện vọng
   hoặc một mùa tuyển sinh giả lập (`uniadvisor sim season`). Mùa giả lập có biến động chung của cả năm, của từng trường
   và của từng ngành, nên biết trước "đáp án" để chấm.
 - **Không cần module 2 hoàn hảo:** dùng học sinh mô phỏng (`uniadvisor sim students`) và bộ trả lời "biết trước"
-  (`uniadvisor.sim.students.OracleJudge`). Bộ này trả lời đúng theo dữ kiện thật của học sinh, nên mọi sai sót đo được
+  (`uniadvisor.student.simulated.OracleJudge`). Bộ này trả lời đúng theo dữ kiện thật của học sinh, nên mọi sai sót đo được
   là của module 3.
 - **Ranh giới:**
-  - vào: hàm `advise(hồ_sơ, judge=..., db=..., params=...)` trong `src/uniadvisor/advisor.py`;
+  - vào: hàm `advise(hồ_sơ, judge=..., db=..., params=...)` trong `backend/uniadvisor/recommend/advisor.py`;
   - ra: đối tượng `Advice`, mà module 4 đọc.
 
   Thêm trường vào `Advice` thì thoải mái. Bỏ hoặc đổi nghĩa một trường thì báo module 4.
@@ -26,7 +26,7 @@ ngành em mong muốn, đặt đúng thứ tự để không có nguyện vọng
 - **Câu trả lời của module 2:** mức chịu rủi ro, ưu tiên, mức hợp sở thích, năng lực, ngân sách, nơi học, điều kiện
   riêng của từng ngành.
 - **CSDL của module 1:** ngành, điểm chuẩn các năm, phổ điểm, chỉ tiêu, học phí.
-- **Quy chế tuyển sinh theo năm:** `config/rules/<năm>.yaml` (điểm ưu tiên, điểm sàn, số nguyện vọng tối đa, mức an
+- **Quy chế tuyển sinh theo năm:** `backend/config/rules/<năm>.yaml` (điểm ưu tiên, điểm sàn, số nguyện vọng tối đa, mức an
   toàn).
 - **Tham số dự báo** đã chọn từ dữ liệu quá khứ: `artifacts/models/forecast_params.json`.
 
@@ -80,10 +80,10 @@ Hướng sửa đã thống nhất: [docs/TEAM_REPORT.md](../TEAM_REPORT.md), m�
    - chạy `advise` cho học sinh mô phỏng trên các mùa giả lập, đo: số nguyện vọng vô dụng, tỉ lệ rớt hết, em vào được
      ngành thứ mấy trong mong muốn.
 3. **Sửa:**
-   - quy chế ở `config/rules/`, luật ở `src/uniadvisor/kb/rules.py`;
-   - dự báo ở `src/uniadvisor/engine/`;
-   - tiêu chí ở `src/uniadvisor/compare.py`;
-   - chọn danh sách ở `src/uniadvisor/optimizer.py` và `advisor.py`.
+   - quy chế ở `backend/config/rules/`, luật ở `backend/uniadvisor/recommend/rules.py`;
+   - dự báo ở `backend/uniadvisor/recommend/`;
+   - tiêu chí ở `backend/uniadvisor/recommend/compare.py`;
+   - chọn danh sách ở `backend/uniadvisor/recommend/optimizer.py` và `advisor.py`.
 4. **Đo lại** bằng cùng cách. Thay đổi về dự báo chỉ giữ khi tốt hơn trên dữ liệu quá khứ (backtest), không chỉ trên
    mô phỏng.
 5. **Thêm kiểm thử** cho luật mới, chạy trên thế giới mô phỏng (`tiny_db`).
@@ -98,7 +98,7 @@ Hướng sửa đã thống nhất: [docs/TEAM_REPORT.md](../TEAM_REPORT.md), m�
    - sắp theo độ khó với chính em (điểm chuẩn dự báo trừ tổng điểm của em);
    - chỉ ra mâu thuẫn giữa sở thích và thứ tự.
 3. **Lót an toàn:** 2–3 nguyện vọng chắc đậu ở các trường khác nhau, kiểm tra tỉ lệ rớt hết trên mùa giả lập.
-4. **Mức đậu:** vẫn tính %, chỉ hiện 3–4 mức, ngưỡng đặt trong `config/rules/` và kiểm chứng trên dữ liệu quá khứ.
+4. **Mức đậu:** vẫn tính %, chỉ hiện 3–4 mức, ngưỡng đặt trong `backend/config/rules/` và kiểm chứng trên dữ liệu quá khứ.
 5. **Dự báo điểm chuẩn:** thử xu hướng qua các năm, thay đổi chỉ tiêu, và một mô hình học máy dạng bảng làm đối chứng.
    Chỉ giữ cái nào làm thứ tự đúng hơn.
 6. **Kiểm thử cho `compare.py`,** hiện chưa có.

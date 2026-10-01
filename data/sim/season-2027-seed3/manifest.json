@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "kind": "simulated",
+  "name": "season-2027-seed3",
+  "latest_year": 2027,
+  "description": "the real database plus a simulated 2027 season (1666 cutoffs)",
+  "generator": {
+    "name": "uniadvisor.sim.season",
+    "version": 1,
+    "seed": 3,
+    "reform": false,
+    "params": {
+      "year_sd": 0.43,
+      "school_sd": 1.16,
+      "program_sd": 1.37,
+      "reform_shift": -0.95
+    },
+    "year_shock": 0.8776
+  },
+  "based_on": {
+    "name": "real",
+    "counts": {
+      "schools": 48,
+      "programs": 1666,
+      "cutoffs": 7098,
+      "quotas": 938,
+      "tuition": 938,
+      "combos": 186,
+      "distributions": 477
+    }
+  },
+  "counts": {
+    "schools": 48,
+    "programs": 1666,
+    "cutoffs": 8764,
+    "quotas": 938,
+    "tuition": 938,
+    "combos": 186,
+    "distributions": 477
+  }
+}

@@ -1,0 +1,13 @@
+program_id,school_code,program_code,name,major_code,field,kind,campus,combos,reference_combo,conditions,source_url
+SIM-HC1:EDU-LIT,SIM-HC1,EDU-LIT,Sư phạm Ngữ văn,7140217,su_pham,standard,,C00;D01,C00,"Sư phạm: không nhận thí sinh bị dị hình, dị tật, nói ngọng, nói lắp; điểm sàn của Bộ",
+SIM-HC1:EDU-MATH,SIM-HC1,EDU-MATH,Sư phạm Toán học,7140209,su_pham,standard,,A00;A01,A00,"Sư phạm: không nhận thí sinh bị dị hình, dị tật, nói ngọng, nói lắp; điểm sàn của Bộ",
+SIM-HC1:MD,SIM-HC1,MD,Y khoa,7720101,y_duoc,standard,,B00,B00,Khối sức khỏe: có ngưỡng điểm sàn của Bộ,
+SIM-HC1:NUR,SIM-HC1,NUR,Điều dưỡng,7720301,y_duoc,standard,,B00,B00,Khối sức khỏe: có ngưỡng điểm sàn của Bộ,
+SIM-HN1:CE,SIM-HN1,CE,Kỹ thuật xây dựng,7580201,xay_dung,standard,,A00;A01,A00,,
+SIM-HN1:CS-EN,SIM-HN1,CS-EN,"Khoa học máy tính (chương trình tiên tiến, học bằng tiếng Anh)",7480101,cntt,advanced,,A01;D01,A01,"Học bằng tiếng Anh (thường cần trình độ tiếng Anh tốt, có thể yêu cầu IELTS/chứng chỉ khi nhập học)",
+SIM-HN1:EE,SIM-HN1,EE,Kỹ thuật điện tử - viễn thông,7520207,ky_thuat,standard,,A00;A01,A00,,
+SIM-HN1:IT,SIM-HN1,IT,Công nghệ thông tin,7480201,cntt,standard,,A00;A01,A00,,
+SIM-HN2:ECO,SIM-HN2,ECO,Kinh tế,7310101,kinh_te,standard,,A00;A01;D01,D01,,
+SIM-HN2:ENG,SIM-HN2,ENG,Ngôn ngữ Anh (liên kết quốc tế),7220201,ngon_ngu,international,,D01,D01,"Học bằng tiếng Anh (thường cần trình độ tiếng Anh tốt, có thể yêu cầu IELTS/chứng chỉ khi nhập học) | Chương trình liên kết/quốc tế: học phí cao hơn chương trình chuẩn",
+SIM-HN2:FIN,SIM-HN2,FIN,Tài chính - Ngân hàng,7340201,tai_chinh,high_quality,,A00;D01,D01,,
+SIM-HN2:MKT,SIM-HN2,MKT,Marketing,7340115,kinh_te,standard,,A01;D01,D01,,

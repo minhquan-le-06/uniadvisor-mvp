@@ -27,9 +27,11 @@ uniadvisor = "uniadvisor.cli:app"
 requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
+# two packages: unidata (module 1, data/unidata/) and uniadvisor (modules 2-4, backend/uniadvisor/)
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["data", "backend"]
+include = ["unidata*", "uniadvisor*"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["data/tests", "backend/tests"]
 addopts = "-p no:cacheprovider"  # no .pytest_cache folder in the repo root

@@ -12,7 +12,7 @@ MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff 
 | VnExpress phổ điểm 2026 | 3 | per-subject (0.25 bins) and 13 per-combination (1-point bins) score histograms | 2026 only |
 | Ministry figures quoted in news (data/manual/distribution_anchors.csv) | 5 (hand-entered, quoted) | 2025 p50/p75/p90 for 7 combinations; 2023-2024 means | 28 |
 | UniPilotData step-1 export | 4 (aggregator) | school details, 2026 programs, quotas, THPT combinations | 1666 programs matched |
-| Per-candidate score files in data/inbox/ (not in git; e.g. github.com/sdgedfegw/du-lieu-diem-thi) | 4 (public Ministry results, compiled) | exact score distributions per combination | 2023, 2024, 2025, 2026 (up to 908,866 candidates per combination) |
+| Per-candidate score files in data/inbox/ (e.g. github.com/sdgedfegw/du-lieu-diem-thi) | 4 (public Ministry results, compiled) | exact score distributions per combination | 2023, 2024, 2025, 2026 (up to 908,866 candidates per combination) |
 
 ## Cutoffs (30-point THPT method)
 
@@ -82,7 +82,7 @@ observed = published by a source; derived = a fixed rule on observed values; est
 ## SLM training data
 
 - 61402 / 12694 / 12122 examples (train/val/test), split by university ({'val': 7, 'test': 7, 'train': 34}), synthetic students × real programs × 7 typed questions.
-- Labels come from the rubric teacher (5 simulated annotators → soft labels). They are only as good as the generator's phrase banks: a model trained on them must be checked on the **human gold set** (data/slm/gold_to_label.csv → gold_labeled.csv) before being trusted, and ideally retrained on LLM-teacher labels (`uniadvisor slm-relabel`).
+- Labels come from the rubric teacher (5 simulated annotators → soft labels). They are only as good as the generator's phrase banks: a model trained on them must be checked on the **human gold set** (backend/slm_data/gold_to_label.csv → gold_labeled.csv) before being trusted, and ideally retrained on LLM-teacher labels (`uniadvisor slm-relabel`).
 
 ## Known gaps (priority order)
 

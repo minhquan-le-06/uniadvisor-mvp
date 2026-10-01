@@ -1,0 +1,25 @@
+{
+  "kind": "simulated",
+  "what": "students",
+  "generator": {
+    "name": "uniadvisor.sim.students",
+    "version": 1,
+    "seed": 0
+  },
+  "count": 5000,
+  "area": {
+    "KV2": 1648,
+    "KV2-NT": 1773,
+    "KV3": 562,
+    "KV1": 1017
+  },
+  "score_kind": {
+    "actual": 3536,
+    "mock": 1464
+  },
+  "best_three_subjects_total": {
+    "0.1": 13.5,
+    "0.5": 19.0,
+    "0.9": 24.0
+  }
+}

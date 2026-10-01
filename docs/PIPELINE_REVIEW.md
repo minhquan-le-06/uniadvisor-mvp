@@ -9,9 +9,9 @@ deployed path (keyword judge).
 
 | Module | What it decides | Code |
 |---|---|---|
-| 1. Data collecting | cutoffs, score distributions, tuition and programs; the clean tables the app reads | `collect/`, `fetch.py`, `build/`, `config/scope.yaml`, `data/` |
+| 1. Data collecting | cutoffs, score distributions, tuition and programs; the clean tables the app reads | `collect/`, `fetch.py`, `build/`, `data/config/scope.yaml`, `data/` |
 | 2. Student info and intention | scores and form fields; 7 typed judgments read from free text (risk, priority, interest, ability, budget, location, conditions) | intake in `app/streamlit_app.py`, `slm/state.py`, `slm/questions.py`, `slm/infer.py` |
-| 3. Recommendation engine | eligibility and priority points, cutoff forecast, P(admit), criteria and utility, which programs to list and in what order | `kb/rules.py`, `config/rules/`, `engine/`, `compare.py`, `optimizer.py`, `advisor.py` |
+| 3. Recommendation engine | eligibility and priority points, cutoff forecast, P(admit), criteria and utility, which programs to list and in what order | `kb/rules.py`, `backend/config/rules/`, `engine/`, `compare.py`, `optimizer.py`, `advisor.py` |
 | 4. Explaining the suggestions | per-program explanation, confidence label, list summary, strengths and weaknesses | `explain.py`, `compare.wins_losses`, results UI |
 
 Status: module 1 is discussed and its data layer redesigned (see "Decisions" under module 1). Modules 2 and 3
@@ -47,7 +47,7 @@ programs have several, missing quota and applicant history, and coarse field lab
      export fills just 23 of them. The rest need each school's đề án (it maps school codes to MOET codes) or a
      name match against MOET's catalog of ngành names.
    - *Fixed (2026-10-01):* MOET's catalog (Thông tư 09/2022/TT-BGDĐT, 24 lĩnh vực, 95 nhóm ngành, 375 ngành) is in
-     the database (`majors`); fields come from the code via config/fields.yaml; 347 missing codes were filled by exact
+     the database (`majors`); fields come from the code via data/config/fields.yaml; 347 missing codes were filled by exact
      name match (99% right on known codes), leaving 242 programs on name keywords. 184 programs changed field, e.g.
      English-taught engineering no longer "languages", networking now IT, educational psychology no longer teacher
      training. Interest fit (module 2) can now reason at ngành / nhóm ngành level.
@@ -72,7 +72,7 @@ programs have several, missing quota and applicant history, and coarse field lab
 - Two simulated databases exist: `sim tiny` (3 schools, 12 programs, for fast tests of modules 2-4) and
   `sim season` (the real data plus one 2027 season with school-correlated shocks sized from the backtest; reform-year
   drop optional, off by default), the test bed for module 3's correlated-error problem.
-- Deferred to the module 2 discussion: moving the SLM's synthetic training data (`data/slm/*.jsonl`) under
+- Deferred to the module 2 discussion: moving the SLM's synthetic training data (`backend/slm_data/*.jsonl`) under
   `data/sim/`. It never reaches the app, and moving it changes the Kaggle training workflow.
 
 ## Module 2: Student info and intention processing

@@ -6,15 +6,15 @@ GPU (both T4s are used); on a laptop CPU it takes hours. Everything it needs is 
 ## 1. Make the bundle (on your machine, from the project root)
 
 ```bash
-.venv/Scripts/uniadvisor slm-data            # rebuild data/slm/ if the catalog changed
-.venv/Scripts/uniadvisor kaggle-bundle       # -> dist/uniadvisor_kaggle_bundle.zip
+.venv/Scripts/uniadvisor slm-data            # rebuild backend/slm_data/ if the catalog changed
+.venv/Scripts/uniadvisor kaggle-bundle       # -> artifacts/uniadvisor_kaggle_bundle.zip
 ```
 
 (On Linux/macOS use `.venv/bin/`.)
 
 ## 2. Upload and run
 
-1. Kaggle → Datasets → New dataset → upload `dist/uniadvisor_kaggle_bundle.zip` (name it `uniadvisor-bundle`).
+1. Kaggle → Datasets → New dataset → upload `artifacts/uniadvisor_kaggle_bundle.zip` (name it `uniadvisor-bundle`).
    Kaggle unzips it into a folder; the notebook handles both the folder and a raw zip.
 2. New notebook → Add input → your dataset. Settings: **Accelerator GPU T4 x2 or P100**, **Internet on**
    (the base model `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` is downloaded from Hugging Face).
@@ -31,7 +31,7 @@ under ~85% (and raise `--lr` a little with it, e.g. bs 128 -> lr 1e-3, bs 256 ->
 "CUDA out of memory". Filling VRAM makes epochs faster, not the model better: a larger batch means fewer update
 steps, so if validation accuracy drops compared with a run at a smaller batch, go back to the smaller one.
 
-Useful knobs (`python -m uniadvisor.slm.train --help`):
+Useful knobs (`python -m uniadvisor.student.slm.train --help`):
 `--epochs 5 --bs 128 --lr 1e-3 --lora-r 16 --max-len 320 --target-acc 0.9 --eval-bs 512`.
 The loss should fall steadily in the first epoch and flatten later.
 To use LLM-teacher labels instead of the rubric teacher, rename `train.llm.jsonl` → `train.jsonl`
@@ -52,7 +52,7 @@ uniadvisor slm-eval --judge hybrid --limit 3000
 ```
 
 If a question flips (the SLM now beats the rules or the other way round), update `SLM_QUESTIONS` in
-`src/uniadvisor/slm/infer.py` or put `"route": [...]` in `artifacts/models/slm/config.json`.
+`backend/uniadvisor/student/slm/infer.py` or put `"route": [...]` in `artifacts/models/slm/config.json`.
 
 The load report printed on first use (`classifier.*` UNEXPECTED, `pooler.*` MISSING) is expected: the
 model uses its own pooling and heads, which come from `adapter.pt`.

@@ -20,7 +20,7 @@ and `metrics.json` are committed.
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
 | SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `artifacts/models/slm/`). On Gemini's gold labels: keywords 0.823 (after rubric fixes), SLM 0.765, hybrid 0.864 (measured) with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weakest: interest_fit (0.55). The teacher changed since (English self-assessment counts for ability_fit; 48 program fields fixed), so the next retrain trains on slightly better labels |
 | App / API | Streamlit chat + FastAPI both tested (headless Chromium, TestClient). Deploy-ready for Streamlit Community Cloud with the keyword judge (`requirements.txt`, `.streamlit/config.toml`, [DEPLOY.md](DEPLOY.md)); tested from a clean clone: ~250 MB RAM, results in ~2 s. The owner still has to create the app on share.streamlit.io |
-| Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`, committed). 6 rows (4 ability_fit, 2 interest_fit) still carry labels from before the rubric fixes; `uniadvisor gold-llm --redo interest_fit,ability_fit` relabels just those. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
+| Labelling | Gemini labelled all 294 gold rows (`backend/slm_data/gold_llm.csv`, committed). 6 rows (4 ability_fit, 2 interest_fit) still carry labels from before the rubric fixes; `uniadvisor gold-llm --redo interest_fit,ability_fit` relabels just those. The gold set is frozen in `backend/slm_data/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
 
 ## Next, in order of value
 
@@ -32,17 +32,17 @@ team overview and the module 3 plan: [TEAM_REPORT.md](TEAM_REPORT.md).
   order them by how hard each is for this student (predicted cutoff minus their own total), point out
   preference/order conflicts, end with 2-3 safe wishes at different schools, show 3-4 levels instead of %. Measure the
   forecast by how often it orders pairs of programs correctly. Test bed: `sim students` × `sim season` with
-  `sim.students.OracleJudge` (an always-right module 2).
-- Module 2 (student understanding): next. A fact reader (`uniadvisor.intent`, interests as MOET nhóm ngành) exists
+  `uniadvisor.student.simulated.OracleJudge` (an always-right module 2).
+- Module 2 (student understanding): next. A fact reader (`uniadvisor.student.intent`, interests as MOET nhóm ngành) exists
   and is measured (`uniadvisor intent-eval`), not yet used by the app.
 - Module 4 (explanations): as-is for now.
 
 The owner discusses in chat and wants results as Markdown files in the repo.
 Starting points for module 2: the review's module 2 findings (intent never extracted as explicit facts; interest_fit
 does not separate programs; clarifying questions only for risk/priority), the keyword baseline 0.823 and hybrid 0.864
-on `data/slm/gold_llm.csv`, the tiny simulated world for fast tests (`tiny_db` fixture), and the deferred move of
+on `backend/slm_data/gold_llm.csv`, the tiny simulated world for fast tests (`tiny_db` fixture), and the deferred move of
 the SLM's synthetic data to `data/sim/`. Done before module 2: fields now come from MOET's major code (digits
-1-3 lĩnh vực, 1-5 nhóm ngành, 1-7 ngành; `majors` table, config/fields.yaml); 242 programs still lack a code. 184 programs changed field, so run
+1-3 lĩnh vực, 1-5 nhóm ngành, 1-7 ngành; `majors` table, data/config/fields.yaml); 242 programs still lack a code. 184 programs changed field, so run
 `uniadvisor slm-data` before the next SLM retrain (the frozen gold set is unaffected). For module 3, `uniadvisor sim season` is the ready test bed.
 
 SLM work is wrapped up for the MVP (owner decision, 2026-10-01): hybrid 0.864 on Gemini's gold labels.
@@ -69,7 +69,7 @@ SLM work is wrapped up for the MVP (owner decision, 2026-10-01): hybrid 0.864 on
 ## SLM: improvement methods for future versions
 
 Ordered by expected value. Measure every change on the frozen gold set (`slm-eval --judge hybrid|slm|heuristic
---gold data/slm/gold_llm.csv`) and re-pick `SLM_QUESTIONS` after each retrain.
+--gold backend/slm_data/gold_llm.csv`) and re-pick `SLM_QUESTIONS` after each retrain.
 
 **Labels (biggest lever)**
 - Train on LLM labels, not only the rubric teacher: relabel a train subset with Gemini (`slm-relabel` exists;
