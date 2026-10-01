@@ -137,7 +137,16 @@ def slm_eval(judge: str = "auto", gold: Path | None = None, limit: int | None = 
     elif judge in ("slm", "hybrid"):
         slm = load_slm()
         if slm is None:
-            raise typer.BadParameter("no trained SLM in models/slm/ (or UNIADVISOR_SLM_DIR)")
+            import os
+
+            from uniadvisor.paths import MODELS
+
+            d = Path(os.environ.get("UNIADVISOR_SLM_DIR", MODELS / "slm"))
+            found = sorted(str(f.relative_to(d)) for f in d.rglob("*") if f.is_file())[:8] if d.is_dir() else []
+            hint = (f"folder does not exist" if not d.is_dir() else
+                    f"it contains: {', '.join(found) or 'nothing'}" + (" (unzipped one level too deep?)" if any("/" in f or "\\" in f for f in found) else ""))
+            raise typer.BadParameter(f"no trained SLM: need adapter.pt and config.json directly in {d.resolve()}; {hint}"
+                                     + (" [UNIADVISOR_SLM_DIR is set]" if "UNIADVISOR_SLM_DIR" in os.environ else ""))
         j = slm if judge == "slm" else HybridJudge(slm)
     elif judge == "auto":
         j = get_judge()
