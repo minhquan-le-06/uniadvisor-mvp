@@ -1,11 +1,21 @@
-"""Where things live. Override the UniPilotData export folder with UNIPILOT_OUT."""
+"""Where things live. Override the repo folder with UNIADVISOR_ROOT and the UniPilotData export folder with UNIPILOT_OUT."""
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+
+def _root() -> Path:
+    """The repo folder: UNIADVISOR_ROOT if set, else the source checkout, else the current folder (a
+    non-editable install puts this file in site-packages, away from config/ and data/)."""
+    if os.environ.get("UNIADVISOR_ROOT"):
+        return Path(os.environ["UNIADVISOR_ROOT"]).resolve()
+    here = Path(__file__).resolve().parents[2]
+    return here if (here / "config").is_dir() else Path.cwd().resolve()
+
+
+ROOT = _root()
 CONFIG = ROOT / "config"
 RULES = CONFIG / "rules"
 DATA = ROOT / "data"

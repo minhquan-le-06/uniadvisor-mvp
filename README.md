@@ -34,6 +34,8 @@ The processed data (`data/processed/`) is included, so the app runs without re-c
 trained SLM in `models/slm/`, a transparent keyword judge is used; with one, the hybrid judge is used.
 The sidebar says which.
 
+To put the app online (Streamlit Community Cloud, keyword judge, no secrets), see [DEPLOY.md](DEPLOY.md).
+
 ## Data pipeline (yearly refresh)
 
 ```bash
