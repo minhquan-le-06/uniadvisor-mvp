@@ -24,15 +24,20 @@ PRIORITY_TO_CRITERION = {
     # No employment data in the MVP: selectivity is used as the (weak) proxy and the UI says so.
     "viec_lam_thu_nhap": "selectivity",
 }
+# A student who wants to aim high ("thử thách") values a more selective program more; a cautious one less.
+# Without this, programs of one field have near-equal utility and the list collapses to easy, safe ones.
+RISK_TO_SELECTIVITY = {"an_toan": 1.0, "can_bang": 1.5, "mao_hiem": 3.0}
 NEUTRAL = 0.5
 
 
-def weights_for(top_priority: str | None, override: dict[str, float] | None = None) -> dict[str, float]:
+def weights_for(top_priority: str | None, override: dict[str, float] | None = None, risk_tolerance: str | None = None) -> dict[str, float]:
     w = dict(BASE_WEIGHTS)
     if override:
         w.update({k: float(v) for k, v in override.items() if k in w})
-    elif top_priority in PRIORITY_TO_CRITERION:
-        w[PRIORITY_TO_CRITERION[top_priority]] *= 2.5
+    else:
+        if top_priority in PRIORITY_TO_CRITERION:
+            w[PRIORITY_TO_CRITERION[top_priority]] *= 2.5
+        w["selectivity"] *= RISK_TO_SELECTIVITY.get(risk_tolerance or "", RISK_TO_SELECTIVITY["can_bang"])
     total = sum(w.values()) or 1.0
     return {k: v / total for k, v in w.items()}
 
@@ -66,10 +71,14 @@ def criteria(program: dict, forecast_score: float | None, answers: dict[str, Ans
     }
 
 
-def utility(crit: dict[str, float], weights: dict[str, float], conditions: Answer | None) -> float:
+def utility(crit: dict[str, float], weights: dict[str, float], conditions: Answer | None, location: Answer | None = None) -> float:
     u = sum(weights[k] * crit[k] for k in weights)
     if conditions is not None:
         u *= 1.0 - 0.8 * conditions.p("no")  # a program the student cannot meet is nearly worthless to them
+    if location is not None:
+        # a city the student did not ask for is a real drawback, not one criterion among five (program cities are
+        # exact data; tuition stays a soft criterion because most fees are school-level estimates in the MVP)
+        u *= 1.0 - 0.4 * location.p("no")
     return float(np.clip(u, 0, 1))
 
 

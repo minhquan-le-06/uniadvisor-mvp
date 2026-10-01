@@ -121,3 +121,33 @@ def test_inbox_loader_reads_camelcase_merges_years_and_skips_ct2006(tmp_path, mo
     df = out[2024]
     assert sorted(df.columns) == ["HO", "LI", "N1", "TO", "VA"]    # 'Tinh' (province) is not 'Tin' (informatics)
     assert len(df) == 2 and df.TO.tolist() == [8.4, 6.0]
+
+
+def test_near_ties_put_the_higher_cutoff_first():
+    from uniadvisor.optimizer import order
+    safe = Item("safe", 0.97, 0.72, True, "A", cutoff=23.0)
+    reach = Item("reach", 0.25, 0.70, False, "B", cutoff=27.6)
+    clear = Item("clear", 0.95, 0.90, True, "C", cutoff=20.0)  # a clearly preferred program keeps its place
+    assert [it.key for it in order([safe, reach, clear])] == ["clear", "reach", "safe"]
+
+
+def test_risk_tolerance_scales_selectivity():
+    from uniadvisor.compare import weights_for
+    bold, careful = weights_for(None, None, "mao_hiem"), weights_for(None, None, "an_toan")
+    assert bold["selectivity"] > careful["selectivity"]
+    assert weights_for(None, {"selectivity": 0.1}, "mao_hiem") == weights_for(None, {"selectivity": 0.1}, "an_toan")
+
+
+def test_bold_student_gets_reach_programs_first():
+    from uniadvisor.advisor import advise
+    from uniadvisor.slm.infer import HeuristicJudge
+    from uniadvisor.slm.state import StudentProfile
+    text = "\n".join(["Em muốn học Công nghệ thông tin. Nhà em lo được khoảng 25 triệu một năm. Em muốn học ở Hà Nội và cần chắc chắn đỗ.",
+                      "thử sức, học ở tp hcm", "muốn thử thách, không cần an toàn"])
+    p = StudentProfile(scores={"TO": 8.5, "VA": 7, "LI": 9, "N1": 9}, province="Đắk Lắk", area="KV2", free_text=text)
+    a = advise(p, k_max=15, judge=HeuristicJudge())
+    assert a.profile_answers["risk_tolerance"].label == "mao_hiem"
+    buckets = [c["bucket"] for c in a.chosen]
+    assert buckets[0] == "reach" and "safe" in buckets
+    assert buckets.index("safe") > max(i for i, b in enumerate(buckets) if b == "reach")
+    assert all(c["program"]["city"] == "TP. Hồ Chí Minh" for c in a.chosen)

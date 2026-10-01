@@ -17,7 +17,7 @@ from uniadvisor.compare import BASE_WEIGHTS, CRITERIA
 from uniadvisor.engine.dist import default_distributions
 from uniadvisor.explain import DISCLAIMER
 from uniadvisor.kb.rules import BUCKET_VI, load_rules
-from uniadvisor.slm.infer import get_judge
+from uniadvisor.slm.infer import get_judge, mentions
 from uniadvisor.slm.questions import BY_ID
 from uniadvisor.slm.state import SUBJECT_VI, StudentProfile
 from uniadvisor.slm.synth import CENTRAL, NORTH, SOUTH
@@ -242,6 +242,10 @@ elif ss.stage == "results":
 
     more = st.chat_input("Muốn bổ sung hay đổi ý? (vd: em muốn học ở TP.HCM hơn)")
     if more:
-        profile["free_text"] = (profile.get("free_text", "") + " " + more).strip()
+        # one message per line, newest last: on risk, priority, place and budget the newest message wins (infer.focus),
+        # and it also replaces an earlier answer to a clarifying question on that topic
+        profile["free_text"] = (profile.get("free_text", "") + "\n" + more).strip()
+        for q in [q for q in profile.get("answers", {}) if mentions(q, more)]:
+            del profile["answers"][q]
         say("user", more)
         st.rerun()

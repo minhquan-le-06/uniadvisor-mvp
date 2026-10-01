@@ -8,6 +8,8 @@ HybridJudge   what the app uses when a model is present: each question goes to t
                answers it better (SLM_QUESTIONS).
 
 Answers the student gave to clarifying questions (profile.answers) always win over both.
+free_text may hold several messages, one per line, newest last; `focus` keeps only the newest message
+on a topic where a later statement replaces an earlier one (the student changed their mind).
 """
 
 from __future__ import annotations
@@ -15,7 +17,7 @@ from __future__ import annotations
 import json
 import os
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import lru_cache
 from pathlib import Path
 
@@ -77,8 +79,11 @@ NEG = ("khong thich", "ghet", "so ", "khong muon", "khong hop", "khong co nang k
 RISK_KW = {
     "an_toan": ("chac chan do", "chac an", "an toan", "so truot", "phai do", "khong dam lieu", "khong cho thi lai", "do la duoc", "khong muon mao hiem"),
     "can_bang": ("can bang", "du phong", "vua suc", "duong lui", "ca phuong an"),
-    "mao_hiem": ("lieu", "thi lai", "rui ro", "an ca nga ve khong", "thu suc het minh", "on them mot nam"),
+    "mao_hiem": ("lieu", "thi lai", "rui ro", "an ca nga ve khong", "thu suc", "thu thach", "nham cao", "on them mot nam"),
 }
+# a cautious phrase under negation ("không cần an toàn") means the opposite; counted as mao_hiem and removed first
+RISK_NEGATED = ("khong can an toan", "khong can chac", "khong can phai chac", "khong so truot", "khong ngai truot",
+                "khong ngai rui ro", "chap nhan rui ro", "chap nhan truot")
 PRIORITY_KW = {
     "nganh_yeu_thich": ("dam me", "nganh minh thich", "cai minh yeu thich", "dung nganh"),
     "truong_danh_tieng": ("danh tieng", "truong top", "co tieng", "ten tuoi", "truong xin"),
@@ -203,6 +208,36 @@ def _location(text: str, province: str | None) -> str | None:
     return None
 
 
+# questions where a newer message replaces an older one; interest (likes add up), ability (scores) and special
+# conditions (facts about the student) read all messages
+RECENCY_QUESTIONS = ("risk_tolerance", "top_priority", "location_ok", "budget_ok")
+
+
+def mentions(qid: str, text: str) -> bool:
+    """Does this text say anything about the question's topic? (keyword level, judge-independent)"""
+    t = f" {fold(text)} "
+    if qid == "risk_tolerance":
+        return any(w in t for ws in (*RISK_KW.values(), RISK_NEGATED) for w in ws)
+    if qid == "top_priority":
+        return any(w in t for ws in PRIORITY_KW.values() for w in ws)
+    if qid == "location_ok":
+        return _location(text, None) is not None
+    if qid == "budget_ok":
+        return _budget(text)[0] is not None
+    return False
+
+
+def focus(profile: StudentProfile, qid: str) -> StudentProfile:
+    """The profile with free_text cut to the newest message about `qid`, for RECENCY_QUESTIONS."""
+    msgs = [m for m in (profile.free_text or "").split("\n") if m.strip()]
+    if len(msgs) < 2 or qid not in RECENCY_QUESTIONS:
+        return profile
+    for m in reversed(msgs):
+        if mentions(qid, m):
+            return replace(profile, free_text=m.strip())
+    return profile
+
+
 class HeuristicJudge:
     name = "heuristic"
     cap = 0.7
@@ -218,7 +253,11 @@ class HeuristicJudge:
             return {l: (conf if l == label else rest) for l in labels}
 
         if qid == "risk_tolerance":
+            negated = sum(w in t for w in RISK_NEGATED)
+            for w in RISK_NEGATED:
+                t = t.replace(w, " ")
             hits = {k: sum(w in t for w in ws) for k, ws in RISK_KW.items()}
+            hits["mao_hiem"] += negated
             best = max(hits, key=hits.get)
             if hits[best] == 0 or sorted(hits.values())[-2] == hits[best]:
                 return _finish(qid, dist(INSUFFICIENT, 0.55), self.name, DEFAULT_THRESHOLD)

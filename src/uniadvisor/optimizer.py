@@ -8,6 +8,12 @@ set the best order is by utility, descending. What remains is *which* programs t
 dynamic programme over the utility-sorted candidates, with KB constraints (max number of wishes,
 at least N 'safe' wishes, at most M wishes per school).
 
+Ties: utilities within TIE of each other are within the precision of the soft judgments, so the order
+between them is noise. The utility-sorted list is cut into groups whose members are all within TIE of the
+group's best, and inside a group the higher forecast cutoff goes first (aim high, keep the easier program
+as the fallback below it). Otherwise a near-certain program placed high makes every wish below it almost
+worthless while being no clearer a preference than they are.
+
 Assumes the p_i are independent given the student's score (cutoff errors differ per program); the
 student's own score uncertainty makes them positively correlated, so P(admitted somewhere) is an
 optimistic upper estimate when the score is a mock-exam estimate.
@@ -27,6 +33,10 @@ class Item:
     u: float        # utility in [0, 1]
     safe: bool
     school: str
+    cutoff: float = 0.0  # forecast cutoff, breaks near-ties in utility (higher first)
+
+
+TIE = 0.05
 
 
 def expected_value(items: list[Item]) -> float:
@@ -73,6 +83,18 @@ def _dp(items: list[Item], k_max: int, min_safe: int) -> list[Item]:
     return chosen
 
 
+def order(items: list[Item]) -> list[Item]:
+    """Utility descending, then within each group of near-equal utility (TIE) by cutoff descending."""
+    rest = sorted(items, key=lambda it: (-it.u, -it.p, it.key))
+    out: list[Item] = []
+    while rest:
+        top = rest[0].u
+        group = [it for it in rest if it.u >= top - TIE]
+        rest = rest[len(group):]
+        out += sorted(group, key=lambda it: (-it.cutoff, -it.u, it.key))
+    return out
+
+
 def optimise(candidates: list[Item], k_max: int = 10, min_safe: int = 2, max_per_school: int = 4) -> list[Item]:
     items = sorted(candidates, key=lambda it: (-it.u, -it.p, it.key))
     banned: set[str] = set()
@@ -83,6 +105,6 @@ def optimise(candidates: list[Item], k_max: int = 10, min_safe: int = 2, max_per
             per_school.setdefault(it.school, []).append(it)
         over = [sorted(v, key=lambda it: it.p * it.u)[0] for v in per_school.values() if len(v) > max_per_school]
         if not over:
-            return chosen
+            return order(chosen)
         banned |= {it.key for it in over}
-    return chosen
+    return order(chosen)

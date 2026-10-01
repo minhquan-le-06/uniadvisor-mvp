@@ -23,7 +23,7 @@ class StudentProfile:
     category: str = "none"             # none / UT1 / UT2
     gender: str | None = None          # nam / nu
     score_kind: str = "actual"         # actual (real exam) | mock (thi thử / dự kiến)
-    free_text: str = ""
+    free_text: str = ""                # the student's messages, one per line, newest last
     years_since_graduation: int = 0
     answers: dict[str, str] = field(default_factory=dict)  # answers the student gave to clarifying questions
 

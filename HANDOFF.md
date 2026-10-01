@@ -107,6 +107,13 @@ Ordered by expected value. Measure every change on the frozen gold set (`slm-eva
 
 ## Decisions and findings worth remembering
 
+- List order (owner feedback 2026-10-01, "the top wishes must be the challenging ones"): utilities of one
+  field's programs are near-equal, so pure utility order put a 97% program at NV1 and made the rest useless.
+  Now: groups of utility within 0.05 are ordered by forecast cutoff (reach first, safe last, `optimizer.order`);
+  risk tolerance scales the selectivity weight (an_toan 1x, can_bang 1.5x, mao_hiem 3x); an unmet city
+  multiplies utility by 1 - 0.4 p(no). The 120-program pre-ranking keeps a third per bucket (it used to rank by
+  P(admit) and dropped every reach program). Follow-up chat messages are one per line and the newest wins on
+  risk, priority, place and budget (`infer.focus`); "thử thách", "thử sức", "không cần an toàn" are mao_hiem.
 - Build is reproducible across platforms: stable sorts with explicit tie-breaks (program dedupe prefers
   longest history, then best-confirmed row, then program_id).
 - Percentile equating fails at the tails: selective programs stay sticky in points; low ones sit on the

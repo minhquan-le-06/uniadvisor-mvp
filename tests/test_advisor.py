@@ -19,8 +19,10 @@ def test_advise_end_to_end_is_deterministic_and_valid():
     a2 = advise(p, judge=HeuristicJudge())
     assert [c["program"]["program_id"] for c in a1.chosen] == [c["program"]["program_id"] for c in a2.chosen]
     assert 0 < len(a1.chosen) <= a1.constraints["max_choices"]
-    utils = [c["utility"] for c in a1.chosen]
-    assert utils == sorted(utils, reverse=True)                      # ordered by utility
+    from uniadvisor.optimizer import Item, order
+    items = [Item(c["program"]["program_id"], c["p_admit"], c["utility"], c["bucket"] == "safe", "", c["forecast"].score)
+             for c in a1.chosen]
+    assert [it.key for it in order(items)] == [it.key for it in items]  # utility, near-ties by cutoff (optimizer.order)
     assert sum(c["bucket"] == "safe" for c in a1.chosen) >= min(a1.constraints["min_safe"], len(a1.chosen))
     assert all(0 <= c["p_admit"] <= 1 for c in a1.chosen)
     assert all(c["bucket"] != "unlikely" for c in a1.chosen)          # never recommended automatically

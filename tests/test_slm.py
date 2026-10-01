@@ -171,3 +171,23 @@ def test_teacher_counts_the_english_self_assessment():
     lang = dict(PROGRAM, field="ngon_ngu")
     z = _latent(scores={"N1": 7.0, "VA": 7.0, "TO": 7.0}, english="weak")
     assert top(teacher.label("ability_fit", z, lang, rng)) == "2"   # 7.0 -> 3, weak English -> 2
+
+
+def test_risk_keywords_and_negation():
+    from uniadvisor.slm.infer import HeuristicJudge
+    from uniadvisor.slm.state import StudentProfile
+    j = HeuristicJudge()
+    lab = lambda t: j.answer([("risk_tolerance", StudentProfile(free_text=t), None)])[0].label  # noqa: E731
+    assert lab("thử thách") == "mao_hiem"
+    assert lab("muốn thử thách, không cần an toàn") == "mao_hiem"
+    assert lab("em cần chắc chắn đỗ") == "an_toan"
+
+
+def test_newest_message_wins_on_place_and_risk():
+    from uniadvisor.slm.infer import focus, mentions
+    from uniadvisor.slm.state import StudentProfile
+    p = StudentProfile(free_text="Em muốn học CNTT ở Hà Nội, cần chắc chắn đỗ.\nhọc ở tp hcm\nthử thách")
+    assert focus(p, "location_ok").free_text == "học ở tp hcm"
+    assert focus(p, "risk_tolerance").free_text == "thử thách"
+    assert focus(p, "interest_fit") is p  # likes add up across messages
+    assert mentions("budget_ok", "nhà em lo được 25 triệu") and not mentions("budget_ok", "thử thách")

@@ -23,7 +23,7 @@ from uniadvisor.engine.forecast import ForecastParams, admit_probability, foreca
 from uniadvisor.kb import rules
 from uniadvisor.optimizer import Item, expected_value, optimise, p_any
 from uniadvisor.paths import PROCESSED
-from uniadvisor.slm.infer import Answer, HeuristicJudge, get_judge
+from uniadvisor.slm.infer import Answer, HeuristicJudge, focus, get_judge
 from uniadvisor.slm.questions import BY_ID, PROFILE_QUESTIONS, PROGRAM_QUESTIONS
 from uniadvisor.slm.state import StudentProfile
 
@@ -90,12 +90,12 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
     notes = []
 
     # 1. profile-level soft judgments
-    pa = dict(zip([q.id for q in PROFILE_QUESTIONS], judge.answer([(q.id, profile, None) for q in PROFILE_QUESTIONS])))
+    pa = dict(zip([q.id for q in PROFILE_QUESTIONS], judge.answer([(q.id, focus(profile, q.id), None) for q in PROFILE_QUESTIONS])))
     risk = pa["risk_tolerance"].label if not pa["risk_tolerance"].escalate else None
     prio = pa["top_priority"].label if not pa["top_priority"].escalate else None
     cons = rules.list_constraints(risk, ruleset)
     k = min(k_max or cons["target_size"], cons["max_choices"])
-    weights = compare.weights_for(prio, weights_override)
+    weights = compare.weights_for(prio, weights_override, risk)
     if prio == "viec_lam_thu_nhap":
         notes.append("Chưa có dữ liệu việc làm/thu nhập theo ngành trong MVP; tạm dùng độ cạnh tranh của ngành làm đại diện.")
 
@@ -121,18 +121,27 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
                       "Không tìm thấy ngành nào trong phạm vi dữ liệu có xác suất đỗ đủ cao với tổ hợp và điểm hiện tại.",
                       getattr(judge, "name", "?"), notes)
 
-    # 3. cheap pre-ranking (keyword judge) so the SLM only sees a manageable set
+    # 3. cheap pre-ranking (keyword judge) so the SLM only sees a manageable set. Each of reach / match / safe
+    # keeps its own share: ranking everything together favours the many easy programs and would drop every
+    # reach program before the optimizer sees it. Admission probability is not part of the key (the optimizer
+    # weighs it); selectivity is, so the better programs within a bucket come first.
+    focused = {q.id: focus(profile, q.id) for q in PROGRAM_QUESTIONS}
     if len(evals) > MAX_SLM_CANDIDATES:
         pre = HeuristicJudge()
         keys = []
         for ev in evals:
-            a = pre.answer([("interest_fit", profile, ev["program"]), ("location_ok", profile, ev["program"])])
-            keys.append((a[0].expected_level() or 3) / 5 + 0.5 * a[1].p("yes") + 0.3 * ev["p_admit"])
-        order = np.argsort(keys)[::-1][:MAX_SLM_CANDIDATES]
-        evals = [evals[i] for i in sorted(order)]
+            a = pre.answer([("interest_fit", focused["interest_fit"], ev["program"]), ("location_ok", focused["location_ok"], ev["program"])])
+            sel = compare.criteria(ev["program"], ev["forecast"].score, {}, None)["selectivity"]
+            keys.append((a[0].expected_level() or 3) / 5 + 0.5 * a[1].p("yes") + 0.2 * sel)
+        ranked = list(np.argsort(keys, kind="stable")[::-1])
+        keep: list[int] = []
+        for bucket in ("reach", "match", "safe"):
+            keep += [i for i in ranked if evals[i]["bucket"] == bucket][: MAX_SLM_CANDIDATES // 3]
+        keep += [i for i in ranked if i not in set(keep)][: MAX_SLM_CANDIDATES - len(keep)]
+        evals = [evals[i] for i in sorted(keep)]
 
     # 4. soft judgments per program
-    items = [(q.id, profile, ev["program"]) for ev in evals for q in PROGRAM_QUESTIONS]
+    items = [(q.id, focused[q.id], ev["program"]) for ev in evals for q in PROGRAM_QUESTIONS]
     answers = judge.answer(items)
     nq = len(PROGRAM_QUESTIONS)
     fees = [ev["program"].get("tuition_min") for ev in evals]
@@ -142,11 +151,12 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
         f = ev["program"].get("tuition_min")
         rank = (np.searchsorted(known, f) / max(1, len(known) - 1)) if f and known else None
         ev["criteria"] = compare.criteria(ev["program"], ev["forecast"].score, ev["answers"], rank)
-        ev["utility"] = compare.utility(ev["criteria"], weights, ev["answers"]["conditions_ok"])
+        ev["utility"] = compare.utility(ev["criteria"], weights, ev["answers"]["conditions_ok"], ev["answers"]["location_ok"])
 
     # 5. choose and order
     # "unlikely" programs are never recommended automatically (rules: risk_buckets); they stay in alternatives
-    cand = [Item(ev["program"]["program_id"], ev["p_admit"], ev["utility"], ev["bucket"] == "safe", ev["program"]["school_code"])
+    cand = [Item(ev["program"]["program_id"], ev["p_admit"], ev["utility"], ev["bucket"] == "safe", ev["program"]["school_code"],
+                 ev["forecast"].score or 0.0)
             for ev in evals if ev["bucket"] != "unlikely"]
     picked = optimise(cand, k_max=k, min_safe=cons["min_safe"], max_per_school=4)
     by_key = {ev["program"]["program_id"]: ev for ev in evals}
