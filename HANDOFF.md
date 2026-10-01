@@ -55,6 +55,45 @@ SLM work is wrapped up for the MVP (owner decision, 2026-10-01): hybrid 0.864 on
 | 3 | teacher fix (NaN campus), clearer interest/ability rubrics, 5 epochs, DDP on 2×T4 | 0.799 |
 | 3 + rules | keyword ability/interest rules follow the rubric, whole-word field matching | **0.864** |
 
+## SLM: improvement methods for future versions
+
+Ordered by expected value. Measure every change on the frozen gold set (`slm-eval --judge hybrid|slm|heuristic
+--gold data/slm/gold_llm.csv`) and re-pick `SLM_QUESTIONS` after each retrain.
+
+**Labels (biggest lever)**
+- Train on LLM labels, not only the rubric teacher: relabel a train subset with Gemini (`slm-relabel` exists;
+  `gold-llm` shows the batching/quota pattern) and mix soft labels. The teacher is a hand-written rule, so the SLM
+  can at best copy it; every teacher bug so far (NaN campus, English self-assessment) went straight into the model.
+- Grow the gold set: 42 rows per question means one row = 2.4 points. Aim for 100+ per question, stratified by label
+  (budget_ok is 81% "insufficient", so it tests almost nothing). Add a human spot-check (`uniadvisor label`) of
+  rows where Gemini and the teacher disagree.
+- Decouple the teacher's RNG from the dataset sampler (seed per example): today any teacher change reshuffles which
+  programs students are paired with (that is why the gold set had to be frozen).
+
+**Per question**
+- interest_fit (0.55, weakest): relatedness is judged at the level of 16 broad fields, while Gemini reads the program
+  name (food technology vs biotechnology; "Kinh tế xây dựng" filed under finance). Use a finer taxonomy (ministry
+  major code, 4-6 digits) with a related-majors table, and generate more hinted interests (hobbies, dream jobs).
+- ability_fit: keep the arithmetic in the rules. If the SLM is used, have it only extract facts (strong/weak subjects
+  from free text) and let the rules score; the current SLM almost always defers on it.
+- budget_ok: needs real tuition (out of MVP scope); until then most rows are correctly "insufficient".
+- Confidence: the keyword judge uses a fixed 0.7, so it is under-confident where it is right (ability_fit ECE 0.23).
+  Calibrate its confidences on the gold set, per question and rule branch.
+
+**Model and training**
+- Thresholds: `--target-acc 0.9` is too strict for the 1-5 score questions (their threshold ends at 0.95, so the SLM
+  defers on 80-95% of rows). Use a per-question target, or pick thresholds on the gold set.
+- Base model: try a larger multilingual or Vietnamese encoder (XLM-R base, PhoBERT, a Vietnamese bi-encoder) with
+  the same typed heads; the current MiniLM (L12, H384) is small. Batch 128/GPU is the T4 ceiling (~14/15 GB); a
+  larger model needs a smaller batch or gradient accumulation.
+- Validation accuracy flattened at epoch 5 (0.772 -> 0.777): add early stopping instead of more epochs.
+- Domain shift: synthetic free text is template-based. Collect real (anonymised, consented) student messages and
+  add them to the gold set before trusting the scores on real users.
+
+**Evaluation**
+- Score the whole advisor, not only the 7 questions: for gold students, compare the recommended list (and the
+  clarifying questions asked) with what a human counsellor would choose.
+
 ## Cloud-environment notes (for the next Claude session)
 
 - The container's default `python3` is 3.11 and fine now; `python3.12` also exists.
