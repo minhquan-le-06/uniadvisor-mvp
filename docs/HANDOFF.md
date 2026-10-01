@@ -1,10 +1,10 @@
 # Hand-off (state as of 2026-10-01)
 
 PRs #1-#5 are merged into `main`; new work goes on a fresh branch off `main`.
-Read this file, then [README.md](../README.md) and [reports/data_report.md](../reports/data_report.md).
+Read this file, then [README.md](../README.md) and [artifacts/reports/data_report.md](../artifacts/reports/data_report.md).
 Commands, layout and coding conventions are in [CLAUDE.md](../CLAUDE.md).
 
-The trained SLM adapter (`models/slm/adapter.pt`) lives only on the owner's Windows machine; its `config.json`
+The trained SLM adapter (`artifacts/models/slm/adapter.pt`) lives only on the owner's Windows machine; its `config.json`
 and `metrics.json` are committed.
 
 ## Current state
@@ -15,7 +15,7 @@ and `metrics.json` are committed.
 | Rules | 2026 verified by the owner (`verified: true`); 2027 is a draft inheriting 2026 |
 | Forecast | MAE 1.373 ≈ naive "last year's cutoff" (1.369). Percentile equating with exact data is worse (1.55), so the backtest picks `equate=never`. P(admit) calibrated: Brier 0.119, ECE 0.056 |
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
-| SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `models/slm/`). On Gemini's gold labels: keywords 0.823 (after rubric fixes), SLM 0.765, hybrid 0.864 (measured) with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weakest: interest_fit (0.55). The teacher changed since (English self-assessment counts for ability_fit; 48 program fields fixed), so the next retrain trains on slightly better labels |
+| SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `artifacts/models/slm/`). On Gemini's gold labels: keywords 0.823 (after rubric fixes), SLM 0.765, hybrid 0.864 (measured) with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weakest: interest_fit (0.55). The teacher changed since (English self-assessment counts for ability_fit; 48 program fields fixed), so the next retrain trains on slightly better labels |
 | App / API | Streamlit chat + FastAPI both tested (headless Chromium, TestClient). Deploy-ready for Streamlit Community Cloud with the keyword judge (`requirements.txt`, `.streamlit/config.toml`, [DEPLOY.md](DEPLOY.md)); tested from a clean clone: ~250 MB RAM, results in ~2 s. The owner still has to create the app on share.streamlit.io |
 | Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`, committed). 6 rows (4 ability_fit, 2 interest_fit) still carry labels from before the rubric fixes; `uniadvisor gold-llm --redo interest_fit,ability_fit` relabels just those. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
 

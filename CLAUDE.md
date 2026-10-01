@@ -2,7 +2,7 @@
 
 University application advisor (nguyện vọng) for Vietnamese grade-12 students: rules (KB) + statistical engine +
 a small typed-head language model (SLM) for soft judgments only. Spec: [docs/MVP.md](docs/MVP.md). Current status,
-results and roadmap: [docs/HANDOFF.md](docs/HANDOFF.md). Read [reports/data_report.md](reports/data_report.md)
+results and roadmap: [docs/HANDOFF.md](docs/HANDOFF.md). Read [artifacts/reports/data_report.md](artifacts/reports/data_report.md)
 before trusting any number.
 
 ## Commands (run from the repo root; Windows venv shown, use `.venv/bin/` elsewhere)
@@ -32,13 +32,14 @@ All are in `src/uniadvisor/cli.py`.
 | `data/unipilot/` | UniPilotData step-1 export (schools, programs, combos) | yes |
 | `data/slm/` | rubrics, gold set (`gold_frozen.jsonl`, `gold_llm.csv`, `gold_to_label.csv`); `*.jsonl` splits are regenerated | partly |
 | `data/raw/`, `data/inbox/` | HTTP cache; per-candidate score files | no |
-| `models/` | `forecast_params.json`; `models/slm/` = trained SLM (`config.json` + `metrics.json` committed, `adapter.pt` ignored) | partly |
-| `reports/` | data report, backtest, SLM eval results | yes (`*.log` ignored) |
-| `kaggle/` | GPU training notebook + guide | yes |
-| `docs/` | MVP spec, deploy guide, hand-off/status | yes |
-| `_archive/` | local scratch: old snapshots, superseded models, logs; safe to delete | no |
+| `artifacts/models/` | `forecast_params.json`; `artifacts/models/slm/` = trained SLM (`config.json` + `metrics.json` committed, `adapter.pt` ignored) | partly |
+| `artifacts/reports/` | data report, backtest, SLM eval results | yes (`*.log` ignored) |
+| `docs/` | MVP spec, deploy guide, hand-off/status; `docs/kaggle/` = GPU training guide + notebook | yes |
 
-The app uses `HybridJudge` when `models/slm/adapter.pt` + `config.json` exist, otherwise `HeuristicJudge` (keyword
+Keep the root lean: new outputs go under `artifacts/`, new docs under `docs/`, scratch outside the repo
+(old snapshots live in `../MLAI_test_archive/`). Code takes folder paths from `paths.py`.
+
+The app uses `HybridJudge` when `artifacts/models/slm/adapter.pt` + `config.json` exist, otherwise `HeuristicJudge` (keyword
 rules). The deployed app (Streamlit Community Cloud) has no adapter, so it runs the keyword judge.
 
 ## Ground rules

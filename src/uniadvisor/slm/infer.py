@@ -1,6 +1,6 @@
 """Answer typed questions at run time.
 
-SLMJudge      the fine-tuned model in models/slm/ (config.json + adapter.pt), calibrated per question
+SLMJudge      the fine-tuned model in artifacts/models/slm/ (config.json + adapter.pt), calibrated per question
 HeuristicJudge transparent keyword rules, used when no trained model is available and as the
                baseline the SLM has to beat. Its confidence is capped low on purpose, so uncertain
                answers turn into clarifying questions instead of silent guesses.
@@ -363,7 +363,7 @@ class SLMJudge:
 # Questions the fine-tuned SLM answers better than the keyword rules (test split, first Kaggle run):
 # location_ok 0.98 vs 0.66, risk_tolerance 0.94 vs 0.87, budget_ok 0.97 vs 0.96. The rules stay better on
 # ability_fit (score arithmetic: 0.84 vs 0.47), interest_fit (0.69 vs 0.49), top_priority (0.89 vs 0.84),
-# and tie on conditions_ok, where they are also far cheaper. Override with "route" in models/slm/config.json.
+# and tie on conditions_ok, where they are also far cheaper. Override with "route" in artifacts/models/slm/config.json.
 # measured on the frozen gold set labelled by Gemini (data/slm/gold_llm.csv; see README): the SLM wins location_ok,
 # risk_tolerance and budget_ok and ties conditions_ok with far better calibration; the keyword rules win ability_fit
 # (score arithmetic) and top_priority; interest_fit is a tie, kept on the rules. Re-pick after every retrain.

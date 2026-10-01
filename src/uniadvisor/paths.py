@@ -25,8 +25,9 @@ MANUAL = DATA / "manual"  # hand-entered facts with a cited source
 COLLECTED = DATA / "collected"  # parsed rows straight from each source, before cleaning
 PROCESSED = DATA / "processed"  # clean tables the app reads
 SLM_DATA = DATA / "slm"
-MODELS = ROOT / "models"
-REPORTS = ROOT / "reports"
+ARTIFACTS = ROOT / "artifacts"  # everything a pipeline run produces
+MODELS = ARTIFACTS / "models"  # fitted forecast parameters, trained SLM (models/slm/)
+REPORTS = ARTIFACTS / "reports"  # data report, backtest, SLM evaluations
 
 # Copy of the UniPilotData step-1 export the build reads (school, program, combos). Point UNIPILOT_OUT
 # at a fresh `unipilot export --to out` folder to refresh it.

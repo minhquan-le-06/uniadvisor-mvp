@@ -13,7 +13,7 @@ from pathlib import Path
 
 import typer
 
-from uniadvisor.paths import ROOT
+from uniadvisor.paths import ARTIFACTS, REPORTS, ROOT
 
 app = typer.Typer(add_completion=False, help="UniAdvisor: university application advisor (THPT exam-score method).")
 
@@ -85,7 +85,7 @@ def build() -> None:
 
 @app.command()
 def backtest() -> None:
-    """Backtest the cutoff forecast, fit its parameters, write reports/backtest.json."""
+    """Backtest the cutoff forecast, fit its parameters, write artifacts/reports/backtest.json."""
     from uniadvisor.engine.backtest import run
 
     r = run()
@@ -95,7 +95,7 @@ def backtest() -> None:
 
 @app.command()
 def report() -> None:
-    """Write reports/data_report.md (coverage, quality, gaps)."""
+    """Write artifacts/reports/data_report.md (coverage, quality, gaps)."""
     from uniadvisor.build.report import build as build_report
 
     print(build_report())
@@ -155,7 +155,7 @@ def slm_eval(judge: str = "auto", gold: Path | None = None, limit: int | None = 
     else:
         raise typer.BadParameter("--judge must be auto, hybrid, slm or heuristic")
     r = evaluate(j, gold=gold, limit=limit)
-    out = ROOT / "reports" / f"slm_eval_{r['judge']}_{r['split']}.json"
+    out = REPORTS / f"slm_eval_{r['judge']}_{r['split']}.json"
     out.write_text(json.dumps(r, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({"judge": r["judge"], "n": r["n"], "overall_accuracy": r["overall_accuracy"], "per_question": r["per_question"]}, indent=1, ensure_ascii=False))
 
@@ -184,14 +184,14 @@ def advise(scores: str = typer.Option(..., help="e.g. TO=8.4,VA=7,LI=8,N1=8.2"),
 
 
 @app.command("kaggle-bundle")
-def kaggle_bundle(out: Path = ROOT / "dist" / "uniadvisor_kaggle_bundle.zip") -> None:
-    """Zip the code + SLM dataset for upload as a Kaggle Dataset (see kaggle/README.md)."""
+def kaggle_bundle(out: Path = ARTIFACTS / "uniadvisor_kaggle_bundle.zip") -> None:
+    """Zip the code + SLM dataset for upload as a Kaggle Dataset (see docs/kaggle/README.md)."""
     import zipfile
 
     out.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(ROOT / "pyproject.toml", "uniadvisor/pyproject.toml")
-        for base in (ROOT / "src", ROOT / "config", ROOT / "data" / "slm", ROOT / "kaggle"):
+        for base in (ROOT / "src", ROOT / "config", ROOT / "data" / "slm"):
             for f in base.rglob("*"):
                 if f.is_file() and "__pycache__" not in f.parts and "llm_cache" not in f.parts and f.name != "gemini_keys.txt":
                     z.write(f, "uniadvisor/" + f.relative_to(ROOT).as_posix())

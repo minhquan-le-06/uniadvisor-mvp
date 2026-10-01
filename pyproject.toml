@@ -32,3 +32,4 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = "-p no:cacheprovider"  # no .pytest_cache folder in the repo root

@@ -2,7 +2,7 @@
 human-labelled gold set.
 
   uniadvisor slm-eval --judge heuristic
-  uniadvisor slm-eval --judge slm --model models/slm
+  uniadvisor slm-eval --judge slm --model artifacts/models/slm
   uniadvisor slm-eval --judge slm --gold data/slm/gold_labeled.csv     # human labels, never trained on
 """
 
