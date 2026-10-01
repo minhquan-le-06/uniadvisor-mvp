@@ -98,22 +98,23 @@ distributions built from them are committed. Without them, `build` falls back to
   (`auto` = what the app uses). On CPU the full test split takes 5–20 min; `--limit 3000` is enough to
   compare judges (use the same limit for each).
 
-First Kaggle run (3 epochs), test split, first 3,000 rows. Labels are the synthetic rubric labels, not
-human labels:
+Current model (third Kaggle run: fixed teacher, 5 epochs, both T4s, batch 128 per GPU, ~24 min), scored on the
+294 frozen gold rows labelled by Gemini (`data/slm/gold_llm.csv`, 42 per question, so one row is 2.4 points):
 
 | Question | Keywords | SLM | Routed to |
 |---|---|---|---|
-| location_ok | 0.602 | **0.984** | SLM |
-| budget_ok | 0.952 | **0.962** | SLM |
-| risk_tolerance (n=137) | 0.832 | **0.905** | SLM |
-| ability_fit | **0.851** | 0.477 | keywords (score arithmetic; the SLM is never confident) |
-| conditions_ok | **0.996** | 0.991 | keywords (tie, and far cheaper) |
-| interest_fit | **0.650** | 0.463 | keywords (weakest question for both) |
-| top_priority (n=137) | **0.891** | 0.803 | keywords |
-| **Overall** | 0.815 | 0.782 | **hybrid 0.889** |
+| location_ok | 0.857 | **0.952** | SLM (the teacher fix worked: the first model scored 0.64) |
+| risk_tolerance | 0.810 | **0.929** | SLM |
+| budget_ok | 0.857 | **0.929** | SLM (81% of rows are "insufficient": tuition is mostly unknown) |
+| conditions_ok | 0.976 | 0.976 | SLM (tie; its confidence is calibrated, ECE 0.04 vs 0.24) |
+| ability_fit | **0.643** | 0.381 | keywords (score arithmetic; the SLM almost always defers) |
+| top_priority | **0.786** | 0.738 | keywords |
+| interest_fit | **0.476** | 0.452 | keywords (tie within one row; weakest question for both) |
+| **Overall** | 0.772 | 0.765 | **hybrid ≈ 0.81** |
 
-The SLM's confidences are better calibrated on 5 of 7 questions (ECE ≤ 0.10 everywhere; the keyword
-judge reaches 0.34 on budget_ok), so its escalations to clarifying questions are more meaningful.
+On the synthetic test split the same model reaches 0.96–0.99 on location/budget/risk/conditions. The gap to
+the Gemini labels is what the gold set is for. interest_fit is the open problem: when the SLM does answer it is
+right 71% of the time (keywords 37%), but it defers on 83% of rows.
 Re-pick the routing after every retrain.
 
 ## Privacy, reproducibility, disclaimer

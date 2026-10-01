@@ -27,7 +27,7 @@ on the owner's Windows machine, in `models/slm/`).
 | Rules | 2026 verified by the owner (`verified: true`); 2027 is a draft inheriting 2026 |
 | Forecast | MAE 1.373 ≈ naive "last year's cutoff" (1.369). Percentile equating with exact data is worse (1.55), so the backtest picks `equate=never`. P(admit) calibrated: Brier 0.119, ECE 0.056 |
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
-| SLM | **retrain needed**: the first model learned location_ok from a teacher bug (NaN campus counted as a branch campus; fixed), so location_ok is routed to the rules for now. On Gemini labels: keywords 0.738, hybrid 0.728, SLM 0.674; the SLM wins risk_tolerance (0.90 vs 0.81) and budget_ok. First Kaggle run: test (3,000 rows, synthetic labels) SLM 0.782, keywords 0.815, **hybrid 0.889**. `HybridJudge` routes location_ok / risk_tolerance / budget_ok to the SLM, the rest to keyword rules |
+| SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `models/slm/`). On Gemini's gold labels: keywords 0.772, SLM 0.765, hybrid ≈ 0.81 with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weak spots: interest_fit (~0.47 both), ability_fit (rules 0.64; SLM defers) |
 | App / API | Streamlit chat + FastAPI both tested (headless Chromium, TestClient); not deployed |
 | Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`); interest_fit (42) and 8 ability_fit rows need `gold-llm --redo interest_fit,ability_fit` after the rubric fixes. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
 
@@ -40,7 +40,7 @@ on the owner's Windows machine, in `models/slm/`).
 2. **Owner: merge PR #1.**
 3. **Forecast signals beyond last year's cutoff.** Better distributions and 2018-2022 history did not help; next try quota history
    2023-2025 (turns on `kappa_quota`), applicant counts per program, per-combination cutoffs.
-4. **Retrain the SLM on Kaggle** (kaggle/README.md). Training texts no longer say "Nơi học: nan" (fixed after
+4. **(done 2026-10-01)** Retrain the SLM on Kaggle (kaggle/README.md). Training texts no longer say "Nơi học: nan" (fixed after
    the first run), so a retrain is worth it; try `--epochs 5` for interest_fit (weakest: 0.65 rules / 0.46 SLM).
 5. Out of MVP scope (owner decision, 2026-09-30): real tuition from each school's đề án. 910 programs keep a
    school-level estimate; budget_ok judges against it or says insufficient when tuition is unknown.
