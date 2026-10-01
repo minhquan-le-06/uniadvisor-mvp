@@ -19,6 +19,8 @@ data/slm/llm_cache/
 data/slm/*.jsonl
 !data/slm/gold_frozen.jsonl
 data/slm/programs_snapshot.csv
+# simulated databases: rebuilt exactly from the seed in their manifest (uniadvisor sim ...)
+data/sim/
 
 # run outputs that are large or rebuildable
 artifacts/models/slm*/adapter.pt

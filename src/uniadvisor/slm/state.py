@@ -61,7 +61,8 @@ def program_text(r: dict) -> str:
     tmin, tmax = r.get("tuition_min"), r.get("tuition_max")
     if tmin and tmin == tmin:  # not NaN
         fee = f"{_money(tmin)}-{_money(tmax)} triệu/năm" if tmax and tmax != tmin else f"{_money(tmin)} triệu/năm"
-        if r.get("tuition_imputed") in (True, "True"):
+        # tuition_imputed: the flag before the database had provenance; frozen gold rows still carry it
+        if r.get("tuition_provenance") == "estimated" or r.get("tuition_imputed") in (True, "True"):
             fee += " (ước tính theo mức chung của trường)"
     else:
         fee = "không rõ"

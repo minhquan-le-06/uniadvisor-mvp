@@ -10,7 +10,7 @@ What the deploy uses, all in the repo:
 |---|---|
 | `requirements.txt` | `-e .`: the package with its base dependencies (no `[slm]` extra) |
 | `.streamlit/config.toml` | headless server, no usage stats, viewer-only toolbar |
-| `data/processed/`, `config/`, `artifacts/models/forecast_params.json` | everything the app reads; nothing is collected at runtime |
+| `data/db/`, `config/`, `artifacts/models/forecast_params.json` | everything the app reads; nothing is collected at runtime |
 
 No secrets are needed. The app writes nothing to disk; each browser session keeps its own state.
 

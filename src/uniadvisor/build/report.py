@@ -8,7 +8,8 @@ from datetime import date
 
 import pandas as pd
 
-from uniadvisor.paths import COLLECTED, PROCESSED, REPORTS, SLM_DATA
+from uniadvisor.db import TABLES, get_db, require_real
+from uniadvisor.paths import BUILD, COLLECTED, REPORTS, SLM_DATA
 
 
 def _md(df: pd.DataFrame) -> str:
@@ -19,12 +20,14 @@ def _md(df: pd.DataFrame) -> str:
 
 
 def build() -> str:
-    cut = pd.read_csv(PROCESSED / "cutoffs.csv", dtype=str)
-    prog = pd.read_csv(PROCESSED / "programs.csv", dtype=str)
-    schools = pd.read_csv(PROCESSED / "schools.csv", dtype=str)
-    excl = pd.read_csv(PROCESSED / "schools_excluded.csv", dtype=str)
-    probs = pd.read_csv(PROCESSED / "check_problems.csv", dtype=str)
-    dmeta = pd.read_csv(PROCESSED / "distributions_meta.csv")
+    db = get_db()
+    require_real(db, "the data report")
+    cut = pd.read_csv(BUILD / "cutoffs_consensus.csv", dtype=str)
+    prog = db.catalog
+    schools = db["schools"]
+    excl = pd.read_csv(BUILD / "schools_excluded.csv", dtype=str)
+    probs = pd.read_csv(BUILD / "check_problems.csv", dtype=str)
+    dmeta = db["distributions"]
     vne = pd.read_csv(COLLECTED / "vnexpress_cutoffs.csv", dtype=str)
     vnn = pd.read_csv(COLLECTED / "vietnamnet_cutoffs.csv", dtype=str)
     ads_path = COLLECTED / "ads_final_cutoffs.csv"
@@ -35,8 +38,8 @@ def build() -> str:
 
     cut["scale"] = cut.scale.astype(int)
     by_year = cut[cut.scale == 30].pivot_table(index="year", columns="status", values="key_code", aggfunc="count", fill_value=0).reset_index()
-    tuition_known = prog.tuition_min.notna() & (prog.tuition_imputed == "False")
-    exact = dmeta[dmeta.provenance == "exact"]
+    fee = prog.tuition_provenance.value_counts()
+    exact = dmeta[dmeta.method == "exact"]
     exact_years = sorted(exact.year.unique().tolist())
     out = [
         f"# Data report (generated {date.today().isoformat()})",
@@ -71,7 +74,7 @@ def build() -> str:
         f"Excluded as not comparable: {int((cut.scale == 40).sum())} rows on a 40-point scale (doubled subject) and "
         f"{int((cut.scale == 100).sum())} rows on 100/150-point combined scales.",
         "",
-        "Validation problems: " + ", ".join(f"{k}: {v}" for k, v in probs.groupby("rule").size().items()) + " (see data/processed/check_problems.csv).",
+        "Validation problems: " + ", ".join(f"{k}: {v}" for k, v in probs.groupby("rule").size().items()) + " (see artifacts/build/check_problems.csv).",
         "",
         "## Scope",
         "",
@@ -79,15 +82,14 @@ def build() -> str:
         "",
         "Programs by years of cutoff history: " + ", ".join(f"{k} năm: {v}" for k, v in prog.years_with_cutoff.value_counts().sort_index().items()) + ".",
         "",
-        f"Tuition known from a source for {int(tuition_known.sum())} programs ({tuition_known.mean():.0%}); "
-        f"{int(((prog.tuition_imputed == 'True') & prog.tuition_min.notna()).sum())} use their school's median (marked 'ước tính' in the app); "
-        f"{int(prog.tuition_min.isna().sum())} unknown.",
+        f"Tuition known from a source for {fee.get('observed', 0)} programs ({fee.get('observed', 0) / len(prog):.0%}); "
+        f"{fee.get('estimated', 0)} use their school's median (marked 'ước tính' in the app); {fee.get('missing', 0)} unknown.",
         "",
         "Schools dropped: " + ", ".join(excl.school_code) + ". Reason: " + (excl.reason.iloc[0] if len(excl) else "-"),
         "",
         "## Score distributions",
         "",
-        _md(dmeta.groupby(["year", "provenance"]).size().rename("combinations").reset_index()),
+        _md(dmeta.groupby(["year", "method"]).size().rename("combinations").reset_index()),
         "",
         "- `observed`: real 2026 histograms. `synthesized`: 2026 combinations without a published histogram, built from the "
         f"real per-subject histograms (Gaussian copula + selection correction; leave-one-out KS vs observed ≈ "
@@ -97,6 +99,19 @@ def build() -> str:
         "candidate counts exactly." if exact_years else
         "- The engine only percentile-equates between *trusted* distributions (observed/exact); with today's data that means "
         "no equating across years (see backtest).",
+        "",
+    ]
+    prov = pd.DataFrame([{"table": name, **db[name].provenance.value_counts().to_dict()} for name, t in TABLES.items()
+                         if "provenance" in [c.name for c in t.columns]]).fillna(0)
+    prov = prov[["table", *[c for c in ("observed", "derived", "estimated", "simulated") if c in prov.columns]]]
+    out += [
+        "## Provenance",
+        "",
+        _md(prov.astype({c: int for c in prov.columns if c != "table"})),
+        "",
+        "observed = published by a source; derived = a fixed rule on observed values; estimated = a model fills a missing "
+        "value (students see 'ước tính'); simulated never appears in the real database. A missing fact has no row. "
+        "Schema: docs/DATA.md.",
         "",
     ]
     if bt:
@@ -137,7 +152,7 @@ def build() -> str:
          "1. **Exact score distributions for 2023-2025.** Per-candidate score files (e.g. github.com/sdgedfegw/du-lieu-diem-thi) "
          "dropped into data/inbox/ replace the approximations and let the backtest test percentile equating on real data."),
         "2. **Quota history.** Only 2026 quotas are known, so the quota adjustment in the forecast is off (kappa = 0).",
-        "3. **Tuition** for ~half the programs is a school-level estimate; the đề án (UniPilotData step 6) has the real figures.",
+        "3. **Tuition** is unknown for ~44% of programs and a school-level estimate for ~11%; the đề án (UniPilotData step 6) has the real figures.",
         "4. **Combination-specific cutoffs.** When a program sets different cutoffs per combination, the lowest is kept.",
         "5. **Employment outcomes** are not collected; the 'job/income' priority falls back to selectivity.",
         "6. **Human gold labels** for the SLM do not exist yet (template exported).",

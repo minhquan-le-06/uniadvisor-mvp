@@ -1,6 +1,6 @@
 # MVP scope: THPT exam-score method only, universities in 2 regions (Hà Nội, TP.HCM).
 # `candidates` is what the collectors fetch. The build step keeps a school only if it has enough
-# usable THPT cutoffs (see `min_*`), and writes the final list to data/processed/schools.csv.
+# usable THPT cutoffs (see `min_*`), and writes the final list to the database (data/db/schools.csv).
 #
 # Excluded on purpose: military/police schools (extra health/gender/region rules), and art / sport
 # / music schools (need an aptitude test, i.e. another admission method).

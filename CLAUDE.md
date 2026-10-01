@@ -9,7 +9,7 @@ before trusting any number.
 
 ```bash
 .venv/Scripts/python -m pip install -e ".[dev]"     # add ",slm" to run the SLM (pulls torch)
-.venv/Scripts/python -m pytest -q                   # ~75 s; 68 pass with torch (the SLM test skips without it)
+.venv/Scripts/python -m pytest -q                   # ~60 s; 89 pass with torch (the SLM test skips without it)
 .venv/Scripts/uniadvisor slm-data                   # regenerates data/slm/*.jsonl (git-ignored, ~40 s); needed by SLM tests/eval
 .venv/Scripts/uniadvisor app                        # Streamlit chat, http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # FastAPI, http://localhost:8000/docs
@@ -18,21 +18,23 @@ before trusting any number.
 ```
 
 Data pipeline (yearly refresh): `collect` → `fetch-scores` (optional, ~350 MB into data/inbox/) → `build` →
-`backtest` → `report` → `slm-data`. Other commands: `slm-train`, `slm-relabel`, `kaggle-bundle`, `label`, `gold-llm`.
-All are in `src/uniadvisor/cli.py`.
+`check-db` → `backtest` → `report` → `slm-data`. Simulated databases: `sim tiny`, `sim season`. Other commands:
+`slm-train`, `slm-relabel`, `kaggle-bundle`, `label`, `gold-llm`. All are in `src/uniadvisor/cli.py`.
 
 ## Layout
 
 | Path | What | In git |
 |---|---|---|
-| `src/uniadvisor/` | package: `collect/` scrapers, `build/` cleaning + catalog, `kb/` rules, `engine/` forecast + backtest, `slm/` model + data + eval, `optimizer.py`, `compare.py`, `explain.py`, `advisor.py` (orchestrates), `api.py`, `cli.py`, `paths.py` (every path comes from here) | yes |
+| `src/uniadvisor/` | package: `db/` the database (schema, loader, checks), `sim/` simulated databases, `collect/` scrapers, `build/` cleaning + catalog, `kb/` rules, `engine/` forecast + backtest, `slm/` model + data + eval, `optimizer.py`, `compare.py`, `explain.py`, `advisor.py` (orchestrates), `api.py`, `cli.py`, `paths.py` (every path comes from here) | yes |
 | `app/` | `streamlit_app.py` (the deployed app), `label_gold.py` (gold labelling tool) | yes |
 | `config/` | `scope.yaml`, `sources.yaml`, `rules/<year>.yaml` (versioned per admission year) | yes |
-| `data/manual/` → `data/collected/` → `data/processed/` | hand-entered facts → parsed rows per source → clean tables the app reads | yes |
+| `data/manual/` → `data/collected/` → `data/db/` | hand-entered facts → parsed rows per source → **the database** the app reads ([docs/DATA.md](docs/DATA.md)) | yes |
+| `data/sim/<name>/` | simulated databases, same schema, `SIM-` ids; rebuilt from the seed in their manifest | no |
 | `data/unipilot/` | UniPilotData step-1 export (schools, programs, combos) | yes |
 | `data/slm/` | rubrics, gold set (`gold_frozen.jsonl`, `gold_llm.csv`, `gold_to_label.csv`); `*.jsonl` splits are regenerated | partly |
 | `data/raw/`, `data/inbox/` | HTTP cache; per-candidate score files | no |
 | `artifacts/models/` | `forecast_params.json`; `artifacts/models/slm/` = trained SLM (`config.json` + `metrics.json` committed, `adapter.pt` ignored) | partly |
+| `artifacts/build/` | build intermediates: cutoff consensus over all sources, distributions, exclusions, problems | yes |
 | `artifacts/reports/` | data report, backtest, SLM eval results | yes (`*.log` ignored) |
 | `docs/` | MVP spec, deploy guide, hand-off/status; `docs/kaggle/` = GPU training guide + notebook | yes |
 
@@ -47,6 +49,9 @@ rules). The deployed app (Streamlit Community Cloud) has no adapter, so it runs 
 - Anything with a verifiable answer (eligibility, priority points, probabilities, ordering) is rules/statistics. The
   SLM never computes probabilities or regulation facts. Explanations use engine numbers only.
 - Same input → same output for rules/statistics. Builds use stable sorts with explicit tie-breaks.
+- Read data only through `uniadvisor.db` (`get_db()`, or a `db=` argument). Every fact carries a provenance
+  (observed / derived / estimated / simulated); simulated data never enters `data/db/`. Test with the tiny
+  simulated world (`tiny_db` / `use_tiny` fixtures), not by mocking files. New columns go in `db/schema.py` first.
 - UI text is Vietnamese; code, comments and docs are English.
 - Nothing a student enters is stored (Decree 13/2023). Never commit `.env`, `data/slm/gemini_keys.txt` or `data/inbox/`.
 - Measure every SLM or keyword-rule change on the frozen gold set and re-pick `SLM_QUESTIONS` (`slm/infer.py`)
@@ -64,6 +69,8 @@ rules). The deployed app (Streamlit Community Cloud) has no adapter, so it runs 
   mismatch AND a > 2.5-point jump, never by name alone (`catalog._drop_reused_codes`). Its 'Thang 40' label marks
   40-point rows even when the number is <= 30.
 - The 2025 `ct2006` score file (old-curriculum exam) is skipped by the importer on purpose.
+- `data/inbox/` is empty on most machines, so `build` keeps the exact distributions in `artifacts/build/` instead of
+  rebuilding them from approximations; `fetch-scores` first to rebuild them.
 - Percentile equating fails at the tails (selective programs stay sticky in points; low ones sit on ministry floors).
   The backtest picks equate on/off from measured MAE; it currently picks `never`.
 - The SLM is poor at score arithmetic: keep ability_fit on the rules.

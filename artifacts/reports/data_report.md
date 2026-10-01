@@ -32,7 +32,7 @@ MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff 
 
 Excluded as not comparable: 958 rows on a 40-point scale (doubled subject) and 480 rows on 100/150-point combined scales.
 
-Validation problems: below_15: 176, jump_over_3: 1248, not_30_point_scale: 1438, sources_disagree: 422 (see data/processed/check_problems.csv).
+Validation problems: below_15: 176, jump_over_3: 1248, not_30_point_scale: 1438, sources_disagree: 422 (see artifacts/build/check_problems.csv).
 
 ## Scope
 
@@ -46,7 +46,7 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 
 ## Score distributions
 
-| year | provenance | combinations |
+| year | method | combinations |
 |---|---|---|
 | 2023 | exact | 79 |
 | 2024 | exact | 79 |
@@ -56,6 +56,17 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 
 - `observed`: real 2026 histograms. `synthesized`: 2026 combinations without a published histogram, built from the real per-subject histograms (Gaussian copula + selection correction; leave-one-out KS vs observed ≈ 0.162). `anchored`/`year_shift`: the 2026 shape moved to match published percentiles/means (weak).
 - `exact`: built from per-candidate score files (data/inbox/). The 2026 file matches VnExpress's per-subject candidate counts exactly.
+
+## Provenance
+
+| table | observed | derived | estimated |
+|---|---|---|---|
+| cutoffs | 7098 | 0 | 0 |
+| quotas | 938 | 0 | 0 |
+| tuition | 756 | 0 | 182 |
+| distributions | 0 | 430 | 47 |
+
+observed = published by a source; derived = a fixed rule on observed values; estimated = a model fills a missing value (students see 'ước tính'); simulated never appears in the real database. A missing fact has no row. Schema: docs/DATA.md.
 
 ## Backtest (forecast 2025 and 2026 from earlier years)
 
@@ -67,14 +78,14 @@ Schools dropped: DTT, FBU, IUH, KMA, KSA, PKA, QSB, QSK, QSQ, QSX, SPS, TMU. Rea
 
 ## SLM training data
 
-- 60522 / 13200 / 12496 examples (train/val/test), split by university ({'val': 7, 'test': 7, 'train': 34}), synthetic students × real programs × 7 typed questions.
+- 61402 / 12694 / 12122 examples (train/val/test), split by university ({'val': 7, 'test': 7, 'train': 34}), synthetic students × real programs × 7 typed questions.
 - Labels come from the rubric teacher (5 simulated annotators → soft labels). They are only as good as the generator's phrase banks: a model trained on them must be checked on the **human gold set** (data/slm/gold_to_label.csv → gold_labeled.csv) before being trusted, and ideally retrained on LLM-teacher labels (`uniadvisor slm-relabel`).
 
 ## Known gaps (priority order)
 
 1. **A better cutoff model.** Exact distributions did not beat 'same as last year'; the next gains need other signals (quota history, applicant counts per program, per-combination cutoffs), not better distributions.
 2. **Quota history.** Only 2026 quotas are known, so the quota adjustment in the forecast is off (kappa = 0).
-3. **Tuition** for ~half the programs is a school-level estimate; the đề án (UniPilotData step 6) has the real figures.
+3. **Tuition** is unknown for ~44% of programs and a school-level estimate for ~11%; the đề án (UniPilotData step 6) has the real figures.
 4. **Combination-specific cutoffs.** When a program sets different cutoffs per combination, the lowest is kept.
 5. **Employment outcomes** are not collected; the 'job/income' priority falls back to selectivity.
 6. **Human gold labels** for the SLM do not exist yet (template exported).

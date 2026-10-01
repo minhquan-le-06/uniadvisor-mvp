@@ -11,7 +11,7 @@ and `metrics.json` are committed.
 
 | Component | State |
 |---|---|
-| Data | 48 schools (HN 28, HCM 20), 1,666 programs, cutoffs 2018-2026 from 4 sources (2018-2022 ADS_Final only); exact score distributions 2023-2026 (1.0-1.2 M candidates/year) |
+| Data | 48 schools (HN 28, HCM 20), 1,666 programs, cutoffs 2018-2026 from 4 sources (2018-2022 ADS_Final only); exact score distributions 2023-2026 (1.0-1.2 M candidates/year). Stored as one checked database with provenance per fact (`data/db/`, [DATA.md](DATA.md)); simulated databases for tests and engine checks: `uniadvisor sim tiny|season` |
 | Rules | 2026 verified by the owner (`verified: true`); 2027 is a draft inheriting 2026 |
 | Forecast | MAE 1.373 ≈ naive "last year's cutoff" (1.369). Percentile equating with exact data is worse (1.55), so the backtest picks `equate=never`. P(admit) calibrated: Brier 0.119, ECE 0.056 |
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |

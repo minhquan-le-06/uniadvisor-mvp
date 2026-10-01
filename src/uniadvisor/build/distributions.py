@@ -1,7 +1,8 @@
-"""Build per-(combination, year) score distributions -> data/processed/distributions.parquet.
+"""Build per-(combination, year) score distributions -> artifacts/build/distributions.parquet.
 
 Order of preference per (combo, year): exact (inbox) > observed > synthesized > anchored > year_shift.
-See engine/dist.py for what each provenance means.
+See engine/dist.py for what each method means. Writes artifacts/build/distributions.parquet + .csv;
+the catalog step copies them into the database.
 """
 
 from __future__ import annotations
@@ -27,7 +28,7 @@ from uniadvisor.engine.dist import (
     synthesize,
     transform,
 )
-from uniadvisor.paths import COLLECTED, INBOX, MANUAL, PROCESSED, REPORTS, ensure_dirs
+from uniadvisor.paths import BUILD, COLLECTED, INBOX, MANUAL, REPORTS, ensure_dirs
 from uniadvisor.text import fold
 
 log = logging.getLogger(__name__)
@@ -105,7 +106,7 @@ def build(rho_grid: np.ndarray | None = None) -> dict:
         observed[combo] = cdf_from_bins(g.bin_low.to_numpy(), g["count"].to_numpy())
         n = int(g["count"].sum())
         cdfs[(combo, LATEST)] = observed[combo]
-        meta.append(dict(combo=combo, year=LATEST, provenance="observed", n=n,
+        meta.append(dict(combo=combo, year=LATEST, method="observed", n=n,
                          note=f"VnExpress phổ điểm {LATEST}, 1-point bins, {n} candidates"))
 
     # --- latest year: per-subject marginals and copula fit
@@ -157,7 +158,7 @@ def build(rho_grid: np.ndarray | None = None) -> dict:
             continue
         a, b = class_fit.get(_core_count(subjects), (0.0, 1.0))
         cdfs[(combo, LATEST)] = transform(synth(subjects), a, b)
-        meta.append(dict(combo=combo, year=LATEST, provenance="synthesized", n=None,
+        meta.append(dict(combo=combo, year=LATEST, method="synthesized", n=None,
                          note=f"copula on {LATEST} subject histograms (rho={rho}) + class correction a={a:.2f} b={b:.3f}; "
                               f"leave-one-out KS on observed combos ~{report['copula']['leave_one_out_ks_mean']}"))
 
@@ -172,7 +173,7 @@ def build(rho_grid: np.ndarray | None = None) -> dict:
                 continue
             cdfs[(combo, year)] = cdf_from_samples(totals.sum(axis=1).to_numpy())
             meta = [m for m in meta if not (m["combo"] == combo and m["year"] == year)]
-            meta.append(dict(combo=combo, year=year, provenance="exact", n=len(totals), note="per-candidate file in data/inbox"))
+            meta.append(dict(combo=combo, year=year, method="exact", n=len(totals), note="per-candidate file in data/inbox"))
 
     # --- earlier years: anchored to published stats, else shifted like the anchored ones
     anchors = pd.read_csv(MANUAL / "distribution_anchors.csv")
@@ -188,7 +189,7 @@ def build(rho_grid: np.ndarray | None = None) -> dict:
             fits[combo] = (a, b)
             cdfs[(combo, year)] = transform(base, a, b)
             resid = {k: round(float((quantile(cdfs[(combo, year)], float(k[1:]) / 100) if k.startswith("p") else mean_of(cdfs[(combo, year)])) - v), 3) for k, v in pairs}
-            meta.append(dict(combo=combo, year=year, provenance="anchored", n=None,
+            meta.append(dict(combo=combo, year=year, method="anchored", n=None,
                              note=f"{LATEST} shape, a={a:.2f} b={b:.3f} fitted to {', '.join(k for k, _ in pairs)}; residuals {resid}"))
             report["anchored"][f"{combo}-{year}"] = {"a": round(a, 3), "b": round(b, 3), "residuals": resid}
         if not fits:
@@ -198,7 +199,7 @@ def build(rho_grid: np.ndarray | None = None) -> dict:
         for combo in combos:
             if (combo, LATEST) in cdfs and (combo, year) not in cdfs:
                 cdfs[(combo, year)] = transform(cdfs[(combo, LATEST)], a_bar, b_bar)
-                meta.append(dict(combo=combo, year=year, provenance="year_shift", n=None,
+                meta.append(dict(combo=combo, year=year, method="year_shift", n=None,
                                  note=f"{LATEST} shape moved like the anchored combos of {year} ({', '.join(sorted(fits))}): a={a_bar:.2f} b={b_bar:.3f}"))
 
     # --- save
@@ -206,7 +207,7 @@ def build(rho_grid: np.ndarray | None = None) -> dict:
     wide = pd.DataFrame([cdfs[k] for k in keys], columns=[f"g{i}" for i in range(len(GRID))])
     wide.insert(0, "year", [k[1] for k in keys])
     wide.insert(0, "combo", [k[0] for k in keys])
-    wide.to_parquet(PROCESSED / "distributions.parquet", index=False)
+    wide.to_parquet(BUILD / "distributions.parquet", index=False)
     m = pd.DataFrame(meta)
     stats = []
     for r in m.itertuples(index=False):
@@ -214,7 +215,7 @@ def build(rho_grid: np.ndarray | None = None) -> dict:
         stats.append(dict(mean=round(mean_of(f), 2), p50=round(float(quantile(f, .5)), 2),
                           p75=round(float(quantile(f, .75)), 2), p90=round(float(quantile(f, .9)), 2)))
     m = pd.concat([m, pd.DataFrame(stats)], axis=1).sort_values(["combo", "year"])
-    m.to_csv(PROCESSED / "distributions_meta.csv", index=False, encoding="utf-8")
-    report["counts"] = m.groupby(["year", "provenance"]).size().rename("n").reset_index().to_dict("records")
+    m.to_csv(BUILD / "distributions.csv", index=False, encoding="utf-8")
+    report["counts"] = m.groupby(["year", "method"]).size().rename("n").reset_index().to_dict("records")
     (REPORTS / "distributions.json").write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
     return report

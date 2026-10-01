@@ -1,7 +1,8 @@
 """Clean THPT-exam cutoffs from every source, cross-check them, and flag problems.
 
-Output: data/processed/cutoffs.csv (one row per school x program code x year) and
-data/processed/check_problems.csv.
+Output: artifacts/build/cutoffs_consensus.csv (one row per school x program code x year, every scale,
+with each source's score) and artifacts/build/check_problems.csv. The catalog step keeps the in-scope
+30-point rows for the database.
 
 Rules
 - VnExpress has a dedicated 'Điểm chuẩn THPT' column -> method is explicit.
@@ -22,7 +23,7 @@ import re
 import numpy as np
 import pandas as pd
 
-from uniadvisor.paths import COLLECTED, PROCESSED, ensure_dirs
+from uniadvisor.paths import BUILD, COLLECTED, ensure_dirs
 from uniadvisor.text import clean, fold, parse_score, split_combos
 
 THPT_WORDS = ("thpt", "diem thi", "tot nghiep", "thi tn")
@@ -213,9 +214,9 @@ def build() -> dict:
                 problems.append(dict(rule="jump_over_3", severity="warning", school_code=school, year=int(yr), program=key,
                                      message=f"year-on-year change {d:.2f} points"))
 
-    cut.to_csv(PROCESSED / "cutoffs.csv", index=False, encoding="utf-8")
+    cut.to_csv(BUILD / "cutoffs_consensus.csv", index=False, encoding="utf-8")
     pr = pd.DataFrame(problems)
-    pr.to_csv(PROCESSED / "check_problems.csv", index=False, encoding="utf-8")
+    pr.to_csv(BUILD / "check_problems.csv", index=False, encoding="utf-8")
     summary = {
         "rows": len(cut),
         "by_year_status": cut.groupby(["year", "status"]).size().rename("n").reset_index().to_dict("records"),

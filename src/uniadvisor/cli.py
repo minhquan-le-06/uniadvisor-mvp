@@ -73,12 +73,19 @@ def collect(refresh: bool = False, only: str = typer.Option("", help="comma list
 
 @app.command()
 def build() -> None:
-    """Rebuild distributions, cutoffs and the program catalog from collected data."""
+    """Rebuild distributions, cutoffs and the database (data/db/) from collected data."""
     _log()
-    from uniadvisor.build import catalog, cutoffs, distributions
+    import pandas as pd
 
-    d = distributions.build()
-    print("distributions:", d["counts"])
+    from uniadvisor.build import catalog, cutoffs, distributions
+    from uniadvisor.paths import BUILD, INBOX
+
+    built = BUILD / "distributions.csv"
+    if not any(INBOX.glob("*.csv")) and built.exists() and (pd.read_csv(built).method == "exact").any():
+        # without the per-candidate files a rebuild would replace exact distributions with approximations
+        print("distributions: kept (data/inbox/ is empty; run `uniadvisor fetch-scores` to rebuild them exactly)")
+    else:
+        print("distributions:", distributions.build()["counts"])
     print("cutoffs:", json.dumps({k: v for k, v in cutoffs.build().items() if k != "by_year_status"}, default=str))
     print("catalog:", json.dumps(catalog.build(), default=str))
 
@@ -232,6 +239,48 @@ def gold_llm(models: str = typer.Option("gemini-3.5-flash,gemini-3.5-flash-lite"
     table = llm_label.agreement() if llm_label.OUT.exists() else None
     if table is not None and len(table):
         print(table.to_string(index=False))
+
+
+@app.command("check-db")
+def check_db(path: Path | None = typer.Argument(None, help="database folder (default: data/db/ or UNIADVISOR_DB)")) -> None:
+    """Load a database, check it against the schema, and print what it holds."""
+    from uniadvisor.db import load
+
+    db = load(path)
+    cat = db.catalog
+    print(json.dumps({"path": str(db.path), "kind": db.kind, "name": db.name, "counts": db.manifest.get("counts"),
+                      "tuition": cat.tuition_provenance.value_counts().to_dict(),
+                      "provenance": {name: db[name].provenance.value_counts().to_dict()
+                                     for name in ("cutoffs", "quotas", "tuition", "distributions")}},
+                     indent=1, ensure_ascii=False))
+
+
+sim_app = typer.Typer(help="Simulated databases in data/sim/<name>/ (same schema, SIM- ids; never the real data).")
+app.add_typer(sim_app, name="sim")
+
+
+@sim_app.command("tiny")
+def sim_tiny(seed: int = 0, out: Path | None = typer.Option(None, help="default: data/sim/tiny")) -> None:
+    """A hand-sized world (3 schools, 12 programs) for tests. Try the app on it:
+    UNIADVISOR_DB=data/sim/tiny uniadvisor app"""
+    from uniadvisor.paths import SIM
+    from uniadvisor.sim import tiny
+
+    db = tiny.build(out or SIM / "tiny", seed)
+    print(f"wrote {db.path}: {db.manifest['counts']}")
+
+
+@sim_app.command("season")
+def sim_season(seed: int = 0, reform: bool = typer.Option(False, help="add the 2025-like reform-year drop"),
+               out: Path | None = typer.Option(None, help="default: data/sim/<generated name>")) -> None:
+    """The real database plus one simulated admission season (correlated shocks), for engine checks."""
+    from uniadvisor.db import get_db, write
+    from uniadvisor.paths import SIM
+    from uniadvisor.sim import season
+
+    sim = season.simulate(get_db(), seed=seed, reform=reform)
+    db = write(out or SIM / sim.name, sim)
+    print(f"wrote {db.path}: {db.manifest['generator']}")
 
 
 if __name__ == "__main__":

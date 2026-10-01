@@ -16,7 +16,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from uniadvisor import __version__
-from uniadvisor.advisor import advise, catalog
+from uniadvisor.advisor import advise
+from uniadvisor.db import get_db
 from uniadvisor.explain import DISCLAIMER
 from uniadvisor.kb.rules import DEFAULT_RULESET, load_rules
 from uniadvisor.slm.infer import get_judge
@@ -52,7 +53,7 @@ def _program_out(ev: dict) -> dict:
         "soft_judgments": {q: {"label": a.label, "confidence": round(a.confidence, 3), "source": a.source, "uncertain": a.escalate}
                            for q, a in ev["answers"].items()},
         "explanation": ev["explanation"], "flags": ev["flags"],
-        "tuition_vnd_per_year": [p.get("tuition_min"), p.get("tuition_max")], "tuition_estimated": bool(p.get("tuition_imputed")),
+        "tuition_vnd_per_year": [p.get("tuition_min"), p.get("tuition_max")], "tuition_provenance": p.get("tuition_provenance"),
         "source_url": p.get("source_url"),
     }
 
@@ -73,8 +74,7 @@ def post_advise(body: ProfileIn) -> dict:
 
 @app.get("/programs")
 def get_programs(school: str | None = None, field: str | None = None, city: str | None = None, limit: int = 200) -> list[dict]:
-    prog, _ = catalog()
-    df = prog
+    df = get_db().catalog
     if school:
         df = df[df.school_code == school.upper()]
     if field:
@@ -86,16 +86,18 @@ def get_programs(school: str | None = None, field: str | None = None, city: str 
 
 @app.get("/programs/{program_id}")
 def get_program(program_id: str) -> dict:
-    prog, hist = catalog()
-    row = prog[prog.program_id == program_id]
+    db = get_db()
+    row = db.catalog[db.catalog.program_id == program_id]
     if row.empty:
         raise HTTPException(404, "unknown program")
-    return {**row.iloc[0].to_dict(), "history": hist.get(program_id, {})}
+    return {**row.iloc[0].to_dict(), "history": db.history.get(program_id, {})}
 
 
 @app.get("/health")
 def health() -> dict:
-    prog, _ = catalog()
+    db = get_db()
+    prog = db.catalog
     r = load_rules(DEFAULT_RULESET)
-    return {"version": __version__, "programs": len(prog), "schools": int(prog.school_code.nunique()),
+    return {"version": __version__, "database": db.name, "database_kind": db.kind,
+            "programs": len(prog), "schools": int(prog.school_code.nunique()),
             "ruleset": r["ruleset"], "ruleset_status": r.get("status"), "judge": get_judge().name}

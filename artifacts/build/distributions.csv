@@ -1,4 +1,4 @@
-combo,year,provenance,n,note,mean,p50,p75,p90
+combo,year,method,n,note,mean,p50,p75,p90
 A00,2023,exact,325902.0,per-candidate file in data/inbox,20.75,21.1,22.96,24.4
 A00,2024,exact,343800.0,per-candidate file in data/inbox,20.88,21.26,23.4,24.94
 A00,2025,exact,162200.0,per-candidate file in data/inbox,19.34,19.23,22.6,25.25

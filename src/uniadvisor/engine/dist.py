@@ -1,7 +1,7 @@
 """Score distributions per (combination, year) on the 30-point scale.
 
 Each distribution is a CDF F(x) = P(total <= x) on a fixed grid 0.00, 0.05, ..., 30.00, plus a
-`provenance` saying how good it is:
+`method` saying how it was built (best first; the database also files each under a provenance class):
 
   exact        per-candidate scores dropped into data/inbox/ (best)
   observed     real histogram of that combination that year (VnExpress, 1-point bins)
@@ -10,12 +10,12 @@ Each distribution is a CDF F(x) = P(total <= x) on a fixed grid 0.00, 0.05, ...,
   anchored     the latest shape moved/stretched to match percentiles or a mean the ministry published
   year_shift   the latest shape moved by the average shift of the anchored combinations that year
                (weakest; the forecast treats these years with extra uncertainty)
+  simulated    made up for a simulated database (uniadvisor.sim)
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from functools import lru_cache
 
 import numpy as np
 import pandas as pd
@@ -23,7 +23,10 @@ from scipy.interpolate import PchipInterpolator
 from scipy.stats import norm
 
 GRID = np.round(np.arange(0, 30.0001, 0.05), 2)
-PROVENANCE_RANK = {"exact": 0, "observed": 1, "synthesized": 2, "anchored": 3, "year_shift": 4}
+METHOD_RANK = {"exact": 0, "observed": 1, "synthesized": 2, "anchored": 3, "year_shift": 4, "simulated": 5}
+# the provenance class (db/schema.py) each method belongs to
+METHOD_PROVENANCE = {"exact": "derived", "observed": "observed", "synthesized": "estimated", "anchored": "estimated",
+                     "year_shift": "estimated", "simulated": "simulated"}
 
 
 # ---------------------------------------------------------------- building CDFs
@@ -118,27 +121,27 @@ def ks(a: np.ndarray, b: np.ndarray) -> float:
 class DistInfo:
     combo: str
     year: int
-    provenance: str
+    method: str
     n: int | None
     note: str
 
 
 class ScoreDistributions:
-    """Loaded from data/processed/distributions.parquet (+ distributions_meta.csv)."""
+    """The database's distributions (Database.distributions builds it from distributions.parquet + .csv)."""
 
     def __init__(self, cdfs: dict[tuple[str, int], np.ndarray], meta: dict[tuple[str, int], DistInfo]):
         self._cdf = cdfs
         self.meta = meta
 
     @classmethod
-    def load(cls, cdf_path, meta_path) -> "ScoreDistributions":  # noqa: ANN001
-        wide = pd.read_parquet(cdf_path)
+    def from_frames(cls, wide: pd.DataFrame, meta: pd.DataFrame) -> "ScoreDistributions":
+        """wide: combo, year, g0..g600 (CDF on GRID); meta: combo, year, method, n, note."""
         cols = [c for c in wide.columns if c not in ("combo", "year")]
-        cdfs = {(r.combo, int(r.year)): np.asarray([getattr(r, c) for c in cols], float) for r in wide.itertuples(index=False)}
-        m = pd.read_csv(meta_path)
-        meta = {(r.combo, int(r.year)): DistInfo(r.combo, int(r.year), r.provenance, None if pd.isna(r.n) else int(r.n), str(r.note))
-                for r in m.itertuples(index=False)}
-        return cls(cdfs, meta)
+        values = wide[cols].to_numpy(float)
+        cdfs = {(c, int(y)): values[i] for i, (c, y) in enumerate(zip(wide.combo, wide.year))}
+        info = {(r.combo, int(r.year)): DistInfo(r.combo, int(r.year), r.method, None if pd.isna(r.n) else int(r.n), str(r.note))
+                for r in meta.itertuples(index=False)}
+        return cls(cdfs, info)
 
     def has(self, combo: str, year: int) -> bool:
         return (combo, year) in self._cdf
@@ -160,17 +163,16 @@ class ScoreDistributions:
     def score_at(self, combo: str, year: int, share_below: float) -> float:
         return float(quantile(self._cdf[(combo, year)], share_below))
 
-    def provenance(self, combo: str, year: int) -> str:
+    def method(self, combo: str, year: int) -> str:
         info = self.meta.get((combo, year))
-        return info.provenance if info else "missing"
+        return info.method if info else "missing"
 
 
 def to_z(p: float | np.ndarray) -> np.ndarray:
     return norm.ppf(np.clip(p, 5e-4, 1 - 5e-4))
 
 
-@lru_cache(maxsize=1)
 def default_distributions() -> ScoreDistributions:
-    from uniadvisor.paths import PROCESSED
+    from uniadvisor.db import get_db
 
-    return ScoreDistributions.load(PROCESSED / "distributions.parquet", PROCESSED / "distributions_meta.csv")
+    return get_db().distributions

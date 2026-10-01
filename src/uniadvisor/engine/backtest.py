@@ -22,10 +22,11 @@ import numpy as np
 import pandas as pd
 from scipy.stats import t as student_t
 
-from uniadvisor.engine.dist import ScoreDistributions, default_distributions
+from uniadvisor.db import Database, get_db, require_real
+from uniadvisor.engine.dist import ScoreDistributions
 from uniadvisor.engine.forecast import ForecastParams, admit_probability, forecast_program
 from uniadvisor.kb.rules import load_rules
-from uniadvisor.paths import PROCESSED, REPORTS
+from uniadvisor.paths import REPORTS
 
 TARGETS = (2025, 2026)
 
@@ -34,11 +35,8 @@ def _fold(school: str) -> int:
     return int(hashlib.md5(school.encode()).hexdigest(), 16) % 2
 
 
-def _histories() -> tuple[pd.DataFrame, dict[str, dict[int, float]]]:
-    prog = pd.read_csv(PROCESSED / "programs.csv", dtype={"program_code": str})
-    hist = pd.read_csv(PROCESSED / "history.csv")
-    h = {pid: dict(zip(g.year.astype(int), g.score.astype(float))) for pid, g in hist.groupby("program_id")}
-    return prog, h
+def _histories(db: Database) -> tuple[pd.DataFrame, dict[str, dict[int, float]]]:
+    return db.catalog, db.history
 
 
 def residuals(prog: pd.DataFrame, hist: dict, dists: ScoreDistributions, params: ForecastParams, pre_results: bool = True) -> pd.DataFrame:
@@ -113,9 +111,14 @@ def errors(frame: pd.DataFrame) -> dict:
             "naive_within_1pt": round(float((n.abs() <= 1).mean()), 3)}
 
 
-def run(save: bool = True) -> dict:
-    dists = default_distributions()
-    prog, hist = _histories()
+def run(save: bool = True, db: Database | None = None) -> dict:
+    """save: write the fitted parameters and reports (real database only; a simulated one can be backtested
+    with save=False, e.g. to check the engine against a known truth)."""
+    db = db or get_db()
+    if save:
+        require_real(db, "saving forecast parameters and backtest reports")
+    dists = db.distributions
+    prog, hist = _histories(db)
 
     # equating is a choice the data has to earn: with exact 2023-2026 distributions, same-percentile
     # equating was still worse than raw scores (selective programs stay sticky in points, low ones sit on floors)
@@ -138,7 +141,7 @@ def run(save: bool = True) -> dict:
     ablation = residuals(prog, hist, dists, replace(final, equate="always"))
     # equating onto the target year's own distribution (known before cutoffs, since exam results come first)
     own_year = residuals(prog, hist, dists, replace(final, equate="trusted"), pre_results=False)
-    exact_past = sorted({y for (_, y), info in dists.meta.items() if info.provenance == "exact" and y < max(TARGETS)})
+    exact_past = sorted({y for (_, y), info in dists.meta.items() if info.method == "exact" and y < max(TARGETS)})
 
     report = {
         "grid_mae": {f"{e}/recency={r}": round(v, 4) for (e, r), v in grid.items()},

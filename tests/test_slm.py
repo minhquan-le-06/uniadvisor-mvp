@@ -112,12 +112,13 @@ def test_teacher_nan_campus_is_not_a_branch_campus():
     assert top(teacher.label("location_ok", _latent(location="anywhere", avoid_branch=True), dict(PROGRAM, campus="Thanh Hóa"), rng)) == "no"
 
 
-def test_dataset_programs_have_no_nan_cells():
-    import pandas as pd
+def test_dataset_programs_have_no_nan_cells(tiny_db):
+    """The SLM dataset pairs students with db.catalog rows: a NaN there is truthy and renders as 'nan'."""
+    from uniadvisor.db import load
+    from uniadvisor.paths import DB
 
-    programs = pd.read_csv("data/processed/programs.csv", dtype={"program_code": str, "major_code": str})
-    fixed = programs.astype(object).where(programs.notna(), None)
-    assert not any(isinstance(v, float) and v != v for v in fixed.campus)
+    for db in [tiny_db] + ([load(DB)] if (DB / "manifest.json").exists() else []):
+        assert not any(isinstance(v, float) and v != v for v in db.catalog.to_numpy().ravel())
 
 
 def test_self_assessment_and_family_wishes_are_read_from_text():

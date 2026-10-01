@@ -30,7 +30,7 @@ py -3.14 -m venv .venv --system-site-packages     # reuses torch/streamlit/fasta
 .venv/Scripts/python -m pytest -q
 ```
 
-The processed data (`data/processed/`) is included, so the app runs without re-collecting. Without a
+The database (`data/db/`, see [docs/DATA.md](docs/DATA.md)) is included, so the app runs without re-collecting. Without a
 trained SLM in `artifacts/models/slm/`, a transparent keyword judge is used; with one, the hybrid judge is used.
 The sidebar says which.
 
@@ -135,13 +135,14 @@ Re-pick the routing after every retrain.
 
 ```
 app/          Streamlit entry points: streamlit_app.py (the deployed chat), label_gold.py (gold labelling)
-src/          the uniadvisor package: collect/ build/ kb/ engine/ slm/ optimizer compare explain advisor api cli
+src/          the uniadvisor package: db/ sim/ collect/ build/ kb/ engine/ slm/ optimizer compare explain advisor api cli
 tests/        pytest suite
 config/       scope.yaml (schools/regions), sources.yaml, rules/<year>.yaml
-data/         manual/ unipilot/ (inputs) -> collected/ (parsed per source) -> processed/ (what the app reads);
-              slm/ (SLM dataset, rubrics, gold set); raw/ inbox/ (local caches, not in git)
-artifacts/    what pipeline runs produce: models/ (forecast params, trained SLM), reports/ (data report,
-              backtest, SLM evaluations)
-docs/         MVP.md (spec), DEPLOY.md, HANDOFF.md (status + roadmap), kaggle/ (SLM training guide + notebook)
+data/         manual/ unipilot/ (inputs) -> collected/ (parsed per source) -> db/ (the database the app reads);
+              sim/ (simulated databases, not in git); slm/ (SLM dataset, rubrics, gold set); raw/ inbox/ (local caches)
+artifacts/    what pipeline runs produce: build/ (intermediates and checks), models/ (forecast params, trained
+              SLM), reports/ (data report, backtest, SLM evaluations)
+docs/         MVP.md (spec), DATA.md (the database), DEPLOY.md, HANDOFF.md (status + roadmap),
+              PIPELINE_REVIEW.md, kaggle/ (SLM training guide + notebook)
 CLAUDE.md     working notes for Claude sessions
 ```

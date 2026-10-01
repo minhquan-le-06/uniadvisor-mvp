@@ -7,7 +7,7 @@ Design goals (docs/MVP.md §5):
 - diverse free text: several voices (student / casual / parent), paraphrase banks, hobby-implied
   interests, irrelevant filler, missing diacritics, typos
 - ambiguous and contradictory cases on purpose (parent pressure, mixed risk signals, vague budget)
-- paired with REAL programs from data/processed/programs.csv (see slm/dataset.py)
+- paired with REAL programs from the database's catalog (see slm/dataset.py)
 
 The latent attributes are what the rubric teacher (slm/teacher.py) labels from. An LLM teacher can
 relabel the same texts from the rubric alone (it never sees the latents).

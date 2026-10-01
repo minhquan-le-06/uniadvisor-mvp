@@ -12,17 +12,15 @@ Same input -> same output for everything except the SLM, which is itself determi
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from functools import lru_cache
 
 import numpy as np
 import pandas as pd
 
 from uniadvisor import compare, explain
-from uniadvisor.engine.dist import default_distributions
+from uniadvisor.db import Database, get_db
 from uniadvisor.engine.forecast import ForecastParams, admit_probability, forecast_program
 from uniadvisor.kb import rules
 from uniadvisor.optimizer import Item, expected_value, optimise, p_any
-from uniadvisor.paths import PROCESSED
 from uniadvisor.slm.infer import Answer, HeuristicJudge, get_judge
 from uniadvisor.slm.questions import BY_ID, PROFILE_QUESTIONS, PROGRAM_QUESTIONS
 from uniadvisor.slm.state import StudentProfile
@@ -30,15 +28,6 @@ from uniadvisor.slm.state import StudentProfile
 MOCK_SCORE_SD = 1.2        # points on the 3-subject total when the scores are mock-exam estimates
 MIN_P = 0.10               # candidates below this are not offered automatically
 MAX_SLM_CANDIDATES = 120   # programs sent to the SLM after cheap pre-ranking
-
-
-@lru_cache(maxsize=1)
-def catalog() -> tuple[pd.DataFrame, dict[str, dict[int, float]]]:
-    prog = pd.read_csv(PROCESSED / "programs.csv", dtype={"program_code": str, "major_code": str})
-    prog = prog.astype(object).where(prog.notna(), None)
-    hist = pd.read_csv(PROCESSED / "history.csv")
-    h = {pid: dict(zip(g.year.astype(int), g.score.astype(float))) for pid, g in hist.groupby("program_id")}
-    return prog, h
 
 
 @dataclass
@@ -82,11 +71,13 @@ def _clarifications(answers: dict[str, Answer]) -> list[dict]:
 
 
 def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rules.DEFAULT_RULESET,
-           k_max: int | None = None, weights_override: dict[str, float] | None = None, judge=None) -> Advice:  # noqa: ANN001
+           k_max: int | None = None, weights_override: dict[str, float] | None = None, judge=None,  # noqa: ANN001
+           db: Database | None = None, params: ForecastParams | None = None) -> Advice:
+    """db: the database to advise from (default: get_db()); params: forecast parameters (default: the fitted ones)."""
     judge = judge or get_judge()
-    prog, hist = catalog()
-    dists = default_distributions()
-    params = ForecastParams.load()
+    db = db or get_db()
+    prog, hist, dists = db.catalog, db.history, db.distributions
+    params = params or ForecastParams.load()
     notes = []
 
     # 1. profile-level soft judgments
@@ -104,7 +95,8 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
     evals = []
     n_eligible = 0
     for p in prog.to_dict("records"):
-        el = rules.eligibility(p, profile.scores, profile.area, profile.category, profile.years_since_graduation, profile.gender, ruleset)
+        el = rules.eligibility(p, profile.scores, profile.area, profile.category, profile.years_since_graduation, profile.gender, ruleset,
+                               db.combos)
         if not el.eligible:
             continue
         n_eligible += 1
@@ -165,11 +157,11 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
             flags.append("có thể không đáp ứng điều kiện riêng: " + str(ev["program"].get("conditions")))
         if ev["program"].get("campus"):
             flags.append(f"học tại {ev['program']['campus']}")
-        if ev["program"].get("status_2026") == "disputed":
-            flags.append("hai nguồn công bố điểm chuẩn 2026 khác nhau")
+        if ev["program"].get("latest_status") == "disputed":
+            flags.append(f"hai nguồn công bố điểm chuẩn {ev['program'].get('latest_year')} khác nhau")
         ev["flags"] = flags
         ev["confidence"], ev["confidence_reasons"] = explain.confidence_label(
-            ev["forecast"].n_years, ev["program"].get("status_2026") or "", len(esc), bool(ev["program"].get("tuition_imputed")))
+            ev["forecast"].n_years, ev["program"].get("latest_status") or "", len(esc), ev["program"].get("tuition_provenance") == "estimated")
         ev["uncertain_judgments"] = esc
         ev["explanation"] = explain.program_explanation(ev)
     pa_ = p_any(picked)

@@ -1,7 +1,9 @@
-"""In-scope schools and programs -> data/processed/schools.csv, programs.csv, history.csv.
+"""In-scope schools and programs -> the database (data/db/, schema in db/schema.py).
 
 A program is in scope when its school is in config/scope.yaml, it has a THPT cutoff on the 30-point
 scale in the latest year (so a forecast is possible), and at least one exam-only combination.
+Reads the build intermediates in artifacts/build/ (cutoff consensus, distributions) and the UniPilotData
+export; writes what was left out to artifacts/build/ too.
 """
 
 from __future__ import annotations
@@ -13,9 +15,10 @@ import pandas as pd
 import yaml
 
 from uniadvisor.build.fields import FIELDS, field_of
-from uniadvisor.build.unipilot import combo_parts, exam_combos, table
-from uniadvisor.engine.dist import PROVENANCE_RANK
-from uniadvisor.paths import CONFIG, PROCESSED, ensure_dirs
+from uniadvisor.build.unipilot import exam_combos, table
+from uniadvisor import db as database
+from uniadvisor.engine.dist import METHOD_PROVENANCE, METHOD_RANK
+from uniadvisor.paths import BUILD, CONFIG, DB, ensure_dirs
 from uniadvisor.text import clean, fold, split_combos
 
 LATEST = 2026
@@ -127,17 +130,16 @@ def _drop_reused_codes(history: pd.DataFrame, current_name: dict[str, str]) -> p
     return history.loc[sorted(keep)]
 
 
-def build() -> dict:
+def build(out=DB) -> dict:  # noqa: ANN001
     ensure_dirs()
     scope = yaml.safe_load((CONFIG / "scope.yaml").read_text(encoding="utf-8"))
     city_of = {code: city for city, codes in scope["candidates"].items() for code in codes}
-    cut = pd.read_csv(PROCESSED / "cutoffs.csv", dtype={"program_code": str, "key_code": str}, keep_default_na=False)
+    cut = pd.read_csv(BUILD / "cutoffs_consensus.csv", dtype={"program_code": str, "key_code": str}, keep_default_na=False)
     cut["score"] = cut.score.astype(float)
     cut["scale"] = cut.scale.astype(int)
-    dmeta = pd.read_csv(PROCESSED / "distributions_meta.csv")
-    prov = {(r.combo, int(r.year)): r.provenance for r in dmeta.itertuples(index=False)}
+    dmeta = pd.read_csv(BUILD / "distributions.csv")
+    method = {(r.combo, int(r.year)): r.method for r in dmeta.itertuples(index=False)}
     exam = exam_combos()
-    all_parts = combo_parts()
     up = _unipilot_programs()
     schools_src = table("school").set_index("id")
 
@@ -158,8 +160,8 @@ def build() -> dict:
         if combos and not exam_ok:
             reasons.append(dict(school_code=r.school_code, key_code=r.key_code, reason="only talent-test / unknown combos: " + ";".join(combos)))
             continue
-        ref = sorted(exam_ok, key=lambda c: PROVENANCE_RANK.get(prov.get((c, LATEST), "year_shift"), 9))
-        ref = [c for c in ref if (c, LATEST) in prov]
+        ref = sorted(exam_ok, key=lambda c: METHOD_RANK.get(method.get((c, LATEST), "year_shift"), 9))
+        ref = [c for c in ref if (c, LATEST) in method]
         if not ref:
             reasons.append(dict(school_code=r.school_code, key_code=r.key_code, reason="no score distribution for any combo"))
             continue
@@ -168,74 +170,82 @@ def build() -> dict:
         kind = program_kind(name, u.program_kind if u is not None else "")
         field = field_of(name, major_code)
         hist = cut[(cut.school_code == r.school_code) & (cut.key_code == r.key_code) & (cut.scale == 30)].sort_values("year")
-        tuition = [parse_tuition(t) for t in hist.tuition_raw[::-1] if t]
-        tmin, tmax, tunit = next(((a, b, u_) for a, b, u_ in tuition if a), (None, None, ""))
-        school = schools_src.loc[r.school_code] if r.school_code in schools_src.index else None
+        fees = [(y, *parse_tuition(t)) for y, t in zip(hist.year[::-1], hist.tuition_raw[::-1]) if t]
+        fee_year, tmin, tmax, tunit = next(((y, a, b, u_) for y, a, b, u_ in fees if a), (None, None, None, ""))
         programs.append(dict(
             program_id=f"{r.school_code}:{r.key_code}",
             school_code=r.school_code,
-            school_name=clean(school.name_vi) if school is not None else r.school_code,
-            city=city_of[r.school_code],
-            campus=campus_of(name) or "",
             program_code=r.program_code,
-            program_name=name,
+            name=name,
             major_code=major_code,
             field=field or "",
-            field_name=FIELDS.get(field or "", ""),
             kind=kind,
+            campus=campus_of(name) or "",
             combos=";".join(exam_ok),
             reference_combo=ref[0],
-            reference_provenance=prov[(ref[0], LATEST)],
-            quota_2026=int(u.quota) if u is not None and str(u.quota).isdigit() else None,
-            tuition_min=tmin, tuition_max=tmax, tuition_unit=tunit,
             conditions=" | ".join(conditions_of(name, kind, field, major_code)),
-            years_with_cutoff=int(hist.year.nunique()),
-            cutoff_2026=float(r.score),
-            status_2026=r.status,
             source_url=r.url,
+            # used below, not stored in the programs table
+            _quota=int(u.quota) if u is not None and str(u.quota).isdigit() else None,
+            _fee=(int(fee_year), tmin, tmax) if tunit == "per_year" else None,
+            _years=int(hist.year.nunique()), _cutoff=float(r.score), _status=r.status,
         ))
     prog = pd.DataFrame(programs)
     # the same program sometimes appears under two codes (e.g. '7520207AT' and '7520207_AT'):
     # same school + same name + same latest cutoff -> keep the one with the longest history,
     # then the best-confirmed one; program_id breaks remaining ties so the build is reproducible
-    prog["_name"] = prog.program_name.map(fold)
-    prog["_status"] = prog.status_2026.map({"confirmed_2_sources": 0, "single_source": 1}).fillna(2)
-    prog = (prog.sort_values(["years_with_cutoff", "_status", "program_id"], ascending=[False, True, True], kind="stable")
-            .drop_duplicates(["school_code", "_name", "cutoff_2026"]).drop(columns=["_name", "_status"]))
+    prog["_name"] = prog.name.map(fold)
+    prog["_rank"] = prog._status.map({"confirmed_2_sources": 0, "single_source": 1}).fillna(2)
+    prog = (prog.sort_values(["_years", "_rank", "program_id"], ascending=[False, True, True], kind="stable")
+            .drop_duplicates(["school_code", "_name", "_cutoff"]))
     prog = prog.sort_values(["school_code", "program_id"]).reset_index(drop=True)
-    # tuition fallback: school median of per-year prices, marked as imputed
-    per_year = prog[prog.tuition_unit == "per_year"]
-    med = per_year.groupby("school_code").tuition_min.median()
-    prog["tuition_imputed"] = prog.tuition_min.isna() | (prog.tuition_unit != "per_year")
-    fill = prog.school_code.map(med)
-    prog.loc[prog.tuition_imputed, "tuition_min"] = fill[prog.tuition_imputed]
-    prog.loc[prog.tuition_imputed, "tuition_max"] = fill[prog.tuition_imputed]
 
-    history = cut[cut.scale == 30].merge(prog[["program_id", "school_code", "program_code"]].assign(key_code=prog.program_id.str.split(":", n=1).str[1]),
-                                          on=["school_code", "key_code"], how="inner", suffixes=("", "_p"))
-    history = _drop_reused_codes(history, dict(zip(prog.program_id, prog.program_name)))
-    prog["years_with_cutoff"] = prog.program_id.map(history.groupby("program_id").year.nunique()).fillna(0).astype(int)
-    history = history[["program_id", "year", "score", "status", "chosen_source", "score_vnexpress", "score_vietnamnet", "score_tuyensinh247", "score_ads_final", "n_sources", "method_evidence", "several_rows", "url"]]
+    # cutoff history: the in-scope 30-point rows, cut where a program code was reused for another program
+    history = cut[cut.scale == 30].merge(prog[["program_id", "school_code"]].assign(key_code=prog.program_id.str.split(":", n=1).str[1]),
+                                          on=["school_code", "key_code"], how="inner")
+    history = _drop_reused_codes(history, dict(zip(prog.program_id, prog.name)))
+    cutoffs = pd.DataFrame(dict(
+        program_id=history.program_id, year=history.year, combo="", score=history.score, status=history.status,
+        n_sources=history.n_sources, lowest_of_several=history.several_rows, provenance="observed",
+        source=history.chosen_source, url=history.url))
+
+    # tuition: the latest per-year price a source gave; else the school's median of those, as an estimate
+    observed = prog[prog._fee.notna()]
+    fees = pd.DataFrame([dict(program_id=pid, year=f[0], min_vnd=f[1], max_vnd=f[2], provenance="observed", method="",
+                              source="vnexpress_cutoffs") for pid, f in zip(observed.program_id, observed._fee)])
+    med = fees.assign(school_code=fees.program_id.str.split(":").str[0]).groupby("school_code").min_vnd.median()
+    estimated = prog[prog._fee.isna() & prog.school_code.isin(med.index)]
+    fees = pd.concat([fees, pd.DataFrame(dict(program_id=estimated.program_id, year=LATEST, min_vnd=estimated.school_code.map(med),
+                                              max_vnd=estimated.school_code.map(med), provenance="estimated",
+                                              method="school_median", source=""))], ignore_index=True)
+    quotas = prog[prog._quota.notna()]
+    quotas = pd.DataFrame(dict(program_id=quotas.program_id, year=LATEST, quota=quotas._quota.astype(int),
+                               provenance="observed", source="unipilot_step1"))
 
     schools = []
     for code in keep_schools:
-        s = schools_src.loc[code] if code in schools_src.index else None
-        sp = prog[prog.school_code == code]
-        schools.append(dict(school_code=code, name=clean(s.name_vi) if s is not None else code, city=city_of[code],
-                            short_name=clean(s.short_name) if s is not None else "", website=clean(s.website) if s is not None else "",
-                            address=clean(s.address) if s is not None else "", n_programs=len(sp),
-                            median_tuition=float(sp.tuition_min.median()) if sp.tuition_min.notna().any() else None))
-    pd.DataFrame(schools).to_csv(PROCESSED / "schools.csv", index=False, encoding="utf-8")
-    prog.to_csv(PROCESSED / "programs.csv", index=False, encoding="utf-8")
-    history.to_csv(PROCESSED / "history.csv", index=False, encoding="utf-8")
-    pd.DataFrame(reasons).to_csv(PROCESSED / "programs_excluded.csv", index=False, encoding="utf-8")
+        sc = schools_src.loc[code] if code in schools_src.index else None
+        schools.append(dict(school_code=code, name=clean(sc.name_vi) if sc is not None else code, city=city_of[code],
+                            short_name=clean(sc.short_name) if sc is not None else "", website=clean(sc.website) if sc is not None else "",
+                            address=clean(sc.address) if sc is not None else ""))
+    combos = pd.DataFrame([dict(combo=c, subject_1=s[0], subject_2=s[1], subject_3=s[2]) for c, s in sorted(exam.items())])
+    dmeta = dmeta[dmeta.combo.isin(exam)].assign(provenance=dmeta.method.map(METHOD_PROVENANCE))
+    cdfs = pd.read_parquet(BUILD / "distributions.parquet")
+    cdfs = cdfs[cdfs.combo.isin(exam)]
+
+    db = database.write(out, {
+        "schools": pd.DataFrame(schools),
+        "programs": prog[[c for c in prog.columns if not c.startswith("_")]],
+        "cutoffs": cutoffs, "quotas": quotas, "tuition": fees, "combos": combos, "distributions": dmeta,
+    }, cdfs, {"kind": "real", "name": "real", "latest_year": LATEST, "admission_year": scope["admission_year"],
+              "description": f"{len(schools)} schools in {', '.join(scope['regions'])}; THPT exam-score method, 30-point scale"})
+    pd.DataFrame(reasons).to_csv(BUILD / "programs_excluded.csv", index=False, encoding="utf-8")
     pd.DataFrame({"school_code": dropped}).assign(reason="fewer than min usable 30-point THPT cutoffs in the latest year (e.g. switched to a 100-point combined scale) or not found").to_csv(
-        PROCESSED / "schools_excluded.csv", index=False, encoding="utf-8")
+        BUILD / "schools_excluded.csv", index=False, encoding="utf-8")
+    cat = db.catalog
     return {
         "schools": len(schools), "schools_by_city": pd.DataFrame(schools).city.value_counts().to_dict(),
-        "schools_excluded": dropped, "programs": len(prog), "programs_excluded": len(reasons),
-        "history_rows": len(history), "years_with_cutoff": prog.years_with_cutoff.value_counts().sort_index().to_dict(),
-        "reference_provenance": prog.reference_provenance.value_counts().to_dict(),
-        "tuition_imputed": int(prog.tuition_imputed.sum()), "field_missing": int((prog.field == "").sum()),
-        "_unused": len(all_parts),
+        "schools_excluded": dropped, "programs": len(cat), "programs_excluded": len(reasons),
+        "cutoff_rows": len(cutoffs), "years_with_cutoff": cat.years_with_cutoff.value_counts().sort_index().to_dict(),
+        "tuition": cat.tuition_provenance.value_counts().to_dict(), "field_missing": int(cat.field.isna().sum()),
     }

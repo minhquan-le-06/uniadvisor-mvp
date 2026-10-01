@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "kind": "real",
+  "name": "real",
+  "latest_year": 2026,
+  "admission_year": 2027,
+  "description": "48 schools in Hà Nội, TP. Hồ Chí Minh; THPT exam-score method, 30-point scale",
+  "counts": {
+    "schools": 48,
+    "programs": 1666,
+    "cutoffs": 7098,
+    "quotas": 938,
+    "tuition": 938,
+    "combos": 186,
+    "distributions": 477
+  }
+}

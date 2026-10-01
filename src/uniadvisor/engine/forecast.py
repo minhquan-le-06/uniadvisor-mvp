@@ -92,11 +92,11 @@ def forecast_program(program_id: str, ref_combo: str, history: dict[int, float],
     if dist_year is None:
         avail = [y for y in dists.years(ref_combo) if y <= target_year]
         dist_year = max(avail) if avail else max(years)
-    target_ok = dists.provenance(ref_combo, dist_year) in TRUSTED
+    target_ok = dists.method(ref_combo, dist_year) in TRUSTED
     adj, eq = [], []
     for y in years:
         s = history[y]
-        trusted_pair = target_ok and dists.provenance(ref_combo, y) in TRUSTED
+        trusted_pair = target_ok and dists.method(ref_combo, y) in TRUSTED
         do = params.equate == "always" or (params.equate == "trusted" and trusted_pair)
         if y != dist_year and do and dists.has(ref_combo, y) and dists.has(ref_combo, dist_year):
             adj.append(dists.score_at(ref_combo, dist_year, dists.share_below(ref_combo, y, s)))
