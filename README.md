@@ -110,7 +110,7 @@ Current model (third Kaggle run: fixed teacher, 5 epochs, both T4s, batch 128 pe
 | ability_fit | **0.929** | 0.381 | keywords (weighted core subjects + self-assessment, as the rubric says) |
 | top_priority | **0.786** | 0.738 | keywords |
 | interest_fit | **0.548** | 0.452 | keywords (weakest question for both) |
-| **Overall** | 0.823 | 0.765 | **hybrid ≈ 0.86** (estimated from the per-question numbers) |
+| **Overall** | 0.823 | 0.765 | **hybrid 0.864** (measured) |
 
 The keyword column is after the fixes found by reading Gemini's disagreements (0.772 before): the ability rule now
 weights the first core subject double and reads "Toán là môn mạnh nhất" / "Tiếng Anh em rất kém" as one level up /
