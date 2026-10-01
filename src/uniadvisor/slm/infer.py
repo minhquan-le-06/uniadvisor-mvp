@@ -331,12 +331,17 @@ class HybridJudge:
         return out  # type: ignore[return-value]
 
 
+LOAD_ERROR: list[str] = []  # why the last load_slm() returned None (shown by `slm-eval`)
+
+
 def load_slm() -> SLMJudge | None:
     model_dir = Path(os.environ.get("UNIADVISOR_SLM_DIR", MODELS / "slm"))
+    LOAD_ERROR.clear()
     if (model_dir / "adapter.pt").exists() and (model_dir / "config.json").exists():
         try:
             return SLMJudge(model_dir)
         except Exception as e:  # noqa: BLE001 - fall back rather than break the app
+            LOAD_ERROR.append(f"{type(e).__name__}: {e}")
             print(f"[uniadvisor] could not load SLM from {model_dir}: {e}; using heuristic judge")
     return None
 

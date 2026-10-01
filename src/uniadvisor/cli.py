@@ -130,12 +130,14 @@ def slm_relabel(split: str = "train", limit: int = 2000, samples: int = 3) -> No
 def slm_eval(judge: str = "auto", gold: Path | None = None, limit: int | None = None) -> None:
     """Evaluate a judge on the test split or a human gold file: auto (what the app uses), hybrid, slm or heuristic."""
     from uniadvisor.slm.evaluate import evaluate
-    from uniadvisor.slm.infer import HeuristicJudge, HybridJudge, get_judge, load_slm
+    from uniadvisor.slm.infer import LOAD_ERROR, HeuristicJudge, HybridJudge, get_judge, load_slm
 
     if judge == "heuristic":
         j = HeuristicJudge()
     elif judge in ("slm", "hybrid"):
         slm = load_slm()
+        if slm is None and LOAD_ERROR:
+            raise typer.BadParameter(f"the SLM files were found but loading failed: {LOAD_ERROR[0]}")
         if slm is None:
             import os
 
