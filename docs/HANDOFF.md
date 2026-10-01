@@ -1,7 +1,10 @@
 # Hand-off (state as of 2026-10-01)
 
-PRs #1-#5 are merged into `main`; new work goes on a fresh branch off `main`.
-Read this file, then [README.md](../README.md) and [artifacts/reports/data_report.md](../artifacts/reports/data_report.md).
+PRs #1-#5 are merged into `main`. Two local branches are stacked on it, committed but not pushed (the owner pushes):
+`chore/repo-cleanup` (repo layout: `artifacts/`, `docs/`, CLAUDE.md) and `feat/database` on top of it (the database
+redesign, [DATA.md](DATA.md)). Continue on `feat/database` or a branch off it.
+Read this file, then [PIPELINE_REVIEW.md](PIPELINE_REVIEW.md) (the module-by-module review in progress),
+[README.md](../README.md) and [artifacts/reports/data_report.md](../artifacts/reports/data_report.md).
 Commands, layout and coding conventions are in [CLAUDE.md](../CLAUDE.md).
 
 The trained SLM adapter (`artifacts/models/slm/adapter.pt`) lives only on the owner's Windows machine; its `config.json`
@@ -20,6 +23,15 @@ and `metrics.json` are committed.
 | Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`, committed). 6 rows (4 ability_fit, 2 interest_fit) still carry labels from before the rubric fixes; `uniadvisor gold-llm --redo interest_fit,ability_fit` relabels just those. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
 
 ## Next, in order of value
+
+**In progress: reviewing the pipeline module by module with the owner** ([PIPELINE_REVIEW.md](PIPELINE_REVIEW.md)):
+1 data collecting, 2 student info and intention processing, 3 recommendation engine, 4 explanations.
+Module 1 is done (decisions recorded there; the database redesign implements them). **Module 2 is next**, then 3;
+module 4 stays as-is for now. The owner discusses in chat and wants results as Markdown files in the repo.
+Starting points for module 2: the review's module 2 findings (intent never extracted as explicit facts; interest_fit
+does not separate programs; clarifying questions only for risk/priority), the keyword baseline 0.823 and hybrid 0.864
+on `data/slm/gold_llm.csv`, the tiny simulated world for fast tests (`tiny_db` fixture), and the deferred move of
+the SLM's synthetic data to `data/sim/`. For module 3, `uniadvisor sim season` is the ready test bed.
 
 SLM work is wrapped up for the MVP (owner decision, 2026-10-01): hybrid 0.864 on Gemini's gold labels.
 
