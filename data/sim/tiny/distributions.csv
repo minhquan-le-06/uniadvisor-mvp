@@ -1,0 +1,26 @@
+combo,year,method,provenance,n,note,mean,p50,p75,p90
+A00,2022,simulated,simulated,200000,truncated normal mean 20.5 sd 3.6,20.46,20.48,22.89,25.04
+A00,2023,simulated,simulated,200000,truncated normal mean 20.5 sd 3.6,20.46,20.48,22.89,25.04
+A00,2024,simulated,simulated,200000,truncated normal mean 20.5 sd 3.6,20.46,20.48,22.89,25.04
+A00,2025,simulated,simulated,200000,truncated normal mean 20.5 sd 3.6,20.46,20.48,22.89,25.04
+A00,2026,simulated,simulated,200000,truncated normal mean 20.5 sd 3.6,20.46,20.48,22.89,25.04
+A01,2022,simulated,simulated,200000,truncated normal mean 20.0 sd 3.7,19.96,19.98,22.47,24.68
+A01,2023,simulated,simulated,200000,truncated normal mean 20.0 sd 3.7,19.96,19.98,22.47,24.68
+A01,2024,simulated,simulated,200000,truncated normal mean 20.0 sd 3.7,19.96,19.98,22.47,24.68
+A01,2025,simulated,simulated,200000,truncated normal mean 20.0 sd 3.7,19.96,19.98,22.47,24.68
+A01,2026,simulated,simulated,200000,truncated normal mean 20.0 sd 3.7,19.96,19.98,22.47,24.68
+B00,2022,simulated,simulated,200000,truncated normal mean 19.5 sd 3.8,19.47,19.49,22.04,24.31
+B00,2023,simulated,simulated,200000,truncated normal mean 19.5 sd 3.8,19.47,19.49,22.04,24.31
+B00,2024,simulated,simulated,200000,truncated normal mean 19.5 sd 3.8,19.47,19.49,22.04,24.31
+B00,2025,simulated,simulated,200000,truncated normal mean 19.5 sd 3.8,19.47,19.49,22.04,24.31
+B00,2026,simulated,simulated,200000,truncated normal mean 19.5 sd 3.8,19.47,19.49,22.04,24.31
+C00,2022,simulated,simulated,200000,truncated normal mean 19.0 sd 4.0,18.96,18.99,21.67,24.07
+C00,2023,simulated,simulated,200000,truncated normal mean 19.0 sd 4.0,18.96,18.99,21.67,24.07
+C00,2024,simulated,simulated,200000,truncated normal mean 19.0 sd 4.0,18.96,18.99,21.67,24.07
+C00,2025,simulated,simulated,200000,truncated normal mean 19.0 sd 4.0,18.96,18.99,21.67,24.07
+C00,2026,simulated,simulated,200000,truncated normal mean 19.0 sd 4.0,18.96,18.99,21.67,24.07
+D01,2022,simulated,simulated,200000,truncated normal mean 19.8 sd 3.9,19.75,19.78,22.39,24.71
+D01,2023,simulated,simulated,200000,truncated normal mean 19.8 sd 3.9,19.75,19.78,22.39,24.71
+D01,2024,simulated,simulated,200000,truncated normal mean 19.8 sd 3.9,19.75,19.78,22.39,24.71
+D01,2025,simulated,simulated,200000,truncated normal mean 19.8 sd 3.9,19.75,19.78,22.39,24.71
+D01,2026,simulated,simulated,200000,truncated normal mean 19.8 sd 3.9,19.75,19.78,22.39,24.71

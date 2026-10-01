@@ -10,7 +10,7 @@ docs (Vietnamese) in [docs/tasks/](../docs/tasks/).
 | `uniadvisor/explain/` | 4, explanation | Vietnamese explanations built from module 3's numbers |
 | `uniadvisor/api.py`, `cli.py` | all | FastAPI and the `uniadvisor` command |
 | `config/` | 2, 3 | `interests.yaml` (student words -> MOET codes), `rules/<year>.yaml` (admission rules per year) |
-| `slm_data/` | 2 | rubrics, gold sets; generated splits (`uniadvisor slm-data`) are not in git |
+| `slm_data/` | 2 | rubrics, gold sets, generated training splits (`uniadvisor slm-data`) |
 | `tests/` | 2, 3, 4 | `python -m pytest -q backend/tests`; runs on the tiny simulated database where it can |
 
 The Streamlit app is in `app/` (its path is what the deployed app points at).

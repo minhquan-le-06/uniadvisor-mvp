@@ -1,0 +1,13 @@
+program_id,year,quota,provenance,source
+SIM-HC1:EDU-LIT,2026,250,simulated,uniadvisor.sim.tiny
+SIM-HC1:EDU-MATH,2026,140,simulated,uniadvisor.sim.tiny
+SIM-HC1:MD,2026,60,simulated,uniadvisor.sim.tiny
+SIM-HC1:NUR,2026,70,simulated,uniadvisor.sim.tiny
+SIM-HN1:CE,2026,270,simulated,uniadvisor.sim.tiny
+SIM-HN1:CS-EN,2026,130,simulated,uniadvisor.sim.tiny
+SIM-HN1:EE,2026,140,simulated,uniadvisor.sim.tiny
+SIM-HN1:IT,2026,240,simulated,uniadvisor.sim.tiny
+SIM-HN2:ECO,2026,110,simulated,uniadvisor.sim.tiny
+SIM-HN2:ENG,2026,200,simulated,uniadvisor.sim.tiny
+SIM-HN2:FIN,2026,100,simulated,uniadvisor.sim.tiny
+SIM-HN2:MKT,2026,220,simulated,uniadvisor.sim.tiny

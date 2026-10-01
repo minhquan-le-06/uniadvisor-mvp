@@ -12,7 +12,7 @@ MVP scope: THPT exam-score method, universities in Hà Nội and TP.HCM, cutoff 
 | VnExpress phổ điểm 2026 | 3 | per-subject (0.25 bins) and 13 per-combination (1-point bins) score histograms | 2026 only |
 | Ministry figures quoted in news (data/manual/distribution_anchors.csv) | 5 (hand-entered, quoted) | 2025 p50/p75/p90 for 7 combinations; 2023-2024 means | 28 |
 | UniPilotData step-1 export | 4 (aggregator) | school details, 2026 programs, quotas, THPT combinations | 1666 programs matched |
-| Per-candidate score files in data/inbox/ (not in git; e.g. github.com/sdgedfegw/du-lieu-diem-thi) | 4 (public Ministry results, compiled) | exact score distributions per combination | 2023, 2024, 2025, 2026 (up to 908,866 candidates per combination) |
+| Per-candidate score files in data/inbox/ (e.g. github.com/sdgedfegw/du-lieu-diem-thi) | 4 (public Ministry results, compiled) | exact score distributions per combination | 2023, 2024, 2025, 2026 (up to 908,866 candidates per combination) |
 
 ## Cutoffs (30-point THPT method)
 

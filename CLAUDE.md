@@ -11,7 +11,7 @@ before trusting any number.
 ```bash
 .venv/Scripts/python -m pip install -e ".[dev]"     # add ",slm" to run the SLM (pulls torch)
 .venv/Scripts/python -m pytest -q                   # ~90 s; 116 pass (data/tests alone: module 1)
-.venv/Scripts/uniadvisor slm-data                   # regenerates backend/slm_data/*.jsonl (git-ignored, ~40 s); needed by SLM tests/eval
+.venv/Scripts/uniadvisor slm-data                   # regenerates backend/slm_data/*.jsonl (~40 s); needed by SLM tests/eval
 .venv/Scripts/uniadvisor app                        # Streamlit chat, http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # FastAPI, http://localhost:8000/docs
 .venv/Scripts/uniadvisor advise --scores "TO=8.4,VA=7,LI=8,N1=8.2" --province "Nghệ An" --area KV2-NT --text "..."
@@ -34,13 +34,13 @@ Data pipeline (yearly refresh): `collect` → `fetch-scores` (optional, ~350 MB 
 | `data/config/` | module 1: `scope.yaml`, `sources.yaml`, `fields.yaml` (MOET code -> app field) | yes |
 | `backend/config/` | `interests.yaml` (module 2: student words -> MOET codes), `rules/<year>.yaml` (module 3, versioned per admission year) | yes |
 | `data/manual/` → `data/collected/` → `data/db/` | hand-entered facts → parsed rows per source → **the database** the app reads ([docs/DATA.md](docs/DATA.md)) | yes |
-| `data/sim/<name>/` | simulated databases, same schema, `SIM-` ids; rebuilt from the seed in their manifest | no |
+| `data/sim/<name>/` | simulated databases and students, same schema, `SIM-` ids; rebuilt from the seed in their manifest | yes |
 | `data/unipilot/` | UniPilotData step-1 export (schools, programs, combos) | yes |
-| `backend/slm_data/` | rubrics, gold set (`gold_frozen.jsonl`, `gold_llm.csv`, `gold_to_label.csv`); `*.jsonl` splits are regenerated | partly |
-| `data/raw/`, `data/inbox/` | HTTP cache; per-candidate score files | no |
-| `artifacts/models/` | `forecast_params.json`; `artifacts/models/slm/` = trained SLM (`config.json` + `metrics.json` committed, `adapter.pt` ignored) | partly |
+| `backend/slm_data/` | rubrics, gold set (`gold_frozen.jsonl`, `gold_llm.csv`, `gold_to_label.csv`); `*.jsonl` splits are regenerated | yes |
+| `data/raw/`, `data/inbox/` | HTTP cache; per-candidate score files | yes |
+| `artifacts/models/` | `forecast_params.json`; `artifacts/models/slm/` = trained SLM (`config.json`, `metrics.json`, `adapter.pt`) | yes |
 | `artifacts/build/` | build intermediates: cutoff consensus over all sources, distributions, exclusions, problems | yes |
-| `artifacts/reports/` | data report, backtest, SLM eval results | yes (`*.log` ignored) |
+| `artifacts/reports/` | data report, backtest, SLM eval results | yes |
 | `docs/` | MVP spec, deploy guide, hand-off/status, team report; `docs/tasks/` = one task doc per module; `docs/kaggle/` = GPU training guide + notebook | yes |
 
 Keep the root lean: new outputs go under `artifacts/`, new docs under `docs/`, scratch outside the repo
@@ -59,7 +59,9 @@ rules). The deployed app (Streamlit Community Cloud) has no adapter, so it runs 
   (observed / derived / estimated / simulated); simulated data never enters `data/db/`. Test with the tiny
   simulated world (`tiny_db` / `use_tiny` fixtures), not by mocking files. New columns go in `db/schema.py` first.
 - UI text is Vietnamese; code, comments and docs are English.
-- Nothing a student enters is stored (Decree 13/2023). Never commit `.env`, `backend/slm_data/gemini_keys.txt` or `data/inbox/`.
+- Nothing a student enters is stored (Decree 13/2023). Everything else is committed, data included; only `.env`, `.venv/`,
+  secrets (`.streamlit/secrets.toml`, `backend/slm_data/gemini_keys.txt`) and Python caches are ignored. GitHub rejects files
+  over 100 MB: check sizes before committing large downloads (e.g. `fetch-scores` files in `data/inbox/`).
 - Measure every SLM or keyword-rule change on the frozen gold set and re-pick `SLM_QUESTIONS` (`slm/infer.py`)
   after each retrain. Update the README results table and docs/HANDOFF.md when numbers change.
 

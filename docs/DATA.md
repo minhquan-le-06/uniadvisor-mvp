@@ -13,7 +13,7 @@ artifacts/build/                              intermediates and checks: cutoff c
         |                                     scale, distributions, exclusions, validation problems
         v
 data/db/                                      the real database (committed; the deployed app reads only this)
-data/sim/<name>/                              simulated databases (git-ignored; rebuilt from their seed)
+data/sim/<name>/                              simulated databases (rebuilt exactly from their seed)
 ```
 
 ## Using it

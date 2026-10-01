@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "kind": "simulated",
+  "name": "tiny",
+  "latest_year": 2026,
+  "description": "3 schools, 12 programs, cutoffs 2022-2026: a hand-sized world for tests",
+  "generator": {
+    "name": "uniadvisor.sim.tiny",
+    "version": 1,
+    "seed": 0
+  },
+  "counts": {
+    "schools": 3,
+    "programs": 12,
+    "cutoffs": 56,
+    "quotas": 12,
+    "tuition": 10,
+    "combos": 5,
+    "distributions": 25
+  }
+}

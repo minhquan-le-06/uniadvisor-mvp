@@ -23,7 +23,7 @@ Run everything from the project root (the folder with `pyproject.toml`).
 ```bash
 py -3.14 -m venv .venv --system-site-packages     # reuses torch/streamlit/fastapi if installed globally
 .venv/Scripts/python -m pip install -e ".[slm,dev]"
-.venv/Scripts/uniadvisor slm-data                   # regenerates backend/slm_data/*.jsonl (not in git, ~40 s)
+.venv/Scripts/uniadvisor slm-data                   # regenerates backend/slm_data/*.jsonl (~40 s)
 .venv/Scripts/uniadvisor app                        # chat UI on http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # API on http://localhost:8000/docs
 .venv/Scripts/uniadvisor advise --scores "TO=8.4,VA=7,LI=8,N1=8.2" --province "Nghệ An" --area KV2-NT --text "Em muốn học CNTT, học phí tối đa 30 triệu/năm, muốn học ở Hà Nội"
@@ -40,7 +40,7 @@ To put the app online (Streamlit Community Cloud, keyword judge, no secrets), se
 
 ```bash
 uniadvisor collect      # polite + cached: robots.txt, 1.5 s/host, raw responses in data/raw/
-uniadvisor fetch-scores # per-candidate exam scores 2023-2026 -> data/inbox/ (~350 MB, not in git)
+uniadvisor fetch-scores # per-candidate exam scores 2023-2026 -> data/inbox/ (~350 MB; GitHub rejects files over 100 MB)
 uniadvisor build        # distributions -> cutoffs (3-source consensus) -> catalog
 uniadvisor backtest     # fits forecast parameters, writes artifacts/reports/backtest.json
 uniadvisor report       # artifacts/reports/data_report.md: coverage, quality, gaps
@@ -54,7 +54,7 @@ the only source for 2018–2022 and a second opinion on 2023–2024), UniPilotDa
 step-1 export (schools, 2026 programs, quotas, combos), and ministry percentiles/means quoted in news
 (`data/manual/distribution_anchors.csv`, each row with its quote), and per-candidate exam scores
 compiled from the Ministry's public results ([sdgedfegw/du-lieu-diem-thi](https://github.com/sdgedfegw/du-lieu-diem-thi),
-subject scores only, no names). Those files stay in `data/inbox/` (git-ignored); only the aggregate
+subject scores only, no names). Those files stay in `data/inbox/`; only the aggregate
 distributions built from them are committed. Without them, `build` falls back to approximations.
 
 **Read [artifacts/reports/data_report.md](artifacts/reports/data_report.md) before trusting any number.** The short version:
@@ -138,7 +138,7 @@ One folder per side of the system; each module's task doc (Vietnamese) is in [do
 ```
 data/         MODULE 1, data: unidata/ (the package: collect/ build/ db/ sim/), config/ (scope, sources,
               fields.yaml), tests/; and the data itself: manual/ unipilot/ (inputs) -> collected/ (parsed per
-              source) -> db/ (the database every module reads); sim/ (simulated, not in git); raw/ inbox/ (caches)
+              source) -> db/ (the database every module reads); sim/ (simulated); raw/ inbox/ (caches)
 backend/      MODULES 2-4: uniadvisor/ (the package: student/ = module 2, recommend/ = module 3, explain/ = module 4,
               api.py, cli.py), config/ (interests.yaml, rules/<year>.yaml), slm_data/ (SLM dataset, rubrics,
               gold set), tests/

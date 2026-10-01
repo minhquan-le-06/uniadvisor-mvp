@@ -1,0 +1,151 @@
+
+<h3 class="tc-title">Phổ điểm Khối C04</h3>
+<!-- Biểu đồ phổ điểm ngang -->
+<div id="chart-phodiem-tohop" style="width: 100%; min-height: 300px;"></div>
+<script type="text/javascript">
+$(function () {
+    var chartDom = document.getElementById('chart-phodiem-tohop');
+    // Set height trước khi init để ECharts tính toán đúng kích thước
+    chartDom.style.height = 350 + 'px';
+    var myChart = echarts.init(chartDom);
+
+    var categories = ["30","29","28","27","26","25","24","23","22","21","20","19","18","17","16","15","14","13","12","11","10","9","8","7","6","5","4","3","2","1","0"];
+    var dataValues = [0,0,3,54,438,1763,4373,8311,12875,18045,23664,29796,35286,39554,41649,41300,39475,36019,31092,24842,17962,11802,7031,3681,1681,502,102,13,1,0,0];
+    var maxScore = 30;
+
+    // Xử lý markLine cho điểm của thí sinh
+    var markLineData = [];
+    var candidateScoreStr = $('#tab-phodiem-tohop').attr('data-candidatescore');
+    if (candidateScoreStr && candidateScoreStr !== '') {
+        var cScore = parseFloat(candidateScoreStr);
+        var value = cScore;
+        if (value > maxScore) value = maxScore;
+
+        // Dùng tên category (giá trị điểm) cho markLine yAxis
+        var scoreCategory = String(Math.floor(value));
+
+        markLineData.push({
+            yAxis: scoreCategory,
+            label: {
+                show: true,
+                position: 'insideEndTop',
+                formatter: 'Điểm của bạn: ' + candidateScoreStr.replace('.', ','),
+                color: '#999999',
+                fontWeight: 'bold',
+                fontSize: 12
+            },
+            lineStyle: {
+                color: '#999999',
+                width: 2,
+                type: 'dashed'
+            }
+        });
+    }
+
+    var option = {
+        backgroundColor: 'transparent',
+        grid: {
+            left: 30,
+            right: 20,
+            top: 10,
+            bottom: 10,
+            containLabel: true
+        },
+        tooltip: {
+            trigger: 'axis',
+            confine: true,
+            axisPointer: {
+                type: 'shadow'
+            },
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            borderColor: '#e0e0e0',
+            textStyle: {
+                color: '#333'
+            },
+            formatter: function (params) {
+                var param = params[0];
+                var keyVal = parseInt(param.name);
+                var rangeText = '';
+                if (keyVal === maxScore) {
+                    rangeText = ' (điểm tuyệt đối)';
+                } else {
+                    rangeText = ' (khoảng ' + keyVal + ' đến < ' + (keyVal + 1) + ')';
+                }
+                var countStr = param.value.toLocaleString('vi-VN');
+                return 'Điểm <strong>' + param.name + '</strong><span style="color:#666;">' + rangeText + '</span><br><strong>' + countStr + '</strong> thí sinh';
+            }
+        },
+        // Trục Y hiển thị categories (điểm số) – biểu đồ ngang
+        yAxis: {
+            type: 'category',
+            data: categories,
+            inverse: true,
+            axisLine: {
+                lineStyle: {
+                    color: '#d8d8d8',
+                    width: 1
+                }
+            },
+            axisTick: {
+                show: false // Bỏ vạch chia
+            },
+            axisLabel: {
+                // Hiển thị các khoảng điểm 0, 10, 20, 30
+                interval: function (index, value) {
+                    return parseInt(value) % 10 === 0;
+                },
+                fontSize: 13,
+                fontFamily: 'Arial, sans-serif',
+                color: '#757575'
+            }
+        },
+        // Trục X hiển thị giá trị (số thí sinh) – ẩn label
+        xAxis: {
+            type: 'value',
+            min: 0,
+            axisLabel: {
+                show: false
+            },
+            axisLine: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            splitLine: {
+                show: false
+            }
+        },
+        series: [{
+            name: 'Thí sinh',
+            type: 'bar',
+            data: dataValues,
+            barWidth: 10, // Thanh mảnh hơn để sát nhau
+            barGap: '10%',
+            itemStyle: {
+                color: '#e9e7e5', // Màu như thiết kế
+                borderWidth: 0,
+                borderRadius: 0
+            },
+            // Điểm cực nhỏ vẫn hiển thị tối thiểu để có thể di chuột vào
+            barMinHeight: 5,
+            label: {
+                show: false // Ẩn số trên thanh giống thiết kế tĩnh
+            },
+            markLine: markLineData.length > 0 ? {
+                silent: true,
+                symbol: 'none',
+                data: markLineData
+            } : undefined
+        }]
+    };
+
+    myChart.setOption(option);
+
+    // Responsive: tự resize khi thay đổi kích thước cửa sổ
+    $(window).on('resize', function () {
+        myChart.resize();
+    });
+});
+</script>
+

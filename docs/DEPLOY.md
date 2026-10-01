@@ -55,7 +55,7 @@ package was installed non-editable; set `UNIADVISOR_ROOT` to point elsewhere.
 
 ## Later: the SLM version
 
-1. Commit the trained adapter: un-ignore `artifacts/models/slm/adapter.pt` (~7 MB) in `.gitignore` and add `artifacts/models/slm/`.
+1. The trained adapter (`artifacts/models/slm/adapter.pt`, ~7 MB) is committed with the rest of the repo.
 2. Add CPU torch and transformers to `requirements.txt`
    (`--extra-index-url https://download.pytorch.org/whl/cpu`, then `torch`, `transformers`, `safetensors`).
 3. The base model (mmarco-mMiniLMv2-L12-H384, ~470 MB) downloads from Hugging Face at first start, so the host

@@ -1,29 +1,13 @@
-# environment and secrets
-.venv/
+# Everything in the project is committed, data included. Only environments, secrets and Python's own caches stay out.
+
+# environments and secrets
 .env
+.venv/
 .streamlit/secrets.toml
 backend/slm_data/gemini_keys.txt
-.claude/settings.local.json
 
-# Python
+# Python caches (regenerated on every run)
 __pycache__/
 *.pyc
 *.egg-info/
 .pytest_cache/
-
-# local data caches (regenerated or dropped in by hand)
-data/raw/
-data/inbox/*
-!data/inbox/.gitkeep
-backend/slm_data/llm_cache/
-backend/slm_data/*.jsonl
-!backend/slm_data/gold_frozen.jsonl
-backend/slm_data/programs_snapshot.csv
-# simulated databases: rebuilt exactly from the seed in their manifest (uniadvisor sim ...)
-data/sim/
-
-# run outputs that are large or rebuildable
-artifacts/models/slm*/adapter.pt
-artifacts/models/slm_smoke/
-artifacts/reports/*.log
-artifacts/*.zip

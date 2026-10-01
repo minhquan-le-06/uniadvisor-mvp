@@ -6,7 +6,7 @@ generator's hidden attributes. Feeding `intent` to the engine is an oracle modul
 the engine alone; feeding `free_text` through the real reader measures both.
 
 Scores are drawn from the real 2026 per-subject histograms (slm/synth.py ScoreSampler). Priority area and
-group are drawn per province (big cities are mostly KV3). Written to data/sim/<name>/ (git-ignored) with a
+group are drawn per province (big cities are mostly KV3). Written to data/sim/<name>/ with a
 manifest naming the generator and seed; ids start with SIM-.
 
     uniadvisor sim students --n 5000 --seed 0        # data/sim/students-0/students.jsonl

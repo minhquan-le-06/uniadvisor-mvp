@@ -20,7 +20,7 @@ ROOT = _root()
 # module 1 (data/): code in data/unidata/, its config, and the data it collects and builds
 DATA = ROOT / "data"
 DATA_CONFIG = DATA / "config"  # scope.yaml, sources.yaml, fields.yaml
-RAW = DATA / "raw"  # HTTP cache, one file per request (not in git)
+RAW = DATA / "raw"  # HTTP cache, one file per request
 INBOX = DATA / "inbox"  # files a person drops in by hand (e.g. per-candidate score CSVs from Kaggle)
 MANUAL = DATA / "manual"  # hand-entered facts with a cited source
 COLLECTED = DATA / "collected"  # parsed rows straight from each source, before cleaning
