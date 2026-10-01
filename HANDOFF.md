@@ -1,8 +1,7 @@
-# Hand-off (state as of 2026-09-30)
+# Hand-off (state as of 2026-10-01)
 
-All work is on branch `claude/ecstatic-pasteur-9qby7f`, open as PR
-https://github.com/minhquan-le-06/uniadvisor-mvp/pull/1 (not merged yet). Read this file, then README.md
-and reports/data_report.md.
+Work happens on branch `claude/ecstatic-pasteur-9qby7f`; PRs #1-#3 are merged into `main`, the rest goes in PR #4.
+Read this file, then README.md and reports/data_report.md.
 
 ## Setup (Python 3.11+, run everything from the project root; `.venv/Scripts/` on Windows)
 
@@ -10,14 +9,15 @@ and reports/data_report.md.
 python -m venv .venv && . .venv/bin/activate
 pip install -e ".[dev]"            # add ".[slm]" to run the SLM (pulls torch)
 uniadvisor slm-data                # regenerates data/slm/*.jsonl (not in git, ~40 s)
-python -m pytest -q                # 50 pass (1 skips without torch)
+python -m pytest -q                # 66 pass (1 skips without torch)
 uniadvisor fetch-scores            # optional: per-candidate scores 2023-2026 into data/inbox/ (~350 MB,
                                    # git-ignored); needed only to rebuild the distributions exactly
+uniadvisor gold-llm                # Gemini labels for the gold set; keys in .env (see .env.example), resumable
 ```
 
 Committed: `data/processed`, `data/collected`, `data/unipilot`, `models/forecast_params.json`. Not committed:
-`data/inbox/` (per-candidate files), `data/slm/*.jsonl`, `models/slm/adapter.pt` (the trained SLM lives only
-on the owner's Windows machine, in `models/slm/`).
+`data/inbox/` (per-candidate files), `data/slm/*.jsonl` except `gold_frozen.jsonl`, `models/slm/` (the trained SLM
+lives only on the owner's Windows machine), `.env` (Gemini keys).
 
 ## Current state
 
@@ -29,7 +29,7 @@ on the owner's Windows machine, in `models/slm/`).
 | Optimizer | tested vs brute force; never recommends "unlikely" (< 15%) programs |
 | SLM | Third Kaggle run (fixed teacher, 5 epochs, DDP on 2×T4, ~24 min, VRAM ~14/15 GB per GPU) is the current model (owner's `models/slm/`). On Gemini's gold labels: keywords 0.823 (after rubric fixes), SLM 0.765, hybrid 0.864 (measured) with `SLM_QUESTIONS` = location_ok, risk_tolerance, budget_ok, conditions_ok. Weakest: interest_fit (0.55). The teacher changed since (English self-assessment counts for ability_fit; 48 program fields fixed), so the next retrain trains on slightly better labels |
 | App / API | Streamlit chat + FastAPI both tested (headless Chromium, TestClient); not deployed |
-| Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`); interest_fit (42) and 8 ability_fit rows need `gold-llm --redo interest_fit,ability_fit` after the rubric fixes. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
+| Labelling | Gemini labelled all 294 gold rows (`data/slm/gold_llm.csv`, committed). 6 rows (4 ability_fit, 2 interest_fit) still carry labels from before the rubric fixes; `uniadvisor gold-llm --redo interest_fit,ability_fit` relabels just those. The gold set is frozen in `data/slm/gold_frozen.jsonl` (evaluation reads it; its students are excluded from training). 0/294 human labels |
 
 ## Next, in order of value
 
