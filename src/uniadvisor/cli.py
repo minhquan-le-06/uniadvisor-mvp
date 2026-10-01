@@ -130,14 +130,25 @@ def slm_relabel(split: str = "train", limit: int = 2000, samples: int = 3) -> No
 def slm_eval(judge: str = "auto", gold: Path | None = None, limit: int | None = None) -> None:
     """Evaluate a judge on the test split or a human gold file: auto (what the app uses), hybrid, slm or heuristic."""
     from uniadvisor.slm.evaluate import evaluate
-    from uniadvisor.slm.infer import HeuristicJudge, HybridJudge, get_judge, load_slm
+    from uniadvisor.slm.infer import LOAD_ERROR, HeuristicJudge, HybridJudge, get_judge, load_slm
 
     if judge == "heuristic":
         j = HeuristicJudge()
     elif judge in ("slm", "hybrid"):
         slm = load_slm()
+        if slm is None and LOAD_ERROR:
+            raise typer.BadParameter(f"the SLM files were found but loading failed: {LOAD_ERROR[0]}")
         if slm is None:
-            raise typer.BadParameter("no trained SLM in models/slm/ (or UNIADVISOR_SLM_DIR)")
+            import os
+
+            from uniadvisor.paths import MODELS
+
+            d = Path(os.environ.get("UNIADVISOR_SLM_DIR", MODELS / "slm"))
+            found = sorted(str(f.relative_to(d)) for f in d.rglob("*") if f.is_file())[:8] if d.is_dir() else []
+            hint = (f"folder does not exist" if not d.is_dir() else
+                    f"it contains: {', '.join(found) or 'nothing'}" + (" (unzipped one level too deep?)" if any("/" in f or "\\" in f for f in found) else ""))
+            raise typer.BadParameter(f"no trained SLM: need adapter.pt and config.json directly in {d.resolve()}; {hint}"
+                                     + (" [UNIADVISOR_SLM_DIR is set]" if "UNIADVISOR_SLM_DIR" in os.environ else ""))
         j = slm if judge == "slm" else HybridJudge(slm)
     elif judge == "auto":
         j = get_judge()
@@ -208,13 +219,15 @@ def label(port: int = 8502) -> None:
 @app.command("gold-llm")
 def gold_llm(models: str = typer.Option("gemini-3.5-flash,gemini-3.5-flash-lite", help="tried in order, each with every key"),
              delay: float = typer.Option(4.0, help="seconds between requests"),
-             limit: int | None = typer.Option(None, help="at most this many requests (2 rows each)")) -> None:
+             limit: int | None = typer.Option(None, help="at most this many requests (2 rows each)"),
+             redo: str = typer.Option("", help="comma list of questions to relabel if labelled before rubric versions "
+                                               "were recorded (e.g. ability_fit); rows with an old version tag are redone anyway")) -> None:
     """Label the gold set with Gemini -> data/slm/gold_llm.csv (keys: GEMINI_API_KEYS=k1,k2 or data/slm/gemini_keys.txt)."""
     _log()
     from uniadvisor.slm import llm_label
 
     stats = llm_label.run(llm_label.load_keys(), models=tuple(m.strip() for m in models.split(",") if m.strip()),
-                          delay=delay, limit=limit)
+                          delay=delay, limit=limit, redo=tuple(q.strip() for q in redo.split(",") if q.strip()))
     print(json.dumps(stats, indent=1))
     table = llm_label.agreement() if llm_label.OUT.exists() else None
     if table is not None and len(table):

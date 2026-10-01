@@ -86,7 +86,8 @@ def example(qid: str, profile: StudentProfile, program: dict | None, soft: dict[
 def build(n_students: int = 4000, programs_per_student: int = 4, seed: int = 13, gold_size: int = 300) -> dict:
     SLM_DATA.mkdir(parents=True, exist_ok=True)
     programs = pd.read_csv(PROCESSED / "programs.csv", dtype={"program_code": str, "major_code": str})
-    programs = programs.where(programs.notna(), None)
+    # astype(object) first: on pandas 3 string columns, where(..., None) keeps NaN (and NaN is truthy)
+    programs = programs.astype(object).where(programs.notna(), None)
     school_split = split_schools(programs.school_code.unique().tolist(), seed)
     pools = {s: programs[programs.school_code.map(school_split) == s] for s in SPLITS}
     gen = ProfileGenerator(seed)
@@ -108,12 +109,22 @@ def build(n_students: int = 4000, programs_per_student: int = 4, seed: int = 13,
             for q in PROGRAM_QUESTIONS:
                 rows[split].append(example(q.id, profile, p, teacher.label(q.id, z, p, rng), split, meta))
 
+    # the frozen gold set (data/slm/gold_frozen.jsonl) is the fixed evaluation set: its students' texts never
+    # appear in any split, so regenerating the data can neither break the gold labels nor leak them into training
+    frozen_path = SLM_DATA / "gold_frozen.jsonl"
+    frozen = [json.loads(line) for line in open(frozen_path, encoding="utf-8")] if frozen_path.exists() else None
+    gold_texts = {r["latent"]["free_text"] for r in frozen} if frozen else set()
+    free_text = {z["student_id"]: z["free_text"] for z in latents}
+
     # dedupe + no train free text in val/test
     train_texts = {r["text_a"] for r in rows["train"]}
-    stats: dict = {"schools_per_split": Counter(school_split.values()), "dropped_leak": 0, "dropped_dup": 0}
+    stats: dict = {"schools_per_split": Counter(school_split.values()), "dropped_leak": 0, "dropped_dup": 0, "dropped_gold": 0}
     for split in SPLITS:
         kept = []
         for r in rows[split]:
+            if free_text[r["student_id"]] in gold_texts:
+                stats["dropped_gold"] += 1
+                continue
             key = hashlib.sha1((r["question"] + r["text_a"] + r["text_b"]).encode()).hexdigest()
             if key in seen:
                 stats["dropped_dup"] += 1
@@ -141,9 +152,12 @@ def build(n_students: int = 4000, programs_per_student: int = 4, seed: int = 13,
                "**Labels:** " + ", ".join(f"`{a}` = {b}" for a, b in zip(q.labels, q.labels_vi)) + f", `{INSUFFICIENT}`\n",
                f"\n{q.rubric}\n"]
     (SLM_DATA / "rubrics.md").write_text("\n".join(md), encoding="utf-8")
-    test = pd.DataFrame(rows["test"])
-    per_q = max(1, gold_size // len(QUESTIONS))
-    gold = pd.concat([g.sample(min(per_q, len(g)), random_state=seed) for _, g in test.groupby("question")])
+    if frozen:
+        gold = pd.DataFrame(frozen)
+    else:
+        test = pd.DataFrame(rows["test"])
+        per_q = max(1, gold_size // len(QUESTIONS))
+        gold = pd.concat([g.sample(min(per_q, len(g)), random_state=seed) for _, g in test.groupby("question")])
     gold = gold.assign(options=gold.question.map(lambda q: " | ".join(next(x for x in QUESTIONS if x.id == q).all_labels)),
                        human_label="", labeller="", note="")
     gold[["id", "question", "options", "text_a", "text_b", "human_label", "labeller", "note"]].to_csv(

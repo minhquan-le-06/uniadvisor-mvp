@@ -35,8 +35,13 @@ insufficient: không nói điều gì được ưu tiên.
 **Labels:** `1` = Rất không hợp, `2` = Ít hợp, `3` = Trung bình, `4` = Khá hợp, `5` = Rất hợp, `insufficient`
 
 
-5: đúng lĩnh vực/nghề học sinh nói muốn theo. 4: lĩnh vực gần, liên quan rõ tới sở thích (vd thích lập trình -> an toàn thông tin). 3: không liên quan nhưng cũng không trái với gì học sinh nói, hoặc là lựa chọn gia đình muốn mà học sinh không phản đối. 2: xa sở thích, hoặc chỉ là lựa chọn do người khác ép. 1: học sinh nói rõ không thích / sợ lĩnh vực này.
-insufficient: học sinh không nói gì về sở thích, môn thích, hay nghề muốn làm.
+Xét theo 'Lĩnh vực' của ngành (cùng lĩnh vực là đủ, không cần đúng tên ngành).
+5: ngành thuộc lĩnh vực học sinh NÓI RÕ muốn học, hoặc lĩnh vực của nghề học sinh nói muốn làm.
+4: lĩnh vực học sinh chỉ GỢI Ý qua sở thích, hoạt động (vd 'hay tự viết code', 'hay chăm sóc ông bà khi ốm') mà không nói thẳng; hoặc lĩnh vực gần, liên quan rõ tới lĩnh vực học sinh muốn (vd CNTT và kỹ thuật điện tử).
+3: học sinh KHÔNG nêu lĩnh vực hay nghề mong muốn nào (chỉ nói điều không thích, hoặc chỉ có mong muốn của gia đình) và ngành không trái với điều đã nói; hoặc là ngành gia đình muốn mà học sinh chấp nhận.
+2: học sinh ĐÃ nêu lĩnh vực/nghề muốn theo (nói rõ hoặc gợi ý) và ngành này thuộc lĩnh vực khác, không liên quan (kể cả khi không trái với gì); hoặc là ngành gia đình ép mà học sinh không muốn.
+1: học sinh nói rõ không thích / sợ lĩnh vực này.
+insufficient: không nói gì về sở thích, môn thích, nghề muốn làm, điều không thích hay mong muốn của gia đình.
 
 
 ## ability_fit (score, program)
@@ -46,9 +51,26 @@ insufficient: học sinh không nói gì về sở thích, môn thích, hay ngh�
 **Labels:** `1` = Rất không phù hợp, `2` = Ít phù hợp, `3` = Trung bình, `4` = Khá phù hợp, `5` = Rất phù hợp, `insufficient`
 
 
-Xét môn cốt lõi của lĩnh vực: CNTT/kỹ thuật/khoa học tự nhiên/tài chính -> Toán (và Lý); y dược/sinh -> Sinh, Hóa; ngôn ngữ/quốc tế -> Ngoại ngữ, Văn; báo chí/xã hội/luật -> Văn, Sử/Địa và khả năng viết, nói; kinh tế -> Toán, Ngoại ngữ.
-5: các môn cốt lõi >= 8.5 hoặc tự nhận rất giỏi. 4: 7.5-8.5. 3: 6.5-7.5 hoặc lẫn lộn. 2: 5-6.5 hoặc tự nhận yếu. 1: < 5 hoặc nói rõ rất kém môn cốt lõi.
-insufficient: không có điểm và không có tự nhận xét nào về môn cốt lõi.
+Môn cốt lõi theo 'Lĩnh vực' của ngành (môn đầu tiên tính hệ số 2):
+- Công nghệ thông tin - Máy tính - Dữ liệu - AI: Toán, Lý, Tin
+- Kỹ thuật - Công nghệ (cơ khí, điện, điện tử, ô tô, tự động hóa, vật liệu): Toán, Lý
+- Khoa học tự nhiên - Toán - Vật lý - Thống kê: Toán, Lý
+- Tài chính - Ngân hàng - Kế toán - Kiểm toán - Bảo hiểm: Toán, Anh
+- Kinh tế - Kinh doanh - Quản trị - Marketing - Thương mại: Toán, Anh, Văn
+- Y - Dược - Điều dưỡng - Sức khỏe: Sinh, Hóa, Toán
+- Sinh học - Hóa học - Công nghệ sinh học - Thực phẩm: Hóa, Sinh, Toán
+- Kiến trúc - Xây dựng - Giao thông - Quy hoạch: Toán, Lý
+- Nông - Lâm - Thủy sản - Môi trường - Tài nguyên: Sinh, Hóa, Địa
+- Ngôn ngữ - Văn hóa - Quốc tế học: Anh, Văn
+- Du lịch - Khách sạn - Logistics - Hàng không - Dịch vụ: Anh, Văn, Địa
+- Báo chí - Truyền thông - Quan hệ công chúng: Văn, Sử
+- Khoa học xã hội - Tâm lý - Nhân văn - Chính trị - Hành chính: Văn, Sử, Địa
+- Luật: Văn, Sử, KTPL
+- Sư phạm - Giáo dục: Văn, Toán
+- Thiết kế - Nghệ thuật - Sáng tạo số: Văn, Toán
+- Lĩnh vực khác / không rõ: Toán, Văn
+Cách chấm: lấy trung bình có trọng số của các môn cốt lõi mà học sinh CÓ điểm (bỏ qua môn không có điểm), rồi 5: >= 8.5, 4: 7.5-8.5, 3: 6.5-7.5, 2: 5-6.5, 1: < 5. Học sinh tự nhận giỏi một môn cốt lõi -> cộng 1 mức; tự nhận yếu/kém một môn cốt lõi -> trừ 1 mức (trong khoảng 1-5). Không có điểm môn cốt lõi nào nhưng có tự nhận xét: tự nhận giỏi -> 4, tự nhận yếu -> 2.
+insufficient: không có điểm và không có tự nhận xét nào về các môn cốt lõi.
 
 
 ## budget_ok (bool, program)

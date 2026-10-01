@@ -98,22 +98,26 @@ distributions built from them are committed. Without them, `build` falls back to
   (`auto` = what the app uses). On CPU the full test split takes 5–20 min; `--limit 3000` is enough to
   compare judges (use the same limit for each).
 
-First Kaggle run (3 epochs), test split, first 3,000 rows. Labels are the synthetic rubric labels, not
-human labels:
+Current model (third Kaggle run: fixed teacher, 5 epochs, both T4s, batch 128 per GPU, ~24 min), scored on the
+294 frozen gold rows labelled by Gemini (`data/slm/gold_llm.csv`, 42 per question, so one row is 2.4 points):
 
 | Question | Keywords | SLM | Routed to |
 |---|---|---|---|
-| location_ok | 0.602 | **0.984** | SLM |
-| budget_ok | 0.952 | **0.962** | SLM |
-| risk_tolerance (n=137) | 0.832 | **0.905** | SLM |
-| ability_fit | **0.851** | 0.477 | keywords (score arithmetic; the SLM is never confident) |
-| conditions_ok | **0.996** | 0.991 | keywords (tie, and far cheaper) |
-| interest_fit | **0.650** | 0.463 | keywords (weakest question for both) |
-| top_priority (n=137) | **0.891** | 0.803 | keywords |
-| **Overall** | 0.815 | 0.782 | **hybrid 0.889** |
+| location_ok | 0.857 | **0.952** | SLM (the teacher fix worked: the first model scored 0.64) |
+| risk_tolerance | 0.810 | **0.929** | SLM |
+| budget_ok | 0.857 | **0.929** | SLM (81% of rows are "insufficient": tuition is mostly unknown) |
+| conditions_ok | 0.976 | 0.976 | SLM (tie; its confidence is calibrated, ECE 0.04 vs 0.24) |
+| ability_fit | **0.929** | 0.381 | keywords (weighted core subjects + self-assessment, as the rubric says) |
+| top_priority | **0.786** | 0.738 | keywords |
+| interest_fit | **0.548** | 0.452 | keywords (weakest question for both) |
+| **Overall** | 0.823 | 0.765 | **hybrid 0.864** (measured) |
 
-The SLM's confidences are better calibrated on 5 of 7 questions (ECE ≤ 0.10 everywhere; the keyword
-judge reaches 0.34 on budget_ok), so its escalations to clarifying questions are more meaningful.
+The keyword column is after the fixes found by reading Gemini's disagreements (0.772 before): the ability rule now
+weights the first core subject double and reads "Toán là môn mạnh nhất" / "Tiếng Anh em rất kém" as one level up /
+down; interest_fit scores a family-forced field 2 and, when no interest is stated, an unrelated field 3. Program
+fields are matched on whole words (as substrings, "thời trang" matched "răng" and "tâm lý học" matched "y học").
+On the synthetic test split the SLM reaches 0.96–0.99 on location/budget/risk/conditions; the gap to Gemini's
+labels is what the gold set is for.
 Re-pick the routing after every retrain.
 
 ## Privacy, reproducibility, disclaimer

@@ -14,6 +14,7 @@ is used up for a model is skipped for that model; a per-minute limit waits and r
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
@@ -117,12 +118,20 @@ def parse_answers(resp: dict, qid: str, n: int) -> list[tuple[str, str]] | None:
     return out
 
 
+KEY_NAME = re.compile(r"(GEMINI|GOOGLE)_API_KEYS?_?(\d*)", re.IGNORECASE)
+
+
 def env_keys() -> list[str]:
-    """GEMINI_API_KEYS (comma list), GEMINI_API_KEY, and GEMINI_API_KEY_1, _2, ... in numeric order."""
-    keys = [k.strip() for k in os.environ.get("GEMINI_API_KEYS", "").split(",")]
-    keys.append(os.environ.get("GEMINI_API_KEY", ""))
-    numbered = sorted((int(m.group(1)), v) for k, v in os.environ.items() if (m := re.fullmatch(r"GEMINI_API_KEY_(\d+)", k)))
-    keys += [v.strip() for _, v in numbered]
+    """Keys from GEMINI_API_KEYS / GEMINI_API_KEY / GEMINI_API_KEY_1.._N (also KEY1, and GOOGLE_API_KEY...).
+    A value may hold several keys separated by commas, semicolons or spaces. Unnumbered names come first,
+    numbered ones in numeric order."""
+    found = []
+    for name, value in os.environ.items():
+        m = KEY_NAME.fullmatch(name)
+        if m:
+            vendor = 0 if m.group(1).upper() == "GEMINI" else 1
+            found.append((vendor, int(m.group(2) or 0), name, value))
+    keys = [k for *_, value in sorted(found) for k in re.split(r"[,;\s]+", value.strip().strip("'\""))]
     return list(dict.fromkeys(k for k in keys if k))
 
 
@@ -157,17 +166,38 @@ def _daily(err: dict) -> bool:
     return "perday" in json.dumps(err).lower().replace("_", "").replace(" ", "")
 
 
+def rubric_version(qid: str) -> str:
+    """Short hash of the instructions a question is labelled with; stored as 'model#version' in `labeller`."""
+    return hashlib.sha1(instructions(qid).encode()).hexdigest()[:6]
+
+
+def needs_label(row: pd.Series, redo: tuple[str, ...] = ()) -> bool:
+    """Unlabelled; or labelled under older instructions (tag differs); or untagged (labelled before tags existed)
+    for a question listed in `redo`."""
+    if not row.human_label.strip():
+        return True
+    _, _, tag = row.labeller.partition("#")
+    return tag != rubric_version(row.question) if tag else row.question in redo
+
+
 def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, delay: float = 4.0,
-        limit: int | None = None, post: Post = _post, sleep: Callable[[float], None] = time.sleep) -> dict:
+        limit: int | None = None, post: Post = _post, sleep: Callable[[float], None] = time.sleep,
+        redo: tuple[str, ...] = ()) -> dict:
     """Label every unlabelled gold row; returns counts. Stops early when every key/model is out of quota."""
     if not keys:
-        raise ValueError("no Gemini API key: put GEMINI_API_KEYS=k1,k2,... in .env (see .env.example)")
+        from uniadvisor.env import describe
+
+        raise ValueError("no Gemini API key found. Put a line GEMINI_API_KEYS=key1,key2,... in a file named exactly "
+                         f".env in the project root (see .env.example). Checked:\n{describe()}")
     df = gold.load(labeled=out)
-    open_rows = df[df.human_label.str.strip() == ""]
+    open_rows = df[df.apply(needs_label, axis=1, redo=redo)]
     batches = [list(g.index[i:i + ROWS_PER_REQUEST]) for _, g in open_rows.groupby("question", sort=True)
                for i in range(0, len(g), ROWS_PER_REQUEST)]
     if limit is not None:
         batches = batches[:limit]
+    done = int((df.human_label.str.strip() != "").sum())
+    log.info("%s: %s, %d/%d labelled; this run: %d requests (%d rows)", out.name,
+             "found" if out.exists() else "NOT FOUND, starting from scratch", done, len(df), len(batches), len(open_rows))
     dead: set[tuple[str, str]] = set()   # (model, key) out of daily quota
     bad_models: set[str] = set()
     stats = {"requests": 0, "labelled": 0, "invalid_replies": 0, "left": 0, "by_model": {}}
@@ -217,7 +247,7 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
         if answers is None:
             continue
         for i, (label, reason) in zip(idx, answers):
-            df.at[i, "human_label"], df.at[i, "labeller"], df.at[i, "note"] = label, model, reason
+            df.at[i, "human_label"], df.at[i, "labeller"], df.at[i, "note"] = label, f"{model}#{rubric_version(qid)}", reason
         stats["labelled"] += len(idx)
         stats["by_model"][model] = stats["by_model"].get(model, 0) + len(idx)
         gold.save(df, out)
@@ -225,12 +255,34 @@ def run(keys: list[str], models: tuple[str, ...] = MODELS, out: Path = OUT, dela
     return stats
 
 
+def current_teacher_labels(data: Path = SLM_DATA) -> dict[str, str]:
+    """Teacher label per gold id, recomputed with the current teacher from the frozen rows (falls back to test.jsonl)."""
+    import random
+    from dataclasses import fields
+
+    from uniadvisor.slm import teacher
+    from uniadvisor.slm.synth import Latent
+
+    frozen = data / "gold_frozen.jsonl"
+    if not frozen.exists():
+        test = data / "test.jsonl"
+        return {r["id"]: r["label"] for r in map(json.loads, open(test, encoding="utf-8"))} if test.exists() else {}
+    names = {f.name for f in fields(Latent)}
+    out = {}
+    for r in map(json.loads, open(frozen, encoding="utf-8")):
+        z = {k: v for k, v in r["latent"].items() if k in names}
+        z["interests"] = [tuple(x) for x in z.get("interests") or []]
+        soft = teacher.label(r["question"], Latent(**z), r["program"], random.Random(r["id"]))
+        out[r["id"]] = max(soft, key=soft.get)
+    return out
+
+
 def agreement(out: Path = OUT, human: Path = gold.LABELED, test: Path = SLM_DATA / "test.jsonl") -> pd.DataFrame:
     """Per question: how often Gemini agrees with the synthetic teacher label (and with you, once you have labelled)."""
     g = pd.read_csv(out, dtype=str, keep_default_na=False, encoding="utf-8-sig")
     g = g[g.human_label != ""]
-    if test.exists():
-        teacher = {r["id"]: r["label"] for r in map(json.loads, open(test, encoding="utf-8"))}
+    teacher = current_teacher_labels(test.parent)
+    if teacher:
         g["teacher"] = g.id.map(teacher)
     if human.exists():
         h = pd.read_csv(human, dtype=str, keep_default_na=False, encoding="utf-8-sig")

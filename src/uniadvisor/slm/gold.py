@@ -2,6 +2,8 @@
 
 data/slm/gold_to_label.csv   template written by `uniadvisor slm-data` (never used for training)
 data/slm/gold_labeled.csv    what the labelling tool writes; `uniadvisor slm-eval --gold` reads it
+data/slm/gold_frozen.jsonl   the gold rows as labelled (text, latent student, program); evaluation uses these, so
+                             regenerating the synthetic data never invalidates labels
 """
 
 from __future__ import annotations
@@ -47,7 +49,9 @@ def progress(df: pd.DataFrame) -> pd.DataFrame:
 def unmatched_ids(df: pd.DataFrame, test: Path = SLM_DATA / "test.jsonl") -> int | None:
     """How many gold ids are missing from the local test split (None when it has not been generated).
     Non-zero means data/slm is stale: run `uniadvisor slm-data` or `slm-eval --gold` will skip rows."""
-    if not test.exists():
+    frozen = test.parent / "gold_frozen.jsonl"
+    source = frozen if frozen.exists() else test  # a frozen gold set does not depend on the current test split
+    if not source.exists():
         return None
-    ids = {json.loads(line)["id"] for line in open(test, encoding="utf-8")}
+    ids = {json.loads(line)["id"] for line in open(source, encoding="utf-8")}
     return int((~df.id.isin(ids)).sum())

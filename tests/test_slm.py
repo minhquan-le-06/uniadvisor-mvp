@@ -99,3 +99,75 @@ def test_program_text_treats_nan_as_missing():
 
     t = program_text(dict(PROGRAM, campus=float("nan"), tuition_min=float("nan"), conditions=float("nan")))
     assert "nan" not in t and "Nơi học: Hà Nội" in t and "Học phí: không rõ" in t
+
+
+def test_teacher_nan_campus_is_not_a_branch_campus():
+    """Regression: a NaN campus (pandas 3 string column) counted as a branch campus, so every
+    location_ok label for a matching city came out 'no'."""
+    rng = random.Random(3)
+    top = lambda d: max(d, key=d.get)  # noqa: E731
+    p = dict(PROGRAM, campus=float("nan"))
+    assert top(teacher.label("location_ok", _latent(location="city:" + PROGRAM["city"]), p, rng)) == "yes"
+    assert top(teacher.label("location_ok", _latent(location="anywhere", avoid_branch=True), p, rng)) == "yes"
+    assert top(teacher.label("location_ok", _latent(location="anywhere", avoid_branch=True), dict(PROGRAM, campus="Thanh Hóa"), rng)) == "no"
+
+
+def test_dataset_programs_have_no_nan_cells():
+    import pandas as pd
+
+    programs = pd.read_csv("data/processed/programs.csv", dtype={"program_code": str, "major_code": str})
+    fixed = programs.astype(object).where(programs.notna(), None)
+    assert not any(isinstance(v, float) and v != v for v in fixed.campus)
+
+
+def test_self_assessment_and_family_wishes_are_read_from_text():
+    from uniadvisor.slm.infer import _family, _self_assessed
+
+    assert _self_assessed("Toán là môn mạnh nhất của em. Em yếu môn Lý.") == ({"TO"}, {"LI"})
+    assert _self_assessed("Tiếng Anh em rất kém.")[1] == {"N1"}
+    assert _self_assessed("Em sợ nhất là môn tiếng Anh.")[1] == {"N1"}
+    assert _self_assessed("Em có IELTS 6.5.")[0] == {"N1"}
+    assert _self_assessed("Em thích Toán nhưng điểm Toán em chưa tốt.") == (set(), {"TO"})
+    assert _self_assessed("e hoc tot mon hoa. mon van e hoc kem") == ({"HO"}, {"VA"})  # per sentence
+    assert _self_assessed("Nhà em có 3 anh chị em.") == (set(), set())
+    assert _family("Bố mẹ bắt em học Du lịch nhưng em không muốn.") == ({"du_lich"}, set())
+    assert _family("Mẹ em muốn em học Vật lý, còn em thì không thích lắm.")[0] == {"khoa_hoc_tn"}
+    assert _family("Gia đình định hướng em học giáo dục tiểu học và em không phản đối.") == (set(), {"su_pham"})
+
+
+def test_heuristic_ability_follows_the_rubric():
+    j = HeuristicJudge()
+    design = dict(PROGRAM, field="thiet_ke")  # core Văn (x2), Toán
+    p = StudentProfile(scores={"TO": 9.0, "VA": 8.0}, free_text="")
+    assert j.answer([("ability_fit", p, design)])[0].label == "4"   # (2*8 + 9) / 3 = 8.33, not the plain mean 8.5
+    lang = dict(PROGRAM, field="ngon_ngu")  # core Anh (x2), Văn
+    p = StudentProfile(scores={"N1": 6.0, "VA": 7.0}, free_text="Tiếng Anh em rất kém.")
+    assert j.answer([("ability_fit", p, lang)])[0].label == "1"     # 6.33 -> 2, weak English -> 1
+    p = StudentProfile(scores={"TO": 9.0}, free_text="Em yếu môn Lý.")  # Lý is not core for languages
+    assert j.answer([("ability_fit", p, lang)])[0].label == INSUFFICIENT
+
+
+def test_heuristic_interest_family_rules():
+    j = HeuristicJudge()
+    tourism = dict(PROGRAM, field="du_lich")
+    forced = StudentProfile(scores={}, free_text="Em muốn học quy hoạch. Bố mẹ bắt em học Du lịch nhưng em không muốn.")
+    assert j.answer([("interest_fit", forced, tourism)])[0].label == "2"
+    only_dislike = StudentProfile(scores={}, free_text="Em sợ đứng trước đông người. Em không thích viết lách.")
+    assert j.answer([("interest_fit", only_dislike, dict(PROGRAM, field="ky_thuat"))])[0].label == "3"
+
+
+def test_field_of_matches_whole_words():
+    from uniadvisor.build.fields import field_of
+
+    assert field_of("Thiết kế thời trang") == "thiet_ke"   # "trang" contains "rang" (dentistry)
+    assert field_of("Tâm lý học") == "xa_hoi"              # "tâm lý học" contains "y học" (medicine)
+    assert field_of("Răng Hàm Mặt") == "y_duoc"
+    assert field_of("Y khoa") == "y_duoc"
+
+
+def test_teacher_counts_the_english_self_assessment():
+    rng = random.Random(5)
+    top = lambda d: max(d, key=d.get)  # noqa: E731
+    lang = dict(PROGRAM, field="ngon_ngu")
+    z = _latent(scores={"N1": 7.0, "VA": 7.0, "TO": 7.0}, english="weak")
+    assert top(teacher.label("ability_fit", z, lang, rng)) == "2"   # 7.0 -> 3, weak English -> 2

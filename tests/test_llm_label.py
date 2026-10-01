@@ -40,7 +40,7 @@ def test_two_rows_per_request_quota_fallback_and_resume(tmp_path, monkeypatch):
     s = llm_label.run(["k1", "k2"], models=("flash", "lite"), out=out, delay=0, post=post, sleep=lambda _: None)
     assert s["labelled"] == 2  # resumed: only the 2 location rows were left
     df = pd.read_csv(out, dtype=str, keep_default_na=False, encoding="utf-8-sig")
-    assert (df.human_label == "yes").all() and set(df.labeller) == {"flash"}
+    assert (df.human_label == "yes").all() and set(df.labeller.str.split("#").str[0]) == {"flash"}
 
 
 def test_invalid_reply_and_all_quota_gone(tmp_path, monkeypatch):
@@ -74,3 +74,36 @@ def test_keys_come_from_dotenv_and_shell_wins(tmp_path, monkeypatch):
 
     assert os.environ["OTHER"] == "from-shell"
     assert llm_label.load_keys(tmp_path / "missing.txt") == ["a", "b", "c", "d", "e"]  # numbered keys in numeric order
+
+
+def test_dotenv_windows_variants_and_diagnostics(tmp_path, monkeypatch):
+    import os
+
+    from uniadvisor import env as envmod
+
+    for k in [k for k in os.environ if k.upper().startswith(("GEMINI", "GOOGLE_API"))]:
+        monkeypatch.delenv(k, raising=False)
+    # PowerShell 5 `echo ... > .env` writes UTF-16 with a BOM; `$env:` prefix and a numbered name without '_'
+    (tmp_path / ".env.txt").write_bytes("﻿$env:GEMINI_API_KEY1 = 'x1'\r\nset GEMINI_API_KEY2=x2;x3\r\n".encode("utf-16-le"))
+    monkeypatch.setattr(envmod, "ROOT", tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert sorted(envmod.load_dotenv()) == ["GEMINI_API_KEY1", "GEMINI_API_KEY2"]
+    assert llm_label.load_keys(tmp_path / "missing.txt") == ["x1", "x2", "x3"]
+    assert "GEMINI_API_KEY1, GEMINI_API_KEY2" in envmod.describe() and "x1" not in envmod.describe()
+
+
+def test_redo_relabels_old_rubric_rows_only_once(tmp_path, monkeypatch):
+    monkeypatch.setattr(gold.load, "__defaults__", (_template(tmp_path, 5), gold.LABELED))
+    out = tmp_path / "gold_llm.csv"
+    df = gold.load(labeled=out)
+    df["human_label"] = "no"
+    df["labeller"] = "flash"                                             # labelled before version tags existed
+    df.loc[3, "labeller"] = "flash#000000"                               # an older rubric version
+    gold.save(df, out)
+    post = lambda m, k, body: (200, _reply(body, "yes"))  # noqa: E731
+    s = llm_label.run(["k"], models=("flash",), out=out, delay=0, post=post, sleep=lambda _: None, redo=("budget_ok",))
+    assert s["labelled"] == 4  # 3 untagged budget_ok rows + the stale-tagged location row
+    df = pd.read_csv(out, dtype=str, keep_default_na=False, encoding="utf-8-sig")
+    assert list(df.human_label) == ["yes", "yes", "yes", "yes", "no"]
+    s = llm_label.run(["k"], models=("flash",), out=out, delay=0, post=post, sleep=lambda _: None, redo=("budget_ok",))
+    assert s["labelled"] == 0  # re-running with the same --redo does not redo them again

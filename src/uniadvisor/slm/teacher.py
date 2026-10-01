@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import random
 
-from uniadvisor.slm.questions import BY_ID, INSUFFICIENT
+from uniadvisor.slm.questions import BY_ID, DEFAULT_CORE, INSUFFICIENT
 from uniadvisor.slm.synth import CORE_SUBJECTS, HUB_OF_REGION, RELATED, Latent
 
 N_ANNOTATORS = 5
@@ -85,10 +85,13 @@ def _level(x: float) -> str:
 
 def ability_fit(z: Latent, p: dict, rng: random.Random) -> dict[str, float]:
     labels = BY_ID["ability_fit"].all_labels
-    core = CORE_SUBJECTS.get(p.get("field") or "", ["TO", "VA"])
+    core = CORE_SUBJECTS.get(p.get("field") or "", DEFAULT_CORE)
     have = [z.scores[s] for s in core if s in z.scores]
-    said_strong = [s for s in core if s in z.strong]
-    said_weak = [s for s in core if s in z.weak]
+    # the English self-assessment ("Tiếng Anh em rất kém", "Em có IELTS 6.5") is a statement about English too
+    strong = set(z.strong) | ({"N1"} if z.english in ("good", "ielts") else set())
+    weak = set(z.weak) | ({"N1"} if z.english == "weak" else set())
+    said_strong = [s for s in core if s in strong]
+    said_weak = [s for s in core if s in weak]
     if not have and not said_strong and not said_weak:
         return _vote(INSUFFICIENT, labels, 0.1, rng, "score", alt="3")
     if have:
@@ -127,7 +130,8 @@ def budget_ok(z: Latent, p: dict, rng: random.Random) -> dict[str, float]:
 def location_ok(z: Latent, p: dict, rng: random.Random) -> dict[str, float]:
     labels = BY_ID["location_ok"].all_labels
     city = p.get("city")
-    branch = bool(p.get("campus"))
+    campus = p.get("campus")
+    branch = isinstance(campus, str) and campus.strip() != ""  # NaN is truthy: never use bool() on a cell
     if z.avoid_branch and branch:
         return _vote("no", labels, 0.1, rng, "bool")
     if z.location is None:

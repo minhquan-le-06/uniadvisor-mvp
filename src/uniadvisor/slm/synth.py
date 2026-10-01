@@ -47,12 +47,7 @@ RELATED = {
     "sinh_hoa": ["y_duoc", "nong_lam_mt", "khoa_hoc_tn"], "xay_dung": ["ky_thuat", "thiet_ke"],
     "nong_lam_mt": ["sinh_hoa", "xay_dung"], "du_lich": ["ngon_ngu", "kinh_te"], "thiet_ke": ["cntt", "xay_dung", "bao_chi"],
 }
-CORE_SUBJECTS = {
-    "cntt": ["TO", "LI", "TI"], "ky_thuat": ["TO", "LI"], "khoa_hoc_tn": ["TO", "LI"], "tai_chinh": ["TO", "N1"],
-    "kinh_te": ["TO", "N1", "VA"], "y_duoc": ["SI", "HO", "TO"], "sinh_hoa": ["HO", "SI", "TO"], "xay_dung": ["TO", "LI"],
-    "nong_lam_mt": ["SI", "HO", "DI"], "ngon_ngu": ["N1", "VA"], "du_lich": ["N1", "VA", "DI"], "bao_chi": ["VA", "SU"],
-    "xa_hoi": ["VA", "SU", "DI"], "luat": ["VA", "SU", "GDKTPL"], "su_pham": ["VA", "TO"], "thiet_ke": ["VA", "TO"],
-}
+from uniadvisor.slm.questions import CORE_SUBJECTS  # noqa: E402,F401  (one table for the teacher and the written rubric)
 
 # explicit wish / career / hobby (implied) / dislike phrase banks per field
 FIELD_TEXT: dict[str, dict[str, list[str]]] = {

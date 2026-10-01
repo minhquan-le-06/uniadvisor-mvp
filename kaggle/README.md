@@ -1,7 +1,7 @@
 # Training the SLM on Kaggle
 
 The SLM (multilingual MiniLM cross-encoder + LoRA + typed heads) trains in about 30 minutes on a Kaggle
-GPU (3 epochs); on a laptop CPU it takes hours. Everything it needs is in one zip.
+GPU (both T4s are used); on a laptop CPU it takes hours. Everything it needs is in one zip.
 
 ## 1. Make the bundle (on your machine, from the project root)
 
@@ -22,10 +22,18 @@ GPU (3 epochs); on a laptop CPU it takes hours. Everything it needs is in one zi
    **Save Version → Save & Run All**, so an idle browser tab cannot stop the session; the result is then
    in the version's Output tab.
 
+**Both GPUs.** Cell 3 starts one training process per GPU with `torchrun` (PyTorch DDP): each GPU trains on
+its own share of every epoch and gradients are averaged, so "GPU T4 x2" is about twice as fast as one GPU.
+`--bs` is per GPU (effective batch = bs x GPUs); evaluation, calibration and saving run on GPU 0.
+
+**VRAM.** About 20 steps in, the log prints `VRAM peak: GPU0 x/15 GB, GPU1 x/15 GB`. Raise `--bs` while that stays
+under ~85% (and raise `--lr` a little with it, e.g. bs 128 -> lr 1e-3, bs 256 -> 1.4e-3); lower it on
+"CUDA out of memory". Filling VRAM makes epochs faster, not the model better: a larger batch means fewer update
+steps, so if validation accuracy drops compared with a run at a smaller batch, go back to the smaller one.
+
 Useful knobs (`python -m uniadvisor.slm.train --help`):
-`--epochs 3 --bs 64 --lr 5e-4 --lora-r 16 --max-len 320 --target-acc 0.9`.
-With bs 64 one epoch is about 960 steps (about 8 min on a T4). The loss should fall steadily
-(about 1.2 → 0.8 in the first half epoch).
+`--epochs 5 --bs 128 --lr 1e-3 --lora-r 16 --max-len 320 --target-acc 0.9 --eval-bs 512`.
+The loss should fall steadily in the first epoch and flatten later.
 To use LLM-teacher labels instead of the rubric teacher, rename `train.llm.jsonl` → `train.jsonl`
 (and the same for val) before training.
 
