@@ -9,7 +9,7 @@ Only facts module 3 needs go into the JSON. How a value was obtained (typed, est
 the evidence and the confidence stay inside module 2. A value the student did not give and that has no safe default
 is `null` (or an empty list); module 3 must work without it. Nothing a student enters is stored (Decree 13/2023).
 
-Status: schema version 1, ready for review. Open questions are listed at the end.
+Status: schema version 1, agreed. The one open question is listed at the end.
 
 ## The whole document
 
@@ -22,7 +22,7 @@ Status: schema version 1, ready for review. Open questions are listed at the end
     "province": "Nghệ An",
     "area": "KV3",
     "category": "none",
-    "gender": null,
+    "gender": "nam",
     "graduation_year": 2027
   },
   "interests": [{"code": "74801", "strength": "love"}, {"code": "7460108", "strength": "like"}],
@@ -55,7 +55,7 @@ Every key is always present. `meta` and `profile` are always filled; every other
 | `province` | enum or null | no | the 34 provinces after the July 2025 merger (`REGION_OF` in `backend/uniadvisor/student/slm/synth.py`) | region and nearest city |
 | `area` | enum | yes (defaulted) | `KV1`, `KV2-NT`, `KV2`, `KV3` | area priority points (0.75 / 0.5 / 0.25 / 0, tapered from 22.5) |
 | `category` | enum | yes (defaulted) | `none`, `UT1` (đối tượng 01-04), `UT2` (đối tượng 05-07) | category priority points (0 / 2.0 / 1.0) |
-| `gender` | enum or null | no | `nam`, `nu`, `null` | programs that admit one gender only |
+| `gender` | enum | yes | `nam`, `nu` | programs that admit one gender only |
 | `graduation_year` | integer | yes (defaulted) | 2020 to `target_year` | area points count only in the graduation year and the next |
 
 Subject keys (the 2025+ exam: Toán and Ngữ văn plus 2 electives):
@@ -78,7 +78,7 @@ Subject keys (the 2025+ exam: Toán and Ngữ văn plus 2 electives):
 |---|---|
 | an exact score | as given; Toán in steps of 0.05, other subjects in steps of 0.25 (anything else is rejected) |
 | a range, e.g. "7 đến 8" | the midpoint rounded **down** to the subject's step (7.5; 7.5-8.25 -> 7.75) |
-| a self-rated level | `xuat_sac` "Xuất sắc" 9.5 (9-10), `gioi` "Giỏi" 8.5 (8-9), `trung_binh_kha` "Trung bình khá" 7.5 (7-8), `trung_binh_yeu` "Trung bình yếu" 6.5 (6-7), `yeu` "Yếu" 5.0 (< 6; provisional) |
+| a self-rated level | `xuat_sac` "Xuất sắc" 9.5 (9-10), `gioi` "Giỏi" 8.5 (8-9), `trung_binh_kha` "Trung bình khá" 7.5 (7-8), `trung_binh_yeu` "Trung bình yếu" 6.5 (6-7), `yeu` "Yếu" 5.0 (< 6) |
 
 Exact scores are recommended. A range is offered when the student only has an estimate, and the level choice when
 they cannot estimate at all. Any range or level makes `score_kind` = `mock`.
@@ -92,7 +92,7 @@ they cannot estimate at all. Any range or level makes `score_kind` = `mock`.
 | `area` | "Trường THPT của em thuộc khu vực ưu tiên nào?" (hint: theo nơi học THPT, ghi trong hồ sơ đăng ký dự thi) | radio KV1 / KV2 nông thôn / KV2 / KV3 / Em không biết | `KV3`, listed in `assumed`, with a notice |
 | `category` | "Em có thuộc diện ưu tiên nào không, ví dụ con thương binh, liệt sĩ, hoặc người dân tộc thiểu số ở vùng khó khăn?" | radio Không / Có, nhóm 1 (đối tượng 01-04) / Có, nhóm 2 (đối tượng 05-07) | `none`, listed in `assumed` |
 | `graduation_year` | "Em đang học lớp 12 năm nay đúng không?" | radio Đúng / Không, em tốt nghiệp năm [number] | `target_year`, listed in `assumed` |
-| `gender` | "Giới tính của em? Một số ít ngành chỉ tuyển nam hoặc nữ." | radio Nam / Nữ / Không muốn trả lời | `null` |
+| `gender` | "Giới tính của em? Một số ít ngành chỉ tuyển nam hoặc nữ, nên mình cần biết để không gợi ý nhầm." | radio Nam / Nữ | required: the app explains why it asks |
 
 ## `interests`, `dislikes`, `family`
 
@@ -176,16 +176,13 @@ ones the code, the gold sets and the SLM already use (Vietnamese slugs), so they
 
 - **Other admission methods.** Only the THPT exam-score method is in scope, so tuyển thẳng and ưu tiên xét tuyển
   are out.
-- **Bonus points and certificate conversion.** The 2025 regulation lets each school add bonus points for language
-  certificates and special achievements (HSG, KHKT; at most 3 points on 30) and convert a language certificate into
-  the language subject's score. Both are set per school in its đề án. Whether to collect those rules (module 1) or
-  only tell students to check them is a team decision; until then the schema holds no certificate or award fields.
+- **Bonus points and certificate conversion** (a future feature). The 2025 regulation lets each school add bonus
+  points for language certificates and special achievements (HSG, KHKT; at most 3 points on 30) and convert a language
+  certificate into the language subject's score. Both are set per school in its đề án. Planned: module 1 collects
+  each school's rules, module 3 computes the points, and the schema gains certificate and award fields.
 - **Health information** (for example speech difficulties): sensitive and rarely relevant; module 3 shows a
   program's special conditions as a warning instead.
 
 ## Open questions
 
-1. The score for "Yếu" (5.0 is provisional).
-2. How module 3 asks for `gender` when a program admits one gender only (discussed with the module 3 owner).
-3. Which LLM turns the "Em chưa biết" answers into suggestions (decided in the "form to JSON" step).
-4. Bonus points and certificate conversion (team decision, see above).
+1. Which LLM turns the "Em chưa biết" answers into suggestions (decided in the "form to JSON" step).

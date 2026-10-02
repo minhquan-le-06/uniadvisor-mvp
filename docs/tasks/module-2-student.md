@@ -42,7 +42,7 @@ lại" (`Answer` trong `backend/uniadvisor/student/slm/infer.py`).
 
 Câu nào cũng có thêm nhãn "không đủ thông tin".
 
-**Đầu ra mới (đang chờ duyệt):** module 2 trò chuyện với học sinh theo dạng hỏi có hướng dẫn (ô nhập, ô chọn, danh
+**Đầu ra mới (đã thống nhất, phiên bản 1):** module 2 trò chuyện với học sinh theo dạng hỏi có hướng dẫn (ô nhập, ô chọn, danh
 sách thả xuống) và trả cho module 3 một tài liệu JSON duy nhất cho mỗi học sinh: điểm và hồ sơ, ngành thích / không
 thích, mong muốn của gia đình, ngân sách, nơi học, mức chịu rủi ro, ưu tiên. Định nghĩa đầy đủ:
 [docs/STUDENT_SCHEMA.md](../STUDENT_SCHEMA.md). Khi được duyệt, JSON này thay cho 7 câu hỏi ở trên: các câu theo từng
@@ -66,10 +66,18 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
   - mô hình ngôn ngữ nhỏ (SLM) tự huấn luyện, chạy được khi có file mô hình.
 
   Bản kết hợp giao mỗi câu cho bên làm tốt hơn.
-- **Độ đúng trên 294 câu gán nhãn:** từ khóa 0,823, kết hợp 0,864. Nhãn do Gemini gán, chưa có nhãn của người.
+- **Độ đúng trên 294 câu gán nhãn:** từ khóa 0,847 (trước khi sửa bộ đọc: 0,823), kết hợp 0,864 (đo với bộ từ khóa
+  cũ). Nhãn do Gemini gán, chưa có nhãn của người.
 - **Dữ liệu huấn luyện:** toàn bộ là học sinh mô phỏng (`uniadvisor slm-data`).
-- **Bộ đọc dữ kiện (bản thử):** đo trên 2.000 học sinh mô phỏng (`uniadvisor intent-eval`), đọc đúng 91–95% các dữ kiện
-  ngân sách, nơi học, ưu tiên, tiếng Anh; mức chịu rủi ro 81%; ngành thích khoảng 84%. Chưa nối vào ứng dụng.
+- **Bộ đọc dữ kiện (bản thử):** đo trên 2.000 học sinh mô phỏng (`uniadvisor intent-eval`), đọc đúng ngân sách 97%, nơi
+  học 96%, mức chịu rủi ro 98%, ưu tiên 96%, tiếng Anh 95%; ngành thích khoảng 84%. Chưa nối vào ứng dụng. Với dạng
+  hỏi có hướng dẫn, bộ đọc này chỉ còn dùng cho các ô trả lời tự do.
+- **Đã thống nhất:** cấu trúc JSON phiên bản 1 ([docs/STUDENT_SCHEMA.md](../STUDENT_SCHEMA.md)). Còn mở: dùng LLM nào để
+  gợi ý ngành từ phần "Em chưa biết".
+- **Việc tiếp theo:**
+  1. dựng phần hỏi có hướng dẫn (giao diện + logic điền JSON, kiểm tra theo các quy tắc trong tài liệu);
+  2. bộ gợi ý ngành cho "Em chưa biết" (LLM, kèm cách đo trên học sinh mô phỏng);
+  3. bàn giao JSON cho module 3.
 - **Vấn đề chính:**
   - App không tóm lại "em muốn gì" nên học sinh không thấy được máy hiểu mình thế nào để sửa.
   - Tiêu chí sở thích không phân biệt được ngành (trong một ví dụ, cả 10 gợi ý đều được 5/5).
