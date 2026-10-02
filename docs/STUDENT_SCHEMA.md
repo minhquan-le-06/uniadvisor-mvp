@@ -9,8 +9,8 @@ Only facts module 3 needs go into the JSON. How a value was obtained (typed, est
 evidence and the confidence stay inside module 2. A value the student did not give and that has no safe default is
 `null`; module 3 must work without it.
 
-Status: `meta`, `profile`, `interests`, `dislikes` and `family` are decided. Budget, location, risk, priorities,
-English and achievements are still to be defined. Which LLM turns free answers into JSON is an open question for the
+Status: `meta`, `profile`, `interests`, `dislikes`, `family`, `budget`, `location`, `risk` and `priorities` are decided.
+English certificates and achievements are being discussed. Which LLM turns free answers into JSON is an open question for the
 "form to JSON" step.
 
 ## Top level
@@ -137,6 +137,34 @@ unavailable, the student picks from the list.
 | "Em thích làm việc với điều gì hơn?" | checkboxes: con người, máy móc và kỹ thuật, số liệu, ý tưởng và sáng tạo, thiên nhiên, chữ nghĩa (Holland / RIASEC types) |
 | "Lúc rảnh em hay làm gì?" | checkboxes (viết code, vẽ, tranh biện, chăm sóc người khác, làm thí nghiệm, kinh doanh online, ...) and a free box |
 | "Sau này em mơ ước làm công việc gì?" | free box, optional |
+
+## `budget`, `location`, `risk`, `priorities`
+
+```json
+"budget":     {"max_million_per_year": 25, "strict": true},
+"location":   {"cities": ["Hà Nội"], "main_campus_only": true},
+"risk":       "can_bang",
+"priorities": ["nganh_yeu_thich", "hoc_phi_thap"]
+```
+
+| Field | Type | Allowed values | If skipped |
+|---|---|---|---|
+| `budget.max_million_per_year` | number or null | tuition the family can pay per academic year, in million VND; `null` = no limit ("Gia đình không lo về học phí") | `budget` = `null` ("Em chưa rõ" or skipped) |
+| `budget.strict` | boolean | `true`: a hard ceiling ("Đây là mức tối đa, không thể vượt"); `false`: a guide | |
+| `location.cities` | list | `Hà Nội`, `TP. Hồ Chí Minh` (the cities in scope); both = "Ở đâu cũng được"; "Gần nhà em nhất" writes the city nearer the student's province | `location` = `null` |
+| `location.main_campus_only` | boolean | `true`: no branch campuses ("Em chỉ muốn học ở cơ sở chính, không học phân hiệu") | `false` |
+| `risk` | enum or null | `an_toan` "Em muốn chắc chắn có trường", `can_bang` "Vừa thử sức vừa có lót", `mao_hiem` "Em sẵn sàng liều vì trường mơ ước" | `null` |
+| `priorities` | list, 0-3, ranked | `nganh_yeu_thich` "Học đúng ngành yêu thích", `truong_danh_tieng` "Trường danh tiếng", `hoc_phi_thap` "Học phí thấp", `gan_nha` "Học gần nhà", `viec_lam_thu_nhap` "Việc làm, thu nhập sau này" (no employment data yet; the app says so) | `[]` |
+
+| Field | Question | Widget |
+|---|---|---|
+| `budget` | "Mỗi năm gia đình em có thể lo học phí khoảng bao nhiêu?" | number box (triệu/năm), checkbox "Đây là mức tối đa, không thể vượt", buttons "Gia đình không lo về học phí" / "Em chưa rõ" |
+| `location` | "Em muốn học ở đâu?" | checkboxes Hà Nội / TP.HCM, options "Gần nhà em nhất" / "Ở đâu cũng được", checkbox "Em chỉ muốn học ở cơ sở chính" |
+| `risk` | "Khi đặt nguyện vọng, em nghiêng về hướng nào hơn?" | three radio options |
+| `priorities` | "Điều gì quan trọng nhất với em khi chọn trường?" | pick and rank up to 3 |
+
+Not collected: speech difficulties or other health information (sensitive, rarely relevant); module 3 shows a program's
+special conditions as a warning instead.
 
 ## `assumed`
 
