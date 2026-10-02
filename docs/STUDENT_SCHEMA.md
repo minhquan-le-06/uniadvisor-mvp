@@ -9,8 +9,9 @@ Only facts module 3 needs go into the JSON. How a value was obtained (typed, est
 evidence and the confidence stay inside module 2. A value the student did not give and that has no safe default is
 `null`; module 3 must work without it.
 
-Status: `meta` and `profile` are decided. `interests` is being designed; budget, location, risk, priorities, family,
-English and achievements are still to be defined.
+Status: `meta`, `profile`, `interests`, `dislikes` and `family` are decided. Budget, location, risk, priorities,
+English and achievements are still to be defined. Which LLM turns free answers into JSON is an open question for the
+"form to JSON" step.
 
 ## Top level
 
@@ -88,6 +89,54 @@ they cannot estimate at all. Any range or level makes `score_kind` = `mock`.
 | `category` | "Em có thuộc diện ưu tiên nào không, ví dụ con thương binh, liệt sĩ, hoặc người dân tộc thiểu số ở vùng khó khăn?" | radio Không / nhóm 1 / nhóm 2 | `none` |
 | `graduation_year` | "Em đang học lớp 12 năm nay đúng không?" | radio Đúng / Không, em tốt nghiệp năm [number] | `target_year` |
 | `gender` | "Giới tính của em? Một số ít ngành chỉ tuyển nam hoặc nữ." | radio Nam / Nữ / Không muốn trả lời | `null` |
+
+## `interests`, `dislikes`, `family`
+
+```json
+"interests": [{"code": "74801", "strength": "love"}, {"code": "7460108", "strength": "like"}],
+"dislikes":  [{"code": "73403"}],
+"family":    {"codes": ["71402"], "student_agrees": false}
+```
+
+| Field | Type | Allowed values | Meaning |
+|---|---|---|---|
+| `interests` | list, 0-5 items | `code`: a MOET nhóm ngành (5 digits) or ngành (7 digits) from the picker; `strength`: `love` "Rất thích", `like` "Thích" | what the student wants to study; empty = no preference given |
+| `dislikes` | list | `code` as above | what the student will not study |
+| `family` | object or null | `codes`: list as above; `student_agrees`: `true` "Em đồng ý", `false` "Em không muốn", `null` "Em chưa chắc" | what the family wants the student to study, and whether the student goes along with it; null = not given |
+
+Module 3 matches a program to a code with `uniadvisor.student.intent.covers(code, program_major_code)`: the code is a
+prefix of the program's MOET code and `data/config/fields.yaml` does not move that program to another field. A code
+may not appear in both `interests` and `dislikes` (the form prevents it).
+
+### The picker (interests, dislikes and family use the same one)
+
+1. **Nhóm ngành** dropdown: only the groups with at least one program in the database (70 of MOET's 95 today,
+   recomputed from `get_db()` every build), listed under their lĩnh vực, searchable, each with its number of programs
+   ("Công nghệ thông tin (68 ngành)"). Groups without programs are hidden.
+2. **Ngành** dropdown, optional: the ngành in that group that our schools offer (283 today), plus "Tất cả ngành trong
+   nhóm này" (the default, which writes the nhóm ngành code).
+3. For interests only, **Rất thích / Thích**.
+
+| Section | Question | If skipped |
+|---|---|---|
+| `interests` | "Em muốn học ngành nào? Em có thể chọn tối đa 5 nhóm ngành hoặc ngành." plus a button "Em chưa biết" | `[]`, or the questionnaire below |
+| `dislikes` | "Có ngành nào em chắc chắn không muốn học không?" | `[]` |
+| `family` | "Gia đình có mong em học ngành nào không?" then "Em có đồng ý với mong muốn này không?" (Em đồng ý / Em không muốn / Em chưa chắc) | `null` |
+
+### "Em chưa biết": a short questionnaire
+
+When the student does not know what to study, module 2 asks a few questions instead, then suggests 3-5 groups with a
+short reason each ("Vì em thích máy móc và học tốt Toán, Lý, mình nghĩ em có thể hợp với..."). Suggestions start
+ticked; the student unticks or adds, and only the confirmed ones are written to `interests`, as `like`. The suggestion
+step turns free answers into codes from the picker's list only (an LLM is planned; which one is open); if it is
+unavailable, the student picks from the list.
+
+| Question | Widget |
+|---|---|
+| "Em thích hoặc học tốt môn nào nhất?" | subject checkboxes |
+| "Em thích làm việc với điều gì hơn?" | checkboxes: con người, máy móc và kỹ thuật, số liệu, ý tưởng và sáng tạo, thiên nhiên, chữ nghĩa (Holland / RIASEC types) |
+| "Lúc rảnh em hay làm gì?" | checkboxes (viết code, vẽ, tranh biện, chăm sóc người khác, làm thí nghiệm, kinh doanh online, ...) and a free box |
+| "Sau này em mơ ước làm công việc gì?" | free box, optional |
 
 ## `assumed`
 
