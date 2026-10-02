@@ -67,14 +67,16 @@ The caller shows the suggestions ticked; the student unticks or adds. The model 
 ### Data set D
 
 $$
-D = \{(x_i, y_i)\}_{i=1}^{N}, \qquad y_i \in \{0,1\}^K, \qquad 1 \le \textstyle\sum_k y_{ik} \le 3
+D = \{(x_i, y_i)\}_{i=1}^{N}
 $$
 
-- $x_i$: one student's questionnaire answers (any key may be absent).
-- $y_i$: the groups that fit the student, as a 0/1 vector over the $K$ groups ($K = 70$ today).
+- $x_i$: one student's questionnaire answers (any question may be skipped).
+- $y_i$: the 1-3 groups that fit that student, out of the $K$ groups ($K = 70$ today).
 - $N \approx 5{,}000$ for training; the test set is generated separately (see Data).
 
-### Features $\varphi(x) \in \mathbb{R}^d$
+### Features
+
+Each student's answers become one vector $\varphi(x)$:
 
 | Part | Size | Content |
 |---|---|---|
@@ -85,73 +87,45 @@ $$
 | text | $2^{14}$ | TF-IDF of character 3-5-grams, hashed; the text is lower-cased, diacritics removed and teen code expanded (`ko`, `k` -> `khong`, `dc` -> `duoc`, ...) so typos and spelling variants still share n-grams |
 | answered | 5 | 1 if that question was answered, so a skipped question differs from "chose nothing" |
 
-Two prior scores per group come from data, not from the model:
+Two more scores per group come from data, not from training. Both are between 0 and 1, and 0 when their question
+was skipped.
 
-**$a(x) \in [0,1]^K$, subject fit from admission combinations (module 1).** For a program $p$ with accepted
-combinations $C_p$ (each a set of subjects), the share of its combinations that include subject $s$ is
+- **Subject fit $a_k(x)$, from admission combinations (module 1).** For each subject, the lift says how much more
+  often group $k$'s admission combinations include it than combinations overall:
 
-$$
-\mathrm{share}_p(s) = \frac{|\{c \in C_p : s \in c\}|}{|C_p|}.
-$$
+  $$
+  \mathrm{lift}(s, k) = \frac{\text{share of group } k\text{'s combinations that include } s}{\text{share of all combinations that include } s}
+  $$
 
-Let $P$ be all programs and $P_k$ the $n_k$ programs of group $k$. The usual share, and group $k$'s share shrunk
-towards it so that small groups do not get extreme values, are
-
-$$
-\mathrm{base}(s) = \frac{1}{|P|} \sum_{p \in P} \mathrm{share}_p(s), \qquad
-\mathrm{share}_k(s) = \frac{\sum_{p \in P_k} \mathrm{share}_p(s) + 10 \cdot \mathrm{base}(s)}{n_k + 10}.
-$$
-
-The lift says how much more often group $k$'s combinations include $s$ than usual (Máy tính: Tin 2.3; Luật: Sử 2.7,
-Sinh 0.1). With $S(x)$ the ticked subjects,
-
-$$
-\mathrm{lift}(s, k) = \frac{\mathrm{share}_k(s)}{\mathrm{base}(s)}, \qquad
-a_k(x) = \frac{1}{|S(x)|} \sum_{s \in S(x)} \frac{\min(\mathrm{lift}(s, k),\, 3)}{3}.
-$$
-
-**$c(x) \in [0,1]^K$, work-type fit from O\*NET.** Each group is mapped to a few O\*NET-SOC occupations
-(`backend/config/suggest/onet_groups.csv`, one row per group, occupation codes cited). The group profile
-$r_k \in \mathbb{R}^6$ is the mean of their six RIASEC interest scores, minus its own mean (so it shows which types stand
-out). The student vector $u(x) \in \mathbb{R}^6$ counts 1 per ticked work type and 0.5 per ticked hobby on that hobby's
-type (0.5 is the only hand-set number). Then
-
-$$
-c_k(x) = \frac{1}{2}\left(1 + \frac{u(x) \cdot r_k}{\lVert u(x) \rVert\, \lVert r_k \rVert}\right).
-$$
-
-$a(x) = 0$ when the subjects question was not answered; $c(x) = 0$ when neither work types nor hobbies were.
+  Máy tính: Tin 2.3; Luật: Sử 2.7, Sinh 0.1. Each lift is capped at 3 and divided by 3, then averaged over the ticked
+  subjects. Groups with few programs are pulled towards the overall share so they do not get extreme values.
+- **Work-type fit $c_k(x)$, from O\*NET.** Each group is mapped to a few O\*NET occupations
+  (`backend/config/suggest/onet_groups.csv`, occupation codes cited), which gives the group a RIASEC profile. The
+  student's profile counts 1 for each ticked work type and 0.5 for each ticked hobby's type (0.5 is the only hand-set
+  number). $c_k(x)$ is how similar the two profiles are (cosine similarity, rescaled to 0-1).
 
 ### Hypothesis family H
 
-Multinomial logistic regression over the groups, plus one learned weight for each prior:
+Multinomial logistic regression: one score per group, turned into probabilities that sum to 1.
 
 $$
-\mathcal{H} = \left\{\, f_\theta(x) = \mathrm{softmax}\big(W \varphi(x) + b + \alpha\, a(x) + \beta\, c(x)\big) \;\middle|\;
-\theta = (W, b, \alpha, \beta),\; W \in \mathbb{R}^{K \times d},\; b \in \mathbb{R}^K,\; \alpha, \beta \in \mathbb{R} \,\right\}
+z_k(x) = w_k \cdot \varphi(x) + b_k + \alpha\, a_k(x) + \beta\, c_k(x), \qquad
+f(x)_k = \frac{e^{z_k(x)}}{\sum_{j} e^{z_j(x)}}
 $$
 
-$$
-f_\theta(x)_k = \frac{\exp z_k(x)}{\sum_{j=1}^{K} \exp z_j(x)}, \qquad
-z_k(x) = w_k^\top \varphi(x) + b_k + \alpha\, a_k(x) + \beta\, c_k(x)
-$$
-
-$\alpha$ and $\beta$ learn how far to trust the admission data and O\*NET; $W$ learns the rest, including which words
-point to which group. A softmax because the task is to rank groups against each other. Reasons come from the largest
-terms of $z_k(x)$ (single features of $w_k^\top \varphi(x)$, $\alpha\, a_k(x)$, $\beta\, c_k(x)$) for each suggested group.
+The parameters are $W = (w_1, \dots, w_K)$, $b$, $\alpha$ and $\beta$. $\alpha$ and $\beta$ learn how far to trust the
+admission data and O\*NET; $W$ learns the rest, including which words point to which group. The reasons shown for a
+group are the inputs that added most to its $z_k$.
 
 ### Loss L
 
-Cross-entropy against the student's groups, each fitting group counting equally, plus L2:
+The right groups should get high probability, and weights are kept small so the model does not memorise:
 
 $$
-L(\theta) = -\frac{1}{N} \sum_{i=1}^{N} \sum_{k=1}^{K} \tilde{y}_{ik} \log f_\theta(x_i)_k \;+\; \lambda \lVert W \rVert_F^2,
-\qquad \tilde{y}_{ik} = \frac{y_{ik}}{\sum_{j} y_{ij}}
+L = -\frac{1}{N} \sum_{i=1}^{N} \frac{1}{|y_i|} \sum_{k \in y_i} \log f(x_i)_k \;+\; \lambda \lVert W \rVert^2
 $$
 
-$$
-\hat{\theta} = \arg\min_{\theta} L(\theta)
-$$
+Each fitting group of a student counts equally ($1/|y_i|$).
 
 Trained with plain gradient descent in numpy (no new dependency, so it runs on the deployed app). $\lambda$ is chosen on
 a validation split of the training set. Same data and seed, same model.
@@ -175,17 +149,11 @@ Nothing a real student enters is used or stored.
 
 ## Evaluation
 
-On the test set $T$ only. With $\mathrm{top}_5(x)$ the 5 groups with the highest $f_{\hat\theta}(x)_k$ and
-$G_i = \{k : y_{ik} = 1\}$ the fitting groups of student $i$:
+On the test set only:
 
-$$
-\mathrm{Hit@5} = \frac{1}{|T|} \sum_{i \in T} \mathbb{1}\big[\, G_i \cap \mathrm{top}_5(x_i) \neq \emptyset \,\big],
-\qquad
-\mathrm{Recall@5} = \frac{\sum_{i \in T} |G_i \cap \mathrm{top}_5(x_i)|}{\sum_{i \in T} |G_i|}
-$$
-
-Hit@5 is the main number. The baseline is the priors alone ($W = 0$, $b = 0$, $\alpha = \beta = 1$); the learned model
-is kept only if it beats it.
+- **Hit@5**: share of students with at least one fitting group in the top 5 (the main number).
+- **Recall@5**: share of all fitting groups that land in the top 5.
+- **Baseline**: the two data scores alone ($W = 0$, $\alpha = \beta = 1$). The trained model is kept only if it beats it.
 
 Behaviour checks: every group can reach the top 5 for some answers; no group is in the top 5 for more than about 25%
 of random answer sets; no answers gives no suggestions; same input gives the same output.
