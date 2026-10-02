@@ -42,7 +42,13 @@ lại" (`Answer` trong `backend/uniadvisor/student/slm/infer.py`).
 
 Câu nào cũng có thêm nhãn "không đủ thông tin".
 
-**Mục tiêu (đang làm dở):** một bản tóm tắt dữ kiện về học sinh (`StudentIntent` trong `backend/uniadvisor/student/intent/`),
+**Đầu ra mới (đang chờ duyệt):** module 2 trò chuyện với học sinh theo dạng hỏi có hướng dẫn (ô nhập, ô chọn, danh
+sách thả xuống) và trả cho module 3 một tài liệu JSON duy nhất cho mỗi học sinh: điểm và hồ sơ, ngành thích / không
+thích, mong muốn của gia đình, ngân sách, nơi học, mức chịu rủi ro, ưu tiên. Định nghĩa đầy đủ:
+[docs/STUDENT_SCHEMA.md](../STUDENT_SCHEMA.md). Khi được duyệt, JSON này thay cho 7 câu hỏi ở trên: các câu theo từng
+ngành (học phí, nơi học, sở thích) sẽ do module 3 so trực tiếp với CSDL.
+
+**Bước trung gian (đang làm dở):** một bản tóm tắt dữ kiện về học sinh (`StudentIntent` trong `backend/uniadvisor/student/intent/`),
 đọc một lần, mỗi dữ kiện kèm câu gốc làm bằng chứng:
 
 - ngành thích, ngành không thích, mong muốn của gia đình, theo mã nhóm ngành của Bộ;
