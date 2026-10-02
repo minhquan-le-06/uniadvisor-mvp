@@ -22,7 +22,7 @@ NEG = ("khong thich", "ghet", "so ", "khong muon", "khong hop", "khong co nang k
        "ko thich", "ko muon", "khong phan doi")
 RISK_KW = {
     "an_toan": ("chac chan do", "chac an", "an toan", "so truot", "phai do", "khong dam lieu", "khong cho thi lai", "do la duoc", "khong muon mao hiem"),
-    "can_bang": ("can bang", "du phong", "vua suc", "duong lui", "ca phuong an"),
+    "can_bang": ("can bang", "du phong", "vua suc", "duong lui", "ca phuong an", "ca phuong an an toan"),
     "mao_hiem": ("lieu", "thi lai", "rui ro", "an ca nga ve khong", "thu suc het minh", "on them mot nam"),
 }
 PRIORITY_KW = {
@@ -32,12 +32,42 @@ PRIORITY_KW = {
     "gan_nha": ("gan nha", "khong muon di xa", "di xa gia dinh", "phu bo me"),
     "viec_lam_thu_nhap": ("xin viec", "thu nhap cao", "luong cao", "on dinh", "co viec ngay"),
 }
+# a top priority is something the student ranks first; without one of these words a sentence only counts through
+# its unambiguous phrases ("học gần nhà" is usually where to study, not what matters most)
+TOP_CUES = ("quan trong nhat", "uu tien", "so 1", "so mot", "lo nhat", "tren het", "hang dau")
+CUE_ONLY_PRIORITY = ("gan nha", "co tieng")
 POOR = ("kho khan", "ngheo", "khong co dieu kien", "khong kha", "can ngheo", "lam nong", "lo tien hoc")
 RICH = ("khong lo ve hoc phi", "thoai mai", "bao nhieu cung lo")
 HN = (" ha noi", " hn ", "thu do")
 HCM = ("sai gon", "hcm", "ho chi minh")
-NEAR = ("gan nha", "xa nha", "di xa", "di hoc xa")
+NEAR = ("hoc gan nha", "hoc o gan", "xa nha", "di xa", "di hoc xa", "hoc xa")   # not "gần nhà" alone ("trung tâm gần nhà")
+NO_BIG_CITY = ("thanh pho lon", "so cuoc song o", "on ao")
 ANYWHERE = ("dau cung duoc", "bac hay nam")
+# chat spellings, on folded words: "ko" = không, "đc" = được, ...
+TEEN = {"ko": "khong", "k": "khong", "kh": "khong", "hok": "khong", "dc": "duoc", "j": "gi", "bit": "biet", "vs": "voi",
+        "e": "em", "mk": "minh", "mik": "minh", "hc": "hoc", "ng": "nguoi"}
+_TEEN_RE = re.compile(r"\b(" + "|".join(sorted(TEEN, key=len, reverse=True)) + r")\b")
+
+
+def ffold(text: str | None) -> str:
+    """fold() plus chat spellings spelled out ("ko khá" -> "khong kha"), for keyword matching."""
+    return _TEEN_RE.sub(lambda m: TEEN[m.group(1)], fold(text))
+
+
+def _hits(t: str, table: dict[str, tuple[str, ...]]) -> dict[str, int]:
+    """Keyword hits per label in `t`, longest phrase first: a phrase inside one already counted does not count
+    again ("liều" inside "không dám liều", "thi lại" inside "không cho thi lại")."""
+    phrases = sorted(((w, k) for k, ws in table.items() for w in ws), key=lambda x: (-len(x[0]), x[0]))
+    used = [False] * len(t)
+    hits = dict.fromkeys(table, 0)
+    for w, k in phrases:
+        i = t.find(w)
+        while i >= 0:
+            if not any(used[i:i + len(w)]):
+                used[i:i + len(w)] = [True] * len(w)
+                hits[k] += 1
+            i = t.find(w, i + 1)
+    return hits
 BRANCH = ("phan hieu", "co so tinh", "co so chinh")       # "không học ở phân hiệu", "chỉ học cơ sở chính"
 SPEECH = ("noi lap", "noi ngong")
 _MONEY = re.compile(r"(\d+(?:[.,]\d+)?)\s*(?:trieu|tr)\b")
@@ -50,7 +80,7 @@ SELF_NEG = ("khong thich", "khong muon", "ko thich", "ko muon", "khong hop", "ch
 
 def sentences(text: str) -> list[str]:
     """Folded sentences with punctuation turned into spaces and padded, so keywords match whole words."""
-    return [f" {re.sub(r'[^a-z0-9]+', ' ', fold(s)).strip()} " for s in re.split(r"[.!?\n;]+", text or "") if s.strip()]
+    return [f" {re.sub(r'[^a-z0-9]+', ' ', ffold(s)).strip()} " for s in re.split(r"[.!?\n;]+", text or "") if s.strip()]
 
 
 _SENTENCE_END = re.compile(r"(?:(?<!\d)\.|\.(?!\d)|[!?;\n])+")  # a full stop, but not the one in "2.5 triệu"
@@ -63,7 +93,7 @@ def _raw_sentences(text: str) -> list[str]:
 def _evidence(text: str, found) -> str:  # noqa: ANN001
     """The first sentence of `text` where found(padded folded sentence) holds (keywords are matched the same way)."""
     for s in _raw_sentences(text):
-        if found(f" {fold(s)} "):
+        if found(f" {ffold(s)} "):
             return s
     return ""
 
@@ -82,7 +112,7 @@ def _subject_sentences(text: str) -> list[tuple[str, str]]:
     """(original sentence, folded sentence) with punctuation removed, as the subject patterns expect."""
     out = []
     for x in _SENTENCE_END.split(text):
-        out.append((x.strip(), re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", fold(x))).strip()))
+        out.append((x.strip(), re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", ffold(x))).strip()))
     return out
 
 
@@ -98,7 +128,7 @@ def self_assessed_evidence(text: str) -> tuple[dict[str, str], dict[str, str]]:
             elif any(re.search(p.format(s=name), t) for p in _STRONG):
                 strong.setdefault(code, raw)
     strong = {k: v for k, v in strong.items() if k not in weak}
-    if "ielts" in fold(text) and "N1" not in weak:
+    if "ielts" in ffold(text) and "N1" not in weak:
         strong.setdefault("N1", _evidence(text, lambda s: "ielts" in s))
     return strong, weak
 
@@ -110,7 +140,7 @@ def self_assessed(text: str) -> tuple[frozenset[str], frozenset[str]]:
 
 @lru_cache(maxsize=256)
 def budget(text: str) -> tuple[str | None, float | None]:
-    t = fold(text)
+    t = ffold(text)
     m = _MONEY.search(t)
     if m and any(k in t for k in _FEE_WORDS):
         v = float(m.group(1).replace(",", ".")) * 1e6
@@ -126,12 +156,12 @@ def budget(text: str) -> tuple[str | None, float | None]:
 
 @lru_cache(maxsize=256)
 def location(text: str) -> str | None:
-    t = f" {fold(text)} "
+    t = f" {ffold(text)} "
     hn = any(k in t for k in HN)
     hcm = any(k in t for k in HCM)
     if any(k in t for k in ANYWHERE) or "khong quan trong" in t and "dia diem" in t:
         return "anywhere"
-    if "thanh pho lon" in t:
+    if any(k in t for k in NO_BIG_CITY):
         return "no_big_city"
     if hn and not hcm:
         return "city:Hà Nội"
@@ -144,8 +174,7 @@ def location(text: str) -> str | None:
 
 def risk(text: str) -> str | None:
     """The risk attitude with the most keyword hits; None when nothing or a tie."""
-    t = f" {fold(text)} "
-    hits = {k: sum(w in t for w in ws) for k, ws in RISK_KW.items()}
+    hits = _hits(f" {ffold(text)} ", RISK_KW)
     best = max(hits, key=hits.get)
     if hits[best] == 0 or sorted(hits.values())[-2] == hits[best]:
         return None
@@ -153,10 +182,18 @@ def risk(text: str) -> str | None:
 
 
 def priority(text: str) -> str | None:
-    t = f" {fold(text)} "
-    hits = {k: sum(w in t for w in ws) for k, ws in PRIORITY_KW.items()}
-    best = max(hits, key=hits.get)
-    return best if hits[best] else None
+    """What the student ranks first: read from sentences with a ranking word ("quan trọng nhất", "ưu tiên") when
+    there are any, else from the unambiguous phrases anywhere. A tie goes to the first label in PRIORITY_KW order
+    ("trường có tên tuổi để dễ xin việc" is about the school)."""
+    sents = sentences(text)
+    cued = [s for s in sents if any(c in s for c in TOP_CUES)]
+    plain = {k: tuple(w for w in ws if w not in CUE_ONLY_PRIORITY) for k, ws in PRIORITY_KW.items()}
+    for pool, table in ((cued, PRIORITY_KW), (sents, plain)):
+        hits = _hits(" ".join(pool), table)
+        best = max(hits, key=hits.get)
+        if hits[best]:
+            return best
+    return None
 
 
 # ------------------------------------------------------------------ interests as MOET codes
@@ -328,7 +365,7 @@ def extract(text: str) -> StudentIntent:
         words = {"anywhere": ANYWHERE + ("dia diem",), "no_big_city": ("thanh pho lon",), "near_home": NEAR,
                  "city:Hà Nội": HN, "city:TP. Hồ Chí Minh": HCM}[loc]
         out.location = Fact(loc, _evidence(text, lambda s: any(k in s for k in words)))
-    if any(k in f" {fold(text)} " for k in BRANCH):
+    if any(k in f" {ffold(text)} " for k in BRANCH):
         out.avoid_branch = Fact(True, _evidence(text, lambda s: any(k in s for k in BRANCH)))
     r = risk(text)
     if r is not None:
@@ -337,7 +374,7 @@ def extract(text: str) -> StudentIntent:
     if p is not None:
         out.priority = Fact(p, _evidence(text, lambda s: any(w in s for w in PRIORITY_KW[p])))
     strong, weak = self_assessed_evidence(text)
-    if "ielts" in fold(text) and "N1" not in weak:
+    if "ielts" in ffold(text) and "N1" not in weak:
         out.english = Fact("ielts", strong["N1"])
     elif "N1" in weak:
         out.english = Fact("weak", weak["N1"])
@@ -345,6 +382,6 @@ def extract(text: str) -> StudentIntent:
         out.english = Fact("good", strong["N1"])
     out.strong = {s: e for s, e in strong.items() if s != "N1"}
     out.weak = {s: e for s, e in weak.items() if s != "N1"}
-    if any(k in f" {fold(text)} " for k in SPEECH):
+    if any(k in f" {ffold(text)} " for k in SPEECH):
         out.speech_issue = Fact(True, _evidence(text, lambda s: any(k in s for k in SPEECH)))
     return out

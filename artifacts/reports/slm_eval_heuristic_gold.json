@@ -39,19 +39,19 @@
     },
     "location_ok": {
       "n": 42,
-      "accuracy": 0.8571,
-      "macro_f1": 0.8393,
-      "ece": 0.2095,
+      "accuracy": 0.9048,
+      "macro_f1": 0.891,
+      "ece": 0.2595,
       "escalation_rate": 0.2857,
       "accuracy_when_not_escalated": 0.9333
     },
     "risk_tolerance": {
       "n": 42,
-      "accuracy": 0.8095,
-      "macro_f1": 0.7732,
-      "ece": 0.1988,
-      "escalation_rate": 0.5952,
-      "accuracy_when_not_escalated": 0.9412
+      "accuracy": 0.9286,
+      "macro_f1": 0.8826,
+      "ece": 0.3,
+      "escalation_rate": 0.4762,
+      "accuracy_when_not_escalated": 0.9545
     },
     "top_priority": {
       "n": 42,
@@ -66,15 +66,15 @@
     "region": {
       "central": {
         "n": 35,
-        "accuracy": 0.7714
+        "accuracy": 0.8
       },
       "north": {
         "n": 206,
-        "accuracy": 0.8495
+        "accuracy": 0.8689
       },
       "south": {
         "n": 53,
-        "accuracy": 0.7547
+        "accuracy": 0.7925
       }
     },
     "track": {
@@ -88,23 +88,23 @@
       },
       "N1+SU": {
         "n": 31,
-        "accuracy": 0.8065
+        "accuracy": 0.8387
       }
     },
     "score_band": {
       "6-7.5": {
         "n": 139,
-        "accuracy": 0.7986
+        "accuracy": 0.8345
       },
       "7.5-8.5": {
         "n": 58,
-        "accuracy": 0.8621
+        "accuracy": 0.8793
       },
       "<6": {
         "n": 92,
-        "accuracy": 0.837
+        "accuracy": 0.8478
       }
     }
   },
-  "overall_accuracy": 0.8231
+  "overall_accuracy": 0.8469
 }

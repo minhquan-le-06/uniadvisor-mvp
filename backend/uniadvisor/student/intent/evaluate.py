@@ -38,7 +38,8 @@ def truth(z: Latent) -> dict:
         "avoid_branch": True if z.avoid_branch else None,
         "risk": None if z.risk_conflict else z.risk,    # two attitudes in one text: the reader should not pick one
         "priority": z.priority,
-        "english": z.english,
+        # a stated English level, else English named as a strong or weak subject ("Em yếu môn Anh")
+        "english": z.english or ("weak" if "N1" in z.weak else "good" if "N1" in z.strong else None),
         "speech_issue": True if z.speech_issue else None,
         "strong": set(z.strong) - {"N1"},                # English is its own fact
         "weak": set(z.weak) - {"N1"},

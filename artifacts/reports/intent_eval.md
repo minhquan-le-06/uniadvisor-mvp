@@ -6,12 +6,12 @@
 
 | Fact | Stated | Read right | Read wrong | Missed | Not stated | Read anyway |
 |---|---|---|---|---|---|---|
-| Budget (amount, or poor / rich) | 1382 | 95% | 1% | 4% | 618 | 4% |
-| Location | 1456 | 91% | 1% | 8% | 544 | 4% |
+| Budget (amount, or poor / rich) | 1382 | 97% | 0% | 3% | 618 | 4% |
+| Location | 1456 | 96% | 0% | 3% | 544 | 2% |
 | Main campus only | 158 | 99% | 0% | 1% | 1842 | 0% |
-| Risk attitude | 1207 | 81% | 1% | 18% | 793 | 8% |
-| Top priority | 1305 | 94% | 4% | 3% | 695 | 16% |
-| English level | 747 | 95% | 0% | 5% | 1253 | 11% |
+| Risk attitude | 1207 | 98% | 0% | 2% | 793 | 7% |
+| Top priority | 1305 | 96% | 1% | 3% | 695 | 6% |
+| English level | 895 | 95% | 0% | 5% | 1105 | 0% |
 | Speech difficulty | 71 | 99% | 0% | 1% | 1929 | 0% |
 | Goes along with the family's wish | 406 | 95% | 1% | 4% | 1594 | 0% |
 

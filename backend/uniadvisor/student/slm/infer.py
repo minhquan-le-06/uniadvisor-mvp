@@ -212,9 +212,10 @@ class HeuristicJudge:
             verdict = "yes"
             if "tiếng anh" in cond:
                 en = profile.scores.get("N1")
-                if any(k in t for k in ("tieng anh cua em kha", "ielts", "tieng anh tot", "tu tin")) or (en is not None and en >= 7):
+                strong, weak = _self_assessed(text)  # about English itself: "tự tin" alone said nothing about it
+                if "N1" in strong or (en is not None and en >= 7):
                     verdict = "yes"
-                elif any(k in t for k in ("tieng anh em rat kem", "mat goc tieng anh", "so nhat la mon tieng anh", "tieng anh kem")) or (en is not None and en < 5):
+                elif "N1" in weak or (en is not None and en < 5):
                     verdict = "no"
                 else:
                     verdict = INSUFFICIENT

@@ -6,19 +6,19 @@
   "single": {
     "budget": {
       "stated": 1382,
-      "right": 0.949,
-      "wrong": 0.006,
-      "missed": 0.045,
+      "right": 0.968,
+      "wrong": 0.005,
+      "missed": 0.027,
       "unstated": 618,
       "false_read": 0.045
     },
     "location": {
       "stated": 1456,
-      "right": 0.908,
-      "wrong": 0.013,
-      "missed": 0.079,
+      "right": 0.961,
+      "wrong": 0.005,
+      "missed": 0.034,
       "unstated": 544,
-      "false_read": 0.037
+      "false_read": 0.015
     },
     "avoid_branch": {
       "stated": 158,
@@ -30,27 +30,27 @@
     },
     "risk": {
       "stated": 1207,
-      "right": 0.81,
-      "wrong": 0.014,
-      "missed": 0.176,
+      "right": 0.975,
+      "wrong": 0.002,
+      "missed": 0.022,
       "unstated": 793,
-      "false_read": 0.082
+      "false_read": 0.074
     },
     "priority": {
       "stated": 1305,
-      "right": 0.936,
-      "wrong": 0.035,
-      "missed": 0.028,
+      "right": 0.962,
+      "wrong": 0.008,
+      "missed": 0.031,
       "unstated": 695,
-      "false_read": 0.157
+      "false_read": 0.06
     },
     "english": {
-      "stated": 747,
-      "right": 0.95,
+      "stated": 895,
+      "right": 0.947,
       "wrong": 0.0,
-      "missed": 0.05,
-      "unstated": 1253,
-      "false_read": 0.11
+      "missed": 0.053,
+      "unstated": 1105,
+      "false_read": 0.0
     },
     "speech_issue": {
       "stated": 71,
@@ -154,87 +154,6 @@
         "read": []
       }
     ],
-    "risk": [
-      {
-        "text": "minh la lop truong. Noi that la minh khong thich may nganh xa hoi. minh muon len Ha Noi hoc. minh khong dam lieu, nam nay nhat dinh phai co truong. minh muon hoc nganh truyen thong. Gia dinh minh chi lo duoc hoc phi khoang 35 trieu mot nam. Nguyen vong cua minh la hoc quoc te hoc.",
-        "truth": "an_toan",
-        "read": null
-      },
-      {
-        "text": "ngoài giờ học e hay đọc sách về khởi nghiệp. kinh tế gia đình e ko khá lắm. e muốn có cả phương án an toàn lẫn phương án cao. tiếng anh e rất kém. bố mẹ bắt e học sư phạm tiếng anh nhưng e ko muốn. e yếu môn anh. e cần trường học phí thấp để đỡ cho bố mẹ. e ko thích mấy ngành xã hội. nói thật là e ko thích ngành nông nghiệp.",
-        "truth": "can_bang",
-        "read": null
-      },
-      {
-        "text": "nguyện vọng của e là học an tooàn thông tin. e đã có ieltts 7.0. nhà e khó khăn nên học phí là điều e ol nhất. nhà e ko cho thi lại nên phải đỗ bằng được. môn toán e học kém. e thuộc hộ cận ngèo nên rất lo tiền hc. e từgn đạt giảải khuyến khích văn nghệ.",
-        "truth": "an_toan",
-        "read": null
-      },
-      {
-        "text": "Tôi là phụ huynh. Bắc hay Nam cháu đều đi được. cháu cần ngành ổn định, ra trường có việc ngay. cháu muốn có cả phương án an toàn lẫn phương án cao.",
-        "truth": "can_bang",
-        "read": null
-      },
-      {
-        "text": "mình muốn có cả phương án an toàn lẫn phương án cao. Quan trọng nhất là ra trường dễ xin việc. mình thích ăn bún chả. Nguyện vọng của mình là học sư phạm tiếng Anh. Tiếng Anh của mình khá tốt. Nhà mình không có điều kiện, mình phải tự đi làm thêm. mình muốn học Thú y.",
-        "truth": "can_bang",
-        "read": null
-      }
-    ],
-    "budget": [
-      {
-        "text": "ngoài giờ học e hay đọc sách về khởi nghiệp. kinh tế gia đình e ko khá lắm. e muốn có cả phương án an toàn lẫn phương án cao. tiếng anh e rất kém. bố mẹ bắt e học sư phạm tiếng anh nhưng e ko muốn. e yếu môn anh. e cần trường học phí thấp để đỡ cho bố mẹ. e ko thích mấy ngành xã hội. nói thật là e ko thích ngành nông nghiệp.",
-        "truth": "poor",
-        "read": null
-      },
-      {
-        "text": "hà em khó khăn nên học píh là điều em lo hất. gia đình em chỉ lo được học phí khoảng 20 rtiệu một năm. emm yếu môn lý. em học ở đâu cũng được. em yếu môn văn. em sẵn sàng liều để vào trường mơ ước, trượt thì năm sauu thi lại.",
-        "truth": 20000000.0,
-        "read": "poor"
-      },
-      {
-        "text": "Tôi là phụ huynh. Gia đình cháu không lo về ọc phí. cháu học ở đâu cũng được. chu cần trường học pphí thấp để đỡ cho vợ chồng tôi. Ước mơ của cháu là làm giáo viên mầm non. cháu chỉ cần chắc chắn đỗ, khnôg muốn mạo hiểm.",
-        "truth": "rich",
-        "read": null
-      },
-      {
-        "text": "Nhưng mà đượ ăn cả ngã về khôông, em chỉ muốn trường top. Em yếu môn KTPL. Em muốn lên thủ đô học. Môn Toán em học kém. Học phí em ó thể đóng khoảng 40 triiệu một năm. Em sợ trượt lắm, muốn chọn hỗ chắc ăn. Em rất thích ngành về đầu tư, chứng khoán, sau nnày muốn làm k ếtoán. Quan trọng nhất là học phí rẻ.",
-        "truth": 40000000.0,
-        "read": null
-      },
-      {
-        "text": "Nhung ma chon vua suc la chinh, them 1-2 nnguyen vong tu thach. E mcchi can chac chan do, khong muon mao hieem. Em rt thich nganh Thiet ke do hoa, sau nay muon lam thiet ke UI/XU. Nguyen vong cua em la hoc khoa hoc du lieu. Em chi muon hoc o TP.HCM. Knih te gia din hem khong kh alam. Em la lop truong.",
-        "truth": "poor",
-        "read": null
-      }
-    ],
-    "priority": [
-      {
-        "text": "Tôi là phụ huynh. cháu muốn học gần nhà để tiện về thăm vợ chồng tôi. cháu muốn cân bằng, vừa thử sức vừa có đường lui. cháu muốn ngành có thu nhập cao. Nhà cháu không có điều kiện, cháu phải tự đi làm thêm.",
-        "truth": "viec_lam_thu_nhap",
-        "read": "gan_nha"
-      },
-      {
-        "text": "Nha minh kho khan nen hoc phi la dieu minh lo nnhat. Moi nguoi bao minh thich doc sach lich su. Nha minh kho khan, bo me lam nong. minh muon tuh mt vai turong cao hon suc minh nhung van phai co truong du phong. mih yeu mon Toan. Uoc mo cua minh la nghien cuu sihn hoc. minh khong thich song o thanh pho lon, on ao lam.",
-        "truth": "hoc_phi_thap",
-        "read": null
-      },
-      {
-        "text": "nguyện vọng của e là học an tooàn thông tin. e đã có ieltts 7.0. nhà e khó khăn nên học phí là điều e ol nhất. nhà e ko cho thi lại nên phải đỗ bằng được. môn toán e học kém. e thuộc hộ cận ngèo nên rất lo tiền hc. e từgn đạt giảải khuyến khích văn nghệ.",
-        "truth": "hoc_phi_thap",
-        "read": null
-      },
-      {
-        "text": "Em muốn ngành có thu nhập cao. Em sợ nhất là môn tiếng Anh. Được ăn cả ngã về không, em chỉ muốn trường top. Môn Toán em học kém. Em muốn lên TP.HCM học. Em chỉ học cơ sở chính thôi. Học phí em có thể đóng không quá 35 triệu/năm.",
-        "truth": "viec_lam_thu_nhap",
-        "read": "truong_danh_tieng"
-      },
-      {
-        "text": "e đang học thêm ở trung tâm gần nhà. e sợ đứng trước đông người. quan trọng nhất là ra trường dễ xin việc. gia đình định hướng e học ngành truyền thông và e cũng ko phản đối. e sợ cuộc sống ở hà nội hay sài gòn. e rất thích ngành quản lý tài nguyên, sau này muốn làm kỹ sư môi trường. e sẵn sàng liều để vào trường mơ ước, trượt thì năm sau thi lại.",
-        "truth": "viec_lam_thu_nhap",
-        "read": "gan_nha"
-      }
-    ],
     "family": [
       {
         "text": "Ước mơ của mình là làm bác sĩ. Nhà mình khó khăn, bố mẹ làm nông. mình đang học thêm ở trung tâm gần nhà. Gia đình định hướng mình học Thống kê và mình cũng không phản đối. mình không thích học thuộc luật. Môn Toán mình học kém. mình không muốn học ở phân hiệu hay cơ sở tỉnh. mình sợ Hóa.",
@@ -274,30 +193,30 @@
         "read": []
       }
     ],
-    "location": [
+    "priority": [
       {
-        "text": "Tôi là phụ huynh. cháu thích nghe nhạc Sơn Tùng. cháu sợ cuộc sống ở Hà Nội hay Sài Gòn. cháu cần trường học phí thấp để đỡ cho vợ chồng tôi. Nhà cháu không có điều kiện, cháu phải tự đi làm thêm. Ước mơ của cháu là làm ở ngân hàng. cháu chấp nhận rủi ro, không đỗ trường mình thích thì ôn thêm một năm.",
-        "truth": "no_big_city",
+        "text": "Nha minh kho khan nen hoc phi la dieu minh lo nnhat. Moi nguoi bao minh thich doc sach lich su. Nha minh kho khan, bo me lam nong. minh muon tuh mt vai turong cao hon suc minh nhung van phai co truong du phong. mih yeu mon Toan. Uoc mo cua minh la nghien cuu sihn hoc. minh khong thich song o thanh pho lon, on ao lam.",
+        "truth": "hoc_phi_thap",
         "read": null
       },
       {
-        "text": "Em sợ cuộc sống ở Hà Nội hay Sài Gòn. Em học tiếng Anh từ nhỏ nên khá tự tin. Gia đình em không lo về học phí. Môn Văn em học kém. Em định theo ngành khoa học máy tính vì muốn làm chuyên gia bảo mật. Môn Toán em học kém.",
-        "truth": "no_big_city",
+        "text": "nguyện vọng của e là học an tooàn thông tin. e đã có ieltts 7.0. nhà e khó khăn nên học phí là điều e ol nhất. nhà e ko cho thi lại nên phải đỗ bằng được. môn toán e học kém. e thuộc hộ cận ngèo nên rất lo tiền hc. e từgn đạt giảải khuyến khích văn nghệ.",
+        "truth": "hoc_phi_thap",
         "read": null
       },
       {
-        "text": "quan trọng nhất là đc học gần nhà. bố mẹ dặn phải đỗ ngay năm nay. e rất thích ngành kỹ thuật hóa, sau này muốn làm kỹ sư thực phẩm. gia đình e không lo về học phí. tiếng anh của e khá tốt. e chỉ muốn học ở hn.",
-        "truth": "city:Hà Nội",
-        "read": "near_home"
+        "text": "Em muốn ngành có thu nhập cao. Em sợ nhất là môn tiếng Anh. Được ăn cả ngã về không, em chỉ muốn trường top. Môn Toán em học kém. Em muốn lên TP.HCM học. Em chỉ học cơ sở chính thôi. Học phí em có thể đóng không quá 35 triệu/năm.",
+        "truth": "viec_lam_thu_nhap",
+        "read": "truong_danh_tieng"
       },
       {
-        "text": "e đang học thêm ở trung tâm gần nhà. e sợ đứng trước đông người. quan trọng nhất là ra trường dễ xin việc. gia đình định hướng e học ngành truyền thông và e cũng ko phản đối. e sợ cuộc sống ở hà nội hay sài gòn. e rất thích ngành quản lý tài nguyên, sau này muốn làm kỹ sư môi trường. e sẵn sàng liều để vào trường mơ ước, trượt thì năm sau thi lại.",
-        "truth": "no_big_city",
-        "read": "near_home"
+        "text": "Tôi là phụ huynh. Ngoài giờ ọc cháu hay kèm bài cho cháu nhỏ hàng xóm. cháu muốn học gần nhà để iệ nvề thăm vợ chồng tôi. cháu muốn cân bằng, vừa thử sức vừ acó đường lui. cháu thuộc hộ cận nghèo nên rất lo tiền học. cháu ưu tiên học ở gầ nđđể còn về phụ vợ chồng tôi. cháu yếu môn Hóa. cháu sợ nhất là môn tiếng nAh.",
+        "truth": "gan_nha",
+        "read": null
       },
       {
-        "text": "Ngoài giờ học mình tham gia hội chữ thập đỏ ở trường. mình kông thích học lý thuyết kô khan. mình muốnn thử một vài tưrờng cao hơn sức mìn hnhưng vẫnn phải có trường dự phòng. Gia đình mình chỉ lo được học phí tầm 2 triệu mỗi tháng. Địa điểm không qaun trọng với mmình. mình là lớp trưởng. Ước mơ của mình là làm trong nhà máy sản xuất ô tô. mình yếu môn Ton.",
-        "truth": "anywhere",
+        "text": "hà em khó khăn nên học píh là điều em lo hất. gia đình em chỉ lo được học phí khoảng 20 rtiệu một năm. emm yếu môn lý. em học ở đâu cũng được. em yếu môn văn. em sẵn sàng liều để vào trường mơ ước, trượt thì năm sauu thi lại.",
+        "truth": "hoc_phi_thap",
         "read": null
       }
     ],
@@ -323,7 +242,7 @@
         "read": null
       },
       {
-        "text": "Môn Toán em học kém. Mọi người bảo em hay xem phim về luật sư và tòa án. Em sợ nhất là mn tiếng Anh. Bố mẹ bảo học phíí bao nhiêu cũng loo được. Môn TPL em học kém. Mọi người bảo em thích đi phượt. Nhà em không cho thi lại nên phải đỗ bằng được.",
+        "text": "Mọi người bảo me thích các con số, tính toán. Mọi người bảo em hay đọc sách về khởi nghiệp. Dạo này ôn thi mệt quá. Em yếu môn Toán. ẹ em muốn em học Quan hệ công chúnng, còn em thì không thích lắm. Em yếu môn Annh. Quan trọng nhất là được họcc đúng ngnh mình thích. Em yếu môn Hóa. Em muốn có cả phương án an toà nlẫn phương án cao.",
         "truth": "weak",
         "read": null
       }
@@ -352,6 +271,33 @@
       {
         "text": "Mọi người bảo me thích các con số, tính toán. Mọi người bảo em hay đọc sách về khởi nghiệp. Dạo này ôn thi mệt quá. Em yếu môn Toán. ẹ em muốn em học Quan hệ công chúnng, còn em thì không thích lắm. Em yếu môn Annh. Quan trọng nhất là được họcc đúng ngnh mình thích. Em yếu môn Hóa. Em muốn có cả phương án an toà nlẫn phương án cao.",
         "truth": false,
+        "read": null
+      }
+    ],
+    "location": [
+      {
+        "text": "quan trọng nhất là đc học gần nhà. bố mẹ dặn phải đỗ ngay năm nay. e rất thích ngành kỹ thuật hóa, sau này muốn làm kỹ sư thực phẩm. gia đình e không lo về học phí. tiếng anh của e khá tốt. e chỉ muốn học ở hn.",
+        "truth": "city:Hà Nội",
+        "read": "near_home"
+      },
+      {
+        "text": "Ngoài giờ học mình tham gia hội chữ thập đỏ ở trường. mình kông thích học lý thuyết kô khan. mình muốnn thử một vài tưrờng cao hơn sức mìn hnhưng vẫnn phải có trường dự phòng. Gia đình mình chỉ lo được học phí tầm 2 triệu mỗi tháng. Địa điểm không qaun trọng với mmình. mình là lớp trưởng. Ước mơ của mình là làm trong nhà máy sản xuất ô tô. mình yếu môn Ton.",
+        "truth": "anywhere",
+        "read": null
+      },
+      {
+        "text": "gia đình định hưng e học quản trị khách sạn và e cũng ko phản đối. e hay chơ ầcu lông. e rất hích ngành môi trường, sau àny muốn làm về bảo vệ môi trường. e muốn học gn nhà để tiệnn về thăm bố mẹ. nhà e ko ho thi lại nên phải đỗ bằng đc. quan trọng nhất là ra trường dễ in việệc. ước mơ của e là nghiên cứu sinh học.",
+        "truth": "near_home",
+        "read": null
+      },
+      {
+        "text": "Nha me kho khan nen hoc phi la dieu em lo nhat. Em khong thichh may nganh xa hoi. Ngoai gio hoc em thich tim hieu ve co the nguoi. Em thuoc ho can nghe nnen rat lo iten hoc. Em hay cho icau long. Em muon len thu od hoc.",
+        "truth": "city:Hà Nội",
+        "read": null
+      },
+      {
+        "text": "e muốn học ngành it. e muố học gầ nnhà để tiện về thăm bố mẹẹ. gia ìđnh e chỉ lo đc học phí khoảnn g60 triệu ộmt năm. e muốn vào trường thật danh tiếng.",
+        "truth": "near_home",
         "read": null
       }
     ],
@@ -404,6 +350,60 @@
         "read": [
           "75801"
         ]
+      }
+    ],
+    "budget": [
+      {
+        "text": "hà em khó khăn nên học píh là điều em lo hất. gia đình em chỉ lo được học phí khoảng 20 rtiệu một năm. emm yếu môn lý. em học ở đâu cũng được. em yếu môn văn. em sẵn sàng liều để vào trường mơ ước, trượt thì năm sauu thi lại.",
+        "truth": 20000000.0,
+        "read": "poor"
+      },
+      {
+        "text": "Tôi là phụ huynh. Gia đình cháu không lo về ọc phí. cháu học ở đâu cũng được. chu cần trường học pphí thấp để đỡ cho vợ chồng tôi. Ước mơ của cháu là làm giáo viên mầm non. cháu chỉ cần chắc chắn đỗ, khnôg muốn mạo hiểm.",
+        "truth": "rich",
+        "read": null
+      },
+      {
+        "text": "Nhưng mà đượ ăn cả ngã về khôông, em chỉ muốn trường top. Em yếu môn KTPL. Em muốn lên thủ đô học. Môn Toán em học kém. Học phí em ó thể đóng khoảng 40 triiệu một năm. Em sợ trượt lắm, muốn chọn hỗ chắc ăn. Em rất thích ngành về đầu tư, chứng khoán, sau nnày muốn làm k ếtoán. Quan trọng nhất là học phí rẻ.",
+        "truth": 40000000.0,
+        "read": null
+      },
+      {
+        "text": "Nhung ma chon vua suc la chinh, them 1-2 nnguyen vong tu thach. E mcchi can chac chan do, khong muon mao hieem. Em rt thich nganh Thiet ke do hoa, sau nay muon lam thiet ke UI/XU. Nguyen vong cua em la hoc khoa hoc du lieu. Em chi muon hoc o TP.HCM. Knih te gia din hem khong kh alam. Em la lop truong.",
+        "truth": "poor",
+        "read": null
+      },
+      {
+        "text": "Gia đìnnh em không lo v ềhọc phí. Em muốn thử sức hết mình với trường thật cao. Môn Toán em học kém. Ước mơ của e mlà làm việc cho công ty Nhật. Môn Địa em học kém.",
+        "truth": "rich",
+        "read": null
+      }
+    ],
+    "risk": [
+      {
+        "text": "gia đình định hưng e học quản trị khách sạn và e cũng ko phản đối. e hay chơ ầcu lông. e rất hích ngành môi trường, sau àny muốn làm về bảo vệ môi trường. e muốn học gn nhà để tiệnn về thăm bố mẹ. nhà e ko ho thi lại nên phải đỗ bằng đc. quan trọng nhất là ra trường dễ in việệc. ước mơ của e là nghiên cứu sinh học.",
+        "truth": "an_toan",
+        "read": null
+      },
+      {
+        "text": "Em thi IELTS được 6.0. Nhà em khó khhăn nên học phí là điều em lo nhất. Em đnịh học tự động hóa vì muốn thiết kế robot. Học phí em có thể đóng tầm 1.5 triệu mỗi tháng. Em muốn th ửsức hết mình với trường tật cao. Em hơi bị nói lắp. Em hay đọc truyện tranh. Môn Lý em học kém.",
+        "truth": "mao_hiem",
+        "read": null
+      },
+      {
+        "text": "e thích nghe hạc sơn tùng. e học tốt môn toán. e muốn họọc gần hnà để tiện về thăm bố mẹ. e rất thích nàghn xã hội học, sau này muốn làm công tác xã hội. e muốn học kiểm toán. e muốn c ócả phươg án an toàn lẫn hương án cao.",
+        "truth": "can_bang",
+        "read": "an_toan"
+      },
+      {
+        "text": "mình sợ hnất là môn tiếng Anh. mình khôn muốn học xa nhà. Bố mẹ nói chỉ chi được tối đa 35tr/năm tiiền họcc. Bố mẹ dặn phả đỗ ngay năm ay. Cuối tuần mình hay đá bóng với bạn. Quan trọng nhất là học phí rẻ. mình yếu môn Toán.",
+        "truth": "an_toan",
+        "read": null
+      },
+      {
+        "text": "em định học khoaa học dữ liệu vì muốn làm chuyên gia bảo mật. em yếu môn tin. em ưu tiên hcọ ở gần để còn về phụ bố mẹ. em chỉ muốn hc ở hcm. môn toán em học kém. em muốn có cả phương án an toààn lẫn phương án cao. em hay chơi cầu ôlng.",
+        "truth": "can_bang",
+        "read": null
       }
     ],
     "avoid_branch": [
