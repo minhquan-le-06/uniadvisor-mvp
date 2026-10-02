@@ -9,7 +9,7 @@ Only facts module 3 needs go into the JSON. How a value was obtained (typed, est
 the evidence and the confidence stay inside module 2. A value the student did not give and that has no safe default
 is `null` (or an empty list); module 3 must work without it. Nothing a student enters is stored (Decree 13/2023).
 
-Status: schema version 1, agreed. The one open question is listed at the end.
+Status: schema version 1, agreed.
 
 ## The whole document
 
@@ -123,17 +123,12 @@ with `uniadvisor.student.intent.covers(code, program_major_code)`: the code is a
 
 ### "Em chưa biết": a short questionnaire
 
-When the student does not know what to study, module 2 asks a few questions instead, then suggests 3-5 groups from
-the picker's list with a short reason each ("Vì em thích máy móc và học tốt Toán, Lý, mình nghĩ em có thể hợp
-với..."). Suggestions start ticked; the student unticks or adds, and only the confirmed ones are written to
-`interests`, as `like`. If the suggestion step is unavailable, the student picks from the list.
+When the student does not know what to study, module 2 asks a few questions instead (subjects, work types, hobbies,
+workplace, dream job; every one optional), then suggests 3-5 groups from the picker's list with a short reason each
+("Vì em thích Tin học và viết 'muốn làm game'"). Suggestions start ticked; the student unticks or adds, and only the
+confirmed ones are written to `interests`, as `like`. If the student answers nothing, they pick from the list.
 
-| Question | Widget |
-|---|---|
-| "Em thích hoặc học tốt môn nào nhất?" | subject checkboxes |
-| "Em thích làm việc với điều gì hơn?" | checkboxes: con người, máy móc và kỹ thuật, số liệu, ý tưởng và sáng tạo, thiên nhiên, chữ nghĩa (Holland / RIASEC types) |
-| "Lúc rảnh em hay làm gì?" | checkboxes (viết code, vẽ, tranh biện, chăm sóc người khác, làm thí nghiệm, kinh doanh online, ...) and a free box |
-| "Sau này em mơ ước làm công việc gì?" | free box, optional |
+The questions and the model that makes the suggestions are defined in [MODEL.md](MODEL.md).
 
 ## `budget`, `location`, `risk`, `priorities`
 
@@ -182,7 +177,3 @@ ones the code, the gold sets and the SLM already use (Vietnamese slugs), so they
   each school's rules, module 3 computes the points, and the schema gains certificate and award fields.
 - **Health information** (for example speech difficulties): sensitive and rarely relevant; module 3 shows a
   program's special conditions as a warning instead.
-
-## Open questions
-
-1. Which LLM turns the "Em chưa biết" answers into suggestions (decided in the "form to JSON" step).

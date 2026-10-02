@@ -72,11 +72,15 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
 - **Bộ đọc dữ kiện (bản thử):** đo trên 2.000 học sinh mô phỏng (`uniadvisor intent-eval`), đọc đúng ngân sách 97%, nơi
   học 96%, mức chịu rủi ro 98%, ưu tiên 96%, tiếng Anh 95%; ngành thích khoảng 84%. Chưa nối vào ứng dụng. Với dạng
   hỏi có hướng dẫn, bộ đọc này chỉ còn dùng cho các ô trả lời tự do.
-- **Đã thống nhất:** cấu trúc JSON phiên bản 1 ([docs/STUDENT_SCHEMA.md](../STUDENT_SCHEMA.md)). Còn mở: dùng LLM nào để
-  gợi ý ngành từ phần "Em chưa biết".
+- **Đã thống nhất:**
+  - cấu trúc JSON phiên bản 1 ([docs/STUDENT_SCHEMA.md](../STUDENT_SCHEMA.md));
+  - phần hỏi có hướng dẫn gồm 9 bước, có ô "Gõ tên ngành em nghĩ tới" giúp tìm nhóm ngành;
+  - mô hình gợi ý nhóm ngành cho "Em chưa biết" ([docs/MODEL.md](../MODEL.md)): hồi quy logistic học từ dữ liệu sinh
+    ra (bộ mô phỏng + LLM viết câu chữ), không gọi LLM khi chạy.
 - **Việc tiếp theo:**
-  1. dựng phần hỏi có hướng dẫn (giao diện + logic điền JSON, kiểm tra theo các quy tắc trong tài liệu);
-  2. bộ gợi ý ngành cho "Em chưa biết" (LLM, kèm cách đo trên học sinh mô phỏng);
+  1. dựng phần hỏi có hướng dẫn (logic điền JSON và kiểm tra trong `backend/uniadvisor/student/form/`, giao diện ở
+     một trang Streamlit riêng);
+  2. mô hình gợi ý nhóm ngành: bảng nhóm ngành -> O\*NET, sinh dữ liệu, huấn luyện, đo;
   3. bàn giao JSON cho module 3.
 - **Vấn đề chính:**
   - App không tóm lại "em muốn gì" nên học sinh không thấy được máy hiểu mình thế nào để sửa.
