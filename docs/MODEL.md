@@ -66,14 +66,15 @@ The caller shows the suggestions ticked; the student unticks or adds. The model 
 
 ### Data set D
 
-```
-D = {(x_i, y_i)}, i = 1..N        N ≈ 5,000 for training; the test set is generated separately (see Data)
+$$
+D = \{(x_i, y_i)\}_{i=1}^{N}, \qquad y_i \in \{0,1\}^K, \qquad 1 \le \textstyle\sum_k y_{ik} \le 3
+$$
 
-x_i  one student's questionnaire answers (any key may be absent)
-y_i  ∈ {0,1}^K, K = number of groups (70), with 1-3 ones: the groups that fit the student
-```
+- $x_i$: one student's questionnaire answers (any key may be absent).
+- $y_i$: the groups that fit the student, as a 0/1 vector over the $K$ groups ($K = 70$ today).
+- $N \approx 5{,}000$ for training; the test set is generated separately (see Data).
 
-### Features φ(x) ∈ R^d
+### Features $\varphi(x) \in \mathbb{R}^d$
 
 | Part | Size | Content |
 |---|---|---|
@@ -81,53 +82,85 @@ y_i  ∈ {0,1}^K, K = number of groups (70), with 1-3 ones: the groups that fit 
 | work types | 6 | 1 if ticked |
 | hobbies | 15 | 1 if ticked |
 | workplace | 6 | 1 if ticked |
-| text | 2^14 | TF-IDF of character 3-5-grams, hashed; the text is lower-cased, diacritics removed and teen code expanded (`ko`, `k` -> `khong`, `dc` -> `duoc`, ...) so typos and spelling variants still share n-grams |
+| text | $2^{14}$ | TF-IDF of character 3-5-grams, hashed; the text is lower-cased, diacritics removed and teen code expanded (`ko`, `k` -> `khong`, `dc` -> `duoc`, ...) so typos and spelling variants still share n-grams |
 | answered | 5 | 1 if that question was answered, so a skipped question differs from "chose nothing" |
 
 Two prior scores per group come from data, not from the model:
 
-- **`a(x) ∈ R^K`, subject fit from admission combinations (module 1).**
-  For a program p with accepted combinations C_p: `share_p(s) = |{c ∈ C_p : s ∈ c}| / |C_p|`.
-  `base(s)` = the mean of `share_p(s)` over all programs; `share_k(s)` = the mean over the n_k programs of group k,
-  shrunk towards the base for small groups: `(n_k·share_k(s) + 10·base(s)) / (n_k + 10)`.
-  `lift(s, k) = share_k(s) / base(s)`: how much more often group k's combinations include s than usual
-  (Máy tính: Tin 2.3; Luật: Sử 2.7, Sinh 0.1). Then `a_k(x)` = the mean over the ticked subjects of `min(lift(s, k), 3) / 3`.
-- **`c(x) ∈ R^K`, work-type fit from O\*NET.**
-  Each group is mapped to a few O\*NET-SOC occupations (`backend/config/suggest/onet_groups.csv`, one row per group,
-  occupation codes cited). The group profile `r_k` = the mean of their six RIASEC interest scores, centred on its own
-  mean. The student vector `u` = 1 per ticked type plus 0.5 per ticked hobby on its type (the only hand-set number).
-  `c_k(x) = (1 + cos(u, r_k)) / 2`.
+**$a(x) \in [0,1]^K$, subject fit from admission combinations (module 1).** For a program $p$ with accepted
+combinations $C_p$ (each a set of subjects), the share of its combinations that include subject $s$ is
 
-Both are 0 when their question was not answered.
+$$
+\mathrm{share}_p(s) = \frac{|\{c \in C_p : s \in c\}|}{|C_p|}.
+$$
+
+Let $P$ be all programs and $P_k$ the $n_k$ programs of group $k$. The usual share, and group $k$'s share shrunk
+towards it so that small groups do not get extreme values, are
+
+$$
+\mathrm{base}(s) = \frac{1}{|P|} \sum_{p \in P} \mathrm{share}_p(s), \qquad
+\mathrm{share}_k(s) = \frac{\sum_{p \in P_k} \mathrm{share}_p(s) + 10 \cdot \mathrm{base}(s)}{n_k + 10}.
+$$
+
+The lift says how much more often group $k$'s combinations include $s$ than usual (Máy tính: Tin 2.3; Luật: Sử 2.7,
+Sinh 0.1). With $S(x)$ the ticked subjects,
+
+$$
+\mathrm{lift}(s, k) = \frac{\mathrm{share}_k(s)}{\mathrm{base}(s)}, \qquad
+a_k(x) = \frac{1}{|S(x)|} \sum_{s \in S(x)} \frac{\min(\mathrm{lift}(s, k),\, 3)}{3}.
+$$
+
+**$c(x) \in [0,1]^K$, work-type fit from O\*NET.** Each group is mapped to a few O\*NET-SOC occupations
+(`backend/config/suggest/onet_groups.csv`, one row per group, occupation codes cited). The group profile
+$r_k \in \mathbb{R}^6$ is the mean of their six RIASEC interest scores, minus its own mean (so it shows which types stand
+out). The student vector $u(x) \in \mathbb{R}^6$ counts 1 per ticked work type and 0.5 per ticked hobby on that hobby's
+type (0.5 is the only hand-set number). Then
+
+$$
+c_k(x) = \frac{1}{2}\left(1 + \frac{u(x) \cdot r_k}{\lVert u(x) \rVert\, \lVert r_k \rVert}\right).
+$$
+
+$a(x) = 0$ when the subjects question was not answered; $c(x) = 0$ when neither work types nor hobbies were.
 
 ### Hypothesis family H
 
 Multinomial logistic regression over the groups, plus one learned weight for each prior:
 
-```
-H = { f_θ(x) = softmax( W·φ(x) + b + α·a(x) + β·c(x) )  |  θ = (W ∈ R^{K×d}, b ∈ R^K, α ∈ R, β ∈ R) }
-```
+$$
+\mathcal{H} = \left\{\, f_\theta(x) = \mathrm{softmax}\big(W \varphi(x) + b + \alpha\, a(x) + \beta\, c(x)\big) \;\middle|\;
+\theta = (W, b, \alpha, \beta),\; W \in \mathbb{R}^{K \times d},\; b \in \mathbb{R}^K,\; \alpha, \beta \in \mathbb{R} \,\right\}
+$$
 
-`α` and `β` learn how far to trust the admission data and O\*NET; `W` learns the rest, including which words point to
-which group. A softmax because the task is to rank groups against each other. Reasons come from the largest terms of
-`W_k·φ(x)`, `α·a_k(x)` and `β·c_k(x)` for each suggested group.
+$$
+f_\theta(x)_k = \frac{\exp z_k(x)}{\sum_{j=1}^{K} \exp z_j(x)}, \qquad
+z_k(x) = w_k^\top \varphi(x) + b_k + \alpha\, a_k(x) + \beta\, c_k(x)
+$$
+
+$\alpha$ and $\beta$ learn how far to trust the admission data and O\*NET; $W$ learns the rest, including which words
+point to which group. A softmax because the task is to rank groups against each other. Reasons come from the largest
+terms of $z_k(x)$ (single features of $w_k^\top \varphi(x)$, $\alpha\, a_k(x)$, $\beta\, c_k(x)$) for each suggested group.
 
 ### Loss L
 
 Cross-entropy against the student's groups, each fitting group counting equally, plus L2:
 
-```
-L(θ) = − (1/N) Σ_i Σ_k ỹ_ik · log f_θ(x_i)_k  +  λ‖W‖²        ỹ_i = y_i / Σ_k y_ik
-```
+$$
+L(\theta) = -\frac{1}{N} \sum_{i=1}^{N} \sum_{k=1}^{K} \tilde{y}_{ik} \log f_\theta(x_i)_k \;+\; \lambda \lVert W \rVert_F^2,
+\qquad \tilde{y}_{ik} = \frac{y_{ik}}{\sum_{j} y_{ij}}
+$$
 
-Trained with plain gradient descent in numpy (no new dependency, so it runs on the deployed app). `λ` is chosen on a
-validation split of the training set. Same data and seed, same model.
+$$
+\hat{\theta} = \arg\min_{\theta} L(\theta)
+$$
+
+Trained with plain gradient descent in numpy (no new dependency, so it runs on the deployed app). $\lambda$ is chosen on
+a validation split of the training set. Same data and seed, same model.
 
 ## Data
 
 There are no answers from real students, so the training data is generated:
 
-1. **Simulator (answers and labels).** Pick 1-3 groups (the label `y`); draw work types from the groups' O\*NET profiles,
+1. **Simulator (answers and labels).** Pick 1-3 groups (the label $y$); draw work types from the groups' O\*NET profiles,
    subjects from their admission-combination lift, hobbies from the work types, a workplace; drop each question with
    some probability so skipped answers are common; add noise (an unrelated tick, a contradictory one).
 2. **LLM (text only).** An LLM writes the free text for each simulated student, the way a grade-12 student writes
@@ -142,11 +175,17 @@ Nothing a real student enters is used or stored.
 
 ## Evaluation
 
-On the test set only:
+On the test set $T$ only. With $\mathrm{top}_5(x)$ the 5 groups with the highest $f_{\hat\theta}(x)_k$ and
+$G_i = \{k : y_{ik} = 1\}$ the fitting groups of student $i$:
 
-- **Hit@5**: share of students with at least one fitting group in the top 5 (the main number).
-- **Recall@5**: share of all fitting groups in the top 5.
-- **Baseline**: the priors alone (`W = 0`, `α = β = 1`). The learned model is kept only if it beats it.
+$$
+\mathrm{Hit@5} = \frac{1}{|T|} \sum_{i \in T} \mathbb{1}\big[\, G_i \cap \mathrm{top}_5(x_i) \neq \emptyset \,\big],
+\qquad
+\mathrm{Recall@5} = \frac{\sum_{i \in T} |G_i \cap \mathrm{top}_5(x_i)|}{\sum_{i \in T} |G_i|}
+$$
+
+Hit@5 is the main number. The baseline is the priors alone ($W = 0$, $b = 0$, $\alpha = \beta = 1$); the learned model
+is kept only if it beats it.
 
 Behaviour checks: every group can reach the top 5 for some answers; no group is in the top 5 for more than about 25%
 of random answer sets; no answers gives no suggestions; same input gives the same output.
