@@ -143,11 +143,12 @@ and the data owes nothing to the two data scores the model uses ($a$ and $c$).
 1. **Seeds.** Each seed is a label (1-3 groups, every group covered) plus attributes: region, writing style (careful,
    short, teen code, rambling), how clear the student is (clear, unsure, slightly contradictory), which questions they
    skip, and a short persona (family background, what they did in school).
-2. **Writing.** Three open models from three different families, each writing a third of the seeds: Qwen3.5-9B, Gemma 4
-   12B (4-bit) and Vistral-7B-Chat (Vietnamese). The model is told the groups and the attributes, writes the
-   questionnaire answers, and must not name a major.
-3. **Blind check.** A model other than the writer reads only the answers and names the 3 groups that fit best (Gemma
-   checks Qwen's and Vistral's students, Qwen checks Gemma's). A student is kept only if its groups are among them.
+2. **Writing.** Three open models from three different families, each writing a third of the seeds: Qwen3.5-9B,
+   Llama-3.1-8B-Instruct and Vistral-7B-Chat (Vietnamese). The model is told the groups and the attributes, writes the
+   questionnaire answers, and must not name a major. (Gemma 3 and 4 were the first choice for the third family, but
+   their attention needs more GPU shared memory than Kaggle's T4s have.)
+3. **Blind check.** A model other than the writer reads only the answers and names the 3 groups that fit best (Llama
+   checks Qwen's and Vistral's students, Qwen checks Llama's). A student is kept only if its groups are among them.
 
 **Test set** (210 students: 3 per group): the same steps without personas and with its own prompt wording, written
 and checked by Gemini, a different model family from the training set. Every student is then checked by hand. The test set is made and frozen before any
