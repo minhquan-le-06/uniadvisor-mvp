@@ -102,7 +102,9 @@ was skipped.
 - **Work-type fit $c_k(x)$, from O\*NET.** Each group is mapped to a few O\*NET occupations
   (`backend/config/suggest/onet_groups.csv`, occupation codes cited), which gives the group a RIASEC profile. The
   student's profile counts 1 for each ticked work type and 0.5 for each ticked hobby's type (0.5 is the only hand-set
-  number). $c_k(x)$ is how similar the two profiles are (cosine similarity, rescaled to 0-1).
+  number). $c_k(x)$ is the correlation between the two six-number profiles, rescaled from $[-1, 1]$ to $[0, 1]$: the
+  way the O\*NET Interest Profiler matches a person to occupations (it compares the shape of the profiles, not their
+  level).
 
 ### Hypothesis family H
 
@@ -132,20 +134,41 @@ a validation split of the training set. Same data and seed, same model.
 
 ## Data
 
-There are no answers from real students, so the training data is generated:
+There are no answers from real students, so both sets are written by LLMs. Each student is written whole (the ticked
+answers and the free text) for a given label, so no hand-made rule decides what a student with a given group ticks,
+and the data owes nothing to the two data scores the model uses ($a$ and $c$).
 
-1. **Simulator (answers and labels).** Pick 1-3 groups (the label $y$); draw work types from the groups' O\*NET profiles,
-   subjects from their admission-combination lift, hobbies from the work types, a workplace; drop each question with
-   some probability so skipped answers are common; add noise (an unrelated tick, a contradictory one).
-2. **LLM (text only).** An LLM writes the free text for each simulated student, the way a grade-12 student writes
-   (short, teen code, typos, vague or off-topic sometimes). Each call gets a different combination of attributes
-   (groups, region, writing style, how clear the student is), following Yu et al. (2023), so the texts vary. The LLM
-   writes the text; it does not decide the label. Hosted (Gemini) or an open model run locally (Qwen2.5, SeaLLM) both work.
-3. **Test set (separate).** About 500 students written end to end by Gemini, answers and fitting groups, with prompts
-   different from the training ones, so the model is not graded only against our simulator. The team skims about 100
-   of them for wrong labels.
+**Training set** (about 5,000 students; run on a Kaggle GPU, not on a laptop):
+
+1. **Seeds.** Each seed is a label (1-3 groups, every group covered) plus attributes: region, writing style (careful,
+   short, teen code, rambling), how clear the student is (clear, unsure, slightly contradictory), which questions they
+   skip, and a short persona (family background, what they did in school).
+2. **Writing.** Three open models from three different families, each writing a third of the seeds: Qwen3-8B, Gemma 3
+   12B and Vistral-7B-Chat (Vietnamese). The model is told the groups and the attributes, writes the questionnaire
+   answers, and must not name a major.
+3. **Blind check.** A different one of the three models reads only the answers and names the 3 groups that fit best.
+   A student is kept only if its groups are among them; failed seeds are rewritten.
+
+**Test set** (210 students: 3 per group): the same steps without personas and with its own prompt wording, written
+and checked by Gemini, a different model family from the training set. Every student is then checked by hand. The test set is made and frozen before any
+training data exists.
 
 Nothing a real student enters is used or stored.
+
+### What each step rests on
+
+| Step | Source | What it shows |
+|---|---|---|
+| A large LLM writes labelled data; a small model is trained on it | Schick & Schütze (2021); Ye et al. (2022) | a whole labelled set generated from scratch; a tiny task model trained on it |
+| Label plus attributes in each prompt (region, style, clarity, skipped questions) | Yu et al. (2023) | attributed prompts beat plain "write an example of class X" prompts on many-class tasks and reduce bias such as regional bias |
+| A short persona per seed | Chan et al. (2024) | a persona in the prompt steers the LLM to a different perspective, giving varied data |
+| Training text from three model families | Schaffelder & Gatt (2026) | synthetic data from several sources keeps outputs varied (less "distribution collapse"); shown for fine-tuning LLMs, not small classifiers |
+| Keep a student only if a blind model agrees with its label | Alberti et al. (2019) | "roundtrip consistency" filtering of generated data |
+| Test set written by a model, checked by people | Perez et al. (2023) | model-written evaluation sets; human raters agreed with 90-100% of the labels |
+| Work-type fit by profile correlation | Rounds et al., O\*NET Interest Profiler Manual | the Interest Profiler's own person-occupation matching |
+| Generation, curation and evaluation as a whole | Long et al. (2024) | survey of the field |
+
+The subject lift is a plain statistic of our own admission data and needs no source.
 
 ## Evaluation
 
@@ -158,8 +181,10 @@ On the test set only:
 Behaviour checks: every group can reach the top 5 for some answers; no group is in the top 5 for more than about 25%
 of random answer sets; no answers gives no suggestions; same input gives the same output.
 
-Limits: the model learns our simulator and the LLM's judgement, not real students' choices, and real text will be
-messier than generated text. Accuracy on real students is not measured.
+Limits: the model learns the LLMs' judgement, not real students' choices, and real answers will be messier and less
+typical than generated ones. Li et al. (2023) found that models trained on synthetic data lose more the more
+subjective the task, and choosing a major is fairly subjective, so expect a gap on real students. Accuracy on real
+students is not measured.
 
 ## Planned layout
 
@@ -170,19 +195,34 @@ messier than generated text. Accuracy on real students is not measured.
 | `backend/suggest_data/` | generated train / test sets |
 | `artifacts/models/suggester/` | trained weights and metrics |
 
+Generation and training scripts, model downloads and scratch runs live outside the repo, in `../MLAI_suggester/`;
+only the frozen sets, the final weights and the stable code are copied in.
+
 ## References
 
-- Yu et al. (2023). *Large Language Model as Attributed Training Data Generator: A Tale of Diversity and Bias.* NeurIPS
-  2023 Datasets and Benchmarks. Attribute-conditioned prompts for varied generated data.
-- Ye et al. (2022). *ZeroGen: Efficient Zero-shot Learning via Dataset Generation.* EMNLP 2022. A large model writes the
-  data, a small task model is trained on it.
-- Schick & Schütze (2021). *Generating Datasets with Pretrained Language Models.* EMNLP 2021.
-- Long et al. (2024). *On LLMs-Driven Synthetic Data Generation, Curation, and Evaluation: A Survey.* Findings of ACL 2024.
-- Ratner et al. (2017). *Snorkel: Rapid Training Data Creation with Weak Supervision.* VLDB 2017. Labels from rules and
-  knowledge sources instead of hand labels.
-- O\*NET (U.S. Department of Labor), interest profiles of occupations, CC BY 4.0.
+- Alberti, C., Andor, D., Pitler, E., Devlin, J., Collins, M. (2019). Synthetic QA Corpora Generation with Roundtrip
+  Consistency. ACL 2019. https://aclanthology.org/P19-1620/
+- Chan, X., Wang, X., Yu, D., Mi, H., Yu, D. (2024). Scaling Synthetic Data Creation with 1,000,000,000 Personas.
+  arXiv:2406.20094 (technical report). https://arxiv.org/abs/2406.20094
+- Li, Z., Zhu, H., Lu, Z., Yin, M. (2023). Synthetic Data Generation with Large Language Models for Text Classification:
+  Potential and Limitations. EMNLP 2023. https://aclanthology.org/2023.emnlp-main.647/
+- Long, L., Wang, R., Xiao, R., Zhao, J., Ding, X., Chen, G., Wang, H. (2024). On LLMs-Driven Synthetic Data Generation,
+  Curation, and Evaluation: A Survey. Findings of ACL 2024. https://aclanthology.org/2024.findings-acl.658/
+- Perez, E., et al. (2023). Discovering Language Model Behaviors with Model-Written Evaluations. Findings of ACL 2023.
+  https://aclanthology.org/2023.findings-acl.847/
+- Rounds, J., Hoff, K., Lewis, P. (eds.). O\*NET Interest Profiler Manual. National Center for O\*NET Development.
+  https://www.onetcenter.org/dl_files/IP_Manual.pdf
+- Schaffelder, M., Gatt, A. (2026). Synthetic Eggs in Many Baskets: The Impact of Synthetic Data Diversity on LLM
+  Fine-Tuning. Findings of ACL 2026. https://aclanthology.org/2026.findings-acl.360.pdf
+- Schick, T., Schütze, H. (2021). Generating Datasets with Pretrained Language Models. EMNLP 2021.
+  https://aclanthology.org/2021.emnlp-main.555/
+- Ye, J., Gao, J., Li, Q., Xu, H., Feng, J., Wu, Z., Yu, T., Kong, L. (2022). ZeroGen: Efficient Zero-shot Learning via
+  Dataset Generation. EMNLP 2022. https://aclanthology.org/2022.emnlp-main.801/
+- Yu, Y., Zhuang, Y., Zhang, J., Meng, Y., Ratner, A., Krishna, R., Shen, J., Zhang, C. (2023). Large Language Model as
+  Attributed Training Data Generator: A Tale of Diversity and Bias. NeurIPS 2023 Datasets and Benchmarks.
+  https://arxiv.org/abs/2306.15895
+- O\*NET (U.S. Department of Labor), occupation interest profiles, CC BY 4.0.
 
 ## Open questions
 
-1. Which LLM writes the training text: hosted (Gemini) or local open model.
-2. The group -> O\*NET occupation table (70 rows) needs a check by the team.
+1. The group -> O\*NET occupation table (70 rows) needs a check by the team.
