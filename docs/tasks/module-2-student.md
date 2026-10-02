@@ -77,11 +77,16 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
   - phần hỏi có hướng dẫn gồm 9 bước, có ô "Gõ tên ngành em nghĩ tới" giúp tìm nhóm ngành;
   - mô hình gợi ý nhóm ngành cho "Em chưa biết" ([docs/MODEL.md](../MODEL.md)): hồi quy logistic học từ dữ liệu sinh
     ra (bộ mô phỏng + LLM viết câu chữ), không gọi LLM khi chạy.
+- **Phần hỏi có hướng dẫn (bản thử, đã có):**
+  - logic ở `backend/uniadvisor/student/form/`: điểm từ điểm chính xác / khoảng / mức học, danh sách chọn nhóm ngành
+    -> ngành và ô tìm theo cách gọi của học sinh, tạo JSON kèm giá trị mặc định, kiểm tra JSON theo mọi quy tắc của
+    tài liệu (`problems`, module 3 cũng gọi được), bản tóm tắt "Mình hiểu là...";
+  - trang Streamlit `app/pages/hoi_dap.py` (9 bước, thêm `?debug=1` vào địa chỉ để xem JSON);
+  - bộ câu hỏi "Em chưa biết" đã có; khi chưa có mô hình, học sinh được đưa về danh sách chọn;
+  - kiểm thử: `backend/tests/test_form.py`.
 - **Việc tiếp theo:**
-  1. dựng phần hỏi có hướng dẫn (logic điền JSON và kiểm tra trong `backend/uniadvisor/student/form/`, giao diện ở
-     một trang Streamlit riêng);
-  2. mô hình gợi ý nhóm ngành: bảng nhóm ngành -> O\*NET, sinh dữ liệu, huấn luyện, đo;
-  3. bàn giao JSON cho module 3.
+  1. mô hình gợi ý nhóm ngành: bảng nhóm ngành -> O\*NET, sinh dữ liệu, huấn luyện, đo;
+  2. bàn giao JSON cho module 3, rồi đưa phần hỏi vào ứng dụng chính.
 - **Vấn đề chính:**
   - App không tóm lại "em muốn gì" nên học sinh không thấy được máy hiểu mình thế nào để sửa.
   - Tiêu chí sở thích không phân biệt được ngành (trong một ví dụ, cả 10 gợi ý đều được 5/5).
