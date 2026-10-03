@@ -138,21 +138,29 @@ There are no answers from real students, so both sets are written by LLMs. Each 
 answers and the free text) for a given label, so no hand-made rule decides what a student with a given group ticks,
 and the data owes nothing to the two data scores the model uses ($a$ and $c$).
 
-**Training set** (about 5,000 students; run on a Kaggle GPU, not on a laptop):
+**Training set** (6,000 seeds; written on a Kaggle GPU, not on a laptop):
 
 1. **Seeds.** Each seed is a label (1-3 groups, every group covered) plus attributes: region, writing style (careful,
    short, teen code, rambling), how clear the student is (clear, unsure, slightly contradictory), which questions they
    skip, and a short persona (family background, what they did in school).
-2. **Writing.** Three open models from three different families, each writing a third of the seeds: Qwen3.5-9B,
-   Llama-3.1-8B-Instruct and Vistral-7B-Chat (Vietnamese). The model is told the groups and the attributes, writes the
-   questionnaire answers, and must not name a major. (Gemma 3 and 4 were the first choice for the third family, but
-   their attention needs more GPU shared memory than Kaggle's T4s have.)
-3. **Blind check.** A model other than the writer reads only the answers and names the 3 groups that fit best (Llama
-   checks Qwen's and Vistral's students, Qwen checks Llama's). A student is kept only if its groups are among them.
+2. **Writing.** Qwen3.5-9B writes the students: it is told the groups and the attributes, writes the questionnaire
+   answers, and must not name a major. Vistral-7B-Chat (Vietnamese, Mistral family) can take every other seed once
+   Hugging Face grants access. Tried and dropped: Gemma 3 and 4 (their attention needs more GPU shared memory than
+   Kaggle's T4s have) and Llama-3.1-8B (a third of its outputs unreadable, garbled Vietnamese).
+3. **Cleaning** (`collect.py`): unknown option codes, extra subjects or work types and skipped questions are removed;
+   empty students are dropped.
+4. **Label filter: confident learning.** The training set is split into 5 parts; a model trained on the other 4
+   scores each student of the held-out part. A student is dropped when none of its groups gets a confident
+   probability but another group does (the per-group threshold is that group's average probability over the students
+   labelled with it). No second LLM is needed and the test set stays independent of the filter. This replaces the
+   first plan, a blind check by a second open model: Llama passed only 19% of Qwen's students and put one group
+   first for a fifth of them, and Gemini's free quota is too small to check thousands of students in time.
 
-**Test set** (210 students: 3 per group): the same steps without personas and with its own prompt wording, written
-and checked by Gemini, a different model family from the training set. Every student is then checked by hand. The test set is made and frozen before any
-training data exists.
+**Test set** (3 seeds per group): written and blind-checked by Gemini, a different model family from the training set,
+without personas and with its own prompt wording; a student is kept only if the blind check recovers its groups.
+Gemini's free tier was overloaded, so the set mixes gemini-3.5/3.6/3.7/3.8-flash and 3.5-flash-lite (counts per
+model in its `stats.json`). Every student is then checked by hand and the ones marked wrong are removed. The test set
+is frozen before training.
 
 Nothing a real student enters is used or stored.
 
@@ -163,8 +171,9 @@ Nothing a real student enters is used or stored.
 | A large LLM writes labelled data; a small model is trained on it | Schick & Schütze (2021); Ye et al. (2022) | a whole labelled set generated from scratch; a tiny task model trained on it |
 | Label plus attributes in each prompt (region, style, clarity, skipped questions) | Yu et al. (2023) | attributed prompts beat plain "write an example of class X" prompts on many-class tasks and reduce bias such as regional bias |
 | A short persona per seed | Chan et al. (2024) | a persona in the prompt steers the LLM to a different perspective, giving varied data |
-| Training text from three model families | Schaffelder & Gatt (2026) | synthetic data from several sources keeps outputs varied (less "distribution collapse"); shown for fine-tuning LLMs, not small classifiers |
-| Keep a student only if a blind model agrees with its label | Alberti et al. (2019) | "roundtrip consistency" filtering of generated data |
+| A second writer from another family (Vistral), when available | Schaffelder & Gatt (2026) | synthetic data from several sources keeps outputs varied (less "distribution collapse"); shown for fine-tuning LLMs, not small classifiers |
+| Training labels filtered by confident learning | Northcutt et al. (2021) | out-of-sample predicted probabilities and per-class thresholds find wrong labels without a second labeller |
+| Test set: keep a student only if a blind model recovers its label | Alberti et al. (2019) | "roundtrip consistency" filtering of generated data |
 | Test set written by a model, checked by people | Perez et al. (2023) | model-written evaluation sets; human raters agreed with 90-100% of the labels |
 | Work-type fit by profile correlation | Rounds et al., O\*NET Interest Profiler Manual | the Interest Profiler's own person-occupation matching |
 | Generation, curation and evaluation as a whole | Long et al. (2024) | survey of the field |
@@ -183,7 +192,8 @@ Behaviour checks: every group can reach the top 5 for some answers; no group is 
 of random answer sets; no answers gives no suggestions; same input gives the same output.
 
 Limits: the model learns the LLMs' judgement, not real students' choices, and real answers will be messier and less
-typical than generated ones. Li et al. (2023) found that models trained on synthetic data lose more the more
+typical than generated ones. If only Qwen writes the training set, its students share one model's habits (the variety
+argument above then does not apply). Li et al. (2023) found that models trained on synthetic data lose more the more
 subjective the task, and choosing a major is fairly subjective, so expect a gap on real students. Accuracy on real
 students is not measured.
 
@@ -209,6 +219,8 @@ only the frozen sets, the final weights and the stable code are copied in.
   Potential and Limitations. EMNLP 2023. https://aclanthology.org/2023.emnlp-main.647/
 - Long, L., Wang, R., Xiao, R., Zhao, J., Ding, X., Chen, G., Wang, H. (2024). On LLMs-Driven Synthetic Data Generation,
   Curation, and Evaluation: A Survey. Findings of ACL 2024. https://aclanthology.org/2024.findings-acl.658/
+- Northcutt, C. G., Jiang, L., Chuang, I. L. (2021). Confident Learning: Estimating Uncertainty in Dataset Labels.
+  Journal of Artificial Intelligence Research 70, 1373-1411. https://arxiv.org/abs/1911.00068
 - Perez, E., et al. (2023). Discovering Language Model Behaviors with Model-Written Evaluations. Findings of ACL 2023.
   https://aclanthology.org/2023.findings-acl.847/
 - Rounds, J., Hoff, K., Lewis, P. (eds.). O\*NET Interest Profiler Manual. National Center for O\*NET Development.
@@ -227,3 +239,5 @@ only the frozen sets, the final weights and the stable code are copied in.
 ## Open questions
 
 1. The group -> O\*NET occupation table (70 rows) needs a check by the team.
+2. Group 73290 (Khác, Công nghệ đa phương tiện: one ngành) never passed the test set's blind check: it overlaps with
+   Mỹ thuật ứng dụng and Báo chí - truyền thông. Whether the picker should list it is for module 1 and the team.

@@ -83,10 +83,20 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
     tài liệu (`problems`, module 3 cũng gọi được), bản tóm tắt "Mình hiểu là...";
   - trang Streamlit `app/pages/hoi_dap.py` (9 bước, thêm `?debug=1` vào địa chỉ để xem JSON);
   - bộ câu hỏi "Em chưa biết" đã có; khi chưa có mô hình, học sinh được đưa về danh sách chọn;
-  - kiểm thử: `backend/tests/test_form.py`.
+  - kiểm thử: `backend/tests/test_form.py`;
+  - đã chốt với nhóm: "Gần nhà em nhất" chia ở Đà Nẵng (Huế trở ra: Hà Nội; Đà Nẵng trở vào: TP. Hồ Chí Minh),
+    `meta.ruleset` là bộ luật mặc định của module 3.
+- **Mô hình gợi ý nhóm ngành** ([docs/MODEL.md](../MODEL.md); mã, dữ liệu, notebook Kaggle ở thư mục
+  `../MLAI_suggester/`, ngoài repo):
+  - mã huấn luyện và đánh giá đã xong (Hit@5, Recall@5, so với mốc chỉ dùng hai điểm dữ liệu, kiểm tra hành vi);
+  - bộ kiểm thử: 199 học sinh do Gemini viết và tự kiểm tra mù, đang chờ người kiểm tra tay (`review.csv`);
+  - bộ huấn luyện: Qwen3.5-9B viết trên Kaggle; đã có 1.922 học sinh, còn khoảng 4.060 (một lần chạy ~50 phút);
+    Llama-3.1-8B đã bị loại (viết sai nhiều, kiểm tra thiên lệch), Vistral chờ Hugging Face duyệt;
+  - lọc nhãn sai bằng confident learning (Northcutt và cs., 2021) thay cho bước kiểm tra bằng LLM thứ hai: đang viết.
 - **Việc tiếp theo:**
-  1. mô hình gợi ý nhóm ngành: bảng nhóm ngành -> O\*NET, sinh dữ liệu, huấn luyện, đo;
-  2. bàn giao JSON cho module 3, rồi đưa phần hỏi vào ứng dụng chính.
+  1. hoàn thành bộ lọc, chạy Kaggle phần còn lại, kiểm tra tay bộ kiểm thử, huấn luyện và đo;
+  2. đưa mô hình vào `suggest()` (`backend/uniadvisor/student/suggest/`) để trang hỏi đáp dùng;
+  3. bàn giao JSON cho module 3 khi `main` có lại dữ liệu mã ngành Bộ (module 1), rồi đưa phần hỏi vào ứng dụng chính.
 - **Vấn đề chính:**
   - App không tóm lại "em muốn gì" nên học sinh không thấy được máy hiểu mình thế nào để sửa.
   - Tiêu chí sở thích không phân biệt được ngành (trong một ví dụ, cả 10 gợi ý đều được 5/5).
