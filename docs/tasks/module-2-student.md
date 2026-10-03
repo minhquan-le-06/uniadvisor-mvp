@@ -89,10 +89,13 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
 - **Mô hình gợi ý nhóm ngành** ([docs/MODEL.md](../MODEL.md); mã, dữ liệu, notebook Kaggle ở thư mục
   `../MLAI_suggester/`, ngoài repo):
   - mã huấn luyện và đánh giá đã xong (Hit@5, Recall@5, so với mốc chỉ dùng hai điểm dữ liệu, kiểm tra hành vi);
-  - bộ kiểm thử: 199 học sinh do Gemini viết và tự kiểm tra mù, đang chờ người kiểm tra tay (`review.csv`);
-  - bộ huấn luyện: Qwen3.5-9B viết trên Kaggle; đã có 1.922 học sinh, còn khoảng 4.060 (một lần chạy ~50 phút);
-    Llama-3.1-8B đã bị loại (viết sai nhiều, kiểm tra thiên lệch), Vistral chờ Hugging Face duyệt;
-  - lọc nhãn sai bằng confident learning (Northcutt và cs., 2021) thay cho bước kiểm tra bằng LLM thứ hai: đang viết.
+  - bộ kiểm thử: 199 học sinh do Gemini viết và tự kiểm tra mù; kiểm tra tay ngẫu nhiên 60 em: 59 đúng, 1 sai (đã bỏ);
+  - bảng nhóm ngành -> nghề O\*NET đã được kiểm tra tay, sửa nghề của 8 nhóm;
+  - bộ huấn luyện: Qwen3.5-9B viết trên Kaggle; đã có 1.922 học sinh, lần chạy thêm ~4.060 em bị lỗi môi trường
+    Kaggle (đã sửa, chạy lại một lần; nếu lỗi nữa thì chốt ở 1.922). Llama-3.1-8B đã bị loại;
+  - kết quả hiện tại: Hit@5 0,81 (mốc 0,49) trên 198 học sinh kiểm thử;
+  - lọc nhãn sai bằng confident learning (Northcutt và cs., 2021): đã thử, không dùng (bỏ 52% dữ liệu và làm điểm
+    giảm, vì mô hình kiểm tra chéo còn yếu với ~27 học sinh mỗi nhóm).
 - **Việc tiếp theo:**
   1. hoàn thành bộ lọc, chạy Kaggle phần còn lại, kiểm tra tay bộ kiểm thử, huấn luyện và đo;
   2. đưa mô hình vào `suggest()` (`backend/uniadvisor/student/suggest/`) để trang hỏi đáp dùng;

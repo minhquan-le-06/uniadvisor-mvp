@@ -5,7 +5,8 @@ and returns a ranked list of MOET nhóm ngành with a reason for each. It stands
 (module 1) and an O\*NET table, and nothing else from module 2. Whatever uses it (today, the guided chat of module 2)
 only calls `suggest(answers) -> suggestions`.
 
-Status: design agreed, not built.
+Status: built and trained (outside the repo, in `../MLAI_suggester/`) on the first 1,922 generated students, results
+under Evaluation; not yet wired into the app.
 
 ## Interface
 
@@ -149,18 +150,22 @@ and the data owes nothing to the two data scores the model uses ($a$ and $c$).
    Kaggle's T4s have) and Llama-3.1-8B (a third of its outputs unreadable, garbled Vietnamese).
 3. **Cleaning** (`collect.py`): unknown option codes, extra subjects or work types and skipped questions are removed;
    empty students are dropped.
-4. **Label filter: confident learning.** The training set is split into 5 parts; a model trained on the other 4
-   scores each student of the held-out part. A student is dropped when none of its groups gets a confident
-   probability but another group does (the per-group threshold is that group's average probability over the students
-   labelled with it). No second LLM is needed and the test set stays independent of the filter. This replaces the
-   first plan, a blind check by a second open model: Llama passed only 19% of Qwen's students and put one group
-   first for a fifth of them, and Gemini's free quota is too small to check thousands of students in time.
+4. **Label filter: confident learning, tried and not used.** The training set is split into 5 parts; a model trained
+   on the other 4 scores each student of the held-out part. A student is dropped when none of its groups gets a
+   confident probability but another group does (the per-group threshold is that group's average probability over the
+   students labelled with it). It replaced the first plan, a blind check by a second open model (Llama passed only 19%
+   of Qwen's students and put one group first for a fifth of them; Gemini's free quota is too small to check
+   thousands of students in time). On the 1,922 students it dropped 52% and lowered test Hit@5 from 0.81 to 0.77: the
+   method needs good out-of-sample probabilities, and with about 27 students per group the held-out model found the
+   right group in its top 5 for only 57% of them, so most flags were its own mistakes. The training set is used
+   unfiltered; the filter stays in the code (`--cl`) to retry on a bigger set.
 
 **Test set** (3 seeds per group): written and blind-checked by Gemini, a different model family from the training set,
 without personas and with its own prompt wording; a student is kept only if the blind check recovers its groups.
 Gemini's free tier was overloaded, so the set mixes gemini-3.5/3.6/3.7/3.8-flash and 3.5-flash-lite (counts per
-model in its `stats.json`). Every student is then checked by hand and the ones marked wrong are removed. The test set
-is frozen before training.
+model in its `stats.json`). 199 students passed (73290 has none; 7 groups have 1-2). A random 60 were checked by
+hand: 59 right, 1 wrong (removed), so about 2% of the labels are wrong (95% upper bound about 9%). The test set is
+frozen before training.
 
 Nothing a real student enters is used or stored.
 
@@ -172,7 +177,7 @@ Nothing a real student enters is used or stored.
 | Label plus attributes in each prompt (region, style, clarity, skipped questions) | Yu et al. (2023) | attributed prompts beat plain "write an example of class X" prompts on many-class tasks and reduce bias such as regional bias |
 | A short persona per seed | Chan et al. (2024) | a persona in the prompt steers the LLM to a different perspective, giving varied data |
 | A second writer from another family (Vistral), when available | Schaffelder & Gatt (2026) | synthetic data from several sources keeps outputs varied (less "distribution collapse"); shown for fine-tuning LLMs, not small classifiers |
-| Training labels filtered by confident learning | Northcutt et al. (2021) | out-of-sample predicted probabilities and per-class thresholds find wrong labels without a second labeller |
+| Training labels filtered by confident learning (tried, not used: see step 4) | Northcutt et al. (2021) | out-of-sample predicted probabilities and per-class thresholds find wrong labels without a second labeller |
 | Test set: keep a student only if a blind model recovers its label | Alberti et al. (2019) | "roundtrip consistency" filtering of generated data |
 | Test set written by a model, checked by people | Perez et al. (2023) | model-written evaluation sets; human raters agreed with 90-100% of the labels |
 | Work-type fit by profile correlation | Rounds et al., O\*NET Interest Profiler Manual | the Interest Profiler's own person-occupation matching |
@@ -191,8 +196,25 @@ On the test set only:
 Behaviour checks: every group can reach the top 5 for some answers; no group is in the top 5 for more than about 25%
 of random answer sets; no answers gives no suggestions; same input gives the same output.
 
+### Results (1,922 training students, 198 test students)
+
+| | Hit@5 | Recall@5 |
+|---|---|---|
+| Trained model ($\lambda = 10^{-5}$, $\alpha = 1.76$, $\beta = 1.71$) | 0.81 | 0.71 |
+| Baseline (data scores alone) | 0.49 | 0.40 |
+
+With 198 test students, differences under about 0.03 are noise. Hit@5 against training size (same test set): 480
+students 0.63, 961 0.67, 1,441 0.80, 1,922 0.84 (another split; still rising, so more data should help).
+
+Behaviour: every group reaches the top 5; no answers gives no suggestions; same input, same output. One group is
+slightly over the 25% mark: 78102 (Khách sạn, nhà hàng) is in the top 5 for 26% of random answer sets. Before the
+O\*NET table was checked, 78190 was at 37%: its occupations mixed chefs and dietitians, which gave a flat profile, and
+a correlation with a flat profile swings on tiny differences.
+
 Limits: the model learns the LLMs' judgement, not real students' choices, and real answers will be messier and less
-typical than generated ones. If only Qwen writes the training set, its students share one model's habits (the variety
+typical than generated ones. The test set is easier than the training set: its students passed a blind check, while
+the training students include unsure, contradictory and question-skipping ones on purpose. The held-out Hit@5 on
+training students is 0.57 against 0.81 on the test set, so expect lower numbers on real, vaguer answers. If only Qwen writes the training set, its students share one model's habits (the variety
 argument above then does not apply). Li et al. (2023) found that models trained on synthetic data lose more the more
 subjective the task, and choosing a major is fairly subjective, so expect a gap on real students. Accuracy on real
 students is not measured.
