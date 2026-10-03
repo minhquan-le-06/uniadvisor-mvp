@@ -91,15 +91,15 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
   - mã huấn luyện và đánh giá đã xong (Hit@5, Recall@5, so với mốc chỉ dùng hai điểm dữ liệu, kiểm tra hành vi);
   - bộ kiểm thử: 199 học sinh do Gemini viết và tự kiểm tra mù; kiểm tra tay ngẫu nhiên 60 em: 59 đúng, 1 sai (đã bỏ);
   - bảng nhóm ngành -> nghề O\*NET đã được kiểm tra tay, sửa nghề của 8 nhóm;
-  - bộ huấn luyện: Qwen3.5-9B viết trên Kaggle; đã có 1.922 học sinh, lần chạy thêm ~4.060 em bị lỗi môi trường
-    Kaggle (đã sửa, chạy lại một lần; nếu lỗi nữa thì chốt ở 1.922). Llama-3.1-8B đã bị loại;
-  - kết quả hiện tại: Hit@5 0,81 (mốc 0,49) trên 198 học sinh kiểm thử;
-  - lọc nhãn sai bằng confident learning (Northcutt và cs., 2021): đã thử, không dùng (bỏ 52% dữ liệu và làm điểm
-    giảm, vì mô hình kiểm tra chéo còn yếu với ~27 học sinh mỗi nhóm).
+  - bộ huấn luyện (đã chốt): 9.920 học sinh do Qwen3.5-9B viết trên Kaggle. Llama-3.1-8B đã bị loại, Vistral không
+    được duyệt kịp;
+  - kết quả: Hit@5 0,90, Recall@5 0,81 (mốc 0,49 / 0,40) trên 198 học sinh kiểm thử; Hit@5 chững lại từ khoảng 6.000
+    học sinh, nên sinh thêm dữ liệu cùng một mô hình không còn giúp nhiều;
+  - lọc nhãn sai bằng confident learning (Northcutt và cs., 2021): đã thử hai lần, không dùng (bỏ gần một nửa dữ
+    liệu và làm điểm giảm).
 - **Việc tiếp theo:**
-  1. hoàn thành bộ lọc, chạy Kaggle phần còn lại, kiểm tra tay bộ kiểm thử, huấn luyện và đo;
-  2. đưa mô hình vào `suggest()` (`backend/uniadvisor/student/suggest/`) để trang hỏi đáp dùng;
-  3. bàn giao JSON cho module 3 khi `main` có lại dữ liệu mã ngành Bộ (module 1), rồi đưa phần hỏi vào ứng dụng chính.
+  1. đưa mô hình vào `suggest()` (`backend/uniadvisor/student/suggest/`) để trang hỏi đáp dùng;
+  2. bàn giao JSON cho module 3 khi `main` có lại dữ liệu mã ngành Bộ (module 1), rồi đưa phần hỏi vào ứng dụng chính.
 - **Vấn đề chính:**
   - App không tóm lại "em muốn gì" nên học sinh không thấy được máy hiểu mình thế nào để sửa.
   - Tiêu chí sở thích không phân biệt được ngành (trong một ví dụ, cả 10 gợi ý đều được 5/5).
