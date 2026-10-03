@@ -54,12 +54,12 @@ FIRST_GRADUATION_YEAR = 2020
 # the 34 provinces after the July 2025 merger, in alphabetical order
 PROVINCES = tuple(sorted(NORTH + CENTRAL + SOUTH, key=fold))
 
-# the city in scope nearer each province, by road from its capital. Central provinces split at Đà Nẵng (Hà Nội about
-# 760 km, TP. Hồ Chí Minh about 960 km); from Quảng Ngãi south, TP. Hồ Chí Minh is nearer.
+# the city in scope a student from each province is sent to for "Gần nhà em nhất": the North and Quảng Trị, Huế go to
+# Hà Nội; from Đà Nẵng south, TP. Hồ Chí Minh (the split agreed with the team).
 NEAREST_CITY = {
     **{p: "Hà Nội" for p in NORTH},
-    **{p: "Hà Nội" for p in ("Quảng Trị", "Huế", "Đà Nẵng")},
-    **{p: "TP. Hồ Chí Minh" for p in ("Quảng Ngãi", "Gia Lai", "Đắk Lắk", "Khánh Hòa")},
+    **{p: "Hà Nội" for p in ("Quảng Trị", "Huế")},
+    **{p: "TP. Hồ Chí Minh" for p in ("Đà Nẵng", "Quảng Ngãi", "Gia Lai", "Đắk Lắk", "Khánh Hòa")},
     **{p: "TP. Hồ Chí Minh" for p in SOUTH},
 }
 
