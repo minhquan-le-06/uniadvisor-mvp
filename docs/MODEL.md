@@ -238,6 +238,9 @@ only the frozen sets, the final weights and the stable code are copied in.
 
 ## Open questions
 
-1. The group -> O\*NET occupation table (70 rows) needs a check by the team.
+1. The group -> O\*NET occupation table (70 rows) was checked by hand (2026-10-03). Occupation choices were fixed where
+   the check found a better match (73401, 73404, 75402, 75490, 76203, 77601, 78190, 78590); the RIASEC values are
+   O\*NET's own and are not edited. Still weak: 78590 (two unrelated programs, eco-tourism and landscape, give a flat
+   profile) and 72201 (English literature teachers stand in for Vietnamese literature).
 2. Group 73290 (Khác, Công nghệ đa phương tiện: one ngành) never passed the test set's blind check: it overlaps with
    Mỹ thuật ứng dụng and Báo chí - truyền thông. Whether the picker should list it is for module 1 and the team.
