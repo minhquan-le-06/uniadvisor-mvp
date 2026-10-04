@@ -93,12 +93,17 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
   - đã nối vào trang hỏi đáp;
   - bộ kiểm thử: 199 học sinh do Gemini viết và tự kiểm tra mù; kiểm tra tay ngẫu nhiên 60 em: 59 đúng, 1 sai (đã bỏ);
   - bảng nhóm ngành -> nghề O\*NET đã được kiểm tra tay, sửa nghề của 8 nhóm;
-  - bộ huấn luyện (đã chốt): 9.920 học sinh do Qwen3.5-9B viết trên Kaggle. Llama-3.1-8B đã bị loại, Vistral không
-    được duyệt kịp;
-  - kết quả: Hit@5 0,90, Recall@5 0,81 (mốc 0,49 / 0,40) trên 198 học sinh kiểm thử; Hit@5 chững lại từ khoảng 6.000
-    học sinh, nên sinh thêm dữ liệu cùng một mô hình không còn giúp nhiều;
+  - bộ huấn luyện (đã chốt): 12.942 học sinh do Qwen3.5-9B viết trên Kaggle, gồm 2.945 em "lệch hướng" (học tốt môn
+    của một nhóm nhưng sở thích hợp nhóm khác). Llama-3.1-8B đã bị loại, Vistral không được duyệt kịp;
+  - kết quả: Hit@5 0,90, Recall@5 0,85 (mốc 0,49 / 0,40) trên 198 học sinh kiểm thử; luôn gợi ý 5 nhóm;
+  - duyệt tay: công cụ `uniadvisor suggest-review` cho người duyệt bỏ chọn / thêm nhóm; 34 ca đã duyệt thành bộ kiểm
+    tra, mỗi lần huấn luyện đều chấm lại (hiện 15/34 ca đạt mọi điều kiện). Nhờ duyệt tay đã tìm và sửa: Qwen gần như
+    không chọn Toán (môn học giờ chỉ tính qua dữ liệu tổ hợp xét tuyển), trọng số học từ sở thích / nơi làm việc quá
+    mạnh (giảm 25 lần);
   - lọc nhãn sai bằng confident learning (Northcutt và cs., 2021): đã thử hai lần, không dùng (bỏ gần một nửa dữ
-    liệu và làm điểm giảm).
+    liệu và làm điểm giảm);
+  - hạn chế: mọi dữ liệu do một mô hình viết nên mang thói quen của nó; nhóm 73103 hiện vào top 5 của 33% câu trả lời
+    ngẫu nhiên (chưa rõ nguyên nhân). Việc có thể làm tiếp: xem docs/MODEL.md, mục "Next steps".
 - **Việc tiếp theo:**
   1. bàn giao JSON cho module 3 khi `main` có lại dữ liệu mã ngành Bộ (module 1), rồi đưa phần hỏi vào ứng dụng chính.
 - **Vấn đề chính:**

@@ -5,7 +5,7 @@ and returns a ranked list of MOET nhóm ngành with a reason for each. It stands
 (module 1) and an O\*NET table, and nothing else from module 2. Whatever uses it (today, the guided chat of module 2)
 only calls `suggest(answers) -> suggestions`.
 
-Status: trained on 9,920 generated students (data frozen; results under Evaluation) and used by the guided chat
+Status: trained on 12,942 generated students (data frozen; results under Evaluation) and used by the guided chat
 (`app/pages/hoi_dap.py`).
 
 ## Interface
@@ -146,7 +146,7 @@ There are no answers from real students, so both sets are written by LLMs. Each 
 answers and the free text) for a given label, so no hand-made rule decides what a student with a given group ticks,
 and the data owes nothing to the two data scores the model uses ($a$ and $c$).
 
-**Training set** (10,200 seeds, 9,920 students after cleaning; written on a Kaggle GPU, not on a laptop):
+**Training set** (13,200 seeds, 12,942 students after cleaning; written on a Kaggle GPU, not on a laptop):
 
 1. **Seeds.** Each seed is a label (1-3 groups, every group covered) plus attributes: region, writing style (careful,
    short, teen code, rambling), how clear the student is (clear, unsure, slightly contradictory), which questions they
@@ -155,8 +155,13 @@ and the data owes nothing to the two data scores the model uses ($a$ and $c$).
    answers, and must not name a major. Vistral-7B-Chat (Vietnamese, Mistral family) was planned for every other seed
    but Hugging Face did not grant access in time, so Qwen wrote all of them. Tried and dropped: Gemma 3 and 4 (their attention needs more GPU shared memory than
    Kaggle's T4s have) and Llama-3.1-8B (a third of its outputs unreadable, garbled Vietnamese).
+   **Mixed students** (the last 3,000 seeds, added after the review): the seed names the subjects the student is good
+   at (2-3 of one group's most lifted subjects in the admission data, plus Toán when most of that group's combinations
+   have it) and a second group that the work types, hobbies, workplace and dream must fit (70% from another lĩnh
+   vực); the label is both groups. Every other training student is consistent, so the model had never seen subjects
+   and interests disagree (see Results).
 3. **Cleaning** (`collect.py`): unknown option codes, extra subjects or work types and skipped questions are removed;
-   empty students are dropped.
+   empty students are dropped; a mixed student's subjects are set to the seed's (Qwen followed them in 97% of cases).
 4. **Label filter: confident learning, tried and not used.** The training set is split into 5 parts; a model trained
    on the other 4 scores each student of the held-out part. A student is dropped when none of its groups gets a
    confident probability but another group does (the per-group threshold is that group's average probability over the
@@ -182,7 +187,7 @@ Nothing a real student enters is used or stored.
 | Step | Source | What it shows |
 |---|---|---|
 | A large LLM writes labelled data; a small model is trained on it | Schick & Schütze (2021); Ye et al. (2022) | a whole labelled set generated from scratch; a tiny task model trained on it |
-| Label plus attributes in each prompt (region, style, clarity, skipped questions) | Yu et al. (2023) | attributed prompts beat plain "write an example of class X" prompts on many-class tasks and reduce bias such as regional bias |
+| Label plus attributes in each prompt (region, style, clarity, skipped questions; for mixed students, the subjects and the interest group) | Yu et al. (2023) | attributed prompts beat plain "write an example of class X" prompts on many-class tasks and reduce bias such as regional bias |
 | A short persona per seed | Chan et al. (2024) | a persona in the prompt steers the LLM to a different perspective, giving varied data |
 | A second writer from another family (Vistral; planned, not available in time) | Schaffelder & Gatt (2026) | synthetic data from several sources keeps outputs varied (less "distribution collapse"); shown for fine-tuning LLMs, not small classifiers |
 | Training labels filtered by confident learning (tried, not used: see step 4) | Northcutt et al. (2021) | out-of-sample predicted probabilities and per-class thresholds find wrong labels without a second labeller |
@@ -210,19 +215,20 @@ a test student's text) are shown with the model's top 5 in a review page (`uniad
 a check every later model is scored on (`expectations.jsonl`, reported by `suggest-train` and `suggest-check`): added
 groups in the top 5 (or top 3), unticked groups out of the top 3, at least one kept group in the top 5.
 
-### Results (9,920 training students, 198 test students)
+### Results (12,942 training students, 198 test students)
 
 | | Hit@5 | Recall@5 |
 |---|---|---|
-| Trained model ($\lambda = 10^{-5}$, option value 0.2, $\alpha = 5.25$, $\beta = 2.93$) | 0.91 | 0.85 |
+| Trained model ($\lambda = 10^{-5}$, option value 0.2, $\alpha = 5.55$, $\beta = 2.51$) | 0.90 | 0.85 |
 | Baseline (data scores alone) | 0.49 | 0.40 |
-| Options at full weight (value 1) | 0.87 | 0.80 |
-| Options at full weight and learned subject weights (the first model) | 0.90 | 0.81 |
+| Before the mixed students (9,920 students) | 0.91 | 0.85 |
+| ... and options at full weight (value 1) | 0.87 | 0.80 |
+| ... and learned subject weights (the first model) | 0.90 | 0.81 |
 
-91% of the test students find at least one fitting group in their top 5 (Hit@1 0.64). With 198 test students,
-differences under about 0.03 are noise.
+90% of the test students find at least one fitting group in their top 5. With 198 test students, differences under
+about 0.03 are noise.
 
-Two changes came from the reviewed cases, not from the test set:
+Three changes came from the reviewed cases, not from the test set:
 
 1. **No learned subject weights** (see Features): the writer's Toán habit. Test Hit@5 0.90 -> 0.87, within noise.
 2. **Ticked options at 0.2 instead of 1** (work types, hobbies, workplace): the same $\lambda$ then holds their
@@ -230,13 +236,22 @@ Two changes came from the reviewed cases, not from the test set:
    were pushed by these learned weights (2.4 above the average group, the other parts near 0), and the groups the
    reviewer added were held down by them (as low as -3 against a subject fit of 1.0 for a student of three foreign
    languages). Tried 1, 0.5, 0.3, 0.2, 0.1 and 0; 0.2 was best on the reviewed cases and test Hit@5 rose to 0.91.
+3. **Mixed students** (see Data) and **always 5 suggestions** (see Output): most groups the reviewer added came from
+   the mixed cases, where subjects point one way and interests another, and a larger $\alpha$ by hand did not help.
 
-Reviewed cases (34: 9 one-direction, 9 mixed, 9 few answers, 6 with text, 1 the reviewer's own): at least one kept
-group stays in the top 5 in 33 of 33; 13 of 22 cases with unticked groups have none of them left in the top 3 (6
-before the option change); the groups the reviewer added reach the top 5 in only 1 of 18 cases. The added groups are
-mostly from the mixed cases (subjects pointing one way, interests another): the training students' subjects and
-interests always agree, so the model never learned how much subjects should weigh in a conflict, and a larger
-$\alpha$ by hand did not help (x2: 4 of 18). 14 of the 34 cases pass all their checks.
+Reviewed cases (34: 9 one-direction, 9 mixed, 9 few answers, 6 with text, 1 the reviewer's own):
+
+| | 9,920 students, options 0.2 | + mixed students |
+|---|---|---|
+| Cases passing all their checks | 14 | 15 |
+| At least one kept group in the top 5 | 33 of 33 | 32 of 33 |
+| Unticked groups all out of the top 3 | 13 of 22 | 15 of 22 |
+| Added groups in the top 5 (median rank) | 1 of 18 (20) | 2 of 18 (16) |
+| Test Hit@5 | 0.91 | 0.90 |
+
+The mixed students help where they were aimed but only a little: Qwen followed the prescribed subjects, yet its
+interest side is uneven (some students meant to fit Kỹ thuật mỏ read like office workers). 34 cases are few; a
+difference of one or two cases is weak evidence.
 
 Learning curve (with learned subject weights, fixed $\lambda$, mean of two random subsets per size, same test set):
 
@@ -249,18 +264,18 @@ Hit@5 levels off after about 6,000 students; Hit@1 still creeps up. More of the 
 real students' answers would.
 
 Behaviour: every group reaches the top 5; no answers gives no suggestions; same input, same output. Two groups are over
-the 25% mark: 72202 (Ngôn ngữ nước ngoài, 29%) and 73801 (Luật, 27%). Part of it is the check itself: its random answer
-sets pick subjects uniformly, and 7 of the 18 subjects are foreign languages, which real students seldom tick; with
-the subject fit weighing more, those random sets lean to 72202. Before the O\*NET table was checked, 78190 was
+the 25% mark: 73103 (Xã hội học và Nhân học, 33%; it rose from 21% with the mixed students, cause not yet found) and
+72202 (Ngôn ngữ nước ngoài, 25%). Part of it is the check itself: its random answer sets pick options uniformly, and 7
+of the 18 subjects are foreign languages, which real students seldom tick. Before the O\*NET table was checked, 78190 was
 at 37%: its occupations mixed chefs and dietitians, which gave a flat profile, and a correlation with a flat profile
 swings on tiny differences.
 
 Limits: the model learns the LLMs' judgement, not real students' choices, and real answers will be messier and less
 typical than generated ones. The test set is easier than the training set: its students passed a blind check, while
 the training students include unsure, contradictory and question-skipping ones on purpose. Hit@5 on held-out
-training students is 0.68 against 0.91 on the test set, so expect lower numbers on real, vaguer answers. Qwen wrote
+training students is 0.70 against 0.90 on the test set, so expect lower numbers on real, vaguer answers. Qwen wrote
 the whole training set, so its students share one model's habits (the variety argument of Schaffelder & Gatt does not
-apply). Li et al. (2023) found that models trained on synthetic data lose more the more
+apply); the Toán habit and the option weights above are two of them that the review caught. Li et al. (2023) found that models trained on synthetic data lose more the more
 subjective the task, and choosing a major is fairly subjective, so expect a gap on real students. Accuracy on real
 students is not measured.
 
@@ -315,3 +330,16 @@ only the frozen sets, the final weights and the stable code are copied in.
    profile) and 72201 (English literature teachers stand in for Vietnamese literature).
 2. Group 73290 (Khác, Công nghệ đa phương tiện: one ngành) never passed the test set's blind check: it overlaps with
    Mỹ thuật ứng dụng and Báo chí - truyền thông. Whether the picker should list it is for module 1 and the team.
+
+## Next steps (not done)
+
+Cheap, measured on the test set, the reviewed cases and the behaviour checks together:
+
+1. Re-pick the option value (0.2 was chosen before the mixed students).
+2. Keep only mixed students whose work types and hobbies correlate with their interest group's O\*NET profile
+   (consistency with an independent source, as the test set's blind check).
+3. Find why 73103 rose to 33% of random answer sets.
+
+Larger: a second writer from another model family (every remaining problem traces back to one writer's habits), and
+more reviewed cases (34 make every comparison above weak). More students from the same writer will not help (the
+learning curve is flat).

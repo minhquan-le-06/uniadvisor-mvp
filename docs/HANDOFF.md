@@ -33,8 +33,12 @@ team overview and the module 3 plan: [TEAM_REPORT.md](TEAM_REPORT.md).
   preference/order conflicts, end with 2-3 safe wishes at different schools, show 3-4 levels instead of %. Measure the
   forecast by how often it orders pairs of programs correctly. Test bed: `sim students` × `sim season` with
   `uniadvisor.student.simulated.OracleJudge` (an always-right module 2).
-- Module 2 (student understanding): next. A fact reader (`uniadvisor.student.intent`, interests as MOET nhóm ngành) exists
-  and is measured (`uniadvisor intent-eval`), not yet used by the app.
+- Module 2 (student understanding): **in progress**. The student JSON for module 3 is agreed (docs/STUDENT_SCHEMA.md); a
+  9-step guided chat fills it (`app/pages/hoi_dap.py`, logic in `uniadvisor.student.form`), with a trained "Em chưa
+  biết" group suggester (docs/MODEL.md: test Hit@5 0.90 against 0.49 for the data scores alone; a review tool turns a
+  person's verdicts into checks, `uniadvisor suggest-review`). Waiting on: the hand-over to module 3 and moving the
+  guided chat into the main app. The fact reader (`uniadvisor.student.intent`, `uniadvisor intent-eval`) stays for
+  free-text answers.
 - Module 4 (explanations): as-is for now.
 
 The owner discusses in chat and wants results as Markdown files in the repo.
