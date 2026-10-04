@@ -84,3 +84,10 @@ def suggest(answers: dict, db: Database | None = None) -> list[dict]:
     if not available() or not any(answers.get(k) for k in QUESTIONS):
         return []
     return _suggester().suggest(answers)
+
+
+def explain(answers: dict, top: int = 10) -> dict:
+    """For testing: how the `top` best groups were scored (Suggester.breakdown); {} with no model or no answers."""
+    if not available() or not any(answers.get(k) for k in QUESTIONS):
+        return {}
+    return _suggester().breakdown(answers, top)

@@ -1,10 +1,14 @@
 """Module 2's guided chat (trial page): nine short steps with widgets fill the student JSON for module 3
 (docs/STUDENT_SCHEMA.md). The logic lives in uniadvisor.student.form; this file only draws it.
 
-Nothing is written to disk; answers live in this browser session. Add ?debug=1 to the URL to see the JSON.
+Nothing is written to disk; answers live in this browser session. Add ?debug=1 to the URL for test mode: the JSON,
+the suggester's scoring table, and a .txt log of every suggestion run (answers, scores, what was kept) that the tester
+downloads from the sidebar; it is built in memory and only leaves the browser session as that download.
 """
 
 from __future__ import annotations
+
+from datetime import datetime
 
 import streamlit as st
 
@@ -44,9 +48,12 @@ ss.setdefault("f_quiz", False)
 ss.setdefault("f_quiz_ans", {})
 ss.setdefault("f_suggestions", None)
 ss.setdefault("f_finished", False)
+ss.setdefault("f_sg_debug", None)
+ss.setdefault("t_log", [])          # test mode: one entry per suggestion run; survives "Bắt đầu lại", never written to disk
 A: Answers = ss.f_ans
 P = picker(get_db())
 YEAR = target_year()
+DEBUG = st.query_params.get("debug") == "1"
 
 
 def reset() -> None:
@@ -275,8 +282,13 @@ def quiz() -> None:
             st.info("Phần gợi ý ngành đang được hoàn thiện. Em chọn trong danh sách giúp mình nhé.")
         elif not (got := sg.suggest(answers, get_db())):
             st.info("Mình chưa đủ thông tin để gợi ý. Em trả lời thêm vài câu, hoặc chọn trong danh sách nhé.")
+            if DEBUG:
+                ss.t_log.append(log_entry([], {}))
         else:
             ss.f_suggestions = got
+            if DEBUG:
+                ss.f_sg_debug = sg.explain(answers)
+                ss.t_log.append(log_entry(got, ss.f_sg_debug))
             st.rerun()
     if c2.button("Quay lại danh sách", key="f_qz_back", icon=":material/arrow_back:"):
         ss.f_quiz = False
@@ -292,13 +304,83 @@ def confirm_suggestions() -> None:
             continue
         reason = ", ".join(s.get("reasons") or [])
         if st.checkbox(f"**{P.name(s['code'])}**" + (f" (vì {reason})" if reason else ""), value=True,
-                       key=f"f_sg_{s['code']}"):
+                       key=f"f_sg_{s['code']}", help=f"Gồm các ngành như: {examples(s['code'])}"):
             keep.append(s["code"])
+        st.caption(f"Ví dụ: {examples(s['code'])}")
+    if DEBUG and ss.f_sg_debug:
+        scoring_panel(ss.f_sg_debug)
     if st.button("Xác nhận", type="primary", key="f_sg_ok", icon=":material/check:"):
         room = MAX_INTERESTS - len(A.interests)
         A.interests += [(c, "like") for c in keep[:room]]
-        ss.f_quiz, ss.f_suggestions = False, None
+        if DEBUG and ss.t_log:
+            shown = [s["code"] for s in ss.f_suggestions if s["code"] not in taken]
+            ss.t_log[-1]["kept"] = keep[:room]
+            ss.t_log[-1]["dropped"] = [c for c in shown if c not in keep[:room]]
+        ss.f_quiz, ss.f_suggestions, ss.f_sg_debug = False, None, None
         st.rerun()
+
+
+def examples(code: str, n: int = 3) -> str:
+    majors = P.group(code).majors
+    more = f" và {len(majors) - n} ngành khác" if len(majors) > n else ""
+    return ", ".join(m.name for m in majors[:n]) + more
+
+
+# ------------------------------------------------------------------ test mode (?debug=1): scoring and a trial log
+SCORING_COLS = {"rank": "#", "code": "Mã", "name": "Nhóm ngành", "p": "Xác suất", "z": "Điểm z", "answers": "Ô đã chọn",
+                "text": "Chữ", "bias": "Hệ số b", "alpha_a": "α·môn", "beta_c": "β·RIASEC", "a": "a (môn)",
+                "c": "c (RIASEC)", "shown": "Hiện"}
+
+
+def scoring_panel(bd: dict) -> None:
+    with st.expander("Chấm điểm (bản thử)", expanded=True, icon=":material/analytics:"):
+        st.caption(f"z = ô đã chọn + chữ + b + α·a + β·c, xác suất = softmax(z); chỉ chênh lệch giữa các nhóm là có "
+                   f"nghĩa. α = {bd['alpha']:.2f}, β = {bd['beta']:.2f}. Hiện ra: {bd['rule']}.")
+        rows = [{**r, "name": P.name(r["code"])} for r in bd["rows"]]
+        st.dataframe([{SCORING_COLS[k]: (round(r[k], 3) if isinstance(r[k], float) else r[k]) for k in SCORING_COLS}
+                      for r in rows], hide_index=True)
+        st.caption("Hồ sơ RIASEC của em: " + ", ".join(f"{t} {v:g}" for t, v in bd["riasec"].items())
+                   + f" · Chữ mô hình đọc: \"{bd['text'] or '(trống)'}\"")
+
+
+def log_entry(suggestions: list[dict], breakdown: dict) -> dict:
+    return {"time": datetime.now().strftime("%H:%M:%S"), "scores": [(e.subject, e.score()) for e in A.scores],
+            "answers": dict(ss.f_quiz_ans), "suggestions": suggestions, "breakdown": breakdown}
+
+
+def log_text() -> str:
+    lines = [f"UniAdvisor, nhật ký thử gợi ý nhóm ngành ({len(ss.t_log)} lần)", ""]
+    for i, e in enumerate(ss.t_log, 1):
+        a = e["answers"]
+        lines += [f"=== Lần {i} · {e['time']} ===",
+                  "Điểm: " + (", ".join(f"{SUBJECTS[s]} {v:g}" for s, v in e["scores"]) or "(chưa có)"),
+                  "Môn thích/học tốt: " + (", ".join(SUBJECTS.get(s, s) for s in a.get("subjects") or []) or "-"),
+                  "Thích làm việc với: " + ("; ".join(sg.WORK_TYPES[t] for t in a.get("work_types") or []) or "-"),
+                  "Lúc rảnh: " + ("; ".join(sg.HOBBIES[h][0] for h in a.get("hobbies") or []) or "-"),
+                  "Sở thích khác: " + (a.get("other") or "-"),
+                  "Muốn làm việc ở: " + ("; ".join(sg.WORKPLACES[w] for w in a.get("workplace") or []) or "-"),
+                  "Mơ ước: " + (a.get("dream") or "-")]
+        bd = e["breakdown"]
+        if not e["suggestions"]:
+            lines += ["Kết quả: không đủ thông tin để gợi ý.", ""]
+            continue
+        lines += [f"Chữ mô hình đọc: \"{bd['text']}\"",
+                  "Hồ sơ RIASEC: " + ", ".join(f"{t} {v:g}" for t, v in bd["riasec"].items()),
+                  f"Chấm điểm (z = ô đã chọn + chữ + b + α·a + β·c; α = {bd['alpha']:.2f}, β = {bd['beta']:.2f}):"]
+        for r in bd["rows"]:
+            lines.append(f"  {r['rank']:>2}. {r['code']} {P.name(r['code'])}: p = {r['p']:.3f}, z = {r['z']:.2f} "
+                         f"(ô {r['answers']:+.2f}, chữ {r['text']:+.2f}, b {r['bias']:+.2f}, α·a {r['alpha_a']:+.2f}, "
+                         f"β·c {r['beta_c']:+.2f}){'  <- hiện' if r['shown'] else ''}")
+        lines.append("Gợi ý hiện ra:")
+        lines += [f"  - {s['code']} {P.name(s['code'])} ({s['score']:.3f}): {', '.join(s['reasons'])}"
+                  for s in e["suggestions"]]
+        if "kept" in e:
+            lines.append("Em giữ: " + (", ".join(f"{c} {P.name(c)}" for c in e["kept"]) or "(không giữ nhóm nào)"))
+            lines.append("Em bỏ: " + (", ".join(f"{c} {P.name(c)}" for c in e["dropped"]) or "(không bỏ nhóm nào)"))
+        else:
+            lines.append("(chưa bấm Xác nhận)")
+        lines.append("")
+    return "\n".join(lines)
 
 
 def step_dislikes() -> None:
@@ -420,6 +502,11 @@ RENDER = {"scores": step_scores, "about": step_about, "interests": step_interest
 # ------------------------------------------------------------------ page
 with st.sidebar:
     st.button("Bắt đầu lại", icon=":material/restart_alt:", on_click=reset, key="f_reset")
+    if DEBUG:
+        st.caption(f"Bản thử: {len(ss.t_log)} lần gợi ý trong nhật ký (giữ qua \"Bắt đầu lại\").")
+        if ss.t_log:
+            st.download_button("Tải nhật ký (.txt)", log_text(), file_name="goi_y_nhom_nganh_log.txt",
+                               mime="text/plain", icon=":material/download:", key="t_log_dl")
     if get_db().simulated:
         st.warning("Đang dùng dữ liệu MÔ PHỎNG.")
 st.title("Hỏi đáp cùng UniAdvisor")

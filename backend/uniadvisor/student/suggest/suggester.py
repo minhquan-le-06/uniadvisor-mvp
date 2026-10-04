@@ -57,6 +57,31 @@ class Suggester:
         return [{"code": self.m.groups[k], "score": round(float(P[k]), 4), "reasons": self.reasons(a, X, A, C, k)}
                 for k in keep]
 
+    def breakdown(self, a: dict, top: int = 10) -> dict:
+        """For diagnosis: the score z_k of the `top` best groups split into its parts (docs/MODEL.md, H),
+        z_k = ticked answers + text + bias + alpha a_k + beta c_k, with f(x)_k = softmax(z)_k. Only differences between
+        groups matter. Also the student's RIASEC profile and the text as the model reads it."""
+        X, A, C = self.inputs([a])
+        x = X.getrow(0)
+        mask = x.indices >= F.TEXT_OFFSET
+        W = self.m.W
+        answers_part = W[:, x.indices[~mask]] @ x.data[~mask]
+        text_part = W[:, x.indices[mask]] @ x.data[mask]
+        z = answers_part + text_part + self.m.b + self.m.alpha * A[0] + self.m.beta * C[0]
+        P = self.m.proba(X, A, C)[0]
+        order = self.ranked(P)
+        best = P[order[0]]
+        shown = {k for i, k in enumerate(order[:TOP]) if i < MIN_SHOWN or P[k] >= RATIO * best}
+        rows = [{"rank": i + 1, "code": self.m.groups[k], "p": float(P[k]), "z": float(z[k]),
+                 "answers": float(answers_part[k]), "text": float(text_part[k]), "bias": float(self.m.b[k]),
+                 "a": float(A[0, k]), "alpha_a": float(self.m.alpha * A[0, k]),
+                 "c": float(C[0, k]), "beta_c": float(self.m.beta * C[0, k]), "shown": k in shown}
+                for i, k in enumerate(order[:top])]
+        u = self.p.student_profile(a.get("work_types") or [], F.hobby_types(a))
+        return {"rows": rows, "alpha": self.m.alpha, "beta": self.m.beta,
+                "riasec": dict(zip(["R", "I", "A", "S", "E", "C"], u.tolist())),
+                "text": F.normalise(F.text_of(a)), "rule": f"top {TOP}, at least {MIN_SHOWN}, p >= {RATIO} x best"}
+
     def reasons(self, a: dict, X, A, C, k: int, n: int = 2) -> list[str]:  # noqa: ANN001
         """The inputs that raise group k's score above the average group's most, in Vietnamese."""
         x = X.getrow(0)

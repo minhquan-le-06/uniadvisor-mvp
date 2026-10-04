@@ -137,7 +137,9 @@ def test_guided_chat_em_chua_biet_suggests_and_adds_the_ticked_groups():
 
     from unidata.paths import ROOT
 
-    at = AppTest.from_file(str(ROOT / "app" / "pages" / "hoi_dap.py"), default_timeout=180).run()
+    at = AppTest.from_file(str(ROOT / "app" / "pages" / "hoi_dap.py"), default_timeout=180)
+    at.query_params["debug"] = "1"                                   # test mode: scoring table + trial log
+    at.run()
     at.selectbox(key="f_e1").set_value("LI").run()
     at.selectbox(key="f_e2").set_value("TI").run()
     for i, v in enumerate([8.4, 7.0, 8.5, 9.0]):
@@ -151,6 +153,19 @@ def test_guided_chat_em_chua_biet_suggests_and_adds_the_ticked_groups():
     at.button(key="f_qz_go").click().run()
     shown = [c.key for c in at.checkbox if c.key.startswith("f_sg_")]
     assert 3 <= len(shown) <= 5 and "f_sg_75201" in shown       # robots: Kỹ thuật cơ khí (Kỹ thuật Robot)
+    assert len(at.dataframe) == 1                                  # the scoring table
+    at.checkbox(key=shown[-1]).uncheck()
     at.button(key="f_sg_ok").click().run()
     assert not at.exception
     assert any("Kỹ thuật cơ khí" in m.value for m in at.markdown)
+    log = at.session_state["t_log"]
+    assert len(log) == 1 and log[0]["dropped"] == [shown[-1][len("f_sg_"):]] and "75201" in log[0]["kept"]
+
+
+def test_khac_groups_say_which_field_they_belong_to():
+    from uniadvisor.student.form import picker
+    from unidata.db import get_db
+
+    p = picker(get_db())
+    assert p.name("78190") == "Khác thuộc lĩnh vực Du lịch, khách sạn, thể thao và dịch vụ cá nhân"
+    assert p.name("74801") == "Máy tính"

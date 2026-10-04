@@ -56,7 +56,10 @@ class Picker:
         return self._by_code[code[:5]]
 
     def name(self, code: str) -> str:
+        """The name to show; MOET's "Khác" groups (code xxx90: the leftover majors of a lĩnh vực) say whose."""
         item = self._by_code.get(code)
+        if isinstance(item, Group) and item.name == "Khác":
+            return f"Khác thuộc lĩnh vực {item.field_name}"
         return item.name if item else code
 
 
