@@ -82,9 +82,9 @@ Each student's answers become one vector $\varphi(x)$:
 | Part | Size | Content |
 |---|---|---|
 | subjects | 18 | always 0: ticked subjects enter only through the subject fit $a_k$ below (see the note after the list) |
-| work types | 6 | 1 if ticked |
-| hobbies | 15 | 1 if ticked |
-| workplace | 6 | 1 if ticked |
+| work types | 6 | 0.2 if ticked (see Results: 1 let these learned weights override the data scores) |
+| hobbies | 15 | 0.2 if ticked |
+| workplace | 6 | 0.2 if ticked |
 | text | $2^{14}$ | TF-IDF of character 3-5-grams, hashed; the text is lower-cased, diacritics removed and teen code expanded (`ko`, `k` -> `khong`, `dc` -> `duoc`, ...) so typos and spelling variants still share n-grams |
 | answered | 5 | 1 if that question was answered, so a skipped question differs from "chose nothing" |
 
@@ -214,13 +214,29 @@ groups in the top 5 (or top 3), unticked groups out of the top 3, at least one k
 
 | | Hit@5 | Recall@5 |
 |---|---|---|
-| Trained model ($\lambda = 10^{-5}$, $\alpha = 4.48$, $\beta = 1.92$) | 0.87 | 0.80 |
+| Trained model ($\lambda = 10^{-5}$, option value 0.2, $\alpha = 5.25$, $\beta = 2.93$) | 0.91 | 0.85 |
 | Baseline (data scores alone) | 0.49 | 0.40 |
-| Same model with learned subject weights (dropped, see Features) | 0.90 | 0.81 |
+| Options at full weight (value 1) | 0.87 | 0.80 |
+| Options at full weight and learned subject weights (the first model) | 0.90 | 0.81 |
 
-87% of the test students find at least one fitting group in their top 5. With 198 test students, differences under
-about 0.03 are noise, so dropping the learned subject weights costs nothing measurable here (Hit@1 went from 0.58 to
-0.60) while it fixes the Toán habit; the subject fit now carries about twice the weight ($\alpha$ 2.39 -> 4.48).
+91% of the test students find at least one fitting group in their top 5 (Hit@1 0.64). With 198 test students,
+differences under about 0.03 are noise.
+
+Two changes came from the reviewed cases, not from the test set:
+
+1. **No learned subject weights** (see Features): the writer's Toán habit. Test Hit@5 0.90 -> 0.87, within noise.
+2. **Ticked options at 0.2 instead of 1** (work types, hobbies, workplace): the same $\lambda$ then holds their
+   weights 25 times tighter. In the reviewed cases, the groups the reviewer unticked but the model kept in its top 3
+   were pushed by these learned weights (2.4 above the average group, the other parts near 0), and the groups the
+   reviewer added were held down by them (as low as -3 against a subject fit of 1.0 for a student of three foreign
+   languages). Tried 1, 0.5, 0.3, 0.2, 0.1 and 0; 0.2 was best on the reviewed cases and test Hit@5 rose to 0.91.
+
+Reviewed cases (34: 9 one-direction, 9 mixed, 9 few answers, 6 with text, 1 the reviewer's own): at least one kept
+group stays in the top 5 in 33 of 33; 13 of 22 cases with unticked groups have none of them left in the top 3 (6
+before the option change); the groups the reviewer added reach the top 5 in only 1 of 18 cases. The added groups are
+mostly from the mixed cases (subjects pointing one way, interests another): the training students' subjects and
+interests always agree, so the model never learned how much subjects should weigh in a conflict, and a larger
+$\alpha$ by hand did not help (x2: 4 of 18). 14 of the 34 cases pass all their checks.
 
 Learning curve (with learned subject weights, fixed $\lambda$, mean of two random subsets per size, same test set):
 
@@ -232,15 +248,17 @@ Learning curve (with learned subject weights, fixed $\lambda$, mean of two rando
 Hit@5 levels off after about 6,000 students; Hit@1 still creeps up. More of the same writer is unlikely to help much;
 real students' answers would.
 
-Behaviour: every group reaches the top 5; no answers gives no suggestions; same input, same output. One group sits
-just over the 25% mark: 73104 (Tâm lý học) is in the top 5 for 25.5% of random answer sets. Before the O\*NET table was checked, 78190 was
+Behaviour: every group reaches the top 5; no answers gives no suggestions; same input, same output. Two groups are over
+the 25% mark: 72202 (Ngôn ngữ nước ngoài, 29%) and 73801 (Luật, 27%). Part of it is the check itself: its random answer
+sets pick subjects uniformly, and 7 of the 18 subjects are foreign languages, which real students seldom tick; with
+the subject fit weighing more, those random sets lean to 72202. Before the O\*NET table was checked, 78190 was
 at 37%: its occupations mixed chefs and dietitians, which gave a flat profile, and a correlation with a flat profile
 swings on tiny differences.
 
 Limits: the model learns the LLMs' judgement, not real students' choices, and real answers will be messier and less
 typical than generated ones. The test set is easier than the training set: its students passed a blind check, while
 the training students include unsure, contradictory and question-skipping ones on purpose. Hit@5 on held-out
-training students is 0.68 against 0.87 on the test set, so expect lower numbers on real, vaguer answers. Qwen wrote
+training students is 0.68 against 0.91 on the test set, so expect lower numbers on real, vaguer answers. Qwen wrote
 the whole training set, so its students share one model's habits (the variety argument of Schaffelder & Gatt does not
 apply). Li et al. (2023) found that models trained on synthetic data lose more the more
 subjective the task, and choosing a major is fairly subjective, so expect a gap on real students. Accuracy on real

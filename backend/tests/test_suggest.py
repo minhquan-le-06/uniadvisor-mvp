@@ -63,7 +63,7 @@ def test_features_fold_text_and_mark_answered_questions():
     X = f.transform([{"subjects": ["TI"], "work_types": ["I"], "dream": "Làm GAME"}, {}])
     assert X[0, F.OFFSETS["subjects"] + F.SUBJ.index("TI")] == 0              # subjects: only through a_k
     assert X[0, F.OFFSETS["answered"] + F.QUESTIONS.index("subjects")] == 1
-    assert X[0, F.OFFSETS["work_types"] + F.WORK.index("I")] == 1
+    assert X[0, F.OFFSETS["work_types"] + F.WORK.index("I")] == F.OPTION_VALUE
     assert X[0, F.OFFSETS["answered"] + F.QUESTIONS.index("text")] == 1
     assert X[1].nnz == 0
     assert F.normalise("Em ko bit j") == "em khong biet gi"

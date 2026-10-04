@@ -3,9 +3,9 @@
 | part       | size  | content                                                                     |
 | subjects   | 18    | always 0: subjects enter only through the subject fit a_k (priors.py), because the |
 |            |       | training set's writer rarely ticks Toán and the learned weights copied that (audit.py) |
-| work types | 6     | 1 if ticked                                                                 |
-| hobbies    | 15    | 1 if ticked                                                                 |
-| workplace  | 6     | 1 if ticked                                                                 |
+| work types | 6     | OPTION_VALUE (0.2) if ticked                                                |
+| hobbies    | 15    | OPTION_VALUE (0.2) if ticked                                                |
+| workplace  | 6     | OPTION_VALUE (0.2) if ticked                                                |
 | answered   | 5     | 1 if that question was answered                                             |
 | text       | 2^14  | TF-IDF of character 3-5-grams (hashed) of the free text, folded and teen code spelled out |
 
@@ -46,6 +46,10 @@ for _name, _n in (("subjects", len(SUBJ)), ("work_types", len(WORK)), ("hobbies"
 TEXT_OFFSET = _o
 DIM = TEXT_OFFSET + TEXT_DIM
 KEYS = {"work_types": WORK, "hobbies": HOBBY, "workplace": PLACE}      # ticked options with learned weights (not subjects)
+# A ticked option's feature value. 0.2 instead of 1 makes the same lambda 25 times stronger on these weights: learned
+# from one writer's students they overrode the data scores (reviewed cases, docs/MODEL.md "Results"); chosen on the
+# reviewed cases among 1, 0.5, 0.3, 0.2, 0.1, 0.
+OPTION_VALUE = 0.2
 
 
 def text_of(a: dict) -> str:
@@ -92,7 +96,7 @@ class Featurizer:
                     if k in names:
                         rows.append(i)
                         cols.append(OFFSETS[key] + names.index(k))
-                        vals.append(1.0)
+                        vals.append(OPTION_VALUE)
             for q, on in enumerate(answered(a)):
                 if on:
                     rows.append(i)
