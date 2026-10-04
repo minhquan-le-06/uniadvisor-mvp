@@ -6,7 +6,8 @@
    about half the students and lowered test Hit@5 on both 1,922 and 5,825 students (docs/MODEL.md, "Data").
 3. 10% of the training set is held out to pick lambda (validation loss, early stopping).
 4. On the test set minus the rows marked n in the hand check: Hit@5 and Recall@5 of the trained model and of the
-   baseline (the two data scores alone, W = 0, alpha = beta = 1), plus the behaviour checks.
+   baseline (the two data scores alone, W = 0, alpha = beta = 1), plus the behaviour checks and the pass rate on the
+   reviewed cases (review.py, expectations.jsonl).
 
 Reads backend/suggest_data/ (train.jsonl, testset.jsonl, review_sample.csv); writes artifacts/models/suggester/
 (model.npz, metrics.json, report.md; cl_issues.jsonl with `cl`). Generation of the sets: ../MLAI_suggester/.
@@ -24,6 +25,7 @@ import numpy as np
 from uniadvisor.student.suggest import features as F
 from uniadvisor.student.suggest import priors as PR
 from uniadvisor.student.suggest.model import Model, fit, targets
+from uniadvisor.student.suggest.review import check
 from uniadvisor.student.suggest.suggester import Suggester
 from unidata.paths import SUGGEST_DATA
 
@@ -216,6 +218,7 @@ def run(train_path: Path = TRAIN, test_path: Path = TEST, review: list[Path] | N
         "model": topk_metrics(s, s.m.proba(*te[:3]), labels), "baseline": topk_metrics(base, base.m.proba(*te[:3]), labels),
         "val_model": topk_metrics(s, s.m.proba(*va[:3]), [r["groups"] for r in val]),
         "behaviour": behaviour(s, [r["answers"] for r in test]),
+        "review": check(s),
     }
     metrics["beats_baseline"] = metrics["model"]["hit@5"] > metrics["baseline"]["hit@5"]
     model.save(OUT / "model.npz")

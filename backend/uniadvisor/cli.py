@@ -186,8 +186,31 @@ def suggest_train(cl: bool = typer.Option(False, help="filter training labels by
     from uniadvisor.student.suggest.train import run
 
     m = run(cl=cl, rebuild_priors=rebuild_priors, epochs=epochs)
-    print(json.dumps({k: m[k] for k in ("n_train", "n_test", "lambda", "model", "baseline", "beats_baseline")},
-                     ensure_ascii=False))
+    print(json.dumps({k: m[k] for k in ("n_train", "n_test", "lambda", "model", "baseline", "beats_baseline", "review")},
+                     ensure_ascii=False, default=str))
+
+
+@app.command("suggest-cases")
+def suggest_cases(n: int = 60, seed: int = 7) -> None:
+    """Generate answer sets for the suggester review (backend/suggest_data/review_cases.jsonl; keeps verdicts)."""
+    from uniadvisor.student.suggest.review import make_cases
+
+    print(f"{len(make_cases(n, seed))} cases -> backend/suggest_data/review_cases.jsonl")
+
+
+@app.command("suggest-review")
+def suggest_review(port: int = 8503) -> None:
+    """Review the suggester's top 5 case by case (writes backend/suggest_data/expectations.jsonl after every save)."""
+    subprocess.run([sys.executable, "-m", "streamlit", "run", str(ROOT / "app" / "review_suggest.py"), "--server.port", str(port)], check=False)
+
+
+@app.command("suggest-check")
+def suggest_check() -> None:
+    """Score the current suggester on every reviewed case (backend/suggest_data/expectations.jsonl)."""
+    from uniadvisor.student import suggest as sg
+    from uniadvisor.student.suggest.review import check
+
+    print(json.dumps(check(sg._suggester()), ensure_ascii=False, indent=1))
 
 
 @app.command()

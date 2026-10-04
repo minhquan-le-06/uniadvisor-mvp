@@ -1,0 +1,61 @@
+{"id": "U001", "kind": "user", "answers": {"subjects": ["TO", "HO"], "hobbies": ["cham_soc", "thi_nghiem"], "workplace": ["van_phong", "nha_may_phong_thi_nghiem"]}}
+{"id": "C001", "kind": "sparse", "answers": {"work_types": ["R"], "hobbies": ["kinh_doanh", "cay_con_vat"]}}
+{"id": "C002", "kind": "clear", "answers": {"subjects": ["HO", "TO"], "work_types": ["I", "R"], "hobbies": ["code", "cay_con_vat"], "workplace": ["nha_may_phong_thi_nghiem"]}}
+{"id": "C003", "kind": "mixed", "answers": {"subjects": ["VA", "CNNN"], "work_types": ["S"], "hobbies": ["day_ban", "the_thao"], "workplace": ["ngoai_troi"]}}
+{"id": "C004", "kind": "mixed", "answers": {"subjects": ["TO", "SI"], "work_types": ["R"], "hobbies": ["sua_chua", "thi_nghiem", "the_thao"]}}
+{"id": "C005", "kind": "text", "answers": {"subjects": ["DI", "VA"], "work_types": ["C", "I"], "hobbies": ["thi_nghiem", "code", "sap_xep"], "workplace": ["van_phong"], "text": "Em mơ ước làm việc tại các trung tâm lưu trữ văn bản quốc gia hoặc viện bảo tàng."}}
+{"id": "C006", "kind": "sparse", "answers": {"subjects": ["HO", "TO", "N1"]}}
+{"id": "C007", "kind": "clear", "answers": {"subjects": ["GDKTPL", "TO", "SI"], "work_types": ["I"], "hobbies": ["sua_chua", "the_thao"], "workplace": ["benh_vien"]}}
+{"id": "C008", "kind": "text", "answers": {"subjects": ["VA", "SU", "DI"], "work_types": ["S", "R"], "hobbies": ["sua_chua"], "workplace": ["ngoai_troi"], "text": "Sau này mún làm hlv thể hình hoặc kĩ sư công trường"}}
+{"id": "C009", "kind": "clear", "answers": {"subjects": ["HO", "CNCN"], "work_types": ["C"], "hobbies": ["thi_nghiem", "code", "sap_xep"]}}
+{"id": "C010", "kind": "mixed", "answers": {"subjects": ["SU", "SI"], "work_types": ["I"], "hobbies": ["viet_doc", "ve_thiet_ke", "thi_nghiem"], "workplace": ["van_phong"]}}
+{"id": "C011", "kind": "sparse", "answers": {"work_types": ["R"]}}
+{"id": "C012", "kind": "clear", "answers": {"subjects": ["N2", "N7"], "work_types": ["I", "A"], "hobbies": ["quay_dung", "viet_doc"]}}
+{"id": "C013", "kind": "mixed", "answers": {"subjects": ["DI", "SU"], "work_types": ["R", "E"], "hobbies": ["kinh_doanh", "tranh_bien"]}}
+{"id": "C014", "kind": "clear", "answers": {"subjects": ["SI", "LI"], "work_types": ["R"], "hobbies": ["code"], "workplace": ["benh_vien"]}}
+{"id": "C015", "kind": "sparse", "answers": {"hobbies": ["sap_xep", "kinh_doanh"]}}
+{"id": "C016", "kind": "sparse", "answers": {"subjects": ["DI", "CNNN"], "workplace": ["truong_hoc"]}}
+{"id": "C017", "kind": "mixed", "answers": {"subjects": ["SI", "DI", "GDKTPL"], "work_types": ["C"], "hobbies": ["kinh_doanh", "sap_xep", "tranh_bien"], "workplace": ["van_phong"]}}
+{"id": "C018", "kind": "text", "answers": {"subjects": ["CNNN", "CNCN", "SI"], "work_types": ["R"], "hobbies": ["cay_con_vat", "thi_nghiem", "sua_chua"], "workplace": ["nha_may_phong_thi_nghiem"], "text": "cug k ro nua, chac lm j do nghien cuu ve cay coi te bao hoac dong vat chu k thich lam bsi hay ban thuoc dau"}}
+{"id": "C019", "kind": "clear", "answers": {"subjects": ["N7", "SU", "N5"], "work_types": ["S"], "hobbies": ["cham_soc", "code"]}}
+{"id": "C020", "kind": "sparse", "answers": {"hobbies": ["sap_xep"], "work_types": ["E", "C"]}}
+{"id": "C021", "kind": "mixed", "answers": {"subjects": ["TI", "GDKTPL"], "work_types": ["A"], "hobbies": ["viet_doc"], "workplace": ["van_phong"]}}
+{"id": "C022", "kind": "mixed", "answers": {"subjects": ["N2", "N6", "N5"], "work_types": ["R", "I"], "hobbies": ["thi_nghiem", "the_thao"], "workplace": ["ngoai_troi"]}}
+{"id": "C023", "kind": "mixed", "answers": {"subjects": ["LI", "TI"], "work_types": ["A", "I"], "hobbies": ["ve_thiet_ke", "thi_nghiem", "am_nhac"], "workplace": ["van_phong"]}}
+{"id": "C024", "kind": "text", "answers": {"subjects": ["CNNN", "CNCN"], "work_types": ["I"], "hobbies": ["code"], "workplace": ["van_phong"], "text": "Sau này em ước làm cái gì đó liên quan tới lập trình phần mềm hay làm game, kiểu như kỹ sư viết code á mà chưa biết mình có đủ giỏi để học không nữa."}}
+{"id": "C025", "kind": "text", "answers": {"subjects": ["SI", "N5", "GDKTPL"], "work_types": ["I", "R"], "hobbies": ["sua_chua", "code", "the_thao"], "workplace": ["ngoai_troi"], "text": "Em muốn trở thành một nhà nghiên cứu lâm học."}}
+{"id": "C026", "kind": "mixed", "answers": {"subjects": ["GDKTPL", "SU", "CNNN"], "work_types": ["C"], "hobbies": ["sap_xep", "code"], "workplace": ["van_phong"]}}
+{"id": "C027", "kind": "sparse", "answers": {"hobbies": ["sap_xep", "code"], "workplace": ["van_phong"]}}
+{"id": "C028", "kind": "clear", "answers": {"subjects": ["CNCN", "LI"], "work_types": ["C"], "hobbies": ["sap_xep", "the_thao"], "workplace": ["ngoai_troi"]}}
+{"id": "C029", "kind": "sparse", "answers": {"subjects": ["CNCN", "TI"], "work_types": ["R", "C"]}}
+{"id": "C030", "kind": "sparse", "answers": {"hobbies": ["code", "cay_con_vat"]}}
+{"id": "C031", "kind": "clear", "answers": {"subjects": ["TO", "LI"], "work_types": ["C"], "hobbies": ["am_nhac"], "workplace": ["van_phong"]}}
+{"id": "C032", "kind": "text", "answers": {"subjects": ["LI", "SI", "HO"], "work_types": ["E", "R"], "hobbies": ["sua_chua", "the_thao", "cay_con_vat"], "workplace": ["van_phong"], "text": "Chắc là mở quán ăn hoặc làm quản lý nhà hàng khách sạn gì đó, nhưng em cũng mơ hồ lắm."}}
+{"id": "C033", "kind": "clear", "answers": {"subjects": ["HO", "SI", "N1"], "work_types": ["S"], "hobbies": ["code", "thi_nghiem"], "workplace": ["benh_vien"]}}
+{"id": "C034", "kind": "clear", "answers": {"subjects": ["N1", "GDKTPL", "N3"], "work_types": ["E", "C"], "hobbies": ["tranh_bien", "kinh_doanh"], "workplace": ["van_phong"]}}
+{"id": "C035", "kind": "sparse", "answers": {"hobbies": ["code"]}}
+{"id": "C036", "kind": "clear", "answers": {"subjects": ["HO", "TO", "LI"], "work_types": ["I"], "hobbies": ["day_ban"]}}
+{"id": "C037", "kind": "mixed", "answers": {"subjects": ["TO", "CNCN", "LI"], "work_types": ["I", "R"], "hobbies": ["cay_con_vat", "code"]}}
+{"id": "C038", "kind": "clear", "answers": {"subjects": ["SI", "DI"], "work_types": ["A", "R"], "hobbies": ["quay_dung"], "workplace": ["ngoai_troi"]}}
+{"id": "C039", "kind": "clear", "answers": {"subjects": ["SI", "HO"], "work_types": ["I", "R"], "hobbies": ["code"]}}
+{"id": "C040", "kind": "clear", "answers": {"subjects": ["SI", "DI", "TO"], "work_types": ["R", "I"], "hobbies": ["cay_con_vat", "code"]}}
+{"id": "C041", "kind": "sparse", "answers": {"workplace": ["van_phong"], "subjects": ["SU", "CNNN", "DI"]}}
+{"id": "C042", "kind": "clear", "answers": {"subjects": ["LI", "HO"], "work_types": ["I", "R"], "hobbies": ["sua_chua", "thi_nghiem"], "workplace": ["ngoai_troi"]}}
+{"id": "C043", "kind": "clear", "answers": {"subjects": ["VA", "SU"], "work_types": ["E", "S"], "hobbies": ["day_ban", "cham_soc", "kinh_doanh"], "workplace": ["ngoai_troi"]}}
+{"id": "C044", "kind": "clear", "answers": {"subjects": ["HO", "TO", "CNNN"], "work_types": ["I", "R"], "hobbies": ["the_thao", "thi_nghiem", "code"], "workplace": ["ngoai_troi"]}}
+{"id": "C045", "kind": "text", "answers": {"subjects": ["TI", "SI"], "work_types": ["R", "I"], "hobbies": ["cay_con_vat"], "workplace": ["nha_may_phong_thi_nghiem"], "text": "Nói chung là mông lung lắm, chắc là chế tạo ra một loại vật liệu siêu bền bảo vệ môi trường, hoặc là đi nghiên cứu mấy phản ứng hóa học linh tinh."}}
+{"id": "C046", "kind": "clear", "answers": {"subjects": ["VA", "SU"], "work_types": ["A", "E"], "hobbies": ["tranh_bien", "viet_doc"], "workplace": ["van_phong"]}}
+{"id": "C047", "kind": "mixed", "answers": {"subjects": ["SU", "N4"], "work_types": ["E", "S"], "hobbies": ["kinh_doanh"]}}
+{"id": "C048", "kind": "mixed", "answers": {"subjects": ["TO", "LI", "N1"], "work_types": ["R"], "hobbies": ["the_thao", "cay_con_vat", "sua_chua"]}}
+{"id": "C049", "kind": "text", "answers": {"subjects": ["SU", "N5", "N7"], "work_types": ["S"], "hobbies": ["day_ban", "du_lich"], "workplace": ["van_phong"], "text": "Em muốn viết phần mềm giúp đỡ những người có hoàn cảnh khó khăn."}}
+{"id": "C050", "kind": "text", "answers": {"subjects": ["SI", "TO"], "work_types": ["C", "I"], "hobbies": ["sap_xep", "code"], "workplace": ["benh_vien"], "text": "Em muốn làm việc với các thành phần hóa học để bào chế ra thuốc chữa bệnh."}}
+{"id": "C051", "kind": "text", "answers": {"subjects": ["LI", "N1"], "work_types": ["C", "E"], "hobbies": ["kinh_doanh"], "text": "Em muốn trở thành chuyên viên phân tích chuỗi cung ứng, lập kế hoạch thu mua và tối ưu hóa hệ thống vận chuyển hàng hóa cho tập đoàn đa quốc gia."}}
+{"id": "C052", "kind": "clear", "answers": {"subjects": ["SI", "HO", "LI"], "work_types": ["C", "S"], "hobbies": ["cham_soc", "sap_xep"], "workplace": ["benh_vien"]}}
+{"id": "C053", "kind": "mixed", "answers": {"subjects": ["CNCN", "DI", "CNNN"], "work_types": ["C"], "hobbies": ["tranh_bien", "kinh_doanh"], "workplace": ["van_phong"]}}
+{"id": "C054", "kind": "clear", "answers": {"subjects": ["GDKTPL", "DI"], "work_types": ["A"], "hobbies": ["ve_thiet_ke", "am_nhac"], "workplace": ["van_phong"]}}
+{"id": "C055", "kind": "text", "answers": {"subjects": ["LI", "DI"], "work_types": ["I"], "hobbies": ["cay_con_vat", "sua_chua"], "text": "e thich di day di do khao sat do dac dat da thoi tiet nay no ngoai thien nhien chu k hop ngoi van phong, ma chua ro lam vi tri j"}}
+{"id": "C056", "kind": "text", "answers": {"subjects": ["N3", "CNNN"], "work_types": ["R"], "hobbies": ["sua_chua"], "workplace": ["ngoai_troi"], "text": "Em chỉ muốn đi đây đi đó để cứu lấy mấy dòng sông đang bị ô nhiễm thôi ạ."}}
+{"id": "C057", "kind": "clear", "answers": {"subjects": ["DI", "N4", "SU"], "work_types": ["A"], "hobbies": ["viet_doc"], "workplace": ["truong_hoc"]}}
+{"id": "C058", "kind": "clear", "answers": {"subjects": ["GDKTPL", "SU", "VA"], "work_types": ["S", "A"], "hobbies": ["ve_thiet_ke", "du_lich"]}}
+{"id": "C059", "kind": "clear", "answers": {"subjects": ["SU", "N6"], "work_types": ["I", "A"], "hobbies": ["thi_nghiem", "viet_doc"], "workplace": ["van_phong"]}}
+{"id": "C060", "kind": "clear", "answers": {"subjects": ["LI", "TO", "HO"], "work_types": ["C"], "hobbies": ["sap_xep"], "workplace": ["nha_may_phong_thi_nghiem"]}}

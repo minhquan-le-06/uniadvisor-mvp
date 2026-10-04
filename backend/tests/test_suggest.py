@@ -169,3 +169,15 @@ def test_khac_groups_say_which_field_they_belong_to():
     p = picker(get_db())
     assert p.name("78190") == "Khác thuộc lĩnh vực Du lịch, khách sạn, thể thao và dịch vụ cá nhân"
     assert p.name("74801") == "Máy tính"
+
+
+def test_review_checks_added_dropped_and_kept_groups():
+    from uniadvisor.student.suggest.review import check_one
+
+    order = ["a", "b", "c", "d", "e", "f"]
+    assert check_one(order, {"added": ["e"], "k": 5})["added_in_top"] is True
+    assert check_one(order, {"added": ["e"], "k": 3})["added_in_top"] is False
+    assert check_one(order, {"dropped": ["d"]})["dropped_out_of_top3"] is True
+    assert check_one(order, {"dropped": ["b"]})["dropped_out_of_top3"] is False
+    assert check_one(order, {"kept": ["f", "c"]})["kept_in_top5"] is True
+    assert check_one(order, {"kept": ["f"]}) == {"added_in_top": None, "dropped_out_of_top3": None, "kept_in_top5": False}
