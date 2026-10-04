@@ -1,7 +1,8 @@
 """phi(x): one student's questionnaire answers as a sparse vector (docs/MODEL.md, "Features").
 
 | part       | size  | content                                                                     |
-| subjects   | 18    | 1 if ticked                                                                 |
+| subjects   | 18    | always 0: subjects enter only through the subject fit a_k (priors.py), because the |
+|            |       | training set's writer rarely ticks Toán and the learned weights copied that (audit.py) |
 | work types | 6     | 1 if ticked                                                                 |
 | hobbies    | 15    | 1 if ticked                                                                 |
 | workplace  | 6     | 1 if ticked                                                                 |
@@ -44,7 +45,7 @@ for _name, _n in (("subjects", len(SUBJ)), ("work_types", len(WORK)), ("hobbies"
     _o += _n
 TEXT_OFFSET = _o
 DIM = TEXT_OFFSET + TEXT_DIM
-KEYS = {"subjects": SUBJ, "work_types": WORK, "hobbies": HOBBY, "workplace": PLACE}
+KEYS = {"work_types": WORK, "hobbies": HOBBY, "workplace": PLACE}      # ticked options with learned weights (not subjects)
 
 
 def text_of(a: dict) -> str:

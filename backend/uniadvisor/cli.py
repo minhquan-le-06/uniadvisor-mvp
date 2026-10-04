@@ -204,6 +204,16 @@ def suggest_review(port: int = 8503) -> None:
     subprocess.run([sys.executable, "-m", "streamlit", "run", str(ROOT / "app" / "review_suggest.py"), "--server.port", str(port)], check=False)
 
 
+@app.command("suggest-audit")
+def suggest_audit() -> None:
+    """Where the suggester's training set may carry its writer's habits (artifacts/reports/suggest_bias.md)."""
+    from uniadvisor.student.suggest.audit import report
+
+    r = report()
+    (REPORTS / "suggest_bias.md").write_text(r, encoding="utf-8")
+    print(r)
+
+
 @app.command("suggest-check")
 def suggest_check() -> None:
     """Score the current suggester on every reviewed case (backend/suggest_data/expectations.jsonl)."""

@@ -81,7 +81,7 @@ Each student's answers become one vector $\varphi(x)$:
 
 | Part | Size | Content |
 |---|---|---|
-| subjects | 18 | 1 if ticked |
+| subjects | 18 | always 0: ticked subjects enter only through the subject fit $a_k$ below (see the note after the list) |
 | work types | 6 | 1 if ticked |
 | hobbies | 15 | 1 if ticked |
 | workplace | 6 | 1 if ticked |
@@ -106,6 +106,13 @@ was skipped.
   number). $c_k(x)$ is the correlation between the two six-number profiles, rescaled from $[-1, 1]$ to $[0, 1]$: the
   way the O\*NET Interest Profiler matches a person to occupations (it compares the shape of the profiles, not their
   level).
+
+Why subjects have no learned weights: the training set's writer (Qwen) almost never ticks Toán (16% of its students,
+against 48% of the test set's), and in 52 of the 70 groups a subject that is in most of the group's admission
+combinations is ticked by few of its students (Y học: Toán in 99% of combinations, ticked by 3%). Learned weights
+copied that habit: ticking Toán pushed a student away from medicine, pharmacy and most sciences. The admission data
+says which subjects a group asks for, so the subjects are left to $a_k$ alone (`uniadvisor suggest-audit` lists such
+gaps for every option).
 
 ### Hypothesis family H
 
@@ -197,17 +204,25 @@ On the test set only:
 Behaviour checks: every group can reach the top 5 for some answers; no group is in the top 5 for more than about 25%
 of random answer sets; no answers gives no suggestions; same input gives the same output.
 
+Reviewed cases (CheckList, Ribeiro et al. 2020): generated answer sets (one group, two groups mixed, few answers, with
+a test student's text) are shown with the model's top 5 in a review page (`uniadvisor suggest-cases`,
+`uniadvisor suggest-review`). The reviewer unticks groups that do not fit and adds missing ones; each verdict becomes
+a check every later model is scored on (`expectations.jsonl`, reported by `suggest-train` and `suggest-check`): added
+groups in the top 5 (or top 3), unticked groups out of the top 3, at least one kept group in the top 5.
+
 ### Results (9,920 training students, 198 test students)
 
 | | Hit@5 | Recall@5 |
 |---|---|---|
-| Trained model ($\lambda = 10^{-5}$, $\alpha = 2.39$, $\beta = 1.87$) | 0.90 | 0.81 |
+| Trained model ($\lambda = 10^{-5}$, $\alpha = 4.48$, $\beta = 1.92$) | 0.87 | 0.80 |
 | Baseline (data scores alone) | 0.49 | 0.40 |
+| Same model with learned subject weights (dropped, see Features) | 0.90 | 0.81 |
 
-90% of the test students find at least one fitting group in their top 5. With 198 test students, differences under
-about 0.03 are noise.
+87% of the test students find at least one fitting group in their top 5. With 198 test students, differences under
+about 0.03 are noise, so dropping the learned subject weights costs nothing measurable here (Hit@1 went from 0.58 to
+0.60) while it fixes the Toán habit; the subject fit now carries about twice the weight ($\alpha$ 2.39 -> 4.48).
 
-Learning curve (fixed $\lambda$, mean of two random subsets per size, same test set):
+Learning curve (with learned subject weights, fixed $\lambda$, mean of two random subsets per size, same test set):
 
 | Training students | 1,456 | 2,976 | 5,952 | 7,936 | 9,920 |
 |---|---|---|---|---|---|
@@ -217,15 +232,15 @@ Learning curve (fixed $\lambda$, mean of two random subsets per size, same test 
 Hit@5 levels off after about 6,000 students; Hit@1 still creeps up. More of the same writer is unlikely to help much;
 real students' answers would.
 
-Behaviour: every group reaches the top 5; no group is in the top 5 for more than 20% of random answer sets (73106,
-Khu vực học); no answers gives no suggestions; same input, same output. Before the O\*NET table was checked, 78190 was
+Behaviour: every group reaches the top 5; no answers gives no suggestions; same input, same output. One group sits
+just over the 25% mark: 73104 (Tâm lý học) is in the top 5 for 25.5% of random answer sets. Before the O\*NET table was checked, 78190 was
 at 37%: its occupations mixed chefs and dietitians, which gave a flat profile, and a correlation with a flat profile
 swings on tiny differences.
 
 Limits: the model learns the LLMs' judgement, not real students' choices, and real answers will be messier and less
 typical than generated ones. The test set is easier than the training set: its students passed a blind check, while
 the training students include unsure, contradictory and question-skipping ones on purpose. Hit@5 on held-out
-training students is 0.71 against 0.90 on the test set, so expect lower numbers on real, vaguer answers. Qwen wrote
+training students is 0.68 against 0.87 on the test set, so expect lower numbers on real, vaguer answers. Qwen wrote
 the whole training set, so its students share one model's habits (the variety argument of Schaffelder & Gatt does not
 apply). Li et al. (2023) found that models trained on synthetic data lose more the more
 subjective the task, and choosing a major is fairly subjective, so expect a gap on real students. Accuracy on real
@@ -259,6 +274,8 @@ only the frozen sets, the final weights and the stable code are copied in.
   Journal of Artificial Intelligence Research 70, 1373-1411. https://arxiv.org/abs/1911.00068
 - Perez, E., et al. (2023). Discovering Language Model Behaviors with Model-Written Evaluations. Findings of ACL 2023.
   https://aclanthology.org/2023.findings-acl.847/
+- Ribeiro, M. T., Wu, T., Guestrin, C., Singh, S. (2020). Beyond Accuracy: Behavioral Testing of NLP Models with
+  CheckList. ACL 2020. https://aclanthology.org/2020.acl-main.442/
 - Rounds, J., Hoff, K., Lewis, P. (eds.). O\*NET Interest Profiler Manual. National Center for O\*NET Development.
   https://www.onetcenter.org/dl_files/IP_Manual.pdf
 - Schaffelder, M., Gatt, A. (2026). Synthetic Eggs in Many Baskets: The Impact of Synthetic Data Diversity on LLM

@@ -11,32 +11,40 @@
   "skipped": true
  },
  "lambda": 1e-05,
- "alpha": 2.387,
- "beta": 1.869,
+ "alpha": 4.477,
+ "beta": 1.917,
  "model": {
-  "hit@5": 0.899,
-  "recall@5": 0.8115
+  "hit@5": 0.8737,
+  "recall@5": 0.7951
  },
  "baseline": {
   "hit@5": 0.4899,
   "recall@5": 0.4016
  },
  "val_model": {
-  "hit@5": 0.7087,
-  "recall@5": 0.5689
+  "hit@5": 0.6825,
+  "recall@5": 0.5427
  },
  "behaviour": {
   "unreachable_groups": [],
   "top5_share_highest": {
-   "73106": 0.203,
-   "73103": 0.189,
-   "76201": 0.177,
-   "73104": 0.157,
-   "75402": 0.152
+   "73104": 0.255,
+   "73103": 0.218,
+   "73106": 0.208,
+   "72202": 0.184,
+   "77601": 0.174
   },
-  "groups_over_25pct": [],
+  "groups_over_25pct": [
+   "73104"
+  ],
   "empty_input_gives_nothing": true,
   "deterministic": true
+ },
+ "review": {
+  "n": 1,
+  "cases_passed": 1.0,
+  "added_in_top": "1/1",
+  "failing": []
  },
  "beats_baseline": true
 }

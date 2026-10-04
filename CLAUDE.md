@@ -20,7 +20,7 @@ before trusting any number.
 
 Data pipeline (yearly refresh): `collect` → `fetch-scores` (optional, ~350 MB into data/inbox/) → `build` →
 `check-db` → `backtest` → `report` → `slm-data`. Simulated data: `sim tiny`, `sim season` (databases), `sim students`
-(students with their true facts; `uniadvisor.student.simulated.OracleJudge` answers from those facts). Module 2's fact reader: `intent-eval`; its group suggester: `suggest-train` (~5 min), `suggest-cases` + `suggest-review` (person reviews the top 5; verdicts become checks), `suggest-check`. Other commands:
+(students with their true facts; `uniadvisor.student.simulated.OracleJudge` answers from those facts). Module 2's fact reader: `intent-eval`; its group suggester: `suggest-train` (~5 min), `suggest-cases` + `suggest-review` (person reviews the top 5; verdicts become checks), `suggest-check`, `suggest-audit` (training-set habits). Other commands:
 `slm-train`, `slm-relabel`, `kaggle-bundle`, `label`, `gold-llm`. All are in `backend/uniadvisor/cli.py`.
 
 ## Layout
