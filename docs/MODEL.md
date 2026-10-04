@@ -5,8 +5,8 @@ and returns a ranked list of MOET nhóm ngành with a reason for each. It stands
 (module 1) and an O\*NET table, and nothing else from module 2. Whatever uses it (today, the guided chat of module 2)
 only calls `suggest(answers) -> suggestions`.
 
-Status: built and trained (outside the repo, in `../MLAI_suggester/`) on 9,920 generated students (data frozen), results
-under Evaluation; not yet wired into the app.
+Status: trained on 9,920 generated students (data frozen; results under Evaluation) and used by the guided chat
+(`app/pages/hoi_dap.py`).
 
 ## Interface
 
@@ -231,14 +231,16 @@ apply). Li et al. (2023) found that models trained on synthetic data lose more t
 subjective the task, and choosing a major is fairly subjective, so expect a gap on real students. Accuracy on real
 students is not measured.
 
-## Planned layout
+## Layout
 
 | Path | What |
 |---|---|
-| `backend/uniadvisor/student/suggest/` | features, priors, model, training, `suggest()` |
-| `backend/config/suggest/` | `onet_groups.csv` (group -> O\*NET occupations), `hobbies.yaml` (hobby -> type), the teen-code table |
-| `backend/suggest_data/` | generated train / test sets |
-| `artifacts/models/suggester/` | trained weights and metrics |
+| `backend/uniadvisor/student/suggest/` | `__init__.py` (questionnaire, hobby -> type, `suggest()`), `features.py` (incl. the teen-code table), `priors.py`, `model.py`, `suggester.py`, `train.py` |
+| `backend/config/suggest/` | `onet_groups.csv` (group -> O\*NET occupations), `onet_review.csv` (its hand check), `onet/` (O\*NET 31.0 files) |
+| `backend/suggest_data/` | frozen sets: `train.jsonl`, `testset.jsonl`, `review_sample.csv` |
+| `artifacts/models/suggester/` | `model.npz`, `priors.json`, `group_profiles.csv`, `metrics.json`, `report.md` |
+
+`uniadvisor suggest-train` retrains from the frozen sets (same data, same model).
 
 Generation and training scripts, model downloads and scratch runs live outside the repo, in `../MLAI_suggester/`;
 only the frozen sets, the final weights and the stable code are copied in.

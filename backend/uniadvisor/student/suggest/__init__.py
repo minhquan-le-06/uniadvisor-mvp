@@ -1,11 +1,16 @@
 """The major-group suggester for "Em chưa biết" (docs/MODEL.md): its questionnaire and its one entry point.
 
-The questionnaire below is the model's input contract; the guided chat renders it. The model itself is not built
-yet: until artifacts/models/suggester/ holds a trained model, `available()` is False and `suggest` returns [], and the
-chat sends the student to the picker instead.
+The questionnaire below is the model's input contract; the guided chat renders it. The trained model lives in
+artifacts/models/suggester/ (model.npz + priors.json, from `uniadvisor suggest-train`); without it `available()` is
+False, `suggest` returns [] and the chat sends the student to the picker instead.
+
+Modules: features (phi(x)), priors (the subject and work-type fits from data), model (softmax regression + Adam),
+suggester (ranking and reasons), train (training and evaluation).
 """
 
 from __future__ import annotations
+
+from functools import lru_cache
 
 from unidata.db import Database
 from unidata.paths import MODELS
@@ -62,12 +67,20 @@ QUESTIONS = {
 
 
 def available() -> bool:
-    return (MODEL_DIR / "model.npz").exists()
+    return (MODEL_DIR / "model.npz").exists() and (MODEL_DIR / "priors.json").exists()
+
+
+@lru_cache(maxsize=1)
+def _suggester():  # noqa: ANN202
+    from uniadvisor.student.suggest.suggester import Suggester
+
+    return Suggester.load(MODEL_DIR / "model.npz")
 
 
 def suggest(answers: dict, db: Database | None = None) -> list[dict]:
     """[{"code", "score", "reasons"}] for the questionnaire `answers` (keys: subjects, work_types, hobbies, workplace,
-    text; absent = skipped). [] while no model is trained."""
+    text; absent = skipped), best first: 3 to 5 nhóm ngành. [] with no answers or no trained model. `db` is unused
+    (the model's tables come from the database at training time); kept so callers do not change."""
     if not available() or not any(answers.get(k) for k in QUESTIONS):
         return []
-    raise NotImplementedError("the suggester model is not built yet (docs/MODEL.md)")
+    return _suggester().suggest(answers)

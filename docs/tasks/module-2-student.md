@@ -82,13 +82,15 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
     -> ngành và ô tìm theo cách gọi của học sinh, tạo JSON kèm giá trị mặc định, kiểm tra JSON theo mọi quy tắc của
     tài liệu (`problems`, module 3 cũng gọi được), bản tóm tắt "Mình hiểu là...";
   - trang Streamlit `app/pages/hoi_dap.py` (9 bước, thêm `?debug=1` vào địa chỉ để xem JSON);
-  - bộ câu hỏi "Em chưa biết" đã có; khi chưa có mô hình, học sinh được đưa về danh sách chọn;
-  - kiểm thử: `backend/tests/test_form.py`;
+  - "Em chưa biết": vài câu hỏi rồi mô hình gợi ý 3-5 nhóm ngành kèm lý do, học sinh bỏ chọn nhóm không thích rồi
+    xác nhận (nếu thiếu file mô hình, học sinh được đưa về danh sách chọn);
+  - kiểm thử: `backend/tests/test_form.py`, `backend/tests/test_suggest.py`;
   - đã chốt với nhóm: "Gần nhà em nhất" chia ở Đà Nẵng (Huế trở ra: Hà Nội; Đà Nẵng trở vào: TP. Hồ Chí Minh),
     `meta.ruleset` là bộ luật mặc định của module 3.
-- **Mô hình gợi ý nhóm ngành** ([docs/MODEL.md](../MODEL.md); mã, dữ liệu, notebook Kaggle ở thư mục
-  `../MLAI_suggester/`, ngoài repo):
-  - mã huấn luyện và đánh giá đã xong (Hit@5, Recall@5, so với mốc chỉ dùng hai điểm dữ liệu, kiểm tra hành vi);
+- **Mô hình gợi ý nhóm ngành** ([docs/MODEL.md](../MODEL.md)): mã ở `backend/uniadvisor/student/suggest/`, dữ liệu
+  đã chốt ở `backend/suggest_data/`, mô hình ở `artifacts/models/suggester/`, huấn luyện lại bằng
+  `uniadvisor suggest-train` (~5 phút, ra đúng mô hình cũ); phần sinh dữ liệu và notebook Kaggle ở `../MLAI_suggester/`:
+  - đã nối vào trang hỏi đáp;
   - bộ kiểm thử: 199 học sinh do Gemini viết và tự kiểm tra mù; kiểm tra tay ngẫu nhiên 60 em: 59 đúng, 1 sai (đã bỏ);
   - bảng nhóm ngành -> nghề O\*NET đã được kiểm tra tay, sửa nghề của 8 nhóm;
   - bộ huấn luyện (đã chốt): 9.920 học sinh do Qwen3.5-9B viết trên Kaggle. Llama-3.1-8B đã bị loại, Vistral không
@@ -98,8 +100,7 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
   - lọc nhãn sai bằng confident learning (Northcutt và cs., 2021): đã thử hai lần, không dùng (bỏ gần một nửa dữ
     liệu và làm điểm giảm).
 - **Việc tiếp theo:**
-  1. đưa mô hình vào `suggest()` (`backend/uniadvisor/student/suggest/`) để trang hỏi đáp dùng;
-  2. bàn giao JSON cho module 3 khi `main` có lại dữ liệu mã ngành Bộ (module 1), rồi đưa phần hỏi vào ứng dụng chính.
+  1. bàn giao JSON cho module 3 khi `main` có lại dữ liệu mã ngành Bộ (module 1), rồi đưa phần hỏi vào ứng dụng chính.
 - **Vấn đề chính:**
   - App không tóm lại "em muốn gì" nên học sinh không thấy được máy hiểu mình thế nào để sửa.
   - Tiêu chí sở thích không phân biệt được ngành (trong một ví dụ, cả 10 gợi ý đều được 5/5).

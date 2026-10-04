@@ -1,0 +1,42 @@
+{
+ "n_train": 8928,
+ "n_val": 992,
+ "n_test": 198,
+ "test_review": {
+  "marked_y": 59,
+  "marked_n": 1,
+  "unchecked": 139
+ },
+ "confident_learning": {
+  "skipped": true
+ },
+ "lambda": 1e-05,
+ "alpha": 2.387,
+ "beta": 1.869,
+ "model": {
+  "hit@5": 0.899,
+  "recall@5": 0.8115
+ },
+ "baseline": {
+  "hit@5": 0.4899,
+  "recall@5": 0.4016
+ },
+ "val_model": {
+  "hit@5": 0.7087,
+  "recall@5": 0.5689
+ },
+ "behaviour": {
+  "unreachable_groups": [],
+  "top5_share_highest": {
+   "73106": 0.203,
+   "73103": 0.189,
+   "76201": 0.177,
+   "73104": 0.157,
+   "75402": 0.152
+  },
+  "groups_over_25pct": [],
+  "empty_input_gives_nothing": true,
+  "deterministic": true
+ },
+ "beats_baseline": true
+}

@@ -31,6 +31,8 @@ BACKEND = ROOT / "backend"
 BACKEND_CONFIG = BACKEND / "config"  # interests.yaml (module 2), rules/<year>.yaml (module 3)
 RULES = BACKEND_CONFIG / "rules"
 SLM_DATA = BACKEND / "slm_data"  # rubrics, gold sets, generated training splits (module 2)
+SUGGEST_CONFIG = BACKEND_CONFIG / "suggest"  # group suggester: group -> O*NET occupations, O*NET files (module 2)
+SUGGEST_DATA = BACKEND / "suggest_data"  # group suggester: frozen generated train / test sets (module 2)
 
 # shared run outputs
 ARTIFACTS = ROOT / "artifacts"  # everything a pipeline run produces

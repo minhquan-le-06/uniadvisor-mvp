@@ -10,7 +10,7 @@ before trusting any number.
 
 ```bash
 .venv/Scripts/python -m pip install -e ".[dev]"     # add ",slm" to run the SLM (pulls torch)
-.venv/Scripts/python -m pytest -q                   # ~90 s; 141 pass (data/tests alone: module 1)
+.venv/Scripts/python -m pytest -q                   # ~90 s; 153 pass (data/tests alone: module 1)
 .venv/Scripts/uniadvisor slm-data                   # regenerates backend/slm_data/*.jsonl (~40 s); needed by SLM tests/eval
 .venv/Scripts/uniadvisor app                        # Streamlit chat, http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # FastAPI, http://localhost:8000/docs
@@ -20,7 +20,7 @@ before trusting any number.
 
 Data pipeline (yearly refresh): `collect` → `fetch-scores` (optional, ~350 MB into data/inbox/) → `build` →
 `check-db` → `backtest` → `report` → `slm-data`. Simulated data: `sim tiny`, `sim season` (databases), `sim students`
-(students with their true facts; `uniadvisor.student.simulated.OracleJudge` answers from those facts). Module 2's fact reader: `intent-eval`. Other commands:
+(students with their true facts; `uniadvisor.student.simulated.OracleJudge` answers from those facts). Module 2's fact reader: `intent-eval`; its group suggester: `suggest-train` (~5 min). Other commands:
 `slm-train`, `slm-relabel`, `kaggle-bundle`, `label`, `gold-llm`. All are in `backend/uniadvisor/cli.py`.
 
 ## Layout
@@ -28,17 +28,18 @@ Data pipeline (yearly refresh): `collect` → `fetch-scores` (optional, ~350 MB 
 | Path | What | In git |
 |---|---|---|
 | `data/unidata/` | **module 1** package: `db/` the database (schema, loader, checks), `collect/` scrapers, `build/` cleaning + catalog + MOET codes + fields, `sim/` simulated databases, `dist.py` score distributions, `paths.py` (every path comes from here), `testing.py` shared pytest fixtures. Never imports `uniadvisor` | yes |
-| `backend/uniadvisor/` | **modules 2-4** package: `student/` (module 2: `slm/` judges + model + data + eval, `intent/` fact reader, `form/` guided chat logic (answers -> student JSON, docs/STUDENT_SCHEMA.md), `suggest/` "Em chưa biết" group suggester (docs/MODEL.md, not trained yet), `simulated.py` simulated students + OracleJudge), `recommend/` (module 3: `rules.py`, `forecast.py`, `backtest.py`, `compare.py`, `optimizer.py`, `advisor.py` runs it all), `explain/` (module 4), `api.py`, `cli.py` | yes |
+| `backend/uniadvisor/` | **modules 2-4** package: `student/` (module 2: `slm/` judges + model + data + eval, `intent/` fact reader, `form/` guided chat logic (answers -> student JSON, docs/STUDENT_SCHEMA.md), `suggest/` "Em chưa biết" group suggester (docs/MODEL.md: features, priors, softmax model, training), `simulated.py` simulated students + OracleJudge), `recommend/` (module 3: `rules.py`, `forecast.py`, `backtest.py`, `compare.py`, `optimizer.py`, `advisor.py` runs it all), `explain/` (module 4), `api.py`, `cli.py` | yes |
 | `data/tests/`, `backend/tests/` | pytest suites per side; fixtures from `unidata.testing` | yes |
 | `app/` | `streamlit_app.py` (the deployed app), `pages/hoi_dap.py` (module 2's guided chat, trial page; `?debug=1` shows the JSON), `label_gold.py` (gold labelling tool) | yes |
 | `data/config/` | module 1: `scope.yaml`, `sources.yaml`, `fields.yaml` (MOET code -> app field) | yes |
-| `backend/config/` | `interests.yaml` (module 2: student words -> MOET codes), `rules/<year>.yaml` (module 3, versioned per admission year) | yes |
+| `backend/config/` | `interests.yaml` (module 2: student words -> MOET codes), `suggest/` (module 2: group -> O\*NET occupations, O\*NET 31.0 files), `rules/<year>.yaml` (module 3, versioned per admission year) | yes |
 | `data/manual/` → `data/collected/` → `data/db/` | hand-entered facts → parsed rows per source → **the database** the app reads ([docs/DATA.md](docs/DATA.md)) | yes |
 | `data/sim/<name>/` | simulated databases and students, same schema, `SIM-` ids; rebuilt from the seed in their manifest | yes |
 | `data/unipilot/` | UniPilotData step-1 export (schools, programs, combos) | yes |
 | `backend/slm_data/` | rubrics, gold set (`gold_frozen.jsonl`, `gold_llm.csv`, `gold_to_label.csv`); `*.jsonl` splits are regenerated | yes |
+| `backend/suggest_data/` | group suggester's frozen sets: `train.jsonl` (9,920 LLM-written students), `testset.jsonl` (199), `review_sample.csv` (hand check); generated in `../MLAI_suggester/` | yes |
 | `data/raw/`, `data/inbox/` | HTTP cache; per-candidate score files | yes |
-| `artifacts/models/` | `forecast_params.json`; `artifacts/models/slm/` = trained SLM (`config.json`, `metrics.json`, `adapter.pt`) | yes |
+| `artifacts/models/` | `forecast_params.json`; `artifacts/models/slm/` = trained SLM (`config.json`, `metrics.json`, `adapter.pt`); `artifacts/models/suggester/` = group suggester (`model.npz`, `priors.json`, `metrics.json`) | yes |
 | `artifacts/build/` | build intermediates: cutoff consensus over all sources, distributions, exclusions, problems | yes |
 | `artifacts/reports/` | data report, backtest, SLM eval results | yes |
 | `docs/` | MVP spec, deploy guide, hand-off/status, team report; `docs/tasks/` = one task doc per module; `docs/kaggle/` = GPU training guide + notebook | yes |

@@ -178,6 +178,18 @@ def intent_eval(students: int = 2000, seed: int = 99) -> None:
     print(markdown(r))
 
 
+@app.command("suggest-train")
+def suggest_train(cl: bool = typer.Option(False, help="filter training labels by confident learning (off: it hurt)"),
+                  rebuild_priors: bool = typer.Option(False, help="recompute priors.json from the database and O*NET"),
+                  epochs: int = 200) -> None:
+    """Train the "Em chưa biết" group suggester on backend/suggest_data/ (artifacts/models/suggester/, docs/MODEL.md)."""
+    from uniadvisor.student.suggest.train import run
+
+    m = run(cl=cl, rebuild_priors=rebuild_priors, epochs=epochs)
+    print(json.dumps({k: m[k] for k in ("n_train", "n_test", "lambda", "model", "baseline", "beats_baseline")},
+                     ensure_ascii=False))
+
+
 @app.command()
 def advise(scores: str = typer.Option(..., help="e.g. TO=8.4,VA=7,LI=8,N1=8.2"), text: str = "", province: str = "",
            area: str = "KV3", category: str = "none", gender: str = "", mock: bool = False, k: int = 10) -> None:
