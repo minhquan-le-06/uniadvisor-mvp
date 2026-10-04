@@ -82,7 +82,7 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
     -> ngành và ô tìm theo cách gọi của học sinh, tạo JSON kèm giá trị mặc định, kiểm tra JSON theo mọi quy tắc của
     tài liệu (`problems`, module 3 cũng gọi được), bản tóm tắt "Mình hiểu là...";
   - trang Streamlit `app/pages/hoi_dap.py` (9 bước, thêm `?debug=1` vào địa chỉ để xem JSON);
-  - "Em chưa biết": vài câu hỏi rồi mô hình gợi ý 3-5 nhóm ngành kèm lý do, học sinh bỏ chọn nhóm không thích rồi
+  - "Em chưa biết": vài câu hỏi rồi mô hình gợi ý 5 nhóm ngành kèm lý do, học sinh bỏ chọn nhóm không thích rồi
     xác nhận (nếu thiếu file mô hình, học sinh được đưa về danh sách chọn);
   - kiểm thử: `backend/tests/test_form.py`, `backend/tests/test_suggest.py`;
   - đã chốt với nhóm: "Gần nhà em nhất" chia ở Đà Nẵng (Huế trở ra: Hà Nội; Đà Nẵng trở vào: TP. Hồ Chí Minh),

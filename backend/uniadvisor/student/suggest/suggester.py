@@ -1,8 +1,8 @@
 """The trained model applied to one student: ranked nhóm ngành with reasons (docs/MODEL.md, "Output").
 
-The top 5 groups whose probability is at least 0.6 of the best, and at least 3; ties go to the group with more
-programs, then the lower code. Reasons are the inputs that pushed a group above the others most. No answers, no
-suggestions.
+Always the top 5 groups (it was "at least 3, more if within 0.6 of the best"; the reviewed cases showed the right
+second direction of a mixed student often sits at 4-5); ties go to the group with more programs, then the lower
+code. Reasons are the inputs that pushed a group above the others most. No answers, no suggestions.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from uniadvisor.student.suggest import features as F
 from uniadvisor.student.suggest.model import Model
 from uniadvisor.student.suggest.priors import Priors
 
-TOP, MIN_SHOWN, RATIO = 5, 3, 0.6
+SHOWN = 5
 
 
 class Suggester:
@@ -51,11 +51,8 @@ class Suggester:
             return []
         X, A, C = self.inputs([a])
         P = self.m.proba(X, A, C)[0]
-        order = self.ranked(P)
-        best = P[order[0]]
-        keep = [k for i, k in enumerate(order[:TOP]) if i < MIN_SHOWN or P[k] >= RATIO * best]
         return [{"code": self.m.groups[k], "score": round(float(P[k]), 4), "reasons": self.reasons(a, X, A, C, k)}
-                for k in keep]
+                for k in self.ranked(P)[:SHOWN]]
 
     def breakdown(self, a: dict, top: int = 10) -> dict:
         """For diagnosis: the score z_k of the `top` best groups split into its parts (docs/MODEL.md, H),
@@ -70,8 +67,7 @@ class Suggester:
         z = answers_part + text_part + self.m.b + self.m.alpha * A[0] + self.m.beta * C[0]
         P = self.m.proba(X, A, C)[0]
         order = self.ranked(P)
-        best = P[order[0]]
-        shown = {k for i, k in enumerate(order[:TOP]) if i < MIN_SHOWN or P[k] >= RATIO * best}
+        shown = set(order[:SHOWN])
         rows = [{"rank": i + 1, "code": self.m.groups[k], "p": float(P[k]), "z": float(z[k]),
                  "answers": float(answers_part[k]), "text": float(text_part[k]), "bias": float(self.m.b[k]),
                  "a": float(A[0, k]), "alpha_a": float(self.m.alpha * A[0, k]),
@@ -80,7 +76,7 @@ class Suggester:
         u = self.p.student_profile(a.get("work_types") or [], F.hobby_types(a))
         return {"rows": rows, "alpha": self.m.alpha, "beta": self.m.beta,
                 "riasec": dict(zip(["R", "I", "A", "S", "E", "C"], u.tolist())),
-                "text": F.normalise(F.text_of(a)), "rule": f"top {TOP}, at least {MIN_SHOWN}, p >= {RATIO} x best"}
+                "text": F.normalise(F.text_of(a)), "rule": f"top {SHOWN}"}
 
     def reasons(self, a: dict, X, A, C, k: int, n: int = 2) -> list[str]:  # noqa: ANN001
         """The inputs that raise group k's score above the average group's most, in Vietnamese."""

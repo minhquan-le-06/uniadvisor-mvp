@@ -95,13 +95,13 @@ reasons = {s["code"]: s["reasons"] for s in sg.suggest(a)}
 top5 = [r["code"] for r in bd["rows"]]
 with right:
     st.subheader("Mô hình gợi ý (top 5)")
-    st.caption("Bỏ chọn nhóm KHÔNG hợp với học sinh này. Ba nhóm đầu (và nhóm 4-5 có ★) là những gì học sinh thấy.")
+    st.caption("Bỏ chọn nhóm KHÔNG hợp với học sinh này. Học sinh thấy cả 5 nhóm.")
     kept, dropped = [], []
     for r in bd["rows"]:
         code = r["code"]
         default = code not in old.get("dropped", [])
         why = ", ".join(reasons.get(code, [])) or "-"
-        label = f"**{r['rank']}. {P.name(code)}** · {r['p']:.0%}{' ★' if r['shown'] and r['rank'] > 3 else ''}"
+        label = f"**{r['rank']}. {P.name(code)}** · {r['p']:.0%}"
         if st.checkbox(label, value=default, key=f"{cid}_{code}", help=f"vì: {why}"):
             kept.append(code)
         else:

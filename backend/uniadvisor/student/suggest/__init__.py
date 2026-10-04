@@ -79,7 +79,7 @@ def _suggester():  # noqa: ANN202
 
 def suggest(answers: dict, db: Database | None = None) -> list[dict]:
     """[{"code", "score", "reasons"}] for the questionnaire `answers` (keys: subjects, work_types, hobbies, workplace,
-    text; absent = skipped), best first: 3 to 5 nhóm ngành. [] with no answers or no trained model. `db` is unused
+    text; absent = skipped), best first: 5 nhóm ngành. [] with no answers or no trained model. `db` is unused
     (the model's tables come from the database at training time); kept so callers do not change."""
     if not available() or not any(answers.get(k) for k in QUESTIONS):
         return []

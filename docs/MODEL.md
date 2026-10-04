@@ -59,7 +59,7 @@ Every question is optional. A skipped question is absent from the input, not an 
 - `code`: a 5-digit MOET nhóm ngành among the groups with at least one program in the database (70 today).
 - `score`: the model's probability for that group; the list is sorted by it, ties by number of programs, then code.
 - `reasons`: the 1-2 inputs that added most to that group's score, in Vietnamese.
-- Length: the top 5 groups whose score is at least 0.6 of the best, and at least 3. Empty when no question was answered.
+- Length: always the top 5 groups (first "at least 3, more if within 0.6 of the best"; the reviewed cases showed a mixed student's second direction often at 4-5). Empty when no question was answered.
 
 The caller shows the suggestions ticked; the student unticks or adds. The model never writes anything itself.
 
