@@ -100,9 +100,11 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
     biến); luôn gợi ý 5 nhóm;
   - trọng số phổ biến (0,2 × log chỉ tiêu 2026 của nhóm): mô hình học từ dữ liệu chia đều các nhóm nên không biết Kinh
     doanh chiếm ~10% chỉ tiêu; tỉ lệ chỉ tiêu theo lĩnh vực khớp số nhập học 2025 của Bộ GD&ĐT. Ví dụ ngành dưới mỗi
-    nhóm giờ xếp theo số chương trình (Marketing, Truyền thông đa phương tiện hiện ra);
+    nhóm giờ xếp theo số chương trình (Marketing, Truyền thông đa phương tiện hiện ra). Nhóm rất ít người chọn ngoài
+    đời (dưới 0,3% chỉ tiêu, ví dụ Công nghệ dệt, may) bị trừ thêm; sở thích "Du lịch, tìm hiểu văn hóa, ngoại ngữ"
+    không còn tự đẩy nhóm Du lịch lên (đó là "lối tắt" của dữ liệu sinh ra);
   - duyệt tay: công cụ `uniadvisor suggest-review` cho người duyệt bỏ chọn / thêm nhóm; 88 ca đã duyệt thành bộ kiểm
-    tra, mỗi lần huấn luyện đều chấm lại (hiện 47/88 ca đạt mọi điều kiện). Nhờ duyệt tay đã tìm và sửa: Qwen gần như
+    tra, mỗi lần huấn luyện đều chấm lại (hiện 49/88 ca đạt mọi điều kiện). Nhờ duyệt tay đã tìm và sửa: Qwen gần như
     không chọn Toán (môn học giờ chỉ tính qua dữ liệu tổ hợp xét tuyển), trọng số học từ sở thích / nơi làm việc quá
     mạnh (giảm 25 lần), nhóm ngành phổ biến ít xuất hiện (trọng số phổ biến). Còn yếu: nhóm người duyệt thêm vào
     hiếm khi lọt top 5 (1/37);

@@ -17,55 +17,60 @@
  "alpha": 5.312,
  "beta": 2.585,
  "popularity": 0.2,
+ "unpopular": [
+  0.003,
+  0.5
+ ],
  "writers": {
   "qwen": 12943,
   "aya": 2095
  },
  "model": {
   "hit@5": 0.8838,
-  "recall@5": 0.8361
+  "recall@5": 0.8238
  },
  "model_without_popularity": {
-  "hit@5": 0.904,
-  "recall@5": 0.8484
+  "hit@5": 0.9091,
+  "recall@5": 0.8525
  },
  "baseline": {
   "hit@5": 0.4899,
   "recall@5": 0.4016
  },
  "val_model": {
-  "hit@5": 0.7112,
-  "recall@5": 0.5287
+  "hit@5": 0.6993,
+  "recall@5": 0.517
  },
  "behaviour": {
   "unreachable_groups": [],
   "top5_share_highest": {
-   "78101": 0.279,
-   "71402": 0.254,
-   "73801": 0.225,
-   "72104": 0.196,
-   "75802": 0.192
+   "71402": 0.294,
+   "78101": 0.27,
+   "73801": 0.256,
+   "72104": 0.223,
+   "75802": 0.217
   },
   "groups_over_25pct": [
+   "71402",
    "78101",
-   "71402"
+   "73801"
   ],
   "top5_share_uniform_subjects": {
-   "72202": 0.349,
-   "73801": 0.326,
-   "71402": 0.27,
-   "73104": 0.243,
-   "73402": 0.191
+   "72202": 0.371,
+   "73801": 0.351,
+   "71402": 0.306,
+   "73104": 0.28,
+   "73402": 0.209
   },
   "empty_input_gives_nothing": true,
   "deterministic": true
  },
  "review": {
   "n": 88,
-  "cases_passed": 0.5341,
+  "cases_passed": 0.5568,
   "kept_in_top5": "84/87",
-  "added_in_top": "1/37",
-  "dropped_out_of_top3": "27/45",
+  "added_in_top": "2/37",
+  "dropped_out_of_top3": "30/45",
   "failing": [
    {
     "id": "C002",
@@ -83,9 +88,9 @@
     "top5": [
      "75206",
      "75104",
-     "76201",
      "75201",
-     "75401"
+     "75401",
+     "76201"
     ],
     "added_in_top": false
    },
@@ -96,7 +101,7 @@
      "73106",
      "73402",
      "73801",
-     "73105"
+     "73201"
     ],
     "added_in_top": false,
     "dropped_out_of_top3": false
@@ -117,20 +122,20 @@
     "top5": [
      "77205",
      "76401",
-     "76201",
      "77201",
-     "75104"
+     "75104",
+     "75204"
     ],
     "added_in_top": false
    },
    {
     "id": "C008",
     "top5": [
-     "78103",
-     "78502",
      "75206",
+     "78103",
      "75802",
-     "75402"
+     "78502",
+     "72290"
     ],
     "added_in_top": false
    },
@@ -144,17 +149,6 @@
      "74401"
     ],
     "added_in_top": false
-   },
-   {
-    "id": "C011",
-    "top5": [
-     "75802",
-     "75402",
-     "75201",
-     "75102",
-     "75101"
-    ],
-    "dropped_out_of_top3": false
    },
    {
     "id": "C013",
@@ -185,8 +179,8 @@
      "74202",
      "74201",
      "75490",
-     "76201",
-     "74403"
+     "74401",
+     "75104"
     ],
     "added_in_top": false
    },
@@ -194,9 +188,9 @@
     "id": "C021",
     "top5": [
      "73290",
-     "72103",
      "73201",
      "72104",
+     "72103",
      "72102"
     ],
     "added_in_top": false
@@ -207,8 +201,8 @@
      "72202",
      "73801",
      "75206",
-     "76202",
-     "73103"
+     "73103",
+     "73106"
     ],
     "added_in_top": false,
     "dropped_out_of_top3": false,
@@ -218,10 +212,10 @@
     "id": "C023",
     "top5": [
      "72104",
-     "72103",
      "73290",
      "74802",
-     "75801"
+     "72103",
+     "74801"
     ],
     "added_in_top": false,
     "dropped_out_of_top3": false
@@ -231,9 +225,9 @@
     "top5": [
      "75204",
      "76201",
+     "75201",
      "76202",
-     "74402",
-     "78103"
+     "74402"
     ],
     "kept_in_top5": false
    },
@@ -242,12 +236,11 @@
     "top5": [
      "75102",
      "75103",
-     "75402",
      "75101",
-     "75803"
+     "75803",
+     "75402"
     ],
-    "added_in_top": false,
-    "dropped_out_of_top3": false
+    "added_in_top": false
    },
    {
     "id": "C029",
@@ -255,8 +248,8 @@
      "75102",
      "75103",
      "75101",
-     "75402",
-     "75190"
+     "74801",
+     "75402"
     ],
     "added_in_top": false
    },
@@ -266,8 +259,8 @@
      "73403",
      "73402",
      "74802",
-     "72103",
-     "74801"
+     "74801",
+     "75103"
     ],
     "added_in_top": false
    },
@@ -278,7 +271,7 @@
      "78190",
      "75401",
      "75803",
-     "78103"
+     "75106"
     ],
     "added_in_top": false
    },
@@ -318,9 +311,9 @@
    {
     "id": "C038",
     "top5": [
-     "72103",
      "75401",
      "75206",
+     "72103",
      "78101",
      "76201"
     ],
@@ -342,9 +335,9 @@
    {
     "id": "C040",
     "top5": [
-     "76201",
      "75206",
      "75104",
+     "76201",
      "75201",
      "75401"
     ],
@@ -399,23 +392,11 @@
    {
     "id": "C048",
     "top5": [
-     "75402",
      "75802",
      "75201",
-     "76201",
-     "75102"
-    ],
-    "added_in_top": false,
-    "dropped_out_of_top3": false
-   },
-   {
-    "id": "C049",
-    "top5": [
-     "77601",
-     "73104",
-     "72202",
-     "73106",
-     "73801"
+     "75102",
+     "75402",
+     "76201"
     ],
     "added_in_top": false
    },
@@ -423,9 +404,9 @@
     "id": "C050",
     "top5": [
      "77202",
-     "77207",
      "75401",
      "77205",
+     "77207",
      "77203"
     ],
     "added_in_top": false,
@@ -438,7 +419,7 @@
      "77201",
      "77205",
      "77206",
-     "77207"
+     "76401"
     ],
     "dropped_out_of_top3": false
    },
@@ -449,7 +430,7 @@
      "73801",
      "73106",
      "72290",
-     "73202"
+     "73201"
     ],
     "added_in_top": false,
     "dropped_out_of_top3": false
@@ -480,11 +461,11 @@
    {
     "id": "C078",
     "top5": [
-     "74403",
      "74201",
-     "75490",
      "74801",
-     "71402"
+     "74403",
+     "71402",
+     "74802"
     ],
     "added_in_top": false,
     "dropped_out_of_top3": false
@@ -503,11 +484,11 @@
    {
     "id": "C080",
     "top5": [
-     "76201",
      "75104",
      "75802",
      "75203",
-     "75201"
+     "75201",
+     "76201"
     ],
     "added_in_top": false,
     "dropped_out_of_top3": false
@@ -528,9 +509,9 @@
     "top5": [
      "72103",
      "75401",
-     "72102",
-     "76201",
-     "75206"
+     "75206",
+     "72104",
+     "75802"
     ],
     "added_in_top": false
    }
@@ -541,8 +522,8 @@
 ```
 
 First test students:
-- groups ['71401']: 71401 (0.20: em viết "Em mong muốn sau này xây dựng được những phần mềm học tập th...", em muốn làm việc ở trường học); 74801 (0.10: lúc rảnh em hay viết code, mày mò máy tính, em viết "Em mong muốn sau này xây dựng được những phần mềm học tập th..."); 74802 (0.09: lúc rảnh em hay viết code, mày mò máy tính, em viết "Em mong muốn sau này xây dựng được những phần mềm học tập th..."); 73104 (0.07: em viết "Em mong muốn sau này xây dựng được những phần mềm học tập th...", em thích tìm hiểu, nghiên cứu, giải bài toán khó); 71402 (0.06: em muốn làm việc ở trường học, lúc rảnh em hay giảng bài cho bạn bè)
-- groups ['71401']: 75803 (0.15: em viết "uoc mo sau nay dc lam sep quan ly may du an nang cap truong ...", em thích tìm hiểu, nghiên cứu, giải bài toán khó); 74802 (0.14: lúc rảnh em hay viết code, mày mò máy tính, em viết "uoc mo sau nay dc lam sep quan ly may du an nang cap truong ..."); 71401 (0.10: em viết "uoc mo sau nay dc lam sep quan ly may du an nang cap truong ...", em muốn làm việc ở trường học); 73401 (0.07: em viết "uoc mo sau nay dc lam sep quan ly may du an nang cap truong ...", em thích tìm hiểu, nghiên cứu, giải bài toán khó); 74801 (0.05: lúc rảnh em hay viết code, mày mò máy tính, em thích tìm hiểu, nghiên cứu, giải bài toán khó)
-- groups ['71401', '71402']: 71402 (0.72: em viết "Chắc làm gì đó ở trường học hoặc chăm mấy đứa nhỏ, cũng chưa...", em thích giúp đỡ, chăm sóc, dạy người khác); 71401 (0.03: em thích giúp đỡ, chăm sóc, dạy người khác, em muốn làm việc ở trường học); 77601 (0.02: em thích giúp đỡ, chăm sóc, dạy người khác, lúc rảnh em hay chăm sóc người khác, tình nguyện); 77205 (0.02: lúc rảnh em hay chăm sóc người khác, tình nguyện, em viết "Chắc làm gì đó ở trường học hoặc chăm mấy đứa nhỏ, cũng chưa..."); 72202 (0.01: em thích giúp đỡ, chăm sóc, dạy người khác, em viết "Chắc làm gì đó ở trường học hoặc chăm mấy đứa nhỏ, cũng chưa...")
-- groups ['71402']: 71402 (0.78: em viết "e cug thich tro thanh co giao dung tren buc giang chi bao ca...", em thích sáng tạo: vẽ, viết, thiết kế, âm nhạc); 71401 (0.03: em viết "e cug thich tro thanh co giao dung tren buc giang chi bao ca...", em muốn làm việc ở trường học); 76401 (0.02: em thích hoặc học tốt Sinh học, em thích giúp đỡ, chăm sóc, dạy người khác); 77205 (0.02: em thích hoặc học tốt Sinh học, lúc rảnh em hay chăm sóc người khác, tình nguyện); 77203 (0.01: em thích hoặc học tốt Sinh học, lúc rảnh em hay chăm sóc người khác, tình nguyện)
-- groups ['71402']: 75802 (0.23: em viết "hay sua do choi hong cho may dua nho gan nha", em muốn làm việc ở ngoài trời, công trường); 71402 (0.09: em thích giúp đỡ, chăm sóc, dạy người khác, em muốn làm việc ở trường học); 75201 (0.07: em viết "hay sua do choi hong cho may dua nho gan nha", em thích làm với máy móc, dụng cụ, xây dựng, sửa chữa); 75102 (0.06: em viết "hay sua do choi hong cho may dua nho gan nha", em thích làm với máy móc, dụng cụ, xây dựng, sửa chữa); 75402 (0.06: em thích làm với máy móc, dụng cụ, xây dựng, sửa chữa, lúc rảnh em hay sửa chữa, lắp ráp đồ)
+- groups ['71401']: 71401 (0.21: em viết "Em mong muốn sau này xây dựng được những phần mềm học tập th...", em muốn làm việc ở trường học); 74801 (0.11: lúc rảnh em hay viết code, mày mò máy tính, em viết "Em mong muốn sau này xây dựng được những phần mềm học tập th..."); 74802 (0.10: lúc rảnh em hay viết code, mày mò máy tính, em viết "Em mong muốn sau này xây dựng được những phần mềm học tập th..."); 73104 (0.07: em viết "Em mong muốn sau này xây dựng được những phần mềm học tập th...", em thích tìm hiểu, nghiên cứu, giải bài toán khó); 71402 (0.06: em muốn làm việc ở trường học, lúc rảnh em hay giảng bài cho bạn bè)
+- groups ['71401']: 75803 (0.15: em viết "uoc mo sau nay dc lam sep quan ly may du an nang cap truong ...", em thích tìm hiểu, nghiên cứu, giải bài toán khó); 74802 (0.15: lúc rảnh em hay viết code, mày mò máy tính, em viết "uoc mo sau nay dc lam sep quan ly may du an nang cap truong ..."); 71401 (0.11: em viết "uoc mo sau nay dc lam sep quan ly may du an nang cap truong ...", em muốn làm việc ở trường học); 73401 (0.08: em viết "uoc mo sau nay dc lam sep quan ly may du an nang cap truong ...", em thích tìm hiểu, nghiên cứu, giải bài toán khó); 74801 (0.05: lúc rảnh em hay viết code, mày mò máy tính, em thích tìm hiểu, nghiên cứu, giải bài toán khó)
+- groups ['71401', '71402']: 71402 (0.74: em viết "Chắc làm gì đó ở trường học hoặc chăm mấy đứa nhỏ, cũng chưa...", em thích giúp đỡ, chăm sóc, dạy người khác); 71401 (0.03: em thích giúp đỡ, chăm sóc, dạy người khác, em muốn làm việc ở trường học); 77601 (0.02: em thích giúp đỡ, chăm sóc, dạy người khác, lúc rảnh em hay chăm sóc người khác, tình nguyện); 77205 (0.02: lúc rảnh em hay chăm sóc người khác, tình nguyện, em viết "Chắc làm gì đó ở trường học hoặc chăm mấy đứa nhỏ, cũng chưa..."); 72202 (0.01: em thích giúp đỡ, chăm sóc, dạy người khác, em viết "Chắc làm gì đó ở trường học hoặc chăm mấy đứa nhỏ, cũng chưa...")
+- groups ['71402']: 71402 (0.80: em viết "e cug thich tro thanh co giao dung tren buc giang chi bao ca...", em thích sáng tạo: vẽ, viết, thiết kế, âm nhạc); 71401 (0.03: em viết "e cug thich tro thanh co giao dung tren buc giang chi bao ca...", em muốn làm việc ở trường học); 76401 (0.02: em thích hoặc học tốt Sinh học, em thích giúp đỡ, chăm sóc, dạy người khác); 77205 (0.02: em thích hoặc học tốt Sinh học, lúc rảnh em hay chăm sóc người khác, tình nguyện); 77203 (0.01: em thích hoặc học tốt Sinh học, lúc rảnh em hay chăm sóc người khác, tình nguyện)
+- groups ['71402']: 75802 (0.26: em viết "hay sua do choi hong cho may dua nho gan nha", em muốn làm việc ở ngoài trời, công trường); 71402 (0.09: em thích giúp đỡ, chăm sóc, dạy người khác, em muốn làm việc ở trường học); 75201 (0.08: em viết "hay sua do choi hong cho may dua nho gan nha", em thích làm với máy móc, dụng cụ, xây dựng, sửa chữa); 75102 (0.07: em viết "hay sua do choi hong cho may dua nho gan nha", em thích làm với máy móc, dụng cụ, xây dựng, sửa chữa); 77205 (0.05: em viết "hay sua do choi hong cho may dua nho gan nha", em thích giúp đỡ, chăm sóc, dạy người khác)

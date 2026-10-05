@@ -145,9 +145,21 @@ def test_popularity_weight_lifts_large_groups_and_only_at_prediction():
     big = s.m.groups.index("73401")                                     # Kinh doanh: the most places
     assert s.p.log_places[big] == s.p.log_places.max()
     assert s.proba([a])[0][big] > flat.proba([a])[0][big]
-    assert np.allclose(s.shift, s.popularity * s.p.log_places) and abs(s.p.log_places.mean()) < 1e-9
+    assert abs(s.p.log_places.mean()) < 1e-9 and s.shift[big] == s.popularity * s.p.log_places[big]
     row = next(r for r in s.breakdown(a, top=70)["rows"] if r["code"] == "73401")
     assert abs(row["popularity"] - s.shift[big]) < 1e-12
+
+
+def test_unpopular_groups_and_shortcut_options_are_damped_at_prediction():
+    s = Suggester.load(sg.MODEL_DIR / "model.npz")
+    share = np.exp(s.p.log_places) / np.exp(s.p.log_places).sum()
+    textile = s.m.groups.index("75402")                                 # Công nghệ dệt, may: 0.3% of places
+    assert share[textile] < s.unpopular[0]
+    assert np.isclose(s.shift[textile], s.popularity * s.p.log_places[textile] - s.unpopular[1])
+    j = F.OFFSETS["hobbies"] + F.HOBBY.index("du_lich")                 # the hobby that names Du lịch
+    assert np.ptp(s.m.W[:, j]) == 0                                     # same weight for every group: no effect
+    raw = Suggester(s.m.__class__.load(sg.MODEL_DIR / "model.npz"), s.p, shortcuts={})
+    assert np.ptp(raw.m.W[:, j]) > 0                                    # the saved model is untouched
 
 
 def test_group_examples_name_the_most_taught_majors_first():

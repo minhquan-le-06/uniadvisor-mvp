@@ -133,7 +133,8 @@ if c3.button("Bỏ qua", icon=":material/skip_next:"):
 
 with st.expander("Chấm điểm chi tiết", icon=":material/analytics:"):
     st.caption(f"z = ô đã chọn + chữ + b + α·a + β·c + phổ biến (α = {bd['alpha']:.2f}, β = {bd['beta']:.2f}, phổ biến = "
-               f"{bd['popularity']:.1f} × log chỉ tiêu của nhóm); xác suất = softmax(z).")
+               f"{bd['popularity']:.1f} × log chỉ tiêu của nhóm, trừ thêm {bd['unpopular'][1]:g} nếu dưới "
+               f"{bd['unpopular'][0]:.1%} tổng chỉ tiêu); xác suất = softmax(z).")
     st.dataframe([{"#": r["rank"], "Nhóm": P.name(r["code"]), "Xác suất": round(r["p"], 3), "z": round(r["z"], 2),
                    "Ô đã chọn": round(r["answers"], 2), "Chữ": round(r["text"], 2), "b": round(r["bias"], 2),
                    "α·môn": round(r["alpha_a"], 2), "β·RIASEC": round(r["beta_c"], 2),

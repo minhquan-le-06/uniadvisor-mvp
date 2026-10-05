@@ -155,7 +155,31 @@ nationally, Báo chí 3.0% against 3.0%; weaker for Sức khỏe, 4.5% against 7
 | 1 | 0.74 | | |
 
 (Their shares of places: 9.7% / 5.7% / 5.7%.) 0.2 brings these groups to about their share at a cost within noise on
-the evenly spread test set; from 0.4 a few large groups crowd the top 5. Kinh tế học stays rare (2-3% of sets) at any
+the evenly spread test set; from 0.4 a few large groups crowd the top 5.
+
+Two more corrections at prediction, both from the reviewer's verdicts (the saved model is unchanged):
+
+- **Groups few students choose in real life** (under 0.3% of all places: 24 groups, e.g. Công nghệ dệt, may, Thủy
+  sản, Lâm nghiệp, Thể dục thể thao, the "Khác" groups) lose a further 0.5. The log term is too gentle at the bottom:
+  Công nghệ dệt, may (4 programs, 0.3% of places) was in the top 5 of 14% of random answer sets and of 6.7% of test
+  students of other groups, and the reviewer unticked it in 7 of the 8 cases where it showed; it rode along with
+  every engineering group, since its students tick the same generic "machines, repairing, drawing" options. A penalty
+  growing with the distance below the median hardly reached it (it sits at the 33rd percentile); a flat one does.
+- **Options whose label names a group** are a shortcut in generated data (Geirhos et al. 2020): the writer, told the
+  group, ticks the option that names it. "Du lịch, tìm hiểu văn hóa, ngoại ngữ" was ticked by 65% of Du lịch's
+  training students against 14% of all, and nearly every real student likes travelling; Du lịch was in the top 5 of
+  28% of random answer sets. Its learned weights are set equal across groups (no effect); the free text still counts.
+  "Ngoài trời, công trường" (Xây dựng) and "Trường học" (Đào tạo giáo viên) also name groups but say where the student
+  wants to work, which is evidence, and the reviewer kept Xây dựng.
+
+| | Test Hit@5 | Reviewed cases passing | Unticked out of top 3 | Công nghệ dệt, may: random sets / wrong test students | Du lịch: same |
+|---|---|---|---|---|---|
+| Popularity 0.2 only | 0.88 | 53.4% | 27/45 | 14% / 6.7% | 28% / 7.7% |
+| + both corrections (shipped) | 0.88 | 55.7% | 30/45 | 6% / 3.1% | 27% / 6.7% |
+| Shortcut fix alone | 0.89 | 54.5% | 27/45 | 15% / 7.2% | 23% / 5.6% |
+
+The penalty frees slots that Du lịch, a group of above-median size, partly takes back. Công nghệ dệt, may still shows
+in 3 of the 7 cases where the reviewer unticked it. Kinh tế học stays rare (2-3% of sets) at any
 $\tau$: it loses to Kinh doanh, whose students look alike. The reviewer asked for it (popular majors such as Kinh tế,
 Marketing and Truyền thông rarely appeared); the guided chat's scoring panel shows the term as "Phổ biến".
 
@@ -241,6 +265,7 @@ Nothing a real student enters is used or stored.
 | A second writer from another family (Aya Expanse 8B) | Schaffelder & Gatt (2026); Dang et al. (2024) | synthetic data from several sources keeps outputs varied (less "distribution collapse"); shown for fine-tuning LLMs, not small classifiers. Aya: Vietnamese among its languages |
 | Second writer's students kept only if their interests fit their group by O\*NET | Alberti et al. (2019); Rounds et al. | consistency with an independent source as a filter; O\*NET's own person-occupation matching |
 | Popularity weight from real places | Saerens et al. (2002) | adjusting a classifier's outputs to new class priors by their ratio |
+| Learned weights of an option that names a group ignored | Geirhos et al. (2020) | models pick up shortcuts: cues that predict the label in the training data but not the underlying decision |
 | Training labels filtered by confident learning (tried, not used: see step 4) | Northcutt et al. (2021) | out-of-sample predicted probabilities and per-class thresholds find wrong labels without a second labeller |
 | Test set: keep a student only if a blind model recovers its label | Alberti et al. (2019) | "roundtrip consistency" filtering of generated data |
 | Test set written by a model, checked by people | Perez et al. (2023) | model-written evaluation sets; human raters agreed with 90-100% of the labels |
@@ -273,8 +298,8 @@ groups in the top 5 (or top 3), unticked groups out of the top 3, at least one k
 
 | | Hit@5 | Recall@5 |
 |---|---|---|
-| Trained model ($\lambda = 10^{-5}$, option value 0.2, popularity 0.2) | 0.88 | 0.84 |
-| ... without the popularity weight | 0.90 | 0.85 |
+| Trained model ($\lambda = 10^{-5}$, option value 0.2; popularity 0.2, unpopular penalty, shortcut fix) | 0.88 | 0.82 |
+| ... without popularity and penalty (shortcut fix kept) | 0.91 | 0.85 |
 | Baseline (data scores alone) | 0.49 | 0.40 |
 | Qwen only (12,943 students, after the recoding) | 0.91 | 0.83 |
 | Qwen + all 4,081 Aya students | 0.87 | 0.82 |
@@ -322,7 +347,8 @@ verdicts:
 | Previous model (Qwen) | 54.5% | 86/87 | 26/45 | 2/37 |
 | Qwen + all Aya | 58.0% | 86/87 | 27/45 | 3/37 |
 | Qwen + filtered Aya (current, without popularity) | 54.5% | 86/87 | 27/45 | 1/37 |
-| ... with popularity 0.2 (shipped) | 53.4% | 84/87 | 27/45 | 1/37 |
+| ... with popularity 0.2 | 53.4% | 84/87 | 27/45 | 1/37 |
+| ... + unpopular penalty and shortcut fix (shipped) | 55.7% | 84/87 | 30/45 | 2/37 |
 
 The groups the reviewer added are the weak spot whatever the data: mostly broad, popular groups (Công nghệ thông tin
 9 times, then Y học, Đào tạo giáo viên, Ngôn ngữ, Máy tính), often just outside the top 5 (ranks 6-10). With 5 slots,
@@ -340,8 +366,9 @@ Hit@5 levels off after about 6,000 students; Hit@1 still creeps up. More of the 
 real students' answers would.
 
 Behaviour: every group reaches the top 5; no answers gives no suggestions; same input, same output. The current model
-without popularity has no group over 25% (highest 72104, 24%). With popularity 0.2, 78101 (Du lịch, 28%) and 71402
-(Đào tạo giáo viên, 25%) go over: groups of average size gain on smaller ones they were level with. The 25% mark was
+without popularity has no group over 25% (highest 72104, 24%). As shipped, 71402 (Đào tạo giáo viên, 29%), 78101 (Du
+lịch, 27%) and 73801 (Luật, 26%) go over: groups of average or large size gain on the small ones they were level
+with. The 25% mark was
 set for a model with no popularity and is kept as a warning, not a rule. With the previous model (Qwen only) and no
 popularity, one group was just over the mark: 78102 (Khách sạn, nhà hàng, 27%), then 72102 (Nghệ thuật trình diễn,
 23%). 78102 had the highest learned option weights of all groups on average, mostly from
@@ -394,6 +421,8 @@ only the frozen sets, the final weights and the stable code are copied in.
   arXiv:2406.20094 (technical report). https://arxiv.org/abs/2406.20094
 - Dang, J., et al. (2024). Aya Expanse: Combining Research Breakthroughs for a New Multilingual Frontier.
   arXiv:2412.04261. https://arxiv.org/abs/2412.04261
+- Geirhos, R., Jacobsen, J.-H., Michaelis, C., Zemel, R., Brendel, W., Bethge, M., Wichmann, F. A. (2020). Shortcut
+  Learning in Deep Neural Networks. Nature Machine Intelligence 2, 665-673. https://doi.org/10.1038/s42256-020-00257-z
 - Li, Z., Zhu, H., Lu, Z., Yin, M. (2023). Synthetic Data Generation with Large Language Models for Text Classification:
   Potential and Limitations. EMNLP 2023. https://aclanthology.org/2023.emnlp-main.647/
 - Long, L., Wang, R., Xiao, R., Zhao, J., Ding, X., Chen, G., Wang, H. (2024). On LLMs-Driven Synthetic Data Generation,
@@ -441,4 +470,5 @@ only the frozen sets, the final weights and the stable code are copied in.
 
 More students from the same writer will not help (the learning curve is flat). Done (2026-10-05): why 73103 was at
 33% (the check's uniform subject draw), the second writer (Aya, filtered), example majors ordered by number of
-programs (Marketing and Truyền thông now named under their groups), the popularity weight.
+programs (Marketing and Truyền thông now named under their groups), the popularity weight, the unpopular-group
+penalty and the "Du lịch" hobby shortcut fix.

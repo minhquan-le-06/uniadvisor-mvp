@@ -230,12 +230,12 @@ def run(train_path: Path = TRAIN, test_path: Path = TEST, review: list[Path] | N
         print(f"lambda {lam:g}: best val loss {best_val:.4f} at epoch {m.history[-1].get('kept_epoch')}", flush=True)
     best_val, lam, model = min(runs, key=lambda r: r[0])
     s = Suggester(model, priors)
-    base = Suggester(mk.empty(), priors, popularity=0.0)      # the two data scores alone, as before
+    base = Suggester(mk.empty(), priors, popularity=0.0, unpopular=(0.0, 0.0))      # the two data scores alone
     labels = [r["groups"] for r in test]
     metrics = {
         "n_train": len(fit_rows), "n_val": len(val), "n_test": len(test), "test_review": checked,
         "confident_learning": cl_stats, "lambda": lam, "alpha": round(model.alpha, 3), "beta": round(model.beta, 3),
-        "popularity": s.popularity, "writers": dict(Counter(r.get("writer", "?") for r in fit_rows + val)),
+        "popularity": s.popularity, "unpopular": list(s.unpopular), "writers": dict(Counter(r.get("writer", "?") for r in fit_rows + val)),
         "model": topk_metrics(s, s.proba_of(*te[:3]), labels),
         "model_without_popularity": topk_metrics(s, s.m.proba(*te[:3]), labels),
         "baseline": topk_metrics(base, base.proba_of(*te[:3]), labels),

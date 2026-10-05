@@ -7,6 +7,7 @@ code. Reasons are the inputs that pushed a group above the others most. No answe
 
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 
 import numpy as np
@@ -24,17 +25,33 @@ SHOWN = 5
 # 0.2 (docs/MODEL.md, "Popularity"): popular groups come up about as often as their share of places at little cost on
 # the evenly spread test set; 0.4 and more lets a few large groups crowd the top 5. Prediction only; training ignores it.
 POPULARITY = 0.2
+# Groups few students choose in real life (under 0.3% of all places: 24 groups such as Công nghệ dệt, may, Thủy sản,
+# Lâm nghiệp) lose a further 0.5. The log term above is too gentle at the bottom: Công nghệ dệt, may (4 programs,
+# 0.3% of places) was in the top 5 of 14% of random answer sets and the reviewer unticked it in 7 of 8 cases.
+UNPOPULAR = (0.003, 0.5)        # (share of places below which, penalty)
+# Options whose label names a group act as a keyword for it in generated data (the writer, told the group, ticks the
+# option that names it: "Du lịch, tìm hiểu văn hóa, ngoại ngữ" was ticked by 65% of Du lịch's training students
+# against 14% of all), a shortcut (Geirhos et al. 2020). Their learned weights are ignored; the free text still counts.
+SHORTCUT_OPTIONS = {"hobbies": ["du_lich"]}
 
 
 class Suggester:
-    def __init__(self, model: Model, priors: Priors | None = None, popularity: float = POPULARITY):
-        self.m = model
+    def __init__(self, model: Model, priors: Priors | None = None, popularity: float = POPULARITY,
+                 unpopular: tuple[float, float] = UNPOPULAR, shortcuts: dict | None = None):
         self.p = priors or Priors()
         if self.p.groups != model.groups:
             raise ValueError("the model and priors.json list different groups: rebuild priors and retrain")
         self.f = F.Featurizer(model.idf)
-        self.popularity = popularity
-        self.shift = popularity * self.p.log_places
+        cols = [F.OFFSETS[q] + F.KEYS[q].index(o) for q, opts in (SHORTCUT_OPTIONS if shortcuts is None else shortcuts).items()
+                for o in opts]
+        if cols:                         # the same weight for every group = no effect on the probabilities
+            W = model.W.copy()
+            W[:, cols] = W[:, cols].mean(axis=0)
+            model = replace(model, W=W)
+        self.m = model
+        self.popularity, self.unpopular = popularity, unpopular
+        share = np.exp(self.p.log_places) / np.exp(self.p.log_places).sum()
+        self.shift = popularity * self.p.log_places - unpopular[1] * (share < unpopular[0])
 
     @classmethod
     def load(cls, path: Path) -> "Suggester":
@@ -88,6 +105,7 @@ class Suggester:
                 for i, k in enumerate(order[:top])]
         u = self.p.student_profile(a.get("work_types") or [], F.hobby_types(a))
         return {"rows": rows, "alpha": self.m.alpha, "beta": self.m.beta, "popularity": self.popularity,
+                "unpopular": self.unpopular,
                 "riasec": dict(zip(["R", "I", "A", "S", "E", "C"], u.tolist())),
                 "text": F.normalise(F.text_of(a)), "rule": f"top {SHOWN}"}
 

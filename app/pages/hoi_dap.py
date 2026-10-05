@@ -334,7 +334,8 @@ def scoring_panel(bd: dict) -> None:
     with st.expander("Chấm điểm (bản thử)", expanded=True, icon=":material/analytics:"):
         st.caption(f"z = ô đã chọn + chữ + b + α·a + β·c + phổ biến, xác suất = softmax(z); chỉ chênh lệch giữa các "
                    f"nhóm là có nghĩa. α = {bd['alpha']:.2f}, β = {bd['beta']:.2f}, phổ biến = "
-                   f"{bd['popularity']:.1f} × log(chỉ tiêu của nhóm). Hiện ra: {bd['rule']}.")
+                   f"{bd['popularity']:.1f} × log(chỉ tiêu của nhóm), trừ thêm {bd['unpopular'][1]:g} nếu nhóm có dưới "
+                   f"{bd['unpopular'][0]:.1%} tổng chỉ tiêu. Hiện ra: {bd['rule']}.")
         rows = [{**r, "name": P.name(r["code"])} for r in bd["rows"]]
         st.dataframe([{SCORING_COLS[k]: (round(r[k], 3) if isinstance(r[k], float) else r[k]) for k in SCORING_COLS}
                       for r in rows], hide_index=True)
