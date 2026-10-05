@@ -93,13 +93,19 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
   - đã nối vào trang hỏi đáp;
   - bộ kiểm thử: 199 học sinh do Gemini viết và tự kiểm tra mù; kiểm tra tay ngẫu nhiên 60 em: 59 đúng, 1 sai (đã bỏ);
   - bảng nhóm ngành -> nghề O\*NET đã được kiểm tra tay, sửa nghề của 8 nhóm;
-  - bộ huấn luyện (đã chốt): 12.942 học sinh do Qwen3.5-9B viết trên Kaggle, gồm 2.945 em "lệch hướng" (học tốt môn
-    của một nhóm nhưng sở thích hợp nhóm khác). Llama-3.1-8B đã bị loại, Vistral không được duyệt kịp;
-  - kết quả: Hit@5 0,90, Recall@5 0,85 (mốc 0,49 / 0,40) trên 198 học sinh kiểm thử; luôn gợi ý 5 nhóm;
-  - duyệt tay: công cụ `uniadvisor suggest-review` cho người duyệt bỏ chọn / thêm nhóm; 34 ca đã duyệt thành bộ kiểm
-    tra, mỗi lần huấn luyện đều chấm lại (hiện 15/34 ca đạt mọi điều kiện). Nhờ duyệt tay đã tìm và sửa: Qwen gần như
+  - bộ huấn luyện (đã chốt): 15.038 học sinh từ hai họ mô hình viết trên Kaggle: 12.943 em do Qwen3.5-9B viết (gồm
+    2.945 em "lệch hướng": học tốt môn của một nhóm nhưng sở thích hợp nhóm khác) và 2.095 em do Aya Expanse 8B viết
+    (giữ những em có sở thích khớp nhóm theo O\*NET, 2.095/4.081). Llama-3.1-8B đã bị loại, Vistral không được duyệt kịp;
+  - kết quả: Hit@5 0,88, Recall@5 0,84 (mốc 0,49 / 0,40) trên 198 học sinh kiểm thử (0,90 nếu bỏ trọng số phổ
+    biến); luôn gợi ý 5 nhóm;
+  - trọng số phổ biến (0,2 × log chỉ tiêu 2026 của nhóm): mô hình học từ dữ liệu chia đều các nhóm nên không biết Kinh
+    doanh chiếm ~10% chỉ tiêu; tỉ lệ chỉ tiêu theo lĩnh vực khớp số nhập học 2025 của Bộ GD&ĐT. Ví dụ ngành dưới mỗi
+    nhóm giờ xếp theo số chương trình (Marketing, Truyền thông đa phương tiện hiện ra);
+  - duyệt tay: công cụ `uniadvisor suggest-review` cho người duyệt bỏ chọn / thêm nhóm; 88 ca đã duyệt thành bộ kiểm
+    tra, mỗi lần huấn luyện đều chấm lại (hiện 47/88 ca đạt mọi điều kiện). Nhờ duyệt tay đã tìm và sửa: Qwen gần như
     không chọn Toán (môn học giờ chỉ tính qua dữ liệu tổ hợp xét tuyển), trọng số học từ sở thích / nơi làm việc quá
-    mạnh (giảm 25 lần);
+    mạnh (giảm 25 lần), nhóm ngành phổ biến ít xuất hiện (trọng số phổ biến). Còn yếu: nhóm người duyệt thêm vào
+    hiếm khi lọt top 5 (1/37);
   - lọc nhãn sai bằng confident learning (Northcutt và cs., 2021): đã thử hai lần, không dùng (bỏ gần một nửa dữ
     liệu và làm điểm giảm);
   - hạn chế: mọi dữ liệu do một mô hình viết nên mang thói quen của nó; nhóm 73103 hiện vào top 5 của 33% câu trả lời

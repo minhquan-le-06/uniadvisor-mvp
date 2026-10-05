@@ -191,11 +191,12 @@ def suggest_train(cl: bool = typer.Option(False, help="filter training labels by
 
 
 @app.command("suggest-cases")
-def suggest_cases(n: int = 60, seed: int = 7) -> None:
-    """Generate answer sets for the suggester review (backend/suggest_data/review_cases.jsonl; keeps verdicts)."""
+def suggest_cases(n: int = 60, seed: int = 7, extend: bool = False) -> None:
+    """Generate answer sets for the suggester review (backend/suggest_data/review_cases.jsonl; keeps verdicts).
+    --extend appends n new cases and keeps all existing ones."""
     from uniadvisor.student.suggest.review import make_cases
 
-    print(f"{len(make_cases(n, seed))} cases -> backend/suggest_data/review_cases.jsonl")
+    print(f"{len(make_cases(n, seed, extend))} cases -> backend/suggest_data/review_cases.jsonl")
 
 
 @app.command("suggest-review")

@@ -27,7 +27,7 @@ from uniadvisor.student.suggest import priors as PR
 from uniadvisor.student.suggest.model import Model, fit, targets
 from uniadvisor.student.suggest.review import check
 from uniadvisor.student.suggest.suggester import Suggester
-from unidata.paths import SUGGEST_DATA
+from unidata.paths import SUGGEST_CONFIG, SUGGEST_DATA
 
 OUT = PR.OUT
 TRAIN = SUGGEST_DATA / "train.jsonl"
@@ -146,13 +146,24 @@ def topk_metrics(s: Suggester, P: np.ndarray, labels: list[list[str]], k: int = 
     return {f"hit@{k}": round(hits / max(len(labels), 1), 4), f"recall@{k}": round(found / max(total, 1), 4)}
 
 
-def random_answers(n: int, seed: int = 0) -> list[dict]:
+def subject_weights() -> np.ndarray:
+    """How often each subject is drawn in the behaviour check: 2026 exam candidates per subject
+    (backend/config/suggest/subject_counts.csv; the languages other than English are not published, so each is set to
+    the rarest observed subject)."""
+    with open(SUGGEST_CONFIG / "subject_counts.csv", encoding="utf-8") as f:
+        n = {r["subject"]: float(r["candidates"]) for r in csv.DictReader(f)}
+    w = np.array([n[s] for s in F.SUBJ])
+    return w / w.sum()
+
+
+def random_answers(n: int, seed: int = 0, weights: np.ndarray | None = None) -> list[dict]:
+    """Random answer sets; subjects uniform, or drawn by `weights` (subject_weights())."""
     rng = np.random.default_rng(seed)
     out = []
     for _ in range(n):
         a = {}
         if rng.random() < 0.8:
-            a["subjects"] = list(rng.choice(F.SUBJ, size=rng.integers(1, 4), replace=False))
+            a["subjects"] = list(rng.choice(F.SUBJ, size=rng.integers(1, 4), replace=False, p=weights))
         if rng.random() < 0.7:
             a["work_types"] = list(rng.choice(F.WORK, size=rng.integers(1, 3), replace=False))
         if rng.random() < 0.7:
@@ -163,25 +174,34 @@ def random_answers(n: int, seed: int = 0) -> list[dict]:
     return out
 
 
+def top5_shares(s: Suggester, answers: list[dict]) -> dict:
+    """The 5 groups shown most often over these answer sets, with the share of sets that show them."""
+    share = np.zeros(len(s.m.groups))
+    for row in s.proba(answers):
+        share[s.ranked(row)[:5]] += 1
+    share /= len(answers)
+    return {s.m.groups[i]: round(float(share[i]), 3) for i in np.argsort(-share)[:5]}
+
+
 def behaviour(s: Suggester, pool: list[dict]) -> dict:
-    """Every group reachable; no group in the top 5 of more than ~25% of random answer sets; nothing in, nothing out;
-    same input, same output."""
+    """Every group reachable; no group in the top 5 of more than ~25% of random answer sets (subjects drawn as often
+    as 2026 candidates take them); nothing in, nothing out; same input, same output. The uniform draw is reported too:
+    with every subject equally likely, rare languages (lift of 4-5 for the few groups admitting D02-D07) are 6 of 18
+    draws and push those groups up (docs/MODEL.md, "Behaviour")."""
     singles = ([{"subjects": [x]} for x in F.SUBJ] + [{"work_types": [x]} for x in F.WORK]
                + [{"hobbies": [x]} for x in F.HOBBY] + [{"workplace": [x]} for x in F.PLACE])
-    rand = random_answers(2000)
+    rand = random_answers(2000, weights=subject_weights())
+    uniform = random_answers(2000)
     reach = set()
-    for answers in (pool, singles, rand):
+    for answers in (pool, singles, rand, uniform):
         if answers:
             for row in s.proba(answers):
                 reach |= {s.m.groups[i] for i in s.ranked(row)[:5]}
-    share = np.zeros(len(s.m.groups))
-    for row in s.proba(rand):
-        share[s.ranked(row)[:5]] += 1
-    share /= len(rand)
-    heavy = {s.m.groups[i]: round(float(share[i]), 3) for i in np.argsort(-share)[:5]}
+    heavy = top5_shares(s, rand)
     probe = rand[0]
     return {"unreachable_groups": sorted(set(s.m.groups) - reach), "top5_share_highest": heavy,
             "groups_over_25pct": [g for g, v in heavy.items() if v > 0.25],
+            "top5_share_uniform_subjects": top5_shares(s, uniform),
             "empty_input_gives_nothing": s.suggest({}) == [],
             "deterministic": s.suggest(probe) == s.suggest(probe)}
 
@@ -210,13 +230,16 @@ def run(train_path: Path = TRAIN, test_path: Path = TEST, review: list[Path] | N
         print(f"lambda {lam:g}: best val loss {best_val:.4f} at epoch {m.history[-1].get('kept_epoch')}", flush=True)
     best_val, lam, model = min(runs, key=lambda r: r[0])
     s = Suggester(model, priors)
-    base = Suggester(mk.empty(), priors)
+    base = Suggester(mk.empty(), priors, popularity=0.0)      # the two data scores alone, as before
     labels = [r["groups"] for r in test]
     metrics = {
         "n_train": len(fit_rows), "n_val": len(val), "n_test": len(test), "test_review": checked,
         "confident_learning": cl_stats, "lambda": lam, "alpha": round(model.alpha, 3), "beta": round(model.beta, 3),
-        "model": topk_metrics(s, s.m.proba(*te[:3]), labels), "baseline": topk_metrics(base, base.m.proba(*te[:3]), labels),
-        "val_model": topk_metrics(s, s.m.proba(*va[:3]), [r["groups"] for r in val]),
+        "popularity": s.popularity, "writers": dict(Counter(r.get("writer", "?") for r in fit_rows + val)),
+        "model": topk_metrics(s, s.proba_of(*te[:3]), labels),
+        "model_without_popularity": topk_metrics(s, s.m.proba(*te[:3]), labels),
+        "baseline": topk_metrics(base, base.proba_of(*te[:3]), labels),
+        "val_model": topk_metrics(s, s.proba_of(*va[:3]), [r["groups"] for r in val]),
         "behaviour": behaviour(s, [r["answers"] for r in test]),
         "review": check(s),
     }

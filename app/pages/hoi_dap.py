@@ -321,21 +321,20 @@ def confirm_suggestions() -> None:
 
 
 def examples(code: str, n: int = 3) -> str:
-    majors = P.group(code).majors
-    more = f" và {len(majors) - n} ngành khác" if len(majors) > n else ""
-    return ", ".join(m.name for m in majors[:n]) + more
+    return P.group(code).examples(n)
 
 
 # ------------------------------------------------------------------ test mode (?debug=1): scoring and a trial log
 SCORING_COLS = {"rank": "#", "code": "Mã", "name": "Nhóm ngành", "p": "Xác suất", "z": "Điểm z", "answers": "Ô đã chọn",
-                "text": "Chữ", "bias": "Hệ số b", "alpha_a": "α·môn", "beta_c": "β·RIASEC", "a": "a (môn)",
-                "c": "c (RIASEC)", "shown": "Hiện"}
+                "text": "Chữ", "bias": "Hệ số b", "alpha_a": "α·môn", "beta_c": "β·RIASEC", "popularity": "Phổ biến",
+                "a": "a (môn)", "c": "c (RIASEC)", "shown": "Hiện"}
 
 
 def scoring_panel(bd: dict) -> None:
     with st.expander("Chấm điểm (bản thử)", expanded=True, icon=":material/analytics:"):
-        st.caption(f"z = ô đã chọn + chữ + b + α·a + β·c, xác suất = softmax(z); chỉ chênh lệch giữa các nhóm là có "
-                   f"nghĩa. α = {bd['alpha']:.2f}, β = {bd['beta']:.2f}. Hiện ra: {bd['rule']}.")
+        st.caption(f"z = ô đã chọn + chữ + b + α·a + β·c + phổ biến, xác suất = softmax(z); chỉ chênh lệch giữa các "
+                   f"nhóm là có nghĩa. α = {bd['alpha']:.2f}, β = {bd['beta']:.2f}, phổ biến = "
+                   f"{bd['popularity']:.1f} × log(chỉ tiêu của nhóm). Hiện ra: {bd['rule']}.")
         rows = [{**r, "name": P.name(r["code"])} for r in bd["rows"]]
         st.dataframe([{SCORING_COLS[k]: (round(r[k], 3) if isinstance(r[k], float) else r[k]) for k in SCORING_COLS}
                       for r in rows], hide_index=True)

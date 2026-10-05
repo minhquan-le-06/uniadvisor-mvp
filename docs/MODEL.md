@@ -5,7 +5,8 @@ and returns a ranked list of MOET nhóm ngành with a reason for each. It stands
 (module 1) and an O\*NET table, and nothing else from module 2. Whatever uses it (today, the guided chat of module 2)
 only calls `suggest(answers) -> suggestions`.
 
-Status: trained on 12,942 generated students (data frozen; results under Evaluation) and used by the guided chat
+Status: trained on 15,038 generated students from two LLM families (12,943 by Qwen, 2,095 by Aya; data frozen;
+results under Evaluation), with a popularity weight from real places, and used by the guided chat
 (`app/pages/hoi_dap.py`).
 
 ## Interface
@@ -57,7 +58,8 @@ Every question is optional. A skipped question is absent from the input, not an 
 ```
 
 - `code`: a 5-digit MOET nhóm ngành among the groups with at least one program in the database (70 today).
-- `score`: the model's probability for that group; the list is sorted by it, ties by number of programs, then code.
+- `score`: the model's probability for that group, popularity weight included (see Popularity); the list is sorted
+  by it, ties by number of programs, then code.
 - `reasons`: the 1-2 inputs that added most to that group's score, in Vietnamese.
 - Length: always the top 5 groups (first "at least 3, more if within 0.6 of the best"; the reviewed cases showed a mixed student's second direction often at 4-5). Empty when no question was answered.
 
@@ -73,7 +75,7 @@ $$
 
 - $x_i$: one student's questionnaire answers (any question may be skipped).
 - $y_i$: the 1-3 groups that fit that student, out of the $K$ groups ($K = 70$ today).
-- $N \approx 5{,}000$ for training; the test set is generated separately (see Data).
+- $N = 15{,}038$ for training; the test set is generated separately (see Data).
 
 ### Features
 
@@ -127,6 +129,36 @@ The parameters are $W = (w_1, \dots, w_K)$, $b$, $\alpha$ and $\beta$. $\alpha$ 
 admission data and O\*NET; $W$ learns the rest, including which words point to which group. The reasons shown for a
 group are the inputs that added most to its $z_k$.
 
+### Popularity
+
+The training students are spread evenly over the groups, so the model has no idea that Kinh doanh takes about 10% of
+students and Kinh tế học about 3%. At prediction (not in training) every score gets
+
+$$
+z_k(x) \mathrel{+}= \tau \left(\log \text{places}_k - \overline{\log \text{places}}\right), \qquad \tau = 0.2
+$$
+
+where $\text{places}_k$ is the sum of group $k$'s 2026 quotas (module 1; 51% of its programs have one, the rest count
+as the group's median program). With $\tau = 1$ this is the standard correction of a classifier's outputs for new
+class priors (Saerens et al. 2002); $\tau < 1$ goes part of the way, because the test set and the reviewed cases are
+spread evenly over the groups and cannot tell how far is right. By field, these places match MOET's national
+enrolment of 2025 (rank correlation 0.81 over the 12 largest fields: Kinh doanh và quản lý 21.8% here against 21.5%
+nationally, Báo chí 3.0% against 3.0%; weaker for Sức khỏe, 4.5% against 7.8%, and teacher training, 3.3% against
+5.6%, since the 48 schools here are large Hà Nội and HCM universities).
+
+| $\tau$ | Test Hit@5 | Reviewed cases passing (88) | Shown in random answer sets: Kinh doanh / CNTT / Tài chính |
+|---|---|---|---|
+| 0 | 0.90 | 54.5% | 5.6% / 3.8% / 6.8% |
+| 0.1 | 0.89 | 54.5% | 8.7% / 6.1% / 10.4% |
+| **0.2** | 0.88 | 53.4% | 13.1% / 8.1% / 13.7% |
+| 0.4 | 0.88 | 52.3% | 24.3% / 11.9% / 22.3% |
+| 1 | 0.74 | | |
+
+(Their shares of places: 9.7% / 5.7% / 5.7%.) 0.2 brings these groups to about their share at a cost within noise on
+the evenly spread test set; from 0.4 a few large groups crowd the top 5. Kinh tế học stays rare (2-3% of sets) at any
+$\tau$: it loses to Kinh doanh, whose students look alike. The reviewer asked for it (popular majors such as Kinh tế,
+Marketing and Truyền thông rarely appeared); the guided chat's scoring panel shows the term as "Phổ biến".
+
 ### Loss L
 
 The right groups should get high probability, and weights are kept small so the model does not memorise:
@@ -146,7 +178,8 @@ There are no answers from real students, so both sets are written by LLMs. Each 
 answers and the free text) for a given label, so no hand-made rule decides what a student with a given group ticks,
 and the data owes nothing to the two data scores the model uses ($a$ and $c$).
 
-**Training set** (13,200 seeds, 12,942 students after cleaning; written on a Kaggle GPU, not on a laptop):
+**Training set** (17,200 seeds, 15,038 students after cleaning and filtering; written on a Kaggle GPU, not on a
+laptop):
 
 1. **Seeds.** Each seed is a label (1-3 groups, every group covered) plus attributes: region, writing style (careful,
    short, teen code, rambling), how clear the student is (clear, unsure, slightly contradictory), which questions they
@@ -160,7 +193,19 @@ and the data owes nothing to the two data scores the model uses ($a$ and $c$).
    have it) and a second group that the work types, hobbies, workplace and dream must fit (70% from another lĩnh
    vực); the label is both groups. Every other training student is consistent, so the model had never seen subjects
    and interests disagree (see Results).
-3. **Cleaning** (`collect.py`): unknown option codes, extra subjects or work types and skipped questions are removed;
+   **Second writer** (the last 4,000 seeds: 3,000 plain, 1,000 mixed, each marked for it): Aya Expanse 8B (Cohere;
+   Vietnamese is one of its 23 languages; its weights are float16, so it runs on the T4s, which have no bfloat16;
+   Dang et al. 2024), because every writer habit found so far was Qwen's. Same prompts, 4,081 students in about 2
+   hours. Compared with Qwen, against Gemini's test students as a reference: its subjects are closer to Gemini's
+   (Toán in 33% of students of groups whose combinations nearly all have Toán, against 18% for Qwen and 58% for
+   Gemini; health students: Toán 30%, Sinh 71%, against Qwen's 3% and 30%), but its interest answers are noisier
+   (it picks "Trường học" for 40% of students and "Tìm hiểu, nghiên cứu" half as often as the others; its students'
+   own group ranks 21st of 70 by the O\*NET fit $c_k$, against 14th for Qwen and 9th for Gemini). Trained on all of
+   it, test Hit@5 fell from 0.91 to 0.87 (8 students lost, 1 gained), hence step 4.
+3. **Cleaning** (`collect.py`): option values written as labels or misspelt codes are mapped back to codes when
+   exactly one option fits (the code with diacritics removed, a whole-word part of one option's label, or one edit
+   from one code of 5+ letters: "thí nghiệm" -> `thi_nghiem`, "tham_soc" -> `cham_soc`; Aya wrote a fifth of its
+   hobbies this way, Qwen 2.5%); other unknown codes, extra subjects or work types and skipped questions are removed;
    empty students are dropped; a mixed student's subjects are set to the seed's (Qwen followed them in 97% of cases).
 4. **Label filter: confident learning, tried and not used.** The training set is split into 5 parts; a model trained
    on the other 4 scores each student of the held-out part. A student is dropped when none of its groups gets a
@@ -170,8 +215,12 @@ and the data owes nothing to the two data scores the model uses ($a$ and $c$).
    thousands of students in time). On the 1,922 students it dropped 52% and lowered test Hit@5 from 0.81 to 0.77: the
    method needs good out-of-sample probabilities, and with about 27 students per group the held-out model found the
    right group in its top 5 for only 57% of them, so most flags were its own mistakes. Retried on 5,825 students: it
-   dropped 46% and Hit@5 was 0.84 against 0.89 without it. The training set is used unfiltered (the code keeps the
-   filter behind `--cl`).
+   dropped 46% and Hit@5 was 0.84 against 0.89 without it. Not used (the code keeps the filter behind `--cl`).
+5. **Second writer's students: O\*NET consistency filter.** An Aya student is kept when its interest group (the label,
+   or the second group of a mixed student) ranks in the top 20 of 70 by the O\*NET fit of its ticked work types and
+   hobbies; students who ticked none are kept. 2,095 of 4,081 kept. A check against an independent source, as the
+   test set's blind check is (Alberti et al. 2019), and the Interest Profiler's own matching. Top 10 kept 1,284 and
+   scored lower on the test set (0.88), top 20 matched Qwen alone (0.90). Qwen's students are not filtered.
 
 **Test set** (3 seeds per group): written and blind-checked by Gemini, a different model family from the training set,
 without personas and with its own prompt wording; a student is kept only if the blind check recovers its groups.
@@ -189,7 +238,9 @@ Nothing a real student enters is used or stored.
 | A large LLM writes labelled data; a small model is trained on it | Schick & Schütze (2021); Ye et al. (2022) | a whole labelled set generated from scratch; a tiny task model trained on it |
 | Label plus attributes in each prompt (region, style, clarity, skipped questions; for mixed students, the subjects and the interest group) | Yu et al. (2023) | attributed prompts beat plain "write an example of class X" prompts on many-class tasks and reduce bias such as regional bias |
 | A short persona per seed | Chan et al. (2024) | a persona in the prompt steers the LLM to a different perspective, giving varied data |
-| A second writer from another family (Vistral; planned, not available in time) | Schaffelder & Gatt (2026) | synthetic data from several sources keeps outputs varied (less "distribution collapse"); shown for fine-tuning LLMs, not small classifiers |
+| A second writer from another family (Aya Expanse 8B) | Schaffelder & Gatt (2026); Dang et al. (2024) | synthetic data from several sources keeps outputs varied (less "distribution collapse"); shown for fine-tuning LLMs, not small classifiers. Aya: Vietnamese among its languages |
+| Second writer's students kept only if their interests fit their group by O\*NET | Alberti et al. (2019); Rounds et al. | consistency with an independent source as a filter; O\*NET's own person-occupation matching |
+| Popularity weight from real places | Saerens et al. (2002) | adjusting a classifier's outputs to new class priors by their ratio |
 | Training labels filtered by confident learning (tried, not used: see step 4) | Northcutt et al. (2021) | out-of-sample predicted probabilities and per-class thresholds find wrong labels without a second labeller |
 | Test set: keep a student only if a blind model recovers its label | Alberti et al. (2019) | "roundtrip consistency" filtering of generated data |
 | Test set written by a model, checked by people | Perez et al. (2023) | model-written evaluation sets; human raters agreed with 90-100% of the labels |
@@ -207,7 +258,10 @@ On the test set only:
 - **Baseline**: the two data scores alone ($W = 0$, $\alpha = \beta = 1$). The trained model is kept only if it beats it.
 
 Behaviour checks: every group can reach the top 5 for some answers; no group is in the top 5 for more than about 25%
-of random answer sets; no answers gives no suggestions; same input gives the same output.
+of random answer sets; no answers gives no suggestions; same input gives the same output. The random answer sets draw
+subjects as often as 2026 exam candidates take them (`backend/config/suggest/subject_counts.csv`, from VnExpress's
+per-subject score histograms; the languages other than English are not published and are set to the rarest observed
+subject, an upper bound). The share with every subject equally likely is reported too (`top5_share_uniform_subjects`).
 
 Reviewed cases (CheckList, Ribeiro et al. 2020): generated answer sets (one group, two groups mixed, few answers, with
 a test student's text) are shown with the model's top 5 in a review page (`uniadvisor suggest-cases`,
@@ -215,18 +269,25 @@ a test student's text) are shown with the model's top 5 in a review page (`uniad
 a check every later model is scored on (`expectations.jsonl`, reported by `suggest-train` and `suggest-check`): added
 groups in the top 5 (or top 3), unticked groups out of the top 3, at least one kept group in the top 5.
 
-### Results (12,942 training students, 198 test students)
+### Results (15,038 training students, 198 test students)
 
 | | Hit@5 | Recall@5 |
 |---|---|---|
-| Trained model ($\lambda = 10^{-5}$, option value 0.2, $\alpha = 5.55$, $\beta = 2.51$) | 0.90 | 0.85 |
+| Trained model ($\lambda = 10^{-5}$, option value 0.2, popularity 0.2) | 0.88 | 0.84 |
+| ... without the popularity weight | 0.90 | 0.85 |
 | Baseline (data scores alone) | 0.49 | 0.40 |
+| Qwen only (12,943 students, after the recoding) | 0.91 | 0.83 |
+| Qwen + all 4,081 Aya students | 0.87 | 0.82 |
+| Qwen only, before the recoding (12,942; the previous model) | 0.90 | 0.85 |
 | Before the mixed students (9,920 students) | 0.91 | 0.85 |
 | ... and options at full weight (value 1) | 0.87 | 0.80 |
 | ... and learned subject weights (the first model) | 0.90 | 0.81 |
 
-90% of the test students find at least one fitting group in their top 5. With 198 test students, differences under
-about 0.03 are noise.
+88% of the test students find at least one fitting group in their top 5. With 198 test students, differences under
+about 0.03 are noise. The second writer and its filter leave the test score where it was (0.90 without popularity);
+what they add is a second family's habits in the data, which the literature above argues for, and the behaviour
+check (below) now passes without popularity. The test set is spread evenly over the groups, so the popularity weight
+can only cost there; it exists for real students, who are not.
 
 Three changes came from the reviewed cases, not from the test set:
 
@@ -253,6 +314,21 @@ The mixed students help where they were aimed but only a little: Qwen followed t
 interest side is uneven (some students meant to fit Kỹ thuật mỏ read like office workers). 34 cases are few; a
 difference of one or two cases is weak evidence.
 
+Reviewed cases, later (88, after 70 more were generated with `suggest-cases --extend`), every model scored on the same
+verdicts:
+
+| | Passing | Kept in top 5 | Unticked out of top 3 | Added in top 5 |
+|---|---|---|---|---|
+| Previous model (Qwen) | 54.5% | 86/87 | 26/45 | 2/37 |
+| Qwen + all Aya | 58.0% | 86/87 | 27/45 | 3/37 |
+| Qwen + filtered Aya (current, without popularity) | 54.5% | 86/87 | 27/45 | 1/37 |
+| ... with popularity 0.2 (shipped) | 53.4% | 84/87 | 27/45 | 1/37 |
+
+The groups the reviewer added are the weak spot whatever the data: mostly broad, popular groups (Công nghệ thông tin
+9 times, then Y học, Đào tạo giáo viên, Ngôn ngữ, Máy tính), often just outside the top 5 (ranks 6-10). With 5 slots,
+raising them pushes out other groups the reviewer also kept: the full popularity correction ($\tau = 1$) gets 8 of 37
+in but loses kept groups and test Hit@5 (0.77), and pooling a lĩnh vực's probability did not help.
+
 Learning curve (with learned subject weights, fixed $\lambda$, mean of two random subsets per size, same test set):
 
 | Training students | 1,456 | 2,976 | 5,952 | 7,936 | 9,920 |
@@ -263,19 +339,36 @@ Learning curve (with learned subject weights, fixed $\lambda$, mean of two rando
 Hit@5 levels off after about 6,000 students; Hit@1 still creeps up. More of the same writer is unlikely to help much;
 real students' answers would.
 
-Behaviour: every group reaches the top 5; no answers gives no suggestions; same input, same output. Two groups are over
-the 25% mark: 73103 (Xã hội học và Nhân học, 33%; it rose from 21% with the mixed students, cause not yet found) and
-72202 (Ngôn ngữ nước ngoài, 25%). Part of it is the check itself: its random answer sets pick options uniformly, and 7
-of the 18 subjects are foreign languages, which real students seldom tick. Before the O\*NET table was checked, 78190 was
-at 37%: its occupations mixed chefs and dietitians, which gave a flat profile, and a correlation with a flat profile
-swings on tiny differences.
+Behaviour: every group reaches the top 5; no answers gives no suggestions; same input, same output. The current model
+without popularity has no group over 25% (highest 72104, 24%). With popularity 0.2, 78101 (Du lịch, 28%) and 71402
+(Đào tạo giáo viên, 25%) go over: groups of average size gain on smaller ones they were level with. The 25% mark was
+set for a model with no popularity and is kept as a warning, not a rule. With the previous model (Qwen only) and no
+popularity, one group was just over the mark: 78102 (Khách sạn, nhà hàng, 27%), then 72102 (Nghệ thuật trình diễn,
+23%). 78102 had the highest learned option weights of all groups on average, mostly from
+hobbies (in its top 5 for 35% of the sets with hobbies, 9% without), led by "Chơi nhạc, hát" (+0.84 against the
+average group): Qwen ticks that hobby for 18% of the 291 training students labelled 78102, against 5% of all
+students. A writer habit, like the Toán one; Aya does it too (18%), but the filtered Aya students dilute it.
+
+With subjects drawn uniformly (the check's first version), 73103 (Xã hội học và Nhân học) is at 33% and 72202, 73801,
+73104 and 77601 at 18-25%. This comes from the check, not the model: 6 of the 18 subjects are rare languages (Nga,
+Pháp, Trung, Đức, Nhật, Hàn), only a few groups admit with combinations that have them (D02-D07), so their lift for
+those groups is 4-5 and the cap gives them the full subject score. 73103 has 7 programs, admitting with D02, D05 and
+D07 among others; its lead over the average group is the subject score (0.92, 2nd of 70) and its bias (0.38, 6th),
+while its learned option weights are below average. Leaving out the sets with a rare language, no group is over 20%;
+on the test set 73103 is in the top 5 for 7% of students. A real student who ticks Tiếng Đức still gets these groups
+pushed up, which is the admission data speaking (they do admit German), not a sign of interest; stronger shrinkage of
+lifts resting on few programs would temper it.
+
+Before the O\*NET table was checked, 78190 was at 37%: its occupations mixed chefs and dietitians, which gave a flat
+profile, and a correlation with a flat profile swings on tiny differences.
 
 Limits: the model learns the LLMs' judgement, not real students' choices, and real answers will be messier and less
 typical than generated ones. The test set is easier than the training set: its students passed a blind check, while
 the training students include unsure, contradictory and question-skipping ones on purpose. Hit@5 on held-out
-training students is 0.70 against 0.90 on the test set, so expect lower numbers on real, vaguer answers. Qwen wrote
-the whole training set, so its students share one model's habits (the variety argument of Schaffelder & Gatt does not
-apply); the Toán habit and the option weights above are two of them that the review caught. Li et al. (2023) found that models trained on synthetic data lose more the more
+training students is about 0.70 against 0.88-0.90 on the test set, so expect lower numbers on real, vaguer answers.
+Qwen still wrote 86% of the training set, so its habits dominate (the Toán habit and the option weights above are two
+the review caught); Aya brings its own (schools as workplace, music). The popularity weight uses places at 48 large
+Hà Nội and HCM universities, not the whole country. Li et al. (2023) found that models trained on synthetic data lose more the more
 subjective the task, and choosing a major is fairly subjective, so expect a gap on real students. Accuracy on real
 students is not measured.
 
@@ -284,8 +377,8 @@ students is not measured.
 | Path | What |
 |---|---|
 | `backend/uniadvisor/student/suggest/` | `__init__.py` (questionnaire, hobby -> type, `suggest()`), `features.py` (incl. the teen-code table), `priors.py`, `model.py`, `suggester.py`, `train.py` |
-| `backend/config/suggest/` | `onet_groups.csv` (group -> O\*NET occupations), `onet_review.csv` (its hand check), `onet/` (O\*NET 31.0 files) |
-| `backend/suggest_data/` | frozen sets: `train.jsonl`, `testset.jsonl`, `review_sample.csv` |
+| `backend/config/suggest/` | `onet_groups.csv` (group -> O\*NET occupations), `onet_review.csv` (its hand check), `onet/` (O\*NET 31.0 files), `subject_counts.csv` (2026 candidates per subject, for the behaviour check) |
+| `backend/suggest_data/` | frozen sets: `train.jsonl`, `testset.jsonl`, `review_sample.csv`; reviewed cases: `review_cases.jsonl` (add more with `suggest-cases --n 70 --extend`, which never changes existing cases), `expectations.jsonl` |
 | `artifacts/models/suggester/` | `model.npz`, `priors.json`, `group_profiles.csv`, `metrics.json`, `report.md` |
 
 `uniadvisor suggest-train` retrains from the frozen sets (same data, same model).
@@ -299,6 +392,8 @@ only the frozen sets, the final weights and the stable code are copied in.
   Consistency. ACL 2019. https://aclanthology.org/P19-1620/
 - Chan, X., Wang, X., Yu, D., Mi, H., Yu, D. (2024). Scaling Synthetic Data Creation with 1,000,000,000 Personas.
   arXiv:2406.20094 (technical report). https://arxiv.org/abs/2406.20094
+- Dang, J., et al. (2024). Aya Expanse: Combining Research Breakthroughs for a New Multilingual Frontier.
+  arXiv:2412.04261. https://arxiv.org/abs/2412.04261
 - Li, Z., Zhu, H., Lu, Z., Yin, M. (2023). Synthetic Data Generation with Large Language Models for Text Classification:
   Potential and Limitations. EMNLP 2023. https://aclanthology.org/2023.emnlp-main.647/
 - Long, L., Wang, R., Xiao, R., Zhao, J., Ding, X., Chen, G., Wang, H. (2024). On LLMs-Driven Synthetic Data Generation,
@@ -311,6 +406,8 @@ only the frozen sets, the final weights and the stable code are copied in.
   CheckList. ACL 2020. https://aclanthology.org/2020.acl-main.442/
 - Rounds, J., Hoff, K., Lewis, P. (eds.). O\*NET Interest Profiler Manual. National Center for O\*NET Development.
   https://www.onetcenter.org/dl_files/IP_Manual.pdf
+- Saerens, M., Latinne, P., Decaestecker, C. (2002). Adjusting the Outputs of a Classifier to New a Priori
+  Probabilities: A Simple Procedure. Neural Computation 14(1), 21-41. https://doi.org/10.1162/089976602753284446
 - Schaffelder, M., Gatt, A. (2026). Synthetic Eggs in Many Baskets: The Impact of Synthetic Data Diversity on LLM
   Fine-Tuning. Findings of ACL 2026. https://aclanthology.org/2026.findings-acl.360.pdf
 - Schick, T., Schütze, H. (2021). Generating Datasets with Pretrained Language Models. EMNLP 2021.
@@ -333,13 +430,15 @@ only the frozen sets, the final weights and the stable code are copied in.
 
 ## Next steps (not done)
 
-Cheap, measured on the test set, the reviewed cases and the behaviour checks together:
+1. **More reviewed cases** (in progress, 88 of 131): especially cases where a popular group (Kinh doanh, Kinh tế,
+   Truyền thông, CNTT) should have come up, added under "Nhóm lẽ ra phải có". They are the only evidence that can pick
+   the popularity weight $\tau$ (the test set is spread evenly over the groups and cannot).
+2. **Kinh tế học** stays rare at any $\tau$: check whether its training students differ from Kinh doanh's at all.
+3. **On the final data**: re-pick the option value (0.2 was chosen before the mixed students and the second writer)
+   and try the O\*NET filter on Qwen's mixed students too.
+4. Optional: stronger shrinkage of subject lifts that rest on few programs (rare languages, see Behaviour); a third
+   writer family (GLM-4-9B-chat is the candidate, bfloat16 weights, may fail on T4 as Gemma did).
 
-1. Re-pick the option value (0.2 was chosen before the mixed students).
-2. Keep only mixed students whose work types and hobbies correlate with their interest group's O\*NET profile
-   (consistency with an independent source, as the test set's blind check).
-3. Find why 73103 rose to 33% of random answer sets.
-
-Larger: a second writer from another model family (every remaining problem traces back to one writer's habits), and
-more reviewed cases (34 make every comparison above weak). More students from the same writer will not help (the
-learning curve is flat).
+More students from the same writer will not help (the learning curve is flat). Done (2026-10-05): why 73103 was at
+33% (the check's uniform subject draw), the second writer (Aya, filtered), example majors ordered by number of
+programs (Marketing and Truyền thông now named under their groups), the popularity weight.

@@ -14,19 +14,27 @@ import numpy as np
 from uniadvisor.student import suggest as sg
 from uniadvisor.student.form.options import SUBJECTS
 from uniadvisor.student.suggest import features as F
-from uniadvisor.student.suggest.model import Model
+from uniadvisor.student.suggest.model import Model, softmax
 from uniadvisor.student.suggest.priors import Priors
 
 SHOWN = 5
+# Popularity weight: z_k += POPULARITY * (log places_k - mean). The model learns from students spread evenly over the
+# groups, so it has no idea that Kinh doanh takes ~10% of students and Kinh tế học ~3%; adding the log of the real
+# share corrects a classifier for a new class prior (Saerens et al. 2002), and a fraction of it only part of the way.
+# 0.2 (docs/MODEL.md, "Popularity"): popular groups come up about as often as their share of places at little cost on
+# the evenly spread test set; 0.4 and more lets a few large groups crowd the top 5. Prediction only; training ignores it.
+POPULARITY = 0.2
 
 
 class Suggester:
-    def __init__(self, model: Model, priors: Priors | None = None):
+    def __init__(self, model: Model, priors: Priors | None = None, popularity: float = POPULARITY):
         self.m = model
         self.p = priors or Priors()
         if self.p.groups != model.groups:
             raise ValueError("the model and priors.json list different groups: rebuild priors and retrain")
         self.f = F.Featurizer(model.idf)
+        self.popularity = popularity
+        self.shift = popularity * self.p.log_places
 
     @classmethod
     def load(cls, path: Path) -> "Suggester":
@@ -40,7 +48,11 @@ class Suggester:
         return X, A, C
 
     def proba(self, answers: list[dict]) -> np.ndarray:
-        return self.m.proba(*self.inputs(answers))
+        return self.proba_of(*self.inputs(answers))
+
+    def proba_of(self, X, A, C) -> np.ndarray:  # noqa: ANN001
+        """softmax(model scores + popularity shift)."""
+        return softmax(self.m.scores(X, A, C) + self.shift)
 
     def ranked(self, proba_row: np.ndarray) -> list[int]:
         """Group indices, best first, with the stable tie-break (more programs, then lower code)."""
@@ -50,31 +62,32 @@ class Suggester:
         if not any(F.answered(a)):
             return []
         X, A, C = self.inputs([a])
-        P = self.m.proba(X, A, C)[0]
+        P = self.proba_of(X, A, C)[0]
         return [{"code": self.m.groups[k], "score": round(float(P[k]), 4), "reasons": self.reasons(a, X, A, C, k)}
                 for k in self.ranked(P)[:SHOWN]]
 
     def breakdown(self, a: dict, top: int = 10) -> dict:
         """For diagnosis: the score z_k of the `top` best groups split into its parts (docs/MODEL.md, H),
-        z_k = ticked answers + text + bias + alpha a_k + beta c_k, with f(x)_k = softmax(z)_k. Only differences between
-        groups matter. Also the student's RIASEC profile and the text as the model reads it."""
+        z_k = ticked answers + text + bias + alpha a_k + beta c_k + popularity, with f(x)_k = softmax(z)_k. Only
+        differences between groups matter. Also the student's RIASEC profile and the text as the model reads it."""
         X, A, C = self.inputs([a])
         x = X.getrow(0)
         mask = x.indices >= F.TEXT_OFFSET
         W = self.m.W
         answers_part = W[:, x.indices[~mask]] @ x.data[~mask]
         text_part = W[:, x.indices[mask]] @ x.data[mask]
-        z = answers_part + text_part + self.m.b + self.m.alpha * A[0] + self.m.beta * C[0]
-        P = self.m.proba(X, A, C)[0]
+        z = answers_part + text_part + self.m.b + self.m.alpha * A[0] + self.m.beta * C[0] + self.shift
+        P = self.proba_of(X, A, C)[0]
         order = self.ranked(P)
         shown = set(order[:SHOWN])
         rows = [{"rank": i + 1, "code": self.m.groups[k], "p": float(P[k]), "z": float(z[k]),
                  "answers": float(answers_part[k]), "text": float(text_part[k]), "bias": float(self.m.b[k]),
                  "a": float(A[0, k]), "alpha_a": float(self.m.alpha * A[0, k]),
-                 "c": float(C[0, k]), "beta_c": float(self.m.beta * C[0, k]), "shown": k in shown}
+                 "c": float(C[0, k]), "beta_c": float(self.m.beta * C[0, k]), "popularity": float(self.shift[k]),
+                 "shown": k in shown}
                 for i, k in enumerate(order[:top])]
         u = self.p.student_profile(a.get("work_types") or [], F.hobby_types(a))
-        return {"rows": rows, "alpha": self.m.alpha, "beta": self.m.beta,
+        return {"rows": rows, "alpha": self.m.alpha, "beta": self.m.beta, "popularity": self.popularity,
                 "riasec": dict(zip(["R", "I", "A", "S", "E", "C"], u.tolist())),
                 "text": F.normalise(F.text_of(a)), "rule": f"top {SHOWN}"}
 

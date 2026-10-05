@@ -127,6 +127,38 @@ def test_the_shipped_model_suggests_fitting_groups():
                              "text": "em muon lam lap trinh vien phan mem"})
 
 
+def test_behaviour_check_draws_subjects_as_candidates_take_them():
+    from uniadvisor.student.suggest.train import random_answers, subject_weights
+
+    w = subject_weights()
+    assert len(w) == len(F.SUBJ) and abs(w.sum() - 1) < 1e-9
+    drawn = [x for a in random_answers(2000, weights=w) for x in a.get("subjects") or []]
+    rare = {"N2", "N3", "N4", "N5", "N6", "N7"}
+    assert sum(x in rare for x in drawn) / len(drawn) < 0.03          # uniform would give 6/18
+    assert drawn.count("TO") > drawn.count("TI")
+
+
+def test_popularity_weight_lifts_large_groups_and_only_at_prediction():
+    s = Suggester.load(sg.MODEL_DIR / "model.npz")
+    flat = Suggester(s.m, s.p, popularity=0.0)
+    a = {"work_types": ["E", "C"], "hobbies": ["kinh_doanh"]}
+    big = s.m.groups.index("73401")                                     # Kinh doanh: the most places
+    assert s.p.log_places[big] == s.p.log_places.max()
+    assert s.proba([a])[0][big] > flat.proba([a])[0][big]
+    assert np.allclose(s.shift, s.popularity * s.p.log_places) and abs(s.p.log_places.mean()) < 1e-9
+    row = next(r for r in s.breakdown(a, top=70)["rows"] if r["code"] == "73401")
+    assert abs(row["popularity"] - s.shift[big]) < 1e-12
+
+
+def test_group_examples_name_the_most_taught_majors_first():
+    from uniadvisor.student.form import picker
+
+    g = picker().group("73401")
+    assert g.examples(2).startswith("Quản trị kinh doanh, Marketing")
+    counts = [m.n_programs for m in sorted(g.majors, key=lambda m: (-m.n_programs, m.code))]
+    assert counts == sorted(counts, reverse=True)
+
+
 def test_the_shipped_model_reads_free_text_alone_and_gives_nothing_for_nothing():
     it = sg.suggest({"text": "Em muốn làm bác sĩ chữa bệnh cứu người"})
     assert "77201" in {s["code"] for s in it}

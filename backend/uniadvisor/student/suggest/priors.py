@@ -6,6 +6,10 @@
 - c_k(x), work-type fit: the correlation between the student's RIASEC profile (1 per ticked work type, 0.5 per ticked
   hobby's type) and the group's O*NET profile, rescaled to [0, 1], as the O*NET Interest Profiler matches people to
   occupations.
+- places_k: how many students group k takes, the sum of its programs' quotas in the latest year (a program without a
+  quota counts as its group's median program). The suggester adds tau * (log places_k - mean) to every score: the
+  training students are spread evenly over the groups, real students are not (Saerens et al. 2002; suggester.py).
+  By field these shares match MOET's 2025 national enrolment (rank correlation 0.81, docs/MODEL.md).
 
 A group's O*NET profile is the mean "Occupational Interests" score (1-7 per RIASEC type, O*NET 31.0, CC BY 4.0,
 USDOL/ETA) of the occupations listed for it in backend/config/suggest/onet_groups.csv (hand-made, checked by hand on
@@ -94,11 +98,29 @@ def build(db=None) -> dict:  # noqa: ANN001
     prof = group_profiles(groups)
     riasec = {r.group_code: [float(getattr(r, t)) for t in TYPES] for r in prof.itertuples()}
     out = {"groups": groups, "subjects": list(SUBJECTS), "lift": lift, "riasec": riasec,
-           "n_programs": {g: int(counts.get(g, 0)) for g in groups}}
+           "n_programs": {g: int(counts.get(g, 0)) for g in groups}, **places(db, c, groups)}
     OUT.mkdir(parents=True, exist_ok=True)
     PRIORS.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     prof.to_csv(OUT / "group_profiles.csv", index=False, encoding="utf-8-sig")
     return out
+
+
+def places(db, catalog, groups: list[str]) -> dict:  # noqa: ANN001
+    """{"places": group -> students taken (latest quota year), "places_year", "places_quota_share"}; programs without a
+    quota count as their group's median program (the overall median when the group has none)."""
+    q = db.tables.get("quotas")
+    if q is None or q.empty:               # e.g. a simulated database: every group the same size
+        return {"places": {g: 1.0 for g in groups}, "places_year": None, "places_quota_share": 0.0}
+    year = int(q.year.max())
+    q = q[q.year == year].groupby("program_id").quota.sum()
+    c = catalog[["program_id", "moet_group_code"]].copy()
+    c["quota"] = c.program_id.map(q)
+    known = float(c.quota.notna().mean())
+    overall = float(c.quota.median())
+    c["quota"] = c.groupby("moet_group_code").quota.transform(lambda x: x.fillna(x.median() if x.notna().any() else overall))
+    total = c.groupby("moet_group_code").quota.sum()
+    return {"places": {g: round(float(total.get(g, overall)), 1) for g in groups}, "places_year": year,
+            "places_quota_share": round(known, 3)}
 
 
 def load() -> dict:
@@ -117,6 +139,8 @@ class Priors:
         prof = np.array([data["riasec"][g] for g in self.groups])                                # K x 6
         self.prof = prof - prof.mean(axis=1, keepdims=True)
         self.n_programs = np.array([data["n_programs"][g] for g in self.groups])
+        lp = np.log([data["places"][g] for g in self.groups]) if "places" in data else np.zeros(len(self.groups))
+        self.log_places = lp - lp.mean()       # 0 = a group of average size
 
     def subject_fit(self, subjects: list[str]) -> np.ndarray:
         idx = [self.subjects.index(s) for s in subjects if s in self.subjects]

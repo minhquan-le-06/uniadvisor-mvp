@@ -59,3 +59,73 @@
 {"id": "C058", "kind": "clear", "answers": {"subjects": ["GDKTPL", "SU", "VA"], "work_types": ["S", "A"], "hobbies": ["ve_thiet_ke", "du_lich"]}}
 {"id": "C059", "kind": "clear", "answers": {"subjects": ["SU", "N6"], "work_types": ["I", "A"], "hobbies": ["thi_nghiem", "viet_doc"], "workplace": ["van_phong"]}}
 {"id": "C060", "kind": "clear", "answers": {"subjects": ["LI", "TO", "HO"], "work_types": ["C"], "hobbies": ["sap_xep"], "workplace": ["nha_may_phong_thi_nghiem"]}}
+{"id": "C061", "kind": "clear", "answers": {"subjects": ["GDKTPL", "DI", "SI"], "work_types": ["I", "R"], "hobbies": ["cay_con_vat", "sua_chua", "thi_nghiem"], "workplace": ["ngoai_troi"]}}
+{"id": "C062", "kind": "sparse", "answers": {"hobbies": ["am_nhac", "sap_xep", "quay_dung"]}}
+{"id": "C063", "kind": "clear", "answers": {"subjects": ["SU", "CNNN"], "work_types": ["E", "S"], "hobbies": ["cham_soc", "tranh_bien"], "workplace": ["truong_hoc"]}}
+{"id": "C064", "kind": "sparse", "answers": {"hobbies": ["thi_nghiem", "ve_thiet_ke"], "subjects": ["N7", "SU"]}}
+{"id": "C065", "kind": "clear", "answers": {"subjects": ["GDKTPL", "HO", "TO"], "work_types": ["R", "I"], "hobbies": ["cay_con_vat", "sua_chua"], "workplace": ["benh_vien"]}}
+{"id": "C066", "kind": "text", "answers": {"subjects": ["SI", "LI", "TO"], "work_types": ["R"], "hobbies": ["code"], "workplace": ["ngoai_troi"], "text": "Em muốn làm chuyên viên vẽ bản đồ địa hình hoặc đo đạc đất đai, nhưng em lại khá ngại đi xa và chỉ thích ngồi một chỗ làm việc với máy tính."}}
+{"id": "C067", "kind": "sparse", "answers": {"subjects": ["LI", "CNNN"], "workplace": ["van_phong"]}}
+{"id": "C068", "kind": "clear", "answers": {"subjects": ["N1", "TO"], "work_types": ["E", "C"], "hobbies": ["tranh_bien", "sap_xep", "kinh_doanh"]}}
+{"id": "C069", "kind": "mixed", "answers": {"subjects": ["SU", "DI"], "work_types": ["I"], "hobbies": ["the_thao", "cay_con_vat"]}}
+{"id": "C070", "kind": "clear", "answers": {"subjects": ["SI", "HO"], "work_types": ["I", "C"], "hobbies": ["code", "thi_nghiem"], "workplace": ["van_phong"]}}
+{"id": "C071", "kind": "text", "answers": {"subjects": ["SU", "CNNN", "VA"], "work_types": ["R"], "hobbies": ["am_nhac"], "workplace": ["van_phong"], "text": "muon ve kientruc hoac quan ly do thi j do ma k biet dc k"}}
+{"id": "C072", "kind": "clear", "answers": {"subjects": ["N4", "DI"], "work_types": ["A", "S"], "hobbies": ["quay_dung", "day_ban"], "workplace": ["van_phong"]}}
+{"id": "C073", "kind": "clear", "answers": {"subjects": ["TI", "TO"], "work_types": ["C"], "hobbies": ["kinh_doanh"], "workplace": ["van_phong"]}}
+{"id": "C074", "kind": "clear", "answers": {"subjects": ["N3", "N2", "GDKTPL"], "work_types": ["C"], "hobbies": ["sap_xep"]}}
+{"id": "C075", "kind": "sparse", "answers": {"subjects": ["SI", "TO", "TI"], "work_types": ["I"]}}
+{"id": "C076", "kind": "sparse", "answers": {"workplace": ["van_phong"], "work_types": ["I"]}}
+{"id": "C077", "kind": "clear", "answers": {"subjects": ["LI", "TO"], "work_types": ["R", "I"], "hobbies": ["code"]}}
+{"id": "C078", "kind": "sparse", "answers": {"subjects": ["CNNN", "N3"], "hobbies": ["sua_chua", "code"]}}
+{"id": "C079", "kind": "text", "answers": {"subjects": ["N1", "GDKTPL", "N2"], "work_types": ["I", "C"], "hobbies": ["thi_nghiem", "sap_xep", "code"], "workplace": ["van_phong"], "text": "Tôi muốn trở thành chuyên gia phân tích thị trường hoặc chuyên viên tư vấn tâm lý, giúp mọi người giải quyết các vướng mắc trong cuộc sống và công việc kinh doanh."}}
+{"id": "C080", "kind": "sparse", "answers": {"hobbies": ["thi_nghiem", "cay_con_vat"], "work_types": ["R"]}}
+{"id": "C081", "kind": "clear", "answers": {"subjects": ["TI", "LI"], "work_types": ["I"], "hobbies": ["the_thao", "code", "cay_con_vat"]}}
+{"id": "C082", "kind": "clear", "answers": {"subjects": ["SU", "DI", "N3"], "work_types": ["C"], "hobbies": ["tranh_bien"], "workplace": ["van_phong"]}}
+{"id": "C083", "kind": "sparse", "answers": {"work_types": ["C", "S"], "subjects": ["CNNN", "N6"]}}
+{"id": "C084", "kind": "clear", "answers": {"subjects": ["SI", "DI", "HO"], "work_types": ["A", "R"], "hobbies": ["am_nhac"], "workplace": ["ngoai_troi"]}}
+{"id": "C085", "kind": "clear", "answers": {"subjects": ["N3", "N6"], "work_types": ["E", "C"], "hobbies": ["tranh_bien", "kinh_doanh"], "workplace": ["van_phong"]}}
+{"id": "C086", "kind": "text", "answers": {"subjects": ["VA", "GDKTPL", "DI"], "work_types": ["I", "E"], "hobbies": ["tranh_bien", "thi_nghiem"], "text": "Làm quản lý nhà nước hoặc người lãnh đạo."}}
+{"id": "C087", "kind": "sparse", "answers": {"subjects": ["LI", "TO", "SI"], "hobbies": ["cay_con_vat", "code", "thi_nghiem"]}}
+{"id": "C088", "kind": "mixed", "answers": {"subjects": ["TO", "N1"], "work_types": ["C"], "hobbies": ["du_lich", "cham_soc", "day_ban"]}}
+{"id": "C089", "kind": "clear", "answers": {"subjects": ["TO", "CNNN", "SI"], "work_types": ["I", "R"], "hobbies": ["thi_nghiem", "code"], "workplace": ["nha_may_phong_thi_nghiem"]}}
+{"id": "C090", "kind": "clear", "answers": {"subjects": ["SU", "N4", "DI"], "work_types": ["S", "I"], "hobbies": ["code", "cham_soc", "thi_nghiem"]}}
+{"id": "C091", "kind": "clear", "answers": {"subjects": ["SI", "TO", "CNNN"], "work_types": ["R", "I"], "hobbies": ["code"]}}
+{"id": "C092", "kind": "clear", "answers": {"subjects": ["TI", "LI", "CNNN"], "work_types": ["I"], "hobbies": ["thi_nghiem"], "workplace": ["van_phong"]}}
+{"id": "C093", "kind": "sparse", "answers": {"hobbies": ["the_thao"]}}
+{"id": "C094", "kind": "clear", "answers": {"subjects": ["SI", "N5", "DI"], "work_types": ["R", "I"], "hobbies": ["sua_chua", "thi_nghiem", "cay_con_vat"]}}
+{"id": "C095", "kind": "clear", "answers": {"subjects": ["HO", "SI", "CNNN"], "work_types": ["C", "R"], "hobbies": ["sap_xep"], "workplace": ["nha_may_phong_thi_nghiem"]}}
+{"id": "C096", "kind": "text", "answers": {"subjects": ["TI", "LI", "CNCN"], "work_types": ["R", "C"], "hobbies": ["sap_xep", "cay_con_vat"], "workplace": ["nha_may_phong_thi_nghiem"], "text": "Thiết kế vi mạch hoặc kỹ sư vận hành hệ thống điện tử."}}
+{"id": "C097", "kind": "sparse", "answers": {"hobbies": ["sua_chua", "sap_xep", "cay_con_vat"]}}
+{"id": "C098", "kind": "mixed", "answers": {"subjects": ["SI", "CNNN", "HO"], "work_types": ["I", "R"], "hobbies": ["sua_chua", "thi_nghiem", "the_thao"]}}
+{"id": "C099", "kind": "clear", "answers": {"subjects": ["SU", "N1", "DI"], "work_types": ["I"], "hobbies": ["sap_xep", "thi_nghiem", "code"], "workplace": ["van_phong"]}}
+{"id": "C100", "kind": "sparse", "answers": {"subjects": ["HO", "CNCN", "LI"]}}
+{"id": "C101", "kind": "sparse", "answers": {"work_types": ["I", "C"], "subjects": ["TI", "CNCN", "CNNN"]}}
+{"id": "C102", "kind": "sparse", "answers": {"subjects": ["SI", "TI"], "work_types": ["I"]}}
+{"id": "C103", "kind": "clear", "answers": {"subjects": ["CNNN", "TO"], "work_types": ["R", "E"], "hobbies": ["cay_con_vat", "sua_chua", "tranh_bien"]}}
+{"id": "C104", "kind": "sparse", "answers": {"subjects": ["HO", "TO"], "workplace": ["benh_vien"]}}
+{"id": "C105", "kind": "sparse", "answers": {"workplace": ["van_phong"]}}
+{"id": "C106", "kind": "clear", "answers": {"subjects": ["GDKTPL", "VA"], "work_types": ["A", "R"], "hobbies": ["ve_thiet_ke", "sua_chua"], "workplace": ["van_phong"]}}
+{"id": "C107", "kind": "clear", "answers": {"subjects": ["SI", "LI"], "work_types": ["R"], "hobbies": ["cay_con_vat"], "workplace": ["van_phong"]}}
+{"id": "C108", "kind": "clear", "answers": {"subjects": ["N7", "N2", "SU"], "work_types": ["A"], "hobbies": ["thi_nghiem", "viet_doc"]}}
+{"id": "C109", "kind": "mixed", "answers": {"subjects": ["SU", "DI", "GDKTPL"], "work_types": ["C", "I"], "hobbies": ["sap_xep", "thi_nghiem"]}}
+{"id": "C110", "kind": "mixed", "answers": {"subjects": ["HO", "LI"], "work_types": ["S", "I"], "hobbies": ["thi_nghiem", "day_ban"], "workplace": ["benh_vien"]}}
+{"id": "C111", "kind": "clear", "answers": {"subjects": ["LI", "SI", "HO"], "work_types": ["R"], "hobbies": ["the_thao", "code"], "workplace": ["benh_vien"]}}
+{"id": "C112", "kind": "sparse", "answers": {"workplace": ["van_phong"], "subjects": ["VA", "N1", "LI"]}}
+{"id": "C113", "kind": "clear", "answers": {"subjects": ["DI", "GDKTPL"], "work_types": ["S"], "hobbies": ["the_thao", "cay_con_vat"]}}
+{"id": "C114", "kind": "sparse", "answers": {"work_types": ["I", "S"]}}
+{"id": "C115", "kind": "clear", "answers": {"subjects": ["GDKTPL", "DI"], "work_types": ["S"], "hobbies": ["viet_doc", "cham_soc", "ve_thiet_ke"]}}
+{"id": "C116", "kind": "sparse", "answers": {"work_types": ["C"], "subjects": ["N3", "N1", "CNNN"]}}
+{"id": "C117", "kind": "clear", "answers": {"subjects": ["N1", "TO"], "work_types": ["S", "I"], "hobbies": ["day_ban", "code", "thi_nghiem"], "workplace": ["benh_vien"]}}
+{"id": "C118", "kind": "clear", "answers": {"subjects": ["LI", "SI"], "work_types": ["C", "S"], "hobbies": ["du_lich"], "workplace": ["benh_vien"]}}
+{"id": "C119", "kind": "mixed", "answers": {"subjects": ["TO", "N1", "HO"], "work_types": ["C", "I"], "hobbies": ["code"], "workplace": ["nha_may_phong_thi_nghiem"]}}
+{"id": "C120", "kind": "sparse", "answers": {"work_types": ["E", "C"], "hobbies": ["sap_xep"]}}
+{"id": "C121", "kind": "sparse", "answers": {"work_types": ["I", "R"], "hobbies": ["cay_con_vat", "thi_nghiem", "code"]}}
+{"id": "C122", "kind": "mixed", "answers": {"subjects": ["CNNN", "HO"], "work_types": ["C"], "hobbies": ["the_thao", "sua_chua", "cay_con_vat"], "workplace": ["nha_may_phong_thi_nghiem"]}}
+{"id": "C123", "kind": "mixed", "answers": {"subjects": ["DI", "N3", "VA"], "work_types": ["R", "C"], "hobbies": ["sua_chua", "sap_xep"], "workplace": ["ngoai_troi"]}}
+{"id": "C124", "kind": "clear", "answers": {"subjects": ["CNCN", "SI", "LI"], "work_types": ["C"], "hobbies": ["sua_chua", "the_thao", "sap_xep"]}}
+{"id": "C125", "kind": "clear", "answers": {"subjects": ["N7", "N2"], "work_types": ["I", "S"], "hobbies": ["du_lich"], "workplace": ["van_phong"]}}
+{"id": "C126", "kind": "clear", "answers": {"subjects": ["CNCN", "LI"], "work_types": ["C"], "hobbies": ["sua_chua"], "workplace": ["nha_may_phong_thi_nghiem"]}}
+{"id": "C127", "kind": "mixed", "answers": {"subjects": ["SU", "CNNN"], "work_types": ["C"], "hobbies": ["kinh_doanh"]}}
+{"id": "C128", "kind": "text", "answers": {"subjects": ["SU", "CNNN", "DI"], "work_types": ["A", "R"], "hobbies": ["quay_dung"], "workplace": ["van_phong"], "text": "mun lm j do lien quan toi sang tao ve voi ma so ko du trinh hic"}}
+{"id": "C129", "kind": "mixed", "answers": {"subjects": ["SU", "N5", "DI"], "work_types": ["R"], "hobbies": ["code", "the_thao", "sua_chua"], "workplace": ["ngoai_troi"]}}
+{"id": "C130", "kind": "sparse", "answers": {"work_types": ["S"], "subjects": ["N2", "N5"]}}

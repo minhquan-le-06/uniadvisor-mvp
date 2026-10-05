@@ -62,11 +62,17 @@ def _profile(g: int, p, places: dict, rng: random.Random) -> dict:  # noqa: ANN0
     return out
 
 
-def make_cases(n: int = 60, seed: int = SEED) -> list[dict]:
+def make_cases(n: int = 60, seed: int = SEED, extend: bool = False) -> list[dict]:
+    """n generated cases. extend=True appends n new ones (own RNG stream, ids after the last C id) and keeps every
+    existing case, so earlier verdicts stay attached to the same answers."""
     from uniadvisor.student.suggest.priors import Priors
 
     p = Priors()
-    rng = random.Random(seed)
+    old = read(CASES) if CASES.exists() else []
+    start = max((int(c["id"][1:]) for c in old if c["id"].startswith("C")), default=0) if extend else 0
+    # start 0 = the original stream; cases also depend on train.jsonl (workplaces), so a full regeneration after a
+    # training-set change gives different answers: use extend to add cases once verdicts exist
+    rng = random.Random(seed if start == 0 else seed * 1000 + start)
     train = read(SUGGEST_DATA / "train.jsonl")
     places = {}
     for code in p.groups:
@@ -98,8 +104,9 @@ def make_cases(n: int = 60, seed: int = SEED) -> list[dict]:
                 a["text"] = rng.choice(pool)
             else:
                 kind = "clear"
-        cases.append({"id": f"C{i + 1:03d}", "kind": kind, "answers": a})
-    cases = [c for c in read(CASES) if c["kind"] == "user"] + cases      # the reviewer's own cases are never dropped
+        cases.append({"id": f"C{start + i + 1:03d}", "kind": kind, "answers": a})
+    keep = old if extend else [c for c in old if c["kind"] == "user"]      # the reviewer's own cases are never dropped
+    cases = keep + cases
     write(CASES, cases)
     return cases
 

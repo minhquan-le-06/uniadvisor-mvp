@@ -35,6 +35,12 @@ class Group:
         """What the dropdown shows; the lĩnh vực is part of it so the dropdown's search finds it."""
         return f"{self.name} ({self.n_programs} ngành) · {self.field_name}"
 
+    def examples(self, n: int = 3) -> str:
+        """The n majors taught by the most programs (ties: lower code), e.g. Marketing before Quản trị - Luật."""
+        best = sorted(self.majors, key=lambda m: (-m.n_programs, m.code))
+        more = f" và {len(best) - n} ngành khác" if len(best) > n else ""
+        return ", ".join(m.name for m in best[:n]) + more
+
 
 @dataclass(frozen=True)
 class Picker:

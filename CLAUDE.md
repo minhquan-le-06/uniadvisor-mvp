@@ -10,7 +10,7 @@ before trusting any number.
 
 ```bash
 .venv/Scripts/python -m pip install -e ".[dev]"     # add ",slm" to run the SLM (pulls torch)
-.venv/Scripts/python -m pytest -q                   # ~90 s; 155 pass (data/tests alone: module 1)
+.venv/Scripts/python -m pytest -q                   # ~2 min; 158 pass (data/tests alone: module 1)
 .venv/Scripts/uniadvisor slm-data                   # regenerates backend/slm_data/*.jsonl (~40 s); needed by SLM tests/eval
 .venv/Scripts/uniadvisor app                        # Streamlit chat, http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # FastAPI, http://localhost:8000/docs
@@ -37,7 +37,7 @@ Data pipeline (yearly refresh): `collect` → `fetch-scores` (optional, ~350 MB 
 | `data/sim/<name>/` | simulated databases and students, same schema, `SIM-` ids; rebuilt from the seed in their manifest | yes |
 | `data/unipilot/` | UniPilotData step-1 export (schools, programs, combos) | yes |
 | `backend/slm_data/` | rubrics, gold set (`gold_frozen.jsonl`, `gold_llm.csv`, `gold_to_label.csv`); `*.jsonl` splits are regenerated | yes |
-| `backend/suggest_data/` | group suggester's frozen sets: `train.jsonl` (12,942 LLM-written students), `testset.jsonl` (199), `review_sample.csv` (hand check), `review_cases.jsonl` + `expectations.jsonl` (reviewed cases = checks); generated in `../MLAI_suggester/` | yes |
+| `backend/suggest_data/` | group suggester's frozen sets: `train.jsonl` (15,038 LLM-written students: Qwen + filtered Aya), `testset.jsonl` (199), `review_sample.csv` (hand check), `review_cases.jsonl` + `expectations.jsonl` (reviewed cases = checks); generated in `../MLAI_suggester/` | yes |
 | `data/raw/`, `data/inbox/` | HTTP cache; per-candidate score files | yes |
 | `artifacts/models/` | `forecast_params.json`; `artifacts/models/slm/` = trained SLM (`config.json`, `metrics.json`, `adapter.pt`); `artifacts/models/suggester/` = group suggester (`model.npz`, `priors.json`, `metrics.json`) | yes |
 | `artifacts/build/` | build intermediates: cutoff consensus over all sources, distributions, exclusions, problems | yes |
