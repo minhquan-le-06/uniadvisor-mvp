@@ -10,7 +10,7 @@ before trusting any number.
 
 ```bash
 .venv/Scripts/python -m pip install -e ".[dev]"     # add ",slm" to run the SLM (pulls torch)
-.venv/Scripts/python -m pytest -q                   # ~2 min; 158 pass (data/tests alone: module 1)
+.venv/Scripts/python -m pytest -q                   # ~2 min; 159 pass (data/tests alone: module 1)
 .venv/Scripts/uniadvisor slm-data                   # regenerates backend/slm_data/*.jsonl (~40 s); needed by SLM tests/eval
 .venv/Scripts/uniadvisor app                        # Streamlit chat, http://localhost:8501
 .venv/Scripts/uniadvisor serve                      # FastAPI, http://localhost:8000/docs
