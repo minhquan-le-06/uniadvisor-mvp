@@ -75,6 +75,9 @@ thành phố với nơi học, mã ngành với nhóm ngành em thích.
 - **Đã thống nhất:**
   - cấu trúc JSON phiên bản 1 ([docs/STUDENT_SCHEMA.md](../STUDENT_SCHEMA.md));
   - phần hỏi có hướng dẫn gồm 9 bước, có ô "Gõ tên ngành em nghĩ tới" giúp tìm nhóm ngành;
+  - tên nhóm ngành hiển thị theo cách học sinh và báo chí hay gọi (`backend/config/group_labels.csv`, 53/70 nhóm đổi
+    tên, ví dụ "Máy tính" -> "Khoa học máy tính, Trí tuệ nhân tạo (AI), Kỹ thuật phần mềm"), tên của Bộ GD&ĐT vẫn hiện
+    bên cạnh; ô tìm kiếm hiểu cả viết tắt (KHMT, KHDL, CNTT, QTKD). Chỉ đổi phần hiển thị: JSON vẫn ghi mã;
   - mô hình gợi ý nhóm ngành cho "Em chưa biết" ([docs/MODEL.md](../MODEL.md)): hồi quy logistic học từ dữ liệu sinh
     ra (bộ mô phỏng + LLM viết câu chữ), không gọi LLM khi chạy.
 - **Phần hỏi có hướng dẫn (bản thử, đã có):**

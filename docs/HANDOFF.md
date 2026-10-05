@@ -35,7 +35,9 @@ team overview and the module 3 plan: [TEAM_REPORT.md](TEAM_REPORT.md).
   `uniadvisor.student.simulated.OracleJudge` (an always-right module 2).
 - Module 2 (student understanding): **in progress**. The student JSON for module 3 is agreed (docs/STUDENT_SCHEMA.md); a
   9-step guided chat fills it (`app/pages/hoi_dap.py`, logic in `uniadvisor.student.form`), with a trained "Em chưa
-  biết" group suggester (docs/MODEL.md: 15,038 students from two LLM families, a popularity weight from 2026 quotas;
+  biết" group suggester (docs/MODEL.md: 15,038 students from two LLM families; at prediction a popularity weight from
+  2026 quotas, a penalty for groups few students choose and one shortcut option ignored; groups shown under the names
+  students know, `backend/config/group_labels.csv`;
   test Hit@5 0.88, 0.90 without that weight, against 0.49 for the data scores alone; a review tool turns a
   person's verdicts into checks, `uniadvisor suggest-review`). Waiting on: the hand-over to module 3 and moving the
   guided chat into the main app. The fact reader (`uniadvisor.student.intent`, `uniadvisor intent-eval`) stays for
