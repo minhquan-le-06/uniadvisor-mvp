@@ -63,7 +63,9 @@ Every question is optional. A skipped question is absent from the input, not an 
 - `reasons`: the 1-2 inputs that added most to that group's score, in Vietnamese.
 - Length: always the top 5 groups (first "at least 3, more if within 0.6 of the best"; the reviewed cases showed a mixed student's second direction often at 4-5). Empty when no question was answered.
 
-The caller shows the suggestions ticked; the student unticks or adds. The model never writes anything itself.
+The caller shows the suggestions ticked; the student unticks or adds. The model never writes anything itself. Groups
+are shown under the names students know (`backend/config/group_labels.csv`, drafted 2026-10-05 for the team to check;
+MOET's name stays beside them); the model, the data and the reviewed cases use only codes.
 
 ## The model
 

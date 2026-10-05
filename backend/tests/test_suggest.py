@@ -208,13 +208,20 @@ def test_guided_chat_em_chua_biet_suggests_and_adds_the_ticked_groups():
     assert len(log) == 1 and log[0]["dropped"] == [shown[-1][len("f_sg_"):]] and "75201" in log[0]["kept"]
 
 
-def test_khac_groups_say_which_field_they_belong_to():
+def test_groups_show_their_label_and_keep_moet_names_and_search_finds_abbreviations():
     from uniadvisor.student.form import picker
+    from uniadvisor.student.form.picker import _labels, search
     from unidata.db import get_db
 
     p = picker(get_db())
-    assert p.name("78190") == "Khác thuộc lĩnh vực Du lịch, khách sạn, thể thao và dịch vụ cá nhân"
-    assert p.name("74801") == "Máy tính"
+    assert p.moet_name("78190") == "Khác thuộc lĩnh vực Du lịch, khách sạn, thể thao và dịch vụ cá nhân"
+    assert p.moet_name("74801") == "Máy tính" and p.name("74801").startswith("Khoa học máy tính")
+    assert p.name("74601").startswith("Khoa học dữ liệu")                 # MOET calls it Toán học
+    assert p.name("73104") == p.moet_name("73104") == "Tâm lý học"        # no label: MOET's name
+    assert "nhóm Máy tính" in p.group("74801").label                     # the dropdown still finds MOET's name
+    assert set(_labels()) == {g.code for g in p.groups}                  # one row per group in group_labels.csv
+    assert search("KHMT", p)[0] == "74801" and search("KHDL", p)[0] == "74601"
+    assert "75106" in search("logistics", p)
 
 
 def test_review_checks_added_dropped_and_kept_groups():

@@ -110,7 +110,10 @@ with `uniadvisor.student.intent.covers(code, program_major_code)`: the code is a
 
 1. **Nhóm ngành** dropdown: only the groups with at least one program in the database (70 of MOET's 95 today,
    recomputed from `get_db()`), listed under their lĩnh vực, searchable, each with its number of programs
-   ("Công nghệ thông tin (68 ngành)"). Groups without programs are hidden.
+   ("Công nghệ thông tin (68 ngành)"). Groups without programs are hidden. A group is shown under the name students
+   know when MOET's hides it (`backend/config/group_labels.csv`: "Khoa học máy tính, Trí tuệ nhân tạo (AI), Kỹ thuật
+   phần mềm" for MOET's "Máy tính"), with MOET's name beside it; the search box also finds abbreviations (KHMT, KHDL,
+   CNTT). Display only: the JSON carries the code either way.
 2. **Ngành** dropdown, optional: the ngành in that group our schools offer (283 today), plus "Tất cả ngành trong
    nhóm này" (the default, which writes the nhóm ngành code).
 3. For interests only, **Rất thích / Thích**.

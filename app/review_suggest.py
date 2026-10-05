@@ -37,8 +37,6 @@ if "cur" not in ss:
     ss.cur = next((i for i, c in enumerate(cases) if c["id"] not in verdicts), 0)
 
 
-def examples(code: str, n: int = 3) -> str:
-    return P.group(code).examples(n)
 
 
 def go(i: int) -> None:
@@ -105,10 +103,10 @@ with right:
             kept.append(code)
         else:
             dropped.append(code)
-        st.caption(f"Ví dụ: {examples(code)} · vì: {why}")
+        st.caption(f"{P.group(code).caption()} · vì: {why}")
     others = [g.code for g in P.groups if g.code not in top5]
     added = st.multiselect("Nhóm lẽ ra phải có (nếu thiếu)", others, default=[c for c in old.get("added", []) if c in others],
-                           format_func=lambda c: f"{P.name(c)} · {P.group(c).field_name}", key=f"{cid}_added",
+                           format_func=lambda c: P.group(c).label, key=f"{cid}_added",
                            placeholder="Gõ để tìm nhóm ngành")
     k = 5
     if added:

@@ -306,7 +306,7 @@ def confirm_suggestions() -> None:
         if st.checkbox(f"**{P.name(s['code'])}**" + (f" (vì {reason})" if reason else ""), value=True,
                        key=f"f_sg_{s['code']}", help=f"Gồm các ngành như: {examples(s['code'])}"):
             keep.append(s["code"])
-        st.caption(f"Ví dụ: {examples(s['code'])}")
+        st.caption(P.group(s["code"]).caption())
     if DEBUG and ss.f_sg_debug:
         scoring_panel(ss.f_sg_debug)
     if st.button("Xác nhận", type="primary", key="f_sg_ok", icon=":material/check:"):

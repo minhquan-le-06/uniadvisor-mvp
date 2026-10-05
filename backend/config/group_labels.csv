@@ -1,0 +1,71 @@
+group_code,moet_name,label,aliases,top_majors,note
+71401,Khoa học giáo dục,"Quản lý giáo dục, Công nghệ giáo dục",,Công nghệ giáo dục (4); Quản lý giáo dục (4); Giáo dục học (1),MOET name is abstract
+71402,Đào tạo giáo viên,Sư phạm (đào tạo giáo viên),sư phạm; giáo viên,Giáo dục Tiểu học (4); Sư phạm Toán học (4); Sư phạm Vật lý (4); Sư phạm Hóa học (4),'Sư phạm' is the everyday word
+72102,Nghệ thuật trình diễn,"Thanh nhạc, Nghệ thuật trình diễn",,Thanh nhạc (1),
+72103,Nghệ thuật nghe nhìn,"Điện ảnh - truyền hình, Thiết kế âm thanh - ánh sáng",điện ảnh,"Công nghệ điện ảnh, truyền hình (2); Thiết kế âm thanh, ánh sáng (1)",MOET name is abstract
+72104,Mỹ thuật ứng dụng,"Thiết kế đồ họa, Thiết kế thời trang, Nghệ thuật số",graphic design; thiết kế,Thiết kế đồ họa (4); Thiết kế thời trang (3); Nghệ thuật số (2),MOET name hides the design majors
+72201,"Ngôn ngữ, văn học và văn hóa Việt Nam","Văn hóa Việt Nam, Hán Nôm",,Tiếng Việt và văn hóa Việt Nam (2); Hán Nôm (1),
+72202,"Ngôn ngữ, văn học và văn hóa nước ngoài","Ngôn ngữ Anh, Trung, Hàn, Nhật... (ngoại ngữ)",ngoại ngữ; ngôn ngữ anh,Ngôn ngữ Anh (37); Ngôn ngữ Trung Quốc (19); Ngôn ngữ Hàn Quốc (10); Ngôn ngữ Nhật (9),MOET name is long
+72290,Khác thuộc lĩnh vực Nhân văn,"Triết học, Lịch sử, Văn học, Ngôn ngữ học",,Triết học (4); Lịch sử (4); Văn học (3); Chủ nghĩa xã hội khoa học (2),MOET 'Khác' group: names nothing
+73101,Kinh tế học,"Kinh tế, Kinh tế quốc tế, Kinh tế đầu tư",kinh tế đối ngoại; KTQT,Kinh tế (14); Kinh tế quốc tế (14); Kinh tế đầu tư (7); Kinh tế số (6),'Kinh tế học' sounds academic; holds Kinh tế quốc tế
+73102,Khoa học chính trị,"Quan hệ quốc tế, Quản lý nhà nước, Chính trị học",QHQT,Quản lý nhà nước (3); Quan hệ quốc tế (3); Chính trị học (2); Xây dựng Đảng và chính quyền nhà nước (2),MOET name hides Quan hệ quốc tế
+73103,Xã hội học và Nhân học,,,Xã hội học (6); Nhân học (1),
+73104,Tâm lý học,,,Tâm lý học (12); Tâm lý học giáo dục (5),
+73105,Địa lý học,,,Địa lý học (2),
+73106,Khu vực học,"Việt Nam học, Quốc tế học, Đông phương học",,Việt Nam học (5); Quốc tế học (4); Đông phương học (3); Trung Quốc học (2),MOET name is abstract
+73201,Báo chí và truyền thông,"Báo chí, Truyền thông đa phương tiện, Quan hệ công chúng (PR)",truyền thông; PR; media,Truyền thông đa phương tiện (17); Quan hệ công chúng (8); Truyền thông quốc tế (4); Truyền thông đại chúng (3),Truyền thông is the word students use
+73202,Thông tin - Thư viện,,,Thông tin - Thư viện (2); Quản lý thông tin (1),
+73203,Văn thư - Lưu trữ - Bảo tàng,,,Lưu trữ học (1),
+73290,Khác thuộc lĩnh vực Báo chí và thông tin,Công nghệ đa phương tiện,multimedia,Công nghệ đa phương tiện (6),MOET 'Khác' group: names nothing
+73401,Kinh doanh,"Quản trị kinh doanh, Marketing, Kinh doanh quốc tế, Thương mại điện tử",QTKD; marketing; e-commerce,Quản trị kinh doanh (57); Marketing (25); Kinh doanh quốc tế (24); Thương mại điện tử (20),MOET name hides Marketing
+73402,Tài chính - Ngân hàng - Bảo hiểm,"Tài chính - Ngân hàng, Công nghệ tài chính (Fintech), Bảo hiểm",TCNH; fintech; ngân hàng,Tài chính - Ngân hàng (40); Công nghệ tài chính (18); Bảo hiểm (4); Tài chính quốc tế (1),
+73403,Kế toán - Kiểm toán,,kế toán; kiểm toán,Kế toán (40); Kiểm toán (14),
+73404,Quản trị - Quản lý,"Hệ thống thông tin quản lý, Quản trị nhân lực, Quản trị sự kiện",HTTTQL; nhân sự; HR,Hệ thống thông tin quản lý (10); Quản trị nhân lực (8); Quản lý công (4); Quản trị sự kiện (4),MOET name is vague
+73801,Luật,"Luật, Luật kinh tế, Luật quốc tế",luật kinh doanh,Luật kinh tế (21); Luật (17); Luật quốc tế (4); Luật thương mại quốc tế (4),
+74201,Sinh học,,,Sinh học (4),
+74202,Sinh học ứng dụng,Công nghệ sinh học,CNSH,Công nghệ sinh học (14); Công nghệ thẩm mỹ (3); Kỹ thuật sinh học (2); Sinh học ứng dụng (1),MOET name is abstract
+74401,Khoa học vật chất,"Hóa học, Vật lý học, Khoa học vật liệu",,Hóa học (6); Vật lý học (4); Khoa học vật liệu (3); Công nghệ Vật lý điện tử và tin học (1),'Khoa học vật chất' is not used in everyday speech
+74402,Khoa học trái đất,"Địa chất học, Hải dương học, Khí tượng - thủy văn",,Địa chất học (3); Hải dương học (3); Địa lý tự nhiên (1); Khí tượng và khí hậu học (1),MOET name is abstract
+74403,Khoa học môi trường,,,Khoa học môi trường (6),
+74601,Toán học,"Khoa học dữ liệu, Toán ứng dụng, Toán tin",KHDL; data science; toán tin,Khoa học dữ liệu (20); Toán ứng dụng (5); Toán tin (4); Toán học (3),'Toán học' hides Khoa học dữ liệu
+74801,Máy tính,"Khoa học máy tính, Trí tuệ nhân tạo (AI), Kỹ thuật phần mềm",KHMT; TTNT; AI; KTPM; computer science,Khoa học máy tính (19); Trí tuệ nhân tạo (17); Hệ thống thông tin (11); Kỹ thuật phần mềm (10),'Máy tính' says almost nothing
+74802,Công nghệ thông tin,"Công nghệ thông tin, An toàn thông tin, An ninh mạng",CNTT; IT; ATTT; cyber security,Công nghệ thông tin (48); An toàn thông tin (13); An ninh mạng (3); Kỹ thuật dữ liệu (2),
+75101,Công nghệ kỹ thuật kiến trúc và công trình xây dựng,Công nghệ kỹ thuật xây dựng,,Công nghệ kỹ thuật công trình xây dựng (5); Công nghệ kỹ thuật xây dựng (3); Công nghệ kỹ thuật vật liệu xây dựng (1); Hệ thống kỹ thuật công trình xây dựng (1),MOET name is long
+75102,Công nghệ kỹ thuật cơ khí,"Công nghệ kỹ thuật cơ khí, cơ điện tử, ô tô",ô tô,Công nghệ kỹ thuật cơ khí (10); Công nghệ kỹ thuật cơ điện tử (10); Công nghệ kỹ thuật ô tô (9); Công nghệ chế tạo máy (5),
+75103,"Công nghệ kỹ thuật điện, điện tử và viễn thông","Công nghệ kỹ thuật điện, điện tử, tự động hóa",tự động hóa,"Công nghệ kỹ thuật điện, điện tử (13); Công nghệ kỹ thuật điện tử - viễn thông (11); Công nghệ kỹ thuật điều khiển và tự động hóa (6)",
+75104,"Công nghệ hóa học, vật liệu, luyện kim và môi trường","Công nghệ hóa học, môi trường, vật liệu",,Công nghệ kỹ thuật hóa học (9); Công nghệ kỹ thuật môi trường (9); Công nghệ vật liệu (8); Công nghệ kỹ thuật hạt nhân (2),MOET name is long
+75106,Quản lý công nghiệp,"Logistics và Quản lý chuỗi cung ứng, Quản lý công nghiệp",logistics; chuỗi cung ứng; supply chain,Logistics và Quản lý chuỗi cung ứng (23); Quản lý công nghiệp (8); Quản lý năng lượng (1),"MOET name hides Logistics, its largest major"
+75108,Công nghệ kỹ thuật in,,,Công nghệ kỹ thuật in (1),
+75190,Khác thuộc lĩnh vực Công nghệ kỹ thuật,Công nghệ năng lượng tái tạo,,Công nghệ kỹ thuật năng lượng tái tạo (3),MOET 'Khác' group: names nothing
+75201,Kỹ thuật cơ khí và cơ kỹ thuật,"Kỹ thuật cơ khí, cơ điện tử, ô tô",,Kỹ thuật cơ khí (8); Kỹ thuật cơ điện tử (8); Kỹ thuật ô tô (7); Kỹ thuật cơ khí động lực (6),
+75202,"Kỹ thuật điện, điện tử và viễn thông","Kỹ thuật điện, điện tử - viễn thông, tự động hóa",điện tử viễn thông; ĐTVT; IoT,Kỹ thuật điện tử - viễn thông (13); Kỹ thuật điều khiển và tự động hóa (13); Kỹ thuật điện (8); Kỹ thuật y sinh (5),
+75203,"Kỹ thuật hóa học, vật liệu, luyện kim và môi trường","Kỹ thuật môi trường, hóa học, vật liệu",,Kỹ thuật môi trường (6); Kỹ thuật hoá học (3); Kỹ thuật vật liệu (3); Kỹ thuật dệt (1),MOET name is long
+75204,Vật lý kỹ thuật,,,Vật lý kỹ thuật (4); Kỹ thuật hạt nhân (2); Vật lý y khoa (2),
+75205,"Kỹ thuật địa chất, địa vật lý và trắc địa","Kỹ thuật địa chất, trắc địa - bản đồ",,Kỹ thuật địa chất (3); Kỹ thuật địa vật lý (1); Kỹ thuật trắc địa - bản đồ (1); Đá quý Đá mỹ nghệ (1),
+75206,Kỹ thuật mỏ,"Kỹ thuật mỏ, dầu khí",dầu khí,Kỹ thuật mỏ (2); Kỹ thuật dầu khí (1); Kỹ thuật khí thiên nhiên (1); Công nghệ số trong thăm dò và khai thác tài nguyên thiên nhiên (1),
+75401,"Chế biến lương thực, thực phẩm và đồ uống",Công nghệ thực phẩm,,Công nghệ thực phẩm (11); Kỹ thuật thực phẩm (2); Công nghệ chế biến thủy sản (2); Đảm bảo chất lượng và an toàn thực phẩm (2),MOET name is long
+75402,"Sản xuất, chế biến sợi, vải, giày, da","Công nghệ dệt, may",,"Công nghệ dệt, may (2); Công nghệ vật liệu dệt, may (1); Công nghệ may (1)",MOET name is long
+75490,Khác thuộc lĩnh vực Sản xuất và chế biến,"Chế biến lâm sản, Dược liệu",,Công nghệ chế biến lâm sản (1); Dược liệu và hợp chất thiên nhiên (1),MOET 'Khác' group: names nothing
+75801,Kiến trúc và quy hoạch,"Kiến trúc, Quy hoạch, Thiết kế nội thất",nội thất,Kiến trúc (3); Quản lý đô thị và công trình (2); Thiết kế nội thất (2); Quy hoạch vùng và đô thị (1),
+75802,Xây dựng,"Kỹ thuật xây dựng, Công trình giao thông",xây dựng,Kỹ thuật xây dựng (15); Kỹ thuật xây dựng công trình giao thông (8); Kỹ thuật cơ sở hạ tầng (4); Kỹ thuật xây dựng công trình thủy (3),
+75803,Quản lý xây dựng,"Quản lý xây dựng, Kinh tế xây dựng",,Quản lý xây dựng (11); Kinh tế xây dựng (4),
+76201,Nông nghiệp,,,Chăn nuôi (2); Kinh doanh nông nghiệp (2); Nông học (1); Bảo vệ thực vật (1),
+76202,Lâm nghiệp,,,Lâm học (1); Lâm nghiệp đô thị (1); Quản lý tài nguyên rừng (1),
+76203,Thủy sản,Nuôi trồng thủy sản,,Nuôi trồng thủy sản (1),
+76401,Thú y,,,Thú y (6),
+77201,Y học,"Y khoa (bác sĩ), Y học cổ truyền",bác sĩ; y đa khoa,Y khoa (6); Y học cổ truyền (3); Y học dự phòng (2),'Y khoa' is what students say
+77202,Dược học,"Dược học, Hóa dược",dược sĩ,Dược học (4); Hóa dược (4); Công nghệ dược phẩm (1),
+77203,Điều dưỡng - hộ sinh,,,Điều dưỡng (8); Hộ sinh (3),
+77204,Dinh dưỡng,,,Dinh dưỡng (3),
+77205,Răng - Hàm - Mặt (Nha khoa),Nha khoa (Răng - Hàm - Mặt),nha khoa; RHM,Răng - Hàm - Mặt (4); Kỹ thuật phục hình răng (2),'Nha khoa' first
+77206,Kỹ thuật Y học,"Xét nghiệm, Hình ảnh y học, Phục hồi chức năng",xét nghiệm,Kỹ thuật xét nghiệm y học (6); Kỹ thuật hình ảnh y học (4); Kỹ thuật Phục hồi chức năng (4); Khúc xạ nhãn khoa (1),MOET name is abstract
+77207,Y tế công cộng,,,Y tế công cộng (3),
+77601,Công tác xã hội,,,Công tác xã hội (7); Hỗ trợ giáo dục người khuyết tật (1),
+78101,Du lịch,"Du lịch, Quản trị dịch vụ du lịch và lữ hành",lữ hành,Quản trị dịch vụ du lịch và lữ hành (18); Du lịch (7); Du lịch địa chất (1),
+78102,"Khách sạn, nhà hàng","Quản trị khách sạn, nhà hàng",khách sạn; nhà hàng,Quản trị khách sạn (16); Quản trị nhà hàng và dịch vụ ăn uống (9),
+78103,"Thể dục, thể thao",Quản lý thể dục thể thao,thể thao,Quản lý thể dục thể thao (1),
+78190,"Khác thuộc lĩnh vực Du lịch, khách sạn, thể thao và dịch vụ cá nhân","Ẩm thực, Dinh dưỡng và chế biến món ăn",ẩm thực; đầu bếp,Khoa học dinh dưỡng và ẩm thực (1); Khoa học chế biến món ăn (1),MOET 'Khác' group: names nothing
+78401,Khai thác vận tải,Khai thác và kinh tế vận tải,vận tải,Khai thác vận tải (2); Kinh tế vận tải (1); Quản lý và vận hành hạ tầng (1),
+78501,Quản lý tài nguyên và môi trường,"Quản lý tài nguyên và môi trường, Quản lý đất đai",đất đai,Quản lý tài nguyên và môi trường (9); Quản lý đất đai (5); Kinh tế tài nguyên thiên nhiên (1); Quản lý tài nguyên khoáng sản (1),
+78502,Dịch vụ an toàn lao động và vệ sinh công nghiệp,"An toàn, vệ sinh lao động",,"An toàn, Vệ sinh lao động (1)",MOET name is long
+78590,Khác thuộc lĩnh vực Môi trường và bảo vệ môi trường,"Du lịch sinh thái, Cảnh quan và hoa viên",,Tài nguyên và Du lịch sinh thái (1); Cảnh quan và kỹ thuật hoa viên (1),MOET 'Khác' group: names nothing

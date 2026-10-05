@@ -131,7 +131,7 @@ def test_summary_reads_the_document_back(p):
                             budget_strict=True), p)
     s = summary(doc, p)
     assert s["scores"].startswith("Toán 8,4 · Ngữ văn 7,5")
-    assert "Máy tính (rất thích)" in s["interests"]
+    assert "Trí tuệ nhân tạo (AI), Kỹ thuật phần mềm (rất thích)" in s["interests"]
     assert s["budget"] == "Tối đa 25 triệu/năm, không thể vượt."
 
 
@@ -150,5 +150,5 @@ def test_guided_chat_page_runs_to_the_summary(use_tiny):
     for step in ("dislikes", "family", "budget", "location", "plan"):
         at.button(key=f"f_skip_{step}").click().run()
     assert not at.exception
-    assert any("Máy tính (rất thích)" in m.value for m in at.markdown)
+    assert any("Trí tuệ nhân tạo (AI), Kỹ thuật phần mềm (rất thích)" in m.value for m in at.markdown)
     assert len(at.info) == 3                                  # the three defaults, told to the student
