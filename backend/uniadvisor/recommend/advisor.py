@@ -1,34 +1,23 @@
-"""End-to-end advice: profile -> ordered application list with probabilities and explanations.
-
-Division of labour (docs/MVP.md 'core principle'):
-  KB (kb/rules.py)            eligibility, priority points, floors, buckets, list constraints
-  engine (engine/*)           cutoff forecast, uncertainty, P(admit)
-  SLM (slm/infer.py)          soft judgments only: risk tolerance, priority, interest/ability fit,
-                              budget / location / special-condition fit from free text
-  optimizer / compare         list selection and ordering, criteria and trade-offs
-Same input -> same output for everything except the SLM, which is itself deterministic at inference.
-"""
+"""End-to-end advice: profile -> criteria-based program clusters with radar data and 3-layer explanations."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-
 import numpy as np
 import pandas as pd
 
 from uniadvisor import explain
-from uniadvisor.recommend import compare
+from uniadvisor.recommend import compare, rules
 from unidata.db import Database, get_db
 from uniadvisor.recommend.forecast import ForecastParams, admit_probability, forecast_program
-from uniadvisor.recommend import rules
-from uniadvisor.recommend.optimizer import Item, expected_value, optimise, p_any
+from uniadvisor.recommend.optimizer import Item, expected_value, optimise, p_any_monte_carlo
 from uniadvisor.student.slm.infer import Answer, HeuristicJudge, get_judge
 from uniadvisor.student.slm.questions import BY_ID, PROFILE_QUESTIONS, PROGRAM_QUESTIONS
 from uniadvisor.student.slm.state import StudentProfile
 
-MOCK_SCORE_SD = 1.2        # points on the 3-subject total when the scores are mock-exam estimates
-MIN_P = 0.10               # candidates below this are not offered automatically
-MAX_SLM_CANDIDATES = 120   # programs sent to the SLM after cheap pre-ranking
+MOCK_SCORE_SD = 1.2
+MIN_P = 0.10
+MAX_SLM_CANDIDATES = 120
 
 
 @dataclass
@@ -37,9 +26,14 @@ class Advice:
     ruleset: str
     target_year: int
     profile_answers: dict[str, Answer]
-    clarify: list[dict]                   # questions to ask the student (low-confidence answers)
+    clarify: list[dict]
     weights: dict[str, float]
     constraints: dict
+    # --- Cấu trúc đầu ra mới theo đặc trưng ---
+    criteria_ranking: list[dict]          # 5 đặc trưng đã sắp xếp theo input người dùng
+    criteria_clusters: dict               # 5 cụm, mỗi cụm gồm 6-10 ngành (chính + phụ)
+    radar_benchmark: dict[str, float]     # Tọa độ ngũ giác kỳ vọng của thí sinh
+    # --- Tương thích ngược ---
     chosen: list[dict]
     alternatives: list[dict]
     n_eligible: int
@@ -55,33 +49,42 @@ class Advice:
         return pd.DataFrame([{
             "NV": i + 1, "Mã": r["program"]["program_id"], "Trường": r["program"]["school_name"],
             "Ngành": r["program"]["program_name"], "Tổ hợp": r["combo"], "Điểm xét": r["total"],
-            "Dự báo điểm chuẩn": r["forecast"].score, "P(đỗ)": round(r["p_admit"], 3), "Nhóm": rules.BUCKET_VI[r["bucket"]],
+            "Dự báo điểm chuẩn": r["forecast"].score, "P(đỗ)": round(r["p_admit"], 3),
+            "Nhóm": rules.BUCKET_VI[r["bucket"]],
             **{compare.CRITERIA[k]: round(v, 2) for k, v in r["criteria"].items()},
             "Độ phù hợp (u)": round(r["utility"], 3), "Độ tin cậy": r["confidence"],
         } for i, r in enumerate(rows)])
 
-
-def _clarifications(answers: dict[str, Answer]) -> list[dict]:
-    out = []
-    for qid, a in answers.items():
-        if a.escalate and a.source != "student":
-            q = BY_ID[qid]
-            out.append({"question_id": qid, "ask": q.clarify_vi, "options": dict(zip(q.labels, q.labels_vi)),
-                        "model_guess": a.label, "confidence": round(a.confidence, 2)})
-    return out
+    def cluster_table(self, criterion_key: str) -> pd.DataFrame:
+        """Xuất bảng danh sách 6-10 ngành theo một đặc trưng cụ thể."""
+        cluster = self.criteria_clusters.get(criterion_key, {})
+        programs = cluster.get("programs", [])
+        return pd.DataFrame([{
+            "Loại": "Chính" if r.get("is_core") else "Phụ (gần tâm)",
+            "Trường": r["program"]["school_name"],
+            "Ngành": r["program"]["program_name"],
+            "Tổ hợp": r["combo"],
+            "Điểm xét": r["total"],
+            "Điểm chuẩn dự báo": r["forecast"].score,
+            "P(đỗ)": round(r["p_admit"], 3),
+            "Điểm đặc trưng": round(r["criteria"][criterion_key], 2),
+            "Hợp năng lực": round(r["criteria"]["ability"], 2),
+            "Giải thích liên nhóm": r["triple_explanation"]["cross_criteria"],
+            "So sánh nội bộ": r["triple_explanation"]["intra_criterion"],
+            "Khớp hồ sơ": r["triple_explanation"]["user_fit"],
+        } for r in programs])
 
 
 def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rules.DEFAULT_RULESET,
-           k_max: int | None = None, weights_override: dict[str, float] | None = None, judge=None,  # noqa: ANN001
+           k_max: int | None = None, weights_override: dict[str, float] | None = None, judge=None,
            db: Database | None = None, params: ForecastParams | None = None) -> Advice:
-    """db: the database to advise from (default: get_db()); params: forecast parameters (default: the fitted ones)."""
     judge = judge or get_judge()
     db = db or get_db()
     prog, hist, dists = db.catalog, db.history, db.distributions
     params = params or ForecastParams.load()
     notes = []
 
-    # 1. profile-level soft judgments
+    # 1. Profile-level soft judgments & Sắp xếp thứ tự 5 đặc trưng theo input
     pa = dict(zip([q.id for q in PROFILE_QUESTIONS], judge.answer([(q.id, profile, None) for q in PROFILE_QUESTIONS])))
     risk = pa["risk_tolerance"].label if not pa["risk_tolerance"].escalate else None
     prio = pa["top_priority"].label if not pa["top_priority"].escalate else None
@@ -91,13 +94,15 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
     if prio == "viec_lam_thu_nhap":
         notes.append("Chưa có dữ liệu việc làm/thu nhập theo ngành trong MVP; tạm dùng độ cạnh tranh của ngành làm đại diện.")
 
-    # 2. deterministic part: eligibility, forecast, probability
+    # Sắp xếp thứ tự ưu tiên 5 đặc trưng cho giao diện
+    criteria_ranking = compare.rank_criteria_by_user(profile, top_priority=prio)
+
+    # 2. Lọc tất định (Rules & Eligibility) + Dự báo điểm chuẩn & Xác suất
     sd = MOCK_SCORE_SD if profile.score_kind == "mock" else 0.0
     evals = []
     n_eligible = 0
     for p in prog.to_dict("records"):
-        el = rules.eligibility(p, profile.scores, profile.area, profile.category, profile.years_since_graduation, profile.gender, ruleset,
-                               db.combos)
+        el = rules.eligibility(p, profile.scores, profile.area, profile.category, profile.years_since_graduation, profile.gender, ruleset, db.combos)
         if not el.eligible:
             continue
         n_eligible += 1
@@ -107,24 +112,78 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
         pr = admit_probability(fc, el.total, sd)
         if pr < MIN_P:
             continue
-        evals.append({"program": p, "combo": el.combo, "raw_total": el.raw_total, "priority": el.priority, "total": el.total,
-                      "forecast": fc, "cutoff_interval": fc.interval(0.8), "p_admit": pr, "bucket": rules.risk_bucket(pr, ruleset)})
+        evals.append({
+            "program": p, "combo": el.combo, "raw_total": el.raw_total, "priority": el.priority, "total": el.total,
+            "forecast": fc, "cutoff_interval": fc.interval(0.8), "p_admit": pr, "bucket": rules.risk_bucket(pr, ruleset)
+        })
+
     if not evals:
-        return Advice(profile, ruleset, target_year, pa, _clarifications(pa), weights, cons, [], [], n_eligible, 0, 0.0, 0.0,
-                      "Không tìm thấy ngành nào trong phạm vi dữ liệu có xác suất đỗ đủ cao với tổ hợp và điểm hiện tại.",
-                      getattr(judge, "name", "?"), notes)
+        empty_clusters = {k: {"criterion": k, "name_vi": compare.CRITERIA[k], "programs": []} for k in compare.CRITERIA}
+        return Advice(profile, ruleset, target_year, pa, [], weights, cons, criteria_ranking, empty_clusters,
+                      {k: 0.5 for k in compare.CRITERIA}, [], [], n_eligible, 0, 0.0, 0.0,
+                      "Không tìm thấy ngành nào phù hợp với điểm số và tổ hợp hiện tại.", getattr(judge, "name", "?"), notes)
 
-    # 3. cheap pre-ranking (keyword judge) so the SLM only sees a manageable set
+    # 3. cheap pre-ranking: Cá nhân hóa theo weights và Batching toàn bộ truy vấn
     if len(evals) > MAX_SLM_CANDIDATES:
-        pre = HeuristicJudge()
-        keys = []
-        for ev in evals:
-            a = pre.answer([("interest_fit", profile, ev["program"]), ("location_ok", profile, ev["program"])])
-            keys.append((a[0].expected_level() or 3) / 5 + 0.5 * a[1].p("yes") + 0.3 * ev["p_admit"])
-        order = np.argsort(keys)[::-1][:MAX_SLM_CANDIDATES]
-        evals = [evals[i] for i in sorted(order)]
+      pre = HeuristicJudge()
 
-    # 4. soft judgments per program
+      # 3.1. Batching toàn bộ câu hỏi vào 1 lần gọi duy nhất (tăng tốc gấp 10-30 lần)
+      pre_query_items = [
+          (q_id, profile, ev["program"])
+          for ev in evals
+          for q_id in ("interest_fit", "location_ok")
+      ]
+      pre_answers = pre.answer(pre_query_items)
+
+      # 3.2. Tính điểm sàng lọc cá nhân hóa theo trọng số weights của học sinh
+      max_budget = getattr(
+          getattr(profile, "budget", None), "max_million_per_year", None
+      )
+      is_strict_budget = getattr(
+          getattr(profile, "budget", None), "strict", False
+      )
+
+      keys = []
+      for i, ev in enumerate(evals):
+        ans_fit = pre_answers[i * 2]
+        ans_loc = pre_answers[i * 2 + 1]
+
+        # Chuẩn hóa các điểm thành phần sơ bộ [0, 1]
+        fit_score = (ans_fit.expected_level() or 3) / 5.0
+        loc_score = ans_loc.p("yes") + 0.5 * ans_loc.p("insufficient")
+        sel_score = float(
+            np.clip((ev["forecast"].score - 15.0) / 14.0, 0.0, 1.0)
+        )
+
+        # Đánh giá học phí sơ bộ theo ngân sách thí sinh
+        p_fee = ev["program"].get("tuition_min")
+        if max_budget and p_fee:
+          if p_fee <= max_budget:
+            tui_score = 1.0 - 0.5 * (p_fee / max_budget)
+          else:
+            tui_score = 0.0 if is_strict_budget else max(0.1, 1.0 - p_fee / (max_budget * 2))
+        else:
+          tui_score = 0.5
+
+        # Tổng hợp điểm sàng lọc dựa trên trọng số ưu tiên của thí sinh
+        composite_key = (
+            weights.get("fit", 0.35) * fit_score
+            + weights.get("location", 0.15) * loc_score
+            + weights.get("tuition", 0.15) * tui_score
+            + weights.get("selectivity", 0.20) * sel_score
+            + 0.25 * ev["p_admit"]
+        )
+
+        # Phạt nặng các ngành vượt trần ngân sách nghiêm ngặt
+        if is_strict_budget and max_budget and p_fee and p_fee > max_budget:
+          composite_key *= 0.2
+
+        keys.append(composite_key)
+
+      order = np.argsort(keys)[::-1][:MAX_SLM_CANDIDATES]
+      evals = [evals[i] for i in sorted(order)]
+
+    # 4. SLM chấm điểm định tính từng ngành & tính vector criteria [0, 1]
     items = [(q.id, profile, ev["program"]) for ev in evals for q in PROGRAM_QUESTIONS]
     answers = judge.answer(items)
     nq = len(PROGRAM_QUESTIONS)
@@ -137,8 +196,13 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
         ev["criteria"] = compare.criteria(ev["program"], ev["forecast"].score, ev["answers"], rank)
         ev["utility"] = compare.utility(ev["criteria"], weights, ev["answers"]["conditions_ok"])
 
-    # 5. choose and order
-    # "unlikely" programs are never recommended automatically (rules: risk_buckets); they stay in alternatives
+    # 5. Phân cụm 6-10 ngành cho từng đặc trưng (gồm 3-5 ngành chính + 3-5 ngành phụ gần tâm)
+    criteria_clusters = compare.cluster_programs_by_criteria(evals, profile, core_range=(4, 4), sec_range=(4, 4))
+
+    # Tọa độ biểu đồ ngũ giác chuẩn (Benchmark Polygon) của thí sinh
+    radar_benchmark = {k: round(float(np.clip(weights.get(k, 0.2) * 2.5, 0.2, 1.0)), 2) for k in compare.CRITERIA}
+
+    # 6. Giữ lại danh sách tối ưu mặc định (chosen) để tương thích ngược nếu cần
     cand = [Item(ev["program"]["program_id"], ev["p_admit"], ev["utility"], ev["bucket"] == "safe", ev["program"]["school_code"])
             for ev in evals if ev["bucket"] != "unlikely"]
     picked = optimise(cand, k_max=k, min_safe=cons["min_safe"], max_per_school=4)
@@ -148,10 +212,8 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
     alternatives = sorted((ev for ev in evals if ev["program"]["program_id"] not in chosen_keys),
                           key=lambda ev: ev["p_admit"] * ev["utility"], reverse=True)[:10]
 
-    # 6. explanations
-    others = [ev["criteria"] for ev in chosen]
+    # Gán cờ và nhãn độ tin cậy
     for ev in chosen + alternatives:
-        ev["wins"], ev["losses"] = compare.wins_losses(ev["criteria"], [o for o in others if o is not ev["criteria"]])
         esc = [BY_ID[q].text_vi for q, a in ev["answers"].items() if a.escalate]
         flags = []
         if ev["answers"]["conditions_ok"].p("no") > 0.5:
@@ -163,14 +225,19 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
         ev["flags"] = flags
         ev["confidence"], ev["confidence_reasons"] = explain.confidence_label(
             ev["forecast"].sigma, ev["program"].get("latest_status") or "", len(esc), ev["program"].get("tuition_provenance") == "estimated")
-        ev["uncertain_judgments"] = esc
-        ev["judgment_evidence"] = explain.judgment_evidence(profile, ev)
-        ev["explanation"] = explain.program_explanation(ev)
-    pa_ = p_any(picked)
-    for ev, reason in zip(chosen, explain.ranking_reasons(chosen, weights)):
-        ev["ranking_reason"] = reason
-    for ev in alternatives:
-        ev["alternative_reason"] = explain.alternative_reason(ev, chosen, weights, cons["min_safe"], max_per_school=4)
-    summary = explain.list_summary(chosen, pa_, expected_value(picked), cons["min_safe"], profile.score_kind, weights)
-    return Advice(profile, ruleset, target_year, pa, _clarifications(pa), weights, cons, chosen, alternatives, n_eligible,
-                  len(evals), pa_, expected_value(picked), summary, getattr(judge, "name", "?"), notes)
+
+    # 6. Tính toán P(any) và Expected Value bằng Monte Carlo chuẩn xác
+    sd = MOCK_SCORE_SD if profile.score_kind == "mock" else 0.0
+    pa_, exp_val = p_any_monte_carlo(chosen, student_sd=sd, n_sims=5000)
+
+    summary = explain.list_summary(
+        chosen, pa_, exp_val, cons["min_safe"], profile.score_kind, weights
+    )
+
+    return Advice(
+        profile=profile, ruleset=ruleset, target_year=target_year, profile_answers=pa, clarify=[],
+        weights=weights, constraints=cons, criteria_ranking=criteria_ranking, criteria_clusters=criteria_clusters,
+        radar_benchmark=radar_benchmark, chosen=chosen, alternatives=alternatives, n_eligible=n_eligible,
+        n_candidates=len(evals), p_any=pa_, expected_value=exp_val, summary=summary,
+        judge=getattr(judge, "name", "?"), notes=notes
+    )
