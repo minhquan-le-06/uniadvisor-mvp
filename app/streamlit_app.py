@@ -37,7 +37,9 @@ EXAMPLES = {
 @st.cache_resource(show_spinner="Đang tải dữ liệu và mô hình…")
 def warm_up() -> str:
     db = get_db()
-    db.catalog, db.history, db.distributions  # noqa: B018 - build the cached views once
+    # Assign the views rather than leaving a bare expression: Streamlit's magic
+    # renderer would otherwise display the catalog and its JSON on the landing page.
+    _views = (db.catalog, db.history, db.distributions)
     return get_judge().name
 
 
@@ -212,6 +214,7 @@ elif ss.stage == "results":
                     p = ev["program"]
                     with st.expander(f"NV{i} · {p['program_name']} – {p['school_code']} · {BUCKET_VI[ev['bucket']]} {100 * ev['p_admit']:.0f}%"):
                         st.markdown(ev["explanation"])
+                        st.caption(ev["ranking_reason"])
                         st.caption(f"Độ tin cậy: **{ev['confidence']}**" + (" – " + "; ".join(ev["confidence_reasons"]) if ev["confidence_reasons"] else ""))
                         fc = ev["forecast"]
                         hist = pd.DataFrame({"Năm": [str(y) for y in fc.years] + [str(fc.target_year)],
@@ -221,6 +224,10 @@ elif ss.stage == "results":
                         soft = {BY_ID[q].text_vi: f"{dict(zip(BY_ID[q].all_labels, (*BY_ID[q].labels_vi, 'chưa đủ thông tin'))).get(x.label, x.label)} "
                                                   f"({x.confidence:.0%}{', cần xác nhận' if x.escalate else ''})" for q, x in ev["answers"].items()}
                         st.table(pd.Series(soft, name="Nhận định"))
+                        if ev["judgment_evidence"]:
+                            st.caption("Câu em đã chia sẻ liên quan đến các nhận định trên:")
+                            for question_id, evidence in ev["judgment_evidence"].items():
+                                st.caption(f"• {BY_ID[question_id].text_vi} — “{evidence[0]}”")
                         if p.get("source_url"):
                             st.caption(f"Nguồn điểm chuẩn: {p['source_url']}")
                 st.download_button("Tải danh sách (CSV)", df.to_csv(index=False).encode("utf-8-sig"), "nguyen_vong.csv", "text/csv",
@@ -239,6 +246,11 @@ elif ss.stage == "results":
                 if a.alternatives:
                     st.dataframe(a.table(a.alternatives)[["Trường", "Ngành", "Dự báo điểm chuẩn", "P(đỗ)", "Nhóm", "Độ phù hợp (u)"]], hide_index=True,
                                  column_config={"P(đỗ)": st.column_config.ProgressColumn("P(đỗ)", min_value=0, max_value=1, format="percent")})
+                    for ev in a.alternatives:
+                        p = ev["program"]
+                        with st.expander(f"Vì sao chưa chọn · {p['program_name']} – {p['school_code']}"):
+                            st.markdown(ev["explanation"])
+                            st.caption(ev["alternative_reason"])
                 else:
                     st.caption("Không có lựa chọn khác trong phạm vi dữ liệu.")
         st.info(DISCLAIMER, icon=":material/info:")

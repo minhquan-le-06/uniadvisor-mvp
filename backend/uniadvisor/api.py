@@ -52,7 +52,8 @@ def _program_out(ev: dict) -> dict:
         "utility": round(ev["utility"], 4), "confidence": ev["confidence"], "confidence_reasons": ev["confidence_reasons"],
         "soft_judgments": {q: {"label": a.label, "confidence": round(a.confidence, 3), "source": a.source, "uncertain": a.escalate}
                            for q, a in ev["answers"].items()},
-        "explanation": ev["explanation"], "flags": ev["flags"],
+        "explanation": ev["explanation"], "ranking_reason": ev.get("ranking_reason"),
+        "alternative_reason": ev.get("alternative_reason"), "judgment_evidence": ev.get("judgment_evidence", {}), "flags": ev["flags"],
         "tuition_vnd_per_year": [p.get("tuition_min"), p.get("tuition_max")], "tuition_provenance": p.get("tuition_provenance"),
         "source_url": p.get("source_url"),
     }

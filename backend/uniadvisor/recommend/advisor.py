@@ -162,10 +162,15 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
             flags.append(f"hai nguồn công bố điểm chuẩn {ev['program'].get('latest_year')} khác nhau")
         ev["flags"] = flags
         ev["confidence"], ev["confidence_reasons"] = explain.confidence_label(
-            ev["forecast"].n_years, ev["program"].get("latest_status") or "", len(esc), ev["program"].get("tuition_provenance") == "estimated")
+            ev["forecast"].sigma, ev["program"].get("latest_status") or "", len(esc), ev["program"].get("tuition_provenance") == "estimated")
         ev["uncertain_judgments"] = esc
+        ev["judgment_evidence"] = explain.judgment_evidence(profile, ev)
         ev["explanation"] = explain.program_explanation(ev)
     pa_ = p_any(picked)
-    summary = explain.list_summary(chosen, pa_, expected_value(picked), cons["min_safe"], profile.score_kind)
+    for ev, reason in zip(chosen, explain.ranking_reasons(chosen, weights)):
+        ev["ranking_reason"] = reason
+    for ev in alternatives:
+        ev["alternative_reason"] = explain.alternative_reason(ev, chosen, weights, cons["min_safe"], max_per_school=4)
+    summary = explain.list_summary(chosen, pa_, expected_value(picked), cons["min_safe"], profile.score_kind, weights)
     return Advice(profile, ruleset, target_year, pa, _clarifications(pa), weights, cons, chosen, alternatives, n_eligible,
                   len(evals), pa_, expected_value(picked), summary, getattr(judge, "name", "?"), notes)
