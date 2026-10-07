@@ -15,7 +15,7 @@ import streamlit as st
 from uniadvisor.recommend.advisor import Advice, advise
 from uniadvisor.recommend.compare import BASE_WEIGHTS, CRITERIA
 from unidata.db import get_db
-from uniadvisor.explain import DISCLAIMER
+from uniadvisor.explain import DISCLAIMER, enrich_advice
 from uniadvisor.recommend.rules import BUCKET_VI, load_rules
 from uniadvisor.student.slm.infer import get_judge
 from uniadvisor.student.slm.questions import BY_ID
@@ -47,7 +47,7 @@ def warm_up() -> str:
 def run_advice(profile_json: str, weights_json: str, k: int) -> Advice:
     profile = StudentProfile(**json.loads(profile_json))
     weights = json.loads(weights_json) or None
-    return advise(profile, k_max=k, weights_override=weights)
+    return enrich_advice(advise(profile, k_max=k, weights_override=weights))
 
 
 # ------------------------------------------------------------------ state

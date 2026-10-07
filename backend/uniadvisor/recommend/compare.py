@@ -1,5 +1,5 @@
 """Multi-criteria comparison: turn engine numbers + SLM answers into criteria scores in [0, 1],
-weight them by the student's goal profile, cluster programs into criteria, and explain trade-offs."""
+weight them by the student's goal profile, and cluster programs by criterion."""
 
 from __future__ import annotations
 
@@ -133,63 +133,7 @@ def wins_losses(crit: dict[str, float], others: list[dict[str, float]], margin: 
     return wins, losses
 
 
-def generate_triple_explanation(ev: dict, criterion_key: str, cluster_programs: list[dict], profile) -> dict[str, str]:
-    """Tạo bộ giải thích 3 tầng: Liên đặc trưng, Nội đặc trưng và Khớp hồ sơ."""
-    crit_scores = ev["criteria"]
-    target_name = CRITERIA[criterion_key]
-
-    # Tầng 1: Tại sao ngành này ở đặc trưng này mà không phải đặc trưng khác?
-    other_crits = {k: v for k, v in crit_scores.items() if k != criterion_key}
-    max_other_k = max(other_crits, key=other_crits.get)
-    diff = crit_scores[criterion_key] - other_crits[max_other_k]
-    if diff >= 0.1:
-        cross_exp = (
-            f"Điểm {target_name} ({crit_scores[criterion_key]:.2f}) là ưu điểm vượt trội nhất của ngành này, "
-            f"áp đảo so với các khía cạnh khác (như {CRITERIA[max_other_k]}: {other_crits[max_other_k]:.2f})."
-        )
-    elif ev.get("is_core", False):
-        cross_exp = (
-            f"Ngành này đại diện tiêu biểu cho hướng {target_name} với chỉ số đạt {crit_scores[criterion_key]:.2f}/1.0."
-        )
-    else:
-        cross_exp = (
-            f"Ngành đóng vai trò cầu nối: vừa đạt tiêu chí {target_name} ở mức tốt ({crit_scores[criterion_key]:.2f}), "
-            f"vừa nằm gần tâm cân bằng (Hợp năng lực: {crit_scores['ability']:.2f}) giúp bạn dễ dàng đưa vào danh sách chọn."
-        )
-
-    # Tầng 2: So sánh hơn / thua với các ngành trong cùng đặc trưng
-    peer_criteria = [p["criteria"] for p in cluster_programs if p["program"]["program_id"] != ev["program"]["program_id"]]
-    w, l = wins_losses(crit_scores, peer_criteria, margin=0.10)
-    intra_parts = []
-    if w:
-        intra_parts.append(f"ưu thế hơn các ngành cùng nhóm về {', '.join(w)}")
-    if l:
-        intra_parts.append(f"cần đánh đổi hoặc thấp hơn mặt bằng chung nhóm về {', '.join(l)}")
-    intra_exp = (
-        f"Trong nhóm {target_name}, ngành này " + (" và ".join(intra_parts) if intra_parts else "có các chỉ số đồng đều với mặt bằng chung.")
-    )
-
-    # Tầng 3: Khớp hồ sơ thí sinh
-    p_admit_pct = round(ev["p_admit"] * 100, 1)
-    bucket_text = ev.get("bucket", "match")
-    bucket_vi = {"safe": "An toàn", "match": "Vừa sức", "reach": "Thử thách", "unlikely": "Khó đỗ"}.get(bucket_text, bucket_text)
-    user_exp = (
-        f"Với điểm xét tuyển {ev['total']} (tổ hợp {ev['combo']}), bạn có {p_admit_pct}% cơ hội đỗ (nhóm {bucket_vi}, "
-        f"dự báo điểm chuẩn {ev['forecast'].score}). "
-    )
-    if ev["program"].get("tuition_min"):
-        user_exp += f"Học phí khoảng {ev['program']['tuition_min']:.1f} tr/năm. "
-    if ev.get("flags"):
-        user_exp += f"Lưu ý: {'; '.join(ev['flags'])}."
-
-    return {
-        "cross_criteria": cross_exp,
-        "intra_criterion": intra_exp,
-        "user_fit": user_exp.strip(),
-    }
-
-
-def cluster_programs_by_criteria(evals: list[dict], profile, core_range: tuple[int, int] = (4, 4), sec_range: tuple[int, int] = (4, 4)) -> dict:
+def cluster_programs_by_criteria(evals: list[dict], core_range: tuple[int, int] = (4, 4), sec_range: tuple[int, int] = (4, 4)) -> dict:
     """Chia tập ứng viên thành 5 cụm (6-10 ngành mỗi cụm: 3-5 ngành chính + 3-5 ngành phụ gần tâm)."""
     clusters = {}
     for crit_key in CRITERIA:
@@ -235,9 +179,8 @@ def cluster_programs_by_criteria(evals: list[dict], profile, core_range: tuple[i
 
         all_in_cluster = core_picks + sec_picks
 
-        # 3. Tạo giải thích 3 tầng và vector ngũ giác cho từng ngành trong cụm
+        # Module 3 returns numeric vectors only. Module 4 adds Vietnamese prose.
         for p in all_in_cluster:
-            p["triple_explanation"] = generate_triple_explanation(p, crit_key, all_in_cluster, profile)
             p["radar_vector"] = {k: round(v, 2) for k, v in p["criteria"].items()}
 
         clusters[crit_key] = {

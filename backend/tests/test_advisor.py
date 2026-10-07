@@ -19,12 +19,11 @@ def _check_list(a):
     safe = sum(c["bucket"] == "safe" for c in a.chosen)
     available = sum(c["bucket"] == "safe" for c in a.chosen + a.alternatives)
     assert safe >= min(a.constraints["min_safe"], len(a.chosen), available)
-    if safe < a.constraints["min_safe"]:
-        assert "Chưa đủ" in a.summary
     assert all(0 <= c["p_admit"] <= 1 for c in a.chosen)
+    assert all(0 <= c["utility"] <= 1 and set(c["criteria"]) == {"fit", "ability", "tuition", "location", "selectivity"}
+               for c in a.chosen)
     assert all(c["bucket"] != "unlikely" for c in a.chosen)          # never recommended automatically
     assert a.clarify == []                                          # both profile questions answered by the student
-    assert all(c["explanation"] for c in a.chosen)
 
 
 def test_advise_on_the_tiny_world_is_deterministic_and_valid(tiny_db):
@@ -47,15 +46,6 @@ def test_floors_and_missing_combinations_exclude_programs(tiny_db):
     assert not any(pid.startswith("SIM-HN1") for pid in seen)          # no A00/A01/D01 scores: no engineering
 
 
-def test_only_estimated_fees_are_called_estimates(tiny_db):
-    """The old tuition_imputed flag was also set on programs with no fee at all, so students read 'ước tính' there."""
-    p = StudentProfile(scores={"TO": 9.0, "VA": 9.0, "LI": 9.0, "HO": 9.0, "SU": 9.0, "DI": 9.0}, answers=ANSWERED)
-    a = advise(p, judge=HeuristicJudge(), db=tiny_db, params=ForecastParams(), k_max=12)
-    by_id = {c["program"]["program_id"]: c for c in a.chosen + a.alternatives}
-    estimate = "học phí là ước tính theo mức chung của trường"
-    assert estimate in by_id["SIM-HN1:CE"]["confidence_reasons"]            # school median
-    assert estimate not in by_id["SIM-HC1:EDU-MATH"]["confidence_reasons"]  # no fee known
-    assert estimate not in by_id["SIM-HN1:IT"]["confidence_reasons"]        # fee known
 
 
 @needs_real_db

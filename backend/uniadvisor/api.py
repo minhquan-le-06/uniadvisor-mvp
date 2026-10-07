@@ -18,7 +18,7 @@ from pydantic import BaseModel, Field
 from uniadvisor import __version__
 from uniadvisor.recommend.advisor import advise
 from unidata.db import get_db
-from uniadvisor.explain import DISCLAIMER
+from uniadvisor.explain import DISCLAIMER, enrich_advice
 from uniadvisor.recommend.rules import DEFAULT_RULESET, load_rules
 from uniadvisor.student.slm.infer import get_judge
 from uniadvisor.student.slm.state import StudentProfile
@@ -62,7 +62,7 @@ def _program_out(ev: dict) -> dict:
 @app.post("/advise")
 def post_advise(body: ProfileIn) -> dict:
     profile = StudentProfile(**body.model_dump(exclude={"k", "weights"}))
-    a = advise(profile, k_max=body.k, weights_override=body.weights)
+    a = enrich_advice(advise(profile, k_max=body.k, weights_override=body.weights))
     return {
         "ruleset": a.ruleset, "target_year": a.target_year, "judge": a.judge,
         "profile_judgments": {q: {"label": x.label, "confidence": round(x.confidence, 3), "source": x.source} for q, x in a.profile_answers.items()},

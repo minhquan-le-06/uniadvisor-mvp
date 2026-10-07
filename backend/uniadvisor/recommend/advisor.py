@@ -1,4 +1,4 @@
-"""End-to-end advice: profile -> criteria-based program clusters with radar data and 3-layer explanations."""
+"""End-to-end advice: profile -> criteria-based program clusters and numeric radar data."""
 
 from __future__ import annotations
 
@@ -69,9 +69,6 @@ class Advice:
             "P(đỗ)": round(r["p_admit"], 3),
             "Điểm đặc trưng": round(r["criteria"][criterion_key], 2),
             "Hợp năng lực": round(r["criteria"]["ability"], 2),
-            "Giải thích liên nhóm": r["triple_explanation"]["cross_criteria"],
-            "So sánh nội bộ": r["triple_explanation"]["intra_criterion"],
-            "Khớp hồ sơ": r["triple_explanation"]["user_fit"],
         } for r in programs])
 
 
@@ -197,7 +194,7 @@ def advise(profile: StudentProfile, target_year: int = 2027, ruleset: str = rule
         ev["utility"] = compare.utility(ev["criteria"], weights, ev["answers"]["conditions_ok"])
 
     # 5. Phân cụm 6-10 ngành cho từng đặc trưng (gồm 3-5 ngành chính + 3-5 ngành phụ gần tâm)
-    criteria_clusters = compare.cluster_programs_by_criteria(evals, profile, core_range=(4, 4), sec_range=(4, 4))
+    criteria_clusters = compare.cluster_programs_by_criteria(evals, core_range=(4, 4), sec_range=(4, 4))
 
     # Tọa độ biểu đồ ngũ giác chuẩn (Benchmark Polygon) của thí sinh
     radar_benchmark = {k: round(float(np.clip(weights.get(k, 0.2) * 2.5, 0.2, 1.0)), 2) for k in compare.CRITERIA}

@@ -10,7 +10,7 @@ from __future__ import annotations
 from collections import Counter
 from typing import Iterable
 
-from uniadvisor.recommend.compare import CRITERIA
+from uniadvisor.recommend.compare import CRITERIA, wins_losses
 from uniadvisor.recommend.rules import BUCKET_VI
 
 DISCLAIMER = (
@@ -194,12 +194,96 @@ def judgment_evidence(profile, ev: dict) -> dict[str, list[str]]:  # noqa: ANN00
     return out
 
 
+def triple_explanation(ev: dict, criterion_key: str, cluster_programs: list[dict]) -> dict[str, str]:
+    """Explain a program's place in a numeric Module 3 criterion cluster.
+
+    The cluster, criterion scores, forecast and admission probability are produced by
+    Module 3.  This function only turns those supplied values into Vietnamese prose.
+    """
+    scores = ev["criteria"]
+    criterion_name = CRITERIA[criterion_key]
+
+    other_scores = {key: value for key, value in scores.items() if key != criterion_key}
+    strongest_other = max(other_scores, key=other_scores.get)
+    if scores[criterion_key] - other_scores[strongest_other] >= 0.1:
+        cross_criteria = (
+            f"Điểm {criterion_name} ({scores[criterion_key]:.2f}) là ưu điểm nổi bật nhất của ngành này, "
+            f"cao hơn {CRITERIA[strongest_other]} ({other_scores[strongest_other]:.2f})."
+        )
+    elif ev.get("is_core", False):
+        cross_criteria = f"Ngành này là lựa chọn tiêu biểu trong hướng {criterion_name}, với chỉ số {scores[criterion_key]:.2f}/1.0."
+    else:
+        cross_criteria = (
+            f"Ngành này là lựa chọn cân bằng trong hướng {criterion_name}: chỉ số {scores[criterion_key]:.2f}/1.0 "
+            f"và Hợp năng lực {scores['ability']:.2f}/1.0."
+        )
+
+    peers = [row["criteria"] for row in cluster_programs if row["program"]["program_id"] != ev["program"]["program_id"]]
+    wins, losses = wins_losses(scores, peers, margin=0.10)
+    comparisons = []
+    if wins:
+        comparisons.append("nhỉnh hơn nhóm về " + ", ".join(wins))
+    if losses:
+        comparisons.append("cần đánh đổi ở " + ", ".join(losses))
+    intra_criterion = (
+        f"Trong nhóm {criterion_name}, ngành này "
+        + ("; ".join(comparisons) if comparisons else "có các chỉ số gần với mặt bằng chung")
+        + "."
+    )
+
+    user_fit = (
+        f"Điểm xét {ev['total']:.2f} theo tổ hợp {ev['combo']}; xác suất đỗ ≈ {pct(ev['p_admit'])} "
+        f"({BUCKET_VI[ev['bucket']]}), dự báo điểm chuẩn {ev['forecast'].score:.2f}."
+    )
+    fee = ev["program"].get("tuition_min")
+    if fee:
+        user_fit += f" Học phí khoảng {fee / 1e6:.1f} triệu đồng/năm."
+    if ev.get("flags"):
+        user_fit += " Lưu ý: " + "; ".join(ev["flags"]) + "."
+
+    return {"cross_criteria": cross_criteria, "intra_criterion": intra_criterion, "user_fit": user_fit}
+
+
+def enrich_advice(advice, max_per_school: int = 4):  # noqa: ANN001
+    """Attach Module 4 display fields to Module 3's current ``Advice`` output.
+
+    Module 3 owns the calculations and returns only engine values.  This adapter is
+    intentionally called at presentation boundaries (Streamlit/API), so Module 4 can
+    tolerate structural additions to ``Advice`` without taking ownership of the
+    recommendation engine.
+    """
+    chosen = advice.chosen
+    alternatives = advice.alternatives
+    selected_criteria = [ev["criteria"] for ev in chosen]
+
+    for ev in chosen + alternatives:
+        # Current Module 3 supplies flags and confidence, but not the comparative
+        # fields used by the legacy list presentation.
+        others = [criteria for criteria in selected_criteria if criteria is not ev["criteria"]]
+        ev["wins"], ev["losses"] = wins_losses(ev["criteria"], others)
+        ev.setdefault("flags", [])
+        ev["judgment_evidence"] = judgment_evidence(advice.profile, ev)
+        ev["explanation"] = program_explanation(ev)
+
+    for ev, reason in zip(chosen, ranking_reasons(chosen, advice.weights)):
+        ev["ranking_reason"] = reason
+    for ev in alternatives:
+        ev["alternative_reason"] = alternative_reason(
+            ev, chosen, advice.weights, advice.constraints["min_safe"], max_per_school
+        )
+    for criterion_key, cluster in getattr(advice, "criteria_clusters", {}).items():
+        programs = cluster.get("programs", [])
+        for ev in programs:
+            ev["triple_explanation"] = triple_explanation(ev, criterion_key, programs)
+    return advice
+
+
 def list_summary(chosen: list[dict], p_any: float, expected: float, min_safe: int, score_kind: str,
                  weights: dict[str, float] | None = None) -> str:
     counts = {b: sum(1 for c in chosen if c["bucket"] == b) for b in ("safe", "match", "reach", "unlikely")}
     s = (f"Danh sách {len(chosen)} nguyện vọng: {counts['safe']} an toàn, {counts['match']} vừa sức, {counts['reach']} thử thách"
          + (f", {counts['unlikely']} khó đỗ" if counts["unlikely"] else "") + ". "
-         f"Xác suất đỗ ít nhất một nguyện vọng ≈ {pct(p_any)}" + (" (ước tính lạc quan vì điểm của em là điểm dự kiến)" if score_kind == "mock" else "") + ". "
+         f"Xác suất đỗ ít nhất một nguyện vọng ≈ {pct(p_any)}" + (" (mô phỏng cả biến động của điểm thi dự kiến)" if score_kind == "mock" else "") + ". "
          "Nguyện vọng được xếp theo độ phù hợp tổng hợp (u) giảm dần; với cùng tập ngành, thứ tự này tối đa hoá độ hữu ích kỳ vọng "
          "và em sẽ trúng tuyển nguyện vọng cao nhất mà em đủ điểm.")
     if len(chosen) > 1 and weights:
